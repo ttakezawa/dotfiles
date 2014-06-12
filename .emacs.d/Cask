@@ -1,11 +1,16 @@
 (source gnu)
 (source melpa)
-
-(depends-on "auto-complete")
 (depends-on "cask")
+
+(depends-on "anything")
+(depends-on "auto-complete")
+(depends-on "elscreen" :git "https://github.com/emacs-jp/elscreen.git")
+(depends-on "exec-path-from-shell")
 (depends-on "flycheck")
 (depends-on "flycheck-cask")
 (depends-on "git-gutter+")
+(depends-on "gitconfig-mode")
+(depends-on "helm")
 
 ;;;; default depends list
 ;; (depends-on "bind-key")
