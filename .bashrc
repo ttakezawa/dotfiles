@@ -1,19 +1,16 @@
 # -*- coding:utf-8; mode:sh; sh-basic-offset:2; sh-indentation:2; -*-
 
-#### [ base ]
-export PATH="$HOME/bin:$PATH"
-export MANPATH="$HOME/man:$MANPATH"
-
-# Find REALDIR of this script
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
-export MYHOME="$( builtin cd -P "$( dirname "$SOURCE" )" && builtin pwd )"
-
-if [[ $- == *i* ]]; then
-  IS_INTERACTIVE_SH=1
-else
-  IS_INTERACTIVE_SH=
+#### basic
+# Inspect system environment
+[[ $- == *i* ]] && IS_INTERACTIVE_SH=1
+if [[ $SHLVL -gt 1 ]]; then
+  [[ -n $STY  ]] && IS_SCREEN=1
+  [[ -n $TMUX ]] && IS_TMUX=1
 fi
+case $OSTYPE in
+  darwin*) IS_DARWIN=1 ;;
+  linux*)  IS_LINUX=1  ;;
+esac
 
 if [[ $IS_INTERACTIVE_SH ]]; then
   # disable stty bindings
@@ -24,6 +21,15 @@ if [[ $IS_INTERACTIVE_SH ]]; then
   stty stop undef
   stty start undef
 fi
+
+# Find REALDIR of this script
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
+SOURCE_DIR="$(cd -P "$( dirname "$SOURCE" )" && pwd)"
+export PATH="$PATH:$SOURCE_DIR/bin"
+
+#### load environment resource
+[[ $IS_DARWIN ]] && source $SOURCE_DIR/.bashrc.darwin
 
 #### [ history ]
 #  share
@@ -43,16 +49,16 @@ export HISTTIMEFORMAT='%Y-%m-%d %T '
 
 #### [ prompt ]
 export PROMPT_DIRTRIM=6
-# if [[ -n $STY ]] && [[ $SHLVL -gt 1 ]]; then
-#   # screen
-#   PROMPT_SCREEN='\[\033k\033\\\]'
-# fi
+if [[ $IS_SCREEN ]]; then
+  # screen
+  PROMPT_SCREEN='\[\033k\033\\\]'
+fi
 _PROMPT1='\[\e[0;36m\]\t \[\e[34m\]\h \[\e[31m\]${?##0}\[\e[33m\]\w\[\e[0m\]'
 _PROMPT2="\\n$PROMPT_SCREEN\$ "
 export PS1=$_PROMPT1$_PROMPT2
 
 # git prompt
-source $MYHOME/.bash.d/git-prompt.sh
+source $SOURCE_DIR/.bash.d/git-prompt.sh
 if [[ "$(type -t __git_ps1)" ]]; then
   export GIT_PS1_SHOWDIRTYSTATE=true
   export GIT_PS1_SHOWUPSTREAM="verbose"
@@ -63,9 +69,21 @@ if [[ "$(type -t __git_ps1)" ]]; then
   PROMPT_COMMAND="__git_ps1 '$_PROMPT1' '$_PROMPT2';$PROMPT_COMMAND"
 fi
 
-
 #### completions
-source $MYHOME/.bash.d/git-completion.bash
+source $SOURCE_DIR/.bash.d/git-completion.bash
 
-
+#### emacs cask
 export PATH="$HOME/.cask/bin:$PATH"
+
+#### aws
+if type -P aws_completer >/dev/null; then
+  complete -C aws_completer aws
+fi
+
+#### basic tweaks
+export LANG=ja_JP.UTF-8
+export GREP_OPTIONS='--color=auto'
+alias ls="ls --color=tty"
+
+export PATH="$HOME/bin:$PATH"
+export MANPATH="$HOME/man:$MANPATH"
