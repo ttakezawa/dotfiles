@@ -1,0 +1,6 @@
+# -*- coding: utf-8; mode: conf -*-
+
+set completion-ignore-case on
+
+"\C-n":history-search-forward
+"\C-p":history-search-backward
