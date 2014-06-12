@@ -1,0 +1,22 @@
+# -*- coding:utf-8; indent-tabs-mode:nil -*-
+
+[core]
+	excludesfile = ~/.gitignore_global
+
+[user]
+	name = ttakezawa
+	email = ttakezawa@users.noreply.github.com
+
+[color]
+	ui = auto
+
+[pager]
+	log  = type -p diff-highlight && (diff-highlight | less) || less
+        show = type -p diff-highlight && (diff-highlight | less) || less
+        diff = type -p diff-highlight && (diff-highlight | less) || less
+
+[alias]
+	df  = diff -w
+	dfc = diff -w --cached
+	clean-branch      = !echo '[Dry-run]' && git branch --merged | grep -Pv '^\\*|^\\s*master'
+	clean-branch-exec = !                    git branch --merged | grep -Pv

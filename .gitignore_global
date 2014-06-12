@@ -1,0 +1,15 @@
+# Editor generated
+*~
+\#*
+*\#
+.\#*
+*.swp
+*_flymake.*
+
+# OS generated
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
