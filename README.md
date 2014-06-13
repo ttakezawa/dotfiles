@@ -1,7 +1,7 @@
 ## Setup
 
 ```bash
-git clone https://github.com/ttakezawa/dotfiles.git ~/.dotfiles
+git clone git@github.com:ttakezawa/dotfiles.git ~/.dotfiles
 
 # Mac OS X
 echo 'source $HOME/.dotfiles/.bashrc' >> ~/.bash_profile
@@ -15,4 +15,5 @@ ln -s ~/.dotfiles/.gitconfig ~/
 ln -s ~/.dotfiles/.gitignore_global ~/
 ln -s ~/.dotfiles/.tmux.conf ~/
 ln -s ~/.dotfiles/.emacs.d ~/
+ln -s ~/.dotfiles/.peco ~/
 ```

@@ -80,6 +80,16 @@ fi
 #### emacs cask
 export PATH="$HOME/.cask/bin:$PATH"
 
+#### peco
+if type -P peco >/dev/null; then
+  _replace_by_history() {
+    local l=$(HISTTIMEFORMAT= history | tac | sed -e 's/^\s*[0-9]\+\s\+//' | peco --query "$READLINE_LINE")
+    READLINE_LINE="$l"
+    READLINE_POINT=${#l}
+  }
+  bind -x '"\C-r": _replace_by_history'
+fi
+
 #### misc tweaks
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS='--color=auto'
