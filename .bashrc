@@ -72,18 +72,24 @@ fi
 #### completions
 source $SOURCE_DIR/.bash.d/git-completion.bash
 
-#### emacs cask
-export PATH="$HOME/.cask/bin:$PATH"
-
-#### aws
+#### awscli
 if type -P aws_completer >/dev/null; then
   complete -C aws_completer aws
 fi
 
-#### basic tweaks
+#### emacs cask
+export PATH="$HOME/.cask/bin:$PATH"
+
+#### misc tweaks
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS='--color=auto'
 alias ls="ls --color=tty"
 
+# use $HOME/local
+export PATH="$HOME/local/bin:$PATH"
+export MANPATH="$HOME/local/share/man:$MANPATH"
+export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
+
+# prefer $HOME/bin $HOME/man
 export PATH="$HOME/bin:$PATH"
 export MANPATH="$HOME/man:$MANPATH"
