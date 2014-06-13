@@ -1,5 +1,6 @@
 (source gnu)
 (source melpa)
+(source marmalade)
 (depends-on "cask")
 
 (depends-on "anything")
@@ -11,6 +12,13 @@
 (depends-on "git-gutter+")
 (depends-on "gitconfig-mode")
 (depends-on "helm")
+(depends-on "whitespace")
+
+;;;; ruby
+;(depends-on "enh-ruby-mode" :git "https://github.com/zenspider/enhanced-ruby-mode.git")
+(depends-on "enh-ruby-mode")
+(depends-on "ruby-block")
+(depends-on "ruby-mode")
 
 ;;;; default depends list
 ;; (depends-on "bind-key")
