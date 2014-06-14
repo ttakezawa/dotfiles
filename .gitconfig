@@ -1,20 +1,19 @@
 # -*- coding:utf-8; indent-tabs-mode:nil -*-
 
-[core]
-	excludesfile = ~/.gitignore_global
-
 [user]
 	name = ttakezawa
 	email = ttakezawa@users.noreply.github.com
-
+[core]
+	excludesfile = ~/.gitignore_global
 [color]
 	ui = auto
-
+[push]
+	default = simple
 [pager]
+	# use diff-highlight or less
 	log  = type -p diff-highlight && (diff-highlight | less) || less
-        show = type -p diff-highlight && (diff-highlight | less) || less
-        diff = type -p diff-highlight && (diff-highlight | less) || less
-
+	show = type -p diff-highlight && (diff-highlight | less) || less
+	diff = type -p diff-highlight && (diff-highlight | less) || less
 [alias]
 	df  = diff -w
 	dfc = diff -w --cached
