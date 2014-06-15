@@ -51,31 +51,31 @@ function share_history {
 PROMPT_COMMAND="share_history;$PROMPT_COMMAND"
 shopt -u histappend
 # customize history
-export HISTFILE=~/.bash_history
-export HISTSIZE=100000
-export HISTFILESIZE=1000000
-export HISTCONTROL=ignoredups
-export HISTTIMEFORMAT='%Y-%m-%d %T '
+HISTFILE=~/.bash_history
+HISTSIZE=100000
+HISTFILESIZE=1000000
+HISTCONTROL=ignoredups
+HISTTIMEFORMAT='%Y-%m-%d %T '
 
 #### [ prompt ]
-export PROMPT_DIRTRIM=6
+PROMPT_DIRTRIM=6
 if [[ $IS_SCREEN ]]; then
   # screen
   PROMPT_SCREEN='\[\033k\033\\\]'
 fi
 _PROMPT1='\[\e[0;36m\]\t \[\e[34m\]\h \[\e[31m\]${?##0}\[\e[33m\]\w\[\e[0m\]'
 _PROMPT2="\\n$PROMPT_SCREEN\$ "
-export PS1=$_PROMPT1$_PROMPT2
+PS1=$_PROMPT1$_PROMPT2
 
 # git prompt
 source $SOURCE_DIR/.bash.d/git-prompt.sh
 if [[ "$(type -t __git_ps1)" ]]; then
-  export GIT_PS1_SHOWDIRTYSTATE=true
-  export GIT_PS1_SHOWUPSTREAM="verbose"
-  export GIT_PS1_SHOWSTASHSTATE=true
-  export GIT_PS1_SHOWUNTRACKEDFILES=true
-  export GIT_PS1_SHOWCOLORHINTS=true
-  export GIT_PS1_DESCRIBE_STYLE=describe
+  GIT_PS1_SHOWDIRTYSTATE=true
+  GIT_PS1_SHOWUPSTREAM="verbose"
+  GIT_PS1_SHOWSTASHSTATE=true
+  GIT_PS1_SHOWUNTRACKEDFILES=true
+  GIT_PS1_SHOWCOLORHINTS=true
+  GIT_PS1_DESCRIBE_STYLE=describe
   PROMPT_COMMAND="__git_ps1 '$_PROMPT1' '$_PROMPT2';$PROMPT_COMMAND"
 fi
 
