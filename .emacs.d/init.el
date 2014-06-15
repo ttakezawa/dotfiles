@@ -5,16 +5,16 @@
 (cask-initialize)
 
 ;;;; Configure builtin features
-(global-set-key "\C-h" 'delete-backward-char)
+(keyboard-translate ?\C-h ?\C-?)
+(global-set-key [backspace] 'delete-backward-char)
 (setq inhibit-startup-message t)
 (setq-default frame-background-mode 'dark)
-(setq ring-bell-function 'ignore) ;; ignore bell
-(global-set-key [backspace] 'delete-backward-char)
+(setq ring-bell-function 'ignore) ; ignore bell
 (cond
  (window-system (tool-bar-mode -1))
  (t             (menu-bar-mode -1)))
 (windmove-default-keybindings)
-(setq-default indent-tabs-mode nil) ;; [Tab] key insert spaces.
+(setq-default indent-tabs-mode nil) ; [Tab] key insert spaces.
 (add-hook 'makefile-mode 'intent-tabs-mode)
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq completion-ignore-case t)
@@ -24,24 +24,23 @@
 (column-number-mode t)
 (global-auto-revert-mode 1)
 (setq dired-dwim-target t)
+(require 'generic-x)
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
 
 ;; utf-8 coding
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8-unix)
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-(setq locale-coding-system 'utf-8) ;; for ansi term-mode
-
-;; ファイル先頭に#!があるとき、自動的にchmod +x
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+(setq locale-coding-system 'utf-8) ; for ansi term-mode
 
 ;; ibuffer
 (global-set-key "\C-x\C-b" 'ibuffer)
 (setq ibuffer-use-other-window t)
 
 ;; recentf
-(setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory))
-(setq recentf-max-saved-items 2000)
-(setq recentf-exclude '(".recentf"))
+(setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory)
+      recentf-max-saved-items 2000
+      recentf-exclude '(".recentf"))
 
 ;; save place
 (require 'saveplace)
@@ -60,9 +59,6 @@
 ;; highlight current-line
 (global-hl-line-mode 1)
 (set-face-attribute hl-line-face nil :background "gray9" :underline t)
-
-;; generic-x
-(require 'generic-x)
 
 ;; for darwin (Mac OS X)
 (when (eq system-type 'darwin)
@@ -160,6 +156,9 @@
      (setq flycheck-display-errors-delay 0.1)
      (set-face-background 'flycheck-error "red")
      (set-face-background 'flycheck-warning "orange")))
+
+;;;; {git-gutter}
+(global-git-gutter-mode 1)
 
 ;;;; {enh-ruby-mode}
 (add-to-list 'auto-mode-alist '("\\.\\(rb\\|ru\\)$" . enh-ruby-mode))
