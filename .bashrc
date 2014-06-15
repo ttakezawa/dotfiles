@@ -31,8 +31,18 @@ export PATH="$PATH:$SOURCE_DIR/bin"
 #### load environment resource
 [[ $IS_DARWIN ]] && source $SOURCE_DIR/.bashrc.darwin
 
+#### basic tweaks
+export LANG=ja_JP.UTF-8
+# use $HOME/local
+export PATH="$HOME/local/bin:$PATH"
+export MANPATH="$HOME/local/share/man:$MANPATH"
+export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
+# prefer $HOME/bin and $HOME/man
+export PATH="$HOME/bin:$PATH"
+export MANPATH="$HOME/man:$MANPATH"
+
 #### [ history ]
-#  share
+# share accross sessions
 function share_history {
     history -a
     history -c
@@ -40,7 +50,7 @@ function share_history {
 }
 PROMPT_COMMAND="share_history;$PROMPT_COMMAND"
 shopt -u histappend
-#  customize
+# customize history
 export HISTFILE=~/.bash_history
 export HISTSIZE=100000
 export HISTFILESIZE=1000000
@@ -83,7 +93,8 @@ export PATH="$HOME/.cask/bin:$PATH"
 #### peco
 if type -P peco >/dev/null; then
   _replace_by_history() {
-    local l=$(HISTTIMEFORMAT= history | tac | sed -e 's/^\s*[0-9]\+\s\+//' | peco --query "$READLINE_LINE")
+    # 頻度が多く、新しいコマンド順にリストする
+    local l=$(HISTTIMEFORMAT='' history | sort -rk2 | uniq -cf1 | sort -rn | sed -r 's/^\s*[0-9]+\s+[0-9]+\s*//' | peco --query "$READLINE_LINE")
     READLINE_LINE="$l"
     READLINE_POINT=${#l}
   }
@@ -91,15 +102,5 @@ if type -P peco >/dev/null; then
 fi
 
 #### misc tweaks
-export LANG=ja_JP.UTF-8
 export GREP_OPTIONS='--color=auto'
 alias ls="ls --color=tty"
-
-# use $HOME/local
-export PATH="$HOME/local/bin:$PATH"
-export MANPATH="$HOME/local/share/man:$MANPATH"
-export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
-
-# prefer $HOME/bin $HOME/man
-export PATH="$HOME/bin:$PATH"
-export MANPATH="$HOME/man:$MANPATH"
