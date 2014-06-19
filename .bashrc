@@ -61,10 +61,10 @@ HISTTIMEFORMAT='%Y-%m-%d %T '
 PROMPT_DIRTRIM=6
 if [[ $IS_SCREEN ]]; then
   # screen
-  PROMPT_SCREEN='\[\033k\033\\\]'
+  prompt_screen='\[\033k\033\\\]'
 fi
 _PROMPT1='\[\e[0;36m\]\t \[\e[34m\]\h \[\e[31m\]${?##0}\[\e[33m\]\w\[\e[0m\]'
-_PROMPT2="\\n$PROMPT_SCREEN\$ "
+_PROMPT2="\\n$prompt_screen\$ "
 PS1=$_PROMPT1$_PROMPT2
 
 # git prompt
@@ -104,3 +104,19 @@ fi
 #### misc tweaks
 export GREP_OPTIONS='--color=auto'
 alias ls="ls --color=tty"
+
+#### command time
+# trap ... DEBUG を上書きして実装している
+# また、PROMPT_COMMANDをいじる都合上、最後に設定するようにする
+function timer_start {
+  timer=${timer:-$SECONDS}
+}
+function timer_stop {
+  timer_show=$(($SECONDS - $timer))
+  unset timer
+  if (( $timer_show > 3 )); then
+    echo -e '\e[1;31m'"TOO SLOW: $timer_show secs."'\e[m'
+  fi
+}
+trap 'timer_start' DEBUG
+PROMPT_COMMAND=$(echo -n "timer_stop; $PROMPT_COMMAND; unset timer" | sed -e 's/;;/;/')
