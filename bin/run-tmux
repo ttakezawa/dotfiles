@@ -2,5 +2,17 @@
 export PATH="$HOME/local/bin:$PATH"
 export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
 
+agent="$HOME/.ssh/auth_sock"
+if [[ -S "$SSH_AUTH_SOCK" ]]; then
+  case $SSH_AUTH_SOCK in
+    /tmp/*/agent.[0-9]*)
+      ln -sf "$SSH_AUTH_SOCK" $agent && export SSH_AUTH_SOCK=$agent
+  esac
+elif [[ -S $agent ]]; then
+  export SSH_AUTH_SOCK=$agent
+else
+  echo "no ssh-agent"
+fi
+
 builtin cd ~/
-tmux attach || tmux
+tmux detach; tmux attach || tmux
