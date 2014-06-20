@@ -175,7 +175,8 @@
            enh-ruby-deep-indent-paren-style nil)
      (custom-set-faces
       '(erm-syn-errline  ((t (:background "red" :underline t))))
-      '(erm-syn-warnline ((t (:background "magenta" :underline t)))))
+      '(erm-syn-warnline ((t (:background "magenta" :underline t))))
+      '(enh-ruby-op-face ((t (:foreground "#00af5f")))))
 
      ;; C-ceでカーソル位置のerr or warnを表示
      (define-key enh-ruby-mode-map (kbd "C-c e")
