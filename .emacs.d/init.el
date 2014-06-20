@@ -157,6 +157,10 @@
      (set-face-background 'flycheck-error "red")
      (set-face-background 'flycheck-warning "orange")))
 
+;;;; {etags-table}
+(require 'etags-table)
+(setq etags-table-search-up-depth 10)
+
 ;;;; {git-gutter}
 (global-git-gutter-mode 1)
 

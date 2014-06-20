@@ -6,6 +6,7 @@
 (depends-on "anything")
 (depends-on "auto-complete")
 (depends-on "elscreen" :git "https://github.com/emacs-jp/elscreen.git")
+(depends-on "etags-table")
 (depends-on "exec-path-from-shell")
 (depends-on "flycheck")
 (depends-on "flycheck-cask")
