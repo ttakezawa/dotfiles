@@ -130,7 +130,7 @@
             ,@filelist-sources)))
     (anything-find-file)))
 
-(global-set-key (kbd "C-x C-f") 'takezawa/anything-find-file)
+;; (global-set-key (kbd "C-x C-f") 'takezawa/anything-find-file)
 
 ;;;; {elscreen}
 (when (require 'elscreen nil t)
@@ -190,3 +190,34 @@
      (require 'ruby-block)
      (ruby-block-mode t)
      (setq ruby-block-highlight-toggle t)))
+
+;;;; {helm}
+(defvar takezawa/helm-source-home-filelist
+  `((name . "Home FileList")
+    (candidates-file "~/.emacs.d/home.filelist" t)
+    (action . ,(cdr (helm-get-actions-from-type
+                     helm-source-locate)))))
+
+(defvar takezawa/helm-source-system-filelist
+  `((name . "System FileList")
+    (candidates-file "~/.emacs.d/system.filelist" t)
+    (action . ,(cdr (helm-get-actions-from-type
+                     helm-source-locate)))))
+
+(defun takezawa/helm-for-files ()
+  "Preconfigured `helm' for opening files.
+Run all sources defined in `helm-for-files-preferred-list'."
+  (interactive)
+  (let ((helm-ff-transformer-show-only-basename nil))
+    (helm-other-buffer
+     '(helm-source-buffers-list
+       helm-source-recentf
+       helm-source-bookmarks
+       helm-source-file-cache
+       helm-source-files-in-current-dir
+       takezawa/helm-source-home-filelist
+       takezawa/helm-source-system-filelist
+       ;; helm-source-locate
+       )
+     "*takezawa/helm-for-files*")))
+(global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
