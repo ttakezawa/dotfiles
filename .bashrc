@@ -80,7 +80,13 @@ if [[ "$(type -t __git_ps1)" ]]; then
 fi
 
 #### completions
+# git-competion
 source $SOURCE_DIR/.bash.d/git-completion.bash
+
+# completion-ruby-all
+if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
+  source $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all
+fi
 
 #### awscli
 if type -P aws_completer >/dev/null; then
