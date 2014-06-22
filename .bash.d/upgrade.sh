@@ -5,3 +5,5 @@ cd $dir
 
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > $dir/git-completion.bash
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > $dir/git-prompt.sh
+
+(cd completion-ruby && git checkout master && git pull)
