@@ -91,7 +91,8 @@ fi
 export PATH="$HOME/.cask/bin:$PATH"
 
 #### peco
-if type -P peco >/dev/null; then
+if (( ${BASH_VERSINFO[0]} >= 4 )) && type -P peco >/dev/null; then
+  # READLINE_* は Bash4 で実装されている
   _replace_by_history() {
     # 頻度が多く、新しいコマンド順にリストする
     local l=$(HISTTIMEFORMAT='' history | sort -rk2 | uniq -cf1 | sort -rn | sed -r 's/^\s*[0-9]+\s+[0-9]+\s*//' | peco --query "$READLINE_LINE")
