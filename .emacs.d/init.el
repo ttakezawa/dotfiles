@@ -110,6 +110,9 @@
 (define-key helm-read-file-map (kbd "C-z") 'helm-select-action)
 (define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
 
+;;;; {helm-ag}
+(global-set-key (kbd "C-c g") 'helm-ag)
+
 ;;;; {helm-ls-git}
 ;; define takezawa/helm-for-files with helm-ls-git
 (require 'helm-ls-git)
