@@ -166,6 +166,9 @@ Run all sources defined in `helm-for-files-preferred-list'."
   (add-hook 'ediff-quit-hook 'elscreen-hide-display-tab))
 
 ;;;; {flycheck}
+(add-hook 'after-init-hook #'global-flycheck-mode)
+;; flycheck disable modes
+(setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
 (eval-after-load 'flycheck
   '(progn
      (setq flycheck-display-errors-delay 0.1)
