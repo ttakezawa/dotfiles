@@ -110,29 +110,6 @@
 (define-key helm-read-file-map (kbd "C-z") 'helm-select-action)
 (define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
 
-;;;; {anything}
-(require 'anything-startup)
-(recentf-mode 1) ; for anything source-buffers+
-(setq anything-c-source-buffers+-custom
-      (append '((candidates-number-limit . 15)) anything-c-source-buffers+))
-(defvar anything-c-source-home-filelist
-  `((name . "Home FileList")
-    (candidates-file "~/.home.filelist" updating)
-    (requires-pattern . 2)
-    (candidate-number-limit . 30)
-    (type . file)))
-
-(defun takezawa/anything-find-file ()
-  (interactive)
-  (let* ((filelist-sources
-          '(anything-c-source-home-filelist))
-         (anything-find-file-additional-sources
-          `(anything-c-source-buffers+-custom
-            ,@filelist-sources)))
-    (anything-find-file)))
-
-;; (global-set-key (kbd "C-x C-f") 'takezawa/anything-find-file)
-
 ;;;; {elscreen}
 (when (require 'elscreen nil t)
   (setq elscreen-prefix-key [?\C-q])

@@ -3,7 +3,6 @@
 (source marmalade)
 (depends-on "cask")
 
-(depends-on "anything")
 (depends-on "auto-complete")
 (depends-on "elscreen" :git "https://github.com/emacs-jp/elscreen.git")
 (depends-on "etags-table")
