@@ -3,6 +3,7 @@
 ;;;; {cask}
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
+(add-to-list 'auto-mode-alist '("Cask$" . emacs-lisp-mode))
 
 ;;;; Configure builtin features
 (keyboard-translate ?\C-h ?\C-?)
