@@ -179,6 +179,10 @@ Run all sources defined in `helm-for-files-preferred-list'."
 ;;;; {git-gutter}
 (global-git-gutter-mode 1)
 
+;;;; {crontab-mode}
+(add-to-list 'auto-mode-alist '("\\.?cron\\(tab\\)?\\'" . crontab-mode))
+(add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))
+
 ;;;; {enh-ruby-mode}
 (add-to-list 'auto-mode-alist '("\\.\\(rb\\|ru\\)$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
