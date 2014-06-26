@@ -183,6 +183,9 @@ Run all sources defined in `helm-for-files-preferred-list'."
 (add-to-list 'auto-mode-alist '("\\.?cron\\(tab\\)?\\'" . crontab-mode))
 (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))
 
+;;;; {yaml-mode}
+(add-to-list 'auto-mode-alist '("\\.yml\\." . yaml-mode))
+
 ;;;; {enh-ruby-mode}
 (add-to-list 'auto-mode-alist '("\\.\\(rb\\|ru\\)$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
