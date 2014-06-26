@@ -52,14 +52,29 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;; which-func-mode
-(which-func-mode 1)
-(setq which-func-modes t)
+;; which-function-mode (builtin)
+(which-function-mode 1)
+(setq which-func-modes t) ;; If this is equal to t, then it is enabled in any major mode that supports it.
 (global-set-key "\C-cw" (lambda () (interactive) (message (which-function))))
 
-;; highlight current-line
+;; highlight current-line (builtin)
 (global-hl-line-mode 1)
 (set-face-attribute hl-line-face nil :background "gray9" :underline t)
+
+;; whitespace-mode (builtin)
+(setq whitespace-space-regexp "\\(\u3000+\\)") ; 全角スペース
+(setq whitespace-style '(face      ; faceで可視化
+                         trailing  ; 行末
+                         tabs      ; タブ
+                         spaces    ; スペース
+                         empty     ; 先頭/末尾の空行
+                         tab-mark))
+(setq whitespace-action '(auto-cleanup)) ; ファイル保存時に余分な空白を削除
+(custom-set-faces
+ '(whitespace-trailing ((t (:background nil :foreground "DeepPink"     :underline t))))
+ '(whitespace-tab      ((t (:background nil :foreground "LightSkyBlue" :underline t))))
+ '(whitespace-space    ((t (:background nil :foreground "GreenYellow"  :underline t)))))
+(global-whitespace-mode 1)
 
 ;; for darwin (Mac OS X)
 (when (eq system-type 'darwin)
@@ -82,21 +97,6 @@
 ;;;; custom-theme
 (add-to-list 'custom-theme-load-path  "~/.emacs.d/themes/")
 (load-theme 'tkzw t)
-
-;;;; {whitespace}
-(setq whitespace-space-regexp "\\(\u3000+\\)") ; 全角スペース
-(setq whitespace-style '(face      ; faceで可視化
-                         trailing  ; 行末
-                         tabs      ; タブ
-                         spaces    ; スペース
-                         empty     ; 先頭/末尾の空行
-                         tab-mark))
-(setq whitespace-action '(auto-cleanup)) ; ファイル保存時に余分な空白を削除
-(custom-set-faces
- '(whitespace-trailing ((t (:background nil :foreground "DeepPink"     :underline t))))
- '(whitespace-tab      ((t (:background nil :foreground "LightSkyBlue" :underline t))))
- '(whitespace-space    ((t (:background nil :foreground "GreenYellow"  :underline t)))))
-(global-whitespace-mode 1)
 
 ;;;; {exec-path-from-shell}
 (let ((envs '("PATH" "MANPATH" "GEM_PATH" "GEM_HOME" "GOROOT" "GOPATH")))
