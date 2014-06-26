@@ -16,4 +16,5 @@ ln -s ~/.dotfiles/.gitignore_global ~/
 ln -s ~/.dotfiles/.tmux.conf ~/
 ln -s ~/.dotfiles/.emacs.d ~/
 ln -s ~/.dotfiles/.peco ~/
+ln -s ~/.dotfiles/.agignore ~/
 ```
