@@ -12,6 +12,7 @@
 (depends-on "git-gutter")
 (depends-on "gitconfig-mode")
 (depends-on "helm")
+(depends-on "helm-ls-git")
 (depends-on "whitespace")
 
 ;;;; ruby
