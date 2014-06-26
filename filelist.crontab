@@ -1,0 +1,2 @@
+54 * * * * (sudo /etc/cron.daily/mlocate; date) >>/tmp/mlocate.$(date '+\%Y\%m\%d')       2>&1
+58 * * * * ($HOME/bin/make_filelist.sh;   date) >>/tmp/make_filelist.$(date '+\%Y\%m\%d') 2>&1
