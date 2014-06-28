@@ -85,7 +85,7 @@
  '(whitespace-space    ((t (:background nil :foreground "GreenYellow"  :underline t)))))
 (global-whitespace-mode 1)
 
-;;;; align (builtin)
+;; align (builtin)
 (require 'align)
 (global-set-key (kbd "C-c a") 'align)
 
@@ -104,6 +104,8 @@
                     nil
                     'append)
   (add-to-list 'default-frame-alist '(font . "fontset-rictydiscord")))
+
+;;;; End [Configure builtin features]
 
 ;;;; custom-theme
 (add-to-list 'custom-theme-load-path  "~/.emacs.d/themes/")
