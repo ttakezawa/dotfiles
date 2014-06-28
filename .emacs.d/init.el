@@ -77,6 +77,10 @@
  '(whitespace-space    ((t (:background nil :foreground "GreenYellow"  :underline t)))))
 (global-whitespace-mode 1)
 
+;;;; align (builtin)
+(require 'align)
+(global-set-key (kbd "C-c a") 'align)
+
 ;; for darwin (Mac OS X)
 (when (eq system-type 'darwin)
   ;; swap 'Command' for 'option'
@@ -228,6 +232,33 @@ Run all sources defined in `helm-for-files-preferred-list'."
        (lambda () (interactive)
          (unless (enh-ruby-show-errors-at (point) 'erm-syn-errline)
            (enh-ruby-show-errors-at (point) 'erm-syn-warnline))))))
+
+;; ruby align setup (see https://github.com/daveyeu/emacs-dot-d/blob/master/custom/ruby-align.el)
+(defconst align-ruby-modes '(enh-ruby-mode)
+  "align-perl-modes is a variable defined in `align.el'.")
+(defconst ruby-align-rules-list
+  '((ruby-comma-delimiter
+     (regexp . ",\\(\\s-*\\)[^/ \t\n]")
+     (modes  . align-ruby-modes)
+     (repeat . t))
+    (ruby-string-after-func
+     (regexp . "^\\s-*[a-zA-Z0-9.:?_]+\\(\\s-+\\)['\"]\\w+['\"]")
+     (modes  . align-ruby-modes)
+     (repeat . t))
+    (ruby-symbol-after-func
+     (regexp . "^\\s-*[a-zA-Z0-9.:?_]+\\(\\s-+\\):\\w+")
+     (modes  . align-ruby-modes))
+    (ruby-new-style-hash
+     (regexp . "^\\s-*[a-zA-Z0-9.:?_]+:\\(\\s-+\\)[a-zA-Z0-9:'\"]") ;; This guy needs more work.
+     (modes  . align-ruby-modes)))
+  "Alignment rules specific to the ruby mode.
+See the variable `align-rules-list' for more details.")
+(add-to-list 'align-perl-modes 'enh-ruby-mode)
+(add-to-list 'align-dq-string-modes 'enh-ruby-mode)
+(add-to-list 'align-sq-string-modes 'enh-ruby-mode)
+(add-to-list 'align-open-comment-modes 'enh-ruby-mode)
+(dolist (it ruby-align-rules-list)
+  (add-to-list 'align-rules-list it))
 
 ;;;; {ruby-block}
 (eval-after-load 'enh-ruby-mode
