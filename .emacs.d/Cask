@@ -23,6 +23,7 @@
 ;;;; ruby
 (depends-on "enh-ruby-mode")
 (depends-on "ruby-block")
+(depends-on "ruby-end")
 
 ;;;; default depends list
 ;; (depends-on "bind-key")

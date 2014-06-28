@@ -276,3 +276,9 @@ See the variable `align-rules-list' for more details.")
      (require 'ruby-block)
      (ruby-block-mode t)
      (setq ruby-block-highlight-toggle t)))
+
+;;;; {ruby-end}
+(eval-after-load 'enh-ruby-mode
+  '(progn
+     (require 'ruby-end)
+     (setq ruby-end-insert-newline nil)))
