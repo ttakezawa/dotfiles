@@ -189,6 +189,13 @@ Run all sources defined in `helm-for-files-preferred-list'."
 ;;;; {git-gutter}
 (global-git-gutter-mode 1)
 
+;;;; {auto-complete}
+(ac-config-default)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
+(define-key ac-complete-mode-map (kbd "\C-p") 'ac-previous)
+(setq ac-ignore-case nil)
+
 ;;;; {crontab-mode}
 (add-to-list 'auto-mode-alist '("\\.?cron\\(tab\\)?\\'" . crontab-mode))
 (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))
