@@ -196,6 +196,10 @@ Run all sources defined in `helm-for-files-preferred-list'."
 (define-key ac-complete-mode-map (kbd "\C-p") 'ac-previous)
 (setq ac-ignore-case nil)
 
+;;;; {ac-helm}
+(global-set-key (kbd "M-/") 'ac-complete-with-helm)
+(define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm)
+
 ;;;; {crontab-mode}
 (add-to-list 'auto-mode-alist '("\\.?cron\\(tab\\)?\\'" . crontab-mode))
 (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))
