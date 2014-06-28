@@ -39,6 +39,9 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (setq ibuffer-use-other-window t)
 
+;; indent
+(global-set-key (kbd "C-c i") 'indent-region)
+
 ;; recentf
 (setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory)
       recentf-max-saved-items 2000
