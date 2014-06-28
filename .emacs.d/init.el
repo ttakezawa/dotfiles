@@ -170,8 +170,12 @@ Run all sources defined in `helm-for-files-preferred-list'."
   (add-hook 'ediff-quit-hook 'elscreen-hide-display-tab))
 
 ;;;; {flycheck}
+;; requires
+;;  - ruby: gem install rubocop
+;;  - js:   npm install -g jshint
+;;  - json: npm install -g jsonlint
 (add-hook 'after-init-hook #'global-flycheck-mode)
-;; flycheck disable modes
+;; flycheck disable specific modes
 (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
 (setq flycheck-display-errors-delay 0.1)
 (custom-set-faces
