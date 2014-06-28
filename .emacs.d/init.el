@@ -282,3 +282,11 @@ See the variable `align-rules-list' for more details.")
   '(progn
      (require 'ruby-end)
      (setq ruby-end-insert-newline nil)))
+
+;;;; {rinari}
+(global-rinari-mode)
+(define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
+(define-key rinari-minor-mode-map (kbd "C-c m") 'rinari-find-model)
+(define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
+(define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
+(define-key rinari-minor-mode-map (kbd "C-c p") 'rinari-goto-partial)
