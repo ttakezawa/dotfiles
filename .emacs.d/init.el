@@ -35,6 +35,11 @@
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 (setq locale-coding-system 'utf-8) ; for ansi term-mode
 
+;; cua
+(cua-mode 1)
+(setq cua-enable-cua-keys nil)
+(global-set-key (kbd "C-c SPC") 'cua-set-rectangle-mark)
+
 ;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (setq ibuffer-use-other-window t)
