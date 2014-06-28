@@ -8,7 +8,7 @@
 ;;;; Configure builtin features
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key [backspace] 'delete-backward-char)
-(global-set-key "\C-z" nil)
+(global-set-key (kbd "C-z") nil)
 (setq inhibit-startup-message t)
 (setq-default frame-background-mode 'dark)
 (setq ring-bell-function 'ignore) ; ignore bell
@@ -36,7 +36,7 @@
 (setq locale-coding-system 'utf-8) ; for ansi term-mode
 
 ;; ibuffer
-(global-set-key "\C-x\C-b" 'ibuffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (setq ibuffer-use-other-window t)
 
 ;; recentf
@@ -56,7 +56,7 @@
 ;; which-function-mode (builtin)
 (which-function-mode 1)
 (setq which-func-modes t) ;; If this is equal to t, then it is enabled in any major mode that supports it.
-(global-set-key "\C-cw" (lambda () (interactive) (message (which-function))))
+(global-set-key (kbd "C-c w") (lambda () (interactive) (message (which-function))))
 
 ;; highlight current-line (builtin)
 (global-hl-line-mode 1)
@@ -157,7 +157,7 @@ Run all sources defined in `helm-for-files-preferred-list'."
 
 ;;;; {elscreen}
 (when (require 'elscreen nil t)
-  (setq elscreen-prefix-key [?\C-q])
+  (setq elscreen-prefix-key (kbd "C-q"))
   (setq elscreen-display-screen-number nil)
   (elscreen-start)
 
@@ -197,7 +197,7 @@ Run all sources defined in `helm-for-files-preferred-list'."
 (ac-config-default)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
-(define-key ac-complete-mode-map (kbd "\C-p") 'ac-previous)
+(define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
 (setq ac-ignore-case nil)
 ;; enabled on enh-ruby-mode
 (add-to-list 'ac-modes 'enh-ruby-mode)
