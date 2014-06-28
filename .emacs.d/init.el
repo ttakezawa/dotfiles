@@ -173,11 +173,10 @@ Run all sources defined in `helm-for-files-preferred-list'."
 (add-hook 'after-init-hook #'global-flycheck-mode)
 ;; flycheck disable modes
 (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
-(eval-after-load 'flycheck
-  '(progn
-     (setq flycheck-display-errors-delay 0.1)
-     (set-face-background 'flycheck-error "red")
-     (set-face-background 'flycheck-warning "orange")))
+(setq flycheck-display-errors-delay 0.1)
+(custom-set-faces
+ '(flycheck-error ((t (:background "red4" :weight bold))))
+ '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
 
 ;;;; {etags-table}
 (require 'etags-table)
