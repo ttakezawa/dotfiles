@@ -104,6 +104,8 @@
 
 ;;;; {helm}
 (helm-mode 1)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
 (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
@@ -118,7 +120,6 @@
 
 ;;;; {helm-ls-git}
 ;; define takezawa/helm-for-files with helm-ls-git
-(require 'helm-ls-git)
 (defvar takezawa/helm-source-home-filelist
   `((name . "Home FileList")
     (candidates-file "~/.emacs.d/home.filelist" t)
@@ -131,6 +132,7 @@
     (action . ,(cdr (helm-get-actions-from-type
                      helm-source-locate)))))
 
+(require 'helm-ls-git)
 (defun takezawa/helm-for-files ()
   "Preconfigured `helm' for opening files.
 Run all sources defined in `helm-for-files-preferred-list'."
