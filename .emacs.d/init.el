@@ -203,8 +203,8 @@ Run all sources defined in `helm-for-files-preferred-list'."
            enh-ruby-deep-indent-paren nil
            enh-ruby-deep-indent-paren-style nil)
      (custom-set-faces
-      '(erm-syn-errline  ((t (:background "red" :underline t))))
-      '(erm-syn-warnline ((t (:background "magenta" :underline t))))
+      '(erm-syn-errline  ((t (:weight bold :background "red3" :underline t))))
+      '(erm-syn-warnline ((t (:weight bold :background "yellow3" :underline t))))
       '(enh-ruby-op-face ((t (:foreground "#00af5f")))))
 
      ;; C-ceでカーソル位置のerr or warnを表示
