@@ -195,6 +195,8 @@ Run all sources defined in `helm-for-files-preferred-list'."
 (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
 (define-key ac-complete-mode-map (kbd "\C-p") 'ac-previous)
 (setq ac-ignore-case nil)
+;; enabled on enh-ruby-mode
+(add-to-list 'ac-modes 'enh-ruby-mode)
 
 ;;;; {ac-helm}
 (global-set-key (kbd "M-/") 'ac-complete-with-helm)
