@@ -8,6 +8,7 @@
 ;;;; Configure builtin features
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key [backspace] 'delete-backward-char)
+(global-set-key "\C-z" nil)
 (setq inhibit-startup-message t)
 (setq-default frame-background-mode 'dark)
 (setq ring-bell-function 'ignore) ; ignore bell
@@ -78,8 +79,6 @@
 
 ;; for darwin (Mac OS X)
 (when (eq system-type 'darwin)
-  ;; disable C-z
-  (global-set-key "\C-z" nil)
   ;; swap 'Command' for 'option'
   (setq ns-command-modifier (quote meta))
   (setq ns-alternate-modifier (quote super))
