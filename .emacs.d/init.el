@@ -113,6 +113,9 @@
 ;;;; {helm-ag}
 (global-set-key (kbd "C-c g") 'helm-ag)
 
+;;;; {helm-ghq}
+(global-set-key (kbd "C-x g") 'helm-ghq)
+
 ;;;; {helm-ls-git}
 ;; define takezawa/helm-for-files with helm-ls-git
 (require 'helm-ls-git)

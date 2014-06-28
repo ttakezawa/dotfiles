@@ -14,6 +14,7 @@
 (depends-on "gitconfig-mode")
 (depends-on "helm")
 (depends-on "helm-ag")
+(depends-on "helm-ghq")
 (depends-on "helm-ls-git")
 (depends-on "whitespace")
 (depends-on "yaml-mode")

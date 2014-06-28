@@ -111,6 +111,7 @@ fi
 #### misc tweaks
 export GREP_OPTIONS='--color=auto'
 alias ls="ls --color=tty"
+alias g='cd $(ghq list -p | peco)'
 
 #### command time
 # trap ... DEBUG を上書きして実装している
