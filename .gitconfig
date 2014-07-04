@@ -1,7 +1,7 @@
 # -*- coding:utf-8; indent-tabs-mode:nil -*-
 
 [user]
-	name = ttakezawa
+	name = Tomohiro Takezawa
 	email = ttakezawa@users.noreply.github.com
 [core]
 	excludesfile = ~/.gitignore_global
