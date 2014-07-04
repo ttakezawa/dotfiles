@@ -18,3 +18,6 @@
 	dfc = diff -w --cached
 	clean-branch      = !echo '[Dry-run]' && git branch --merged | grep -Pv '^\\*|^\\s*master'
 	clean-branch-exec = !                    git branch --merged | grep -Pv '^\\*|^\\s*master' | xargs git branch -d
+[url "git@github.com:"]
+	insteadOf = git://github.com/
+	insteadOf = https://github.com/
