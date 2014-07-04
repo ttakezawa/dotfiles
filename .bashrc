@@ -96,6 +96,9 @@ fi
 #### emacs cask
 export PATH="$HOME/.cask/bin:$PATH"
 
+#### golang
+export GOPATH=$HOME
+
 #### peco
 if (( ${BASH_VERSINFO[0]} >= 4 )) && type -P peco >/dev/null; then
   # READLINE_* は Bash4 で実装されている
