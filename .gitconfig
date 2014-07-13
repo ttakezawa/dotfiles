@@ -22,4 +22,4 @@
 	insteadOf = git://github.com/
 	insteadOf = https://github.com/
 [ghq]
-	root = ~/src
+	root = ~/dev/src

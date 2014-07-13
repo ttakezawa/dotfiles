@@ -97,7 +97,8 @@ fi
 export PATH="$HOME/.cask/bin:$PATH"
 
 #### golang
-export GOPATH=$HOME
+export GOPATH=$HOME/dev
+export PATH=$GOPATH/bin:$PATH
 
 #### peco
 if (( ${BASH_VERSINFO[0]} >= 4 )) && type -P peco >/dev/null; then
