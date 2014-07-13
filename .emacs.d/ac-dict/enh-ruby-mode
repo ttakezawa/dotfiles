@@ -86,13 +86,14 @@ __method__
 `
 abort
 alias
+alias_method
 and
 at_exit
 autoload
 autoload?
 begin
 binding
-block_given
+block_given?
 break
 callcc
 caller
@@ -131,6 +132,7 @@ lambda
 load
 local_variables
 loop
+module_function
 module
 next
 nil
@@ -139,7 +141,10 @@ open
 or
 p
 printf
+private
 proc
+protected
+public
 putc
 puts
 raise
