@@ -99,6 +99,10 @@ export PATH="$HOME/.cask/bin:$PATH"
 #### golang
 export GOPATH=$HOME/dev
 export PATH=$GOPATH/bin:$PATH
+if type -P go >/dev/null && [[ -r $(go env GOROOT)/misc/bash/go ]]; then
+  # completion
+  source $(go env GOROOT)/misc/bash/go
+fi
 
 #### peco
 if (( ${BASH_VERSINFO[0]} >= 4 )) && type -P peco >/dev/null; then
