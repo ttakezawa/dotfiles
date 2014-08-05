@@ -109,8 +109,11 @@ if (( ${BASH_VERSINFO[0]} >= 4 )) && type -P peco >/dev/null; then
   # READLINE_* は Bash4 で実装されている
 
   _replace_by_history() {
-    # 頻度が多く、新しいコマンド順にリストする
-    local l=$(HISTTIMEFORMAT='' history | sort -rk2 | uniq -cf1 | sort -rn | sed -r 's/^\s*[0-9]+\s+[0-9]+\s*//' | peco --query "$READLINE_LINE")
+    # 頻度が多く、新しいコマンドの順にリストする
+    #  ASCII文字([\t -~])で構成されたコマンドのみ対象とする
+    local l=$(HISTTIMEFORMAT='' history | grep -E '^[\t -~]+$' \
+                | sort -rk2 | uniq -cf1 | sort -rn \
+                | sed -r 's/^\s*[0-9]+\s+[0-9]+\s*//' | peco --query "$READLINE_LINE")
     READLINE_LINE="$l"
     READLINE_POINT=${#l}
   }
