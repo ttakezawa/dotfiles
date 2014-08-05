@@ -20,6 +20,10 @@
 (depends-on "whitespace")
 (depends-on "yaml-mode")
 
+;;;; golang
+(depends-on "go-mode")
+(depends-on "go-eldoc")
+
 ;;;; ruby
 (depends-on "enh-ruby-mode")
 (depends-on "ruby-block")

@@ -273,6 +273,23 @@ Run all sources defined in `helm-for-files-preferred-list'."
 ;;;; {yaml-mode}
 (add-to-list 'auto-mode-alist '("\\.yml\\." . yaml-mode))
 
+;;;; {go-mode}
+;; golang requirements
+; go get -v -u code.google.com/p/rog-go/exp/cmd/godef
+; go get -v -u code.google.com/p/go.tools/cmd/godoc
+; go get -v -u code.google.com/p/go.tools/cmd/goimports
+; go get -v -u github.com/golang/lint/golint      # flycheck
+; go get -v -u code.google.com/p/go.tools/cmd/vet # flycheck
+; go get -v -u github.com/kisielk/errcheck        # flycheck
+; go get -v -u github.com/nsf/gocode # go-eldoc
+(eval-after-load 'go-mode
+  '(progn
+     (add-hook 'before-save-hook 'gofmt-before-save)
+     (setq gofmt-command "goimports")
+     (define-key go-mode-map (kbd "M-.") 'godef-jump)
+     (define-key go-mode-map (kbd "C-c d") 'godoc)
+     (add-hook 'go-mode-hook 'go-eldoc-setup)))
+
 ;;;; {enh-ruby-mode}
 (add-to-list 'auto-mode-alist '("\\.\\(rb\\|ru\\)$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
