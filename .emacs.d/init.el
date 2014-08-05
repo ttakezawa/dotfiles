@@ -5,7 +5,7 @@
 (cask-initialize)
 (add-to-list 'auto-mode-alist '("Cask$" . emacs-lisp-mode))
 
-;;;; Configure builtin features
+;;;; [Configure builtin features]
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key [backspace] 'delete-backward-char)
 (global-set-key (kbd "C-z") nil)
@@ -142,7 +142,7 @@
 ;;;; End [Configure builtin features]
 
 ;;;; custom-theme
-(add-to-list 'custom-theme-load-path  "~/.emacs.d/themes/")
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (load-theme 'tkzw t)
 
 ;;;; {exec-path-from-shell}
@@ -185,13 +185,13 @@
 ;; define takezawa/helm-for-files with helm-ls-git
 (defvar takezawa/helm-source-home-filelist
   `((name . "Home FileList")
-    (candidates-file "~/.emacs.d/home.filelist" t)
+    (candidates-file ,(expand-file-name "home.filelist" user-emacs-directory) t)
     (action . ,(cdr (helm-get-actions-from-type
                      helm-source-locate)))))
 
 (defvar takezawa/helm-source-system-filelist
   `((name . "System FileList")
-    (candidates-file "~/.emacs.d/system.filelist" t)
+    (candidates-file ,(expand-file-name "system.filelist" user-emacs-directory) t)
     (action . ,(cdr (helm-get-actions-from-type
                      helm-source-locate)))))
 
@@ -255,7 +255,7 @@ Run all sources defined in `helm-for-files-preferred-list'."
 
 ;;;; {auto-complete}
 (ac-config-default)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
 (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
 (define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
 (setq ac-ignore-case nil)
