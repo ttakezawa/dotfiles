@@ -14,3 +14,6 @@ curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-pro
   git checkout master &&
   git pull
 )
+
+curl https://raw.githubusercontent.com/ggreer/the_silver_searcher/master/ag.bashcomp.sh > $dir/ag.bashcomp.sh
+sed -i 's/have ag &&//' $dir/ag.bashcomp.sh
