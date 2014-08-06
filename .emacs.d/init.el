@@ -268,7 +268,7 @@ Run all sources defined in `helm-for-files-preferred-list'."
 
 ;;;; {crontab-mode}
 (add-to-list 'auto-mode-alist '("\\.?cron\\(tab\\)?\\'" . crontab-mode))
-(add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))
+(add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\(_\\|\\.\\)" . crontab-mode))
 
 ;;;; {yaml-mode}
 (add-to-list 'auto-mode-alist '("\\.yml\\." . yaml-mode))
