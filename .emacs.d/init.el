@@ -16,7 +16,6 @@
  (window-system (tool-bar-mode -1))
  (t             (menu-bar-mode -1)))
 (windmove-default-keybindings)
-(setq-default indent-tabs-mode nil) ; [Tab] key insert spaces.
 (add-hook 'makefile-mode 'intent-tabs-mode)
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq completion-ignore-case t)
@@ -28,6 +27,11 @@
 (setq dired-dwim-target t)
 (require 'generic-x)
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
+
+;; tweak indentatino
+(setq-default indent-tabs-mode nil) ; [Tab] key insert spaces.
+(setq sh-basic-offset 2
+      sh-indentation 2)
 
 ;; utf-8 coding
 (set-language-environment "Japanese")
