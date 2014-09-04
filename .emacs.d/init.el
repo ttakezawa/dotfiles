@@ -133,7 +133,7 @@
   (setq ns-command-modifier (quote meta))
   (setq ns-alternate-modifier (quote super))
   ;; set transparency
-  (set-frame-parameter nil 'alpha 80)
+  (add-to-list 'default-frame-alist '(alpha . 80))
   ;; font Ricty Discord
   (create-fontset-from-ascii-font "Ricty Discord:size=14:weight=normal:slant=normal" nil "rictydiscord")
   (set-fontset-font "fontset-rictydiscord"
