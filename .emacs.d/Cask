@@ -20,6 +20,7 @@
 (depends-on "whitespace")
 (depends-on "yaml-mode")
 (depends-on "plantuml-mode")
+(depends-on "web-mode")
 
 ;;;; golang
 (depends-on "go-mode")

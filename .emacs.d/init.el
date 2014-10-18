@@ -384,3 +384,15 @@ See the variable `align-rules-list' for more details.")
             ;; workaround of error: "Wrong type argument: keymapp, nil"
             (when (null plantuml-mode-map)
               (setq plantuml-mode-map (make-sparse-keymap)))))
+
+;;;; {web-mode}
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(setq web-mode-script-padding 2
+      web-mode-style-padding 2
+      web-mode-tag-auto-close-style 2
+      web-mode-enable-auto-pairing t
+      web-mode-enable-auto-opening t
+      web-mode-enable-current-element-highlight t)
+(custom-set-faces
+ '(web-mode-current-element-highlight-face ((t (:background "#00005f")))))
