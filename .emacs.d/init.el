@@ -361,3 +361,13 @@ See the variable `align-rules-list' for more details.")
 (define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
 (define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
 (define-key rinari-minor-mode-map (kbd "C-c p") 'rinari-goto-partial)
+
+;;; {plantuml-mode}
+(add-to-list 'auto-mode-alist '("\\.plu$" . plantuml-mode))
+(add-to-list 'auto-mode-alist '("\\.plantuml$" . plantuml-mode))
+(setq plantuml-jar-path "/usr/local/Cellar/plantuml/8002/plantuml.8002.jar")
+(add-hook 'plantuml-mode-hook
+          (lambda ()
+            ;; workaround of error: "Wrong type argument: keymapp, nil"
+            (when (null plantuml-mode-map)
+              (setq plantuml-mode-map (make-sparse-keymap)))))
