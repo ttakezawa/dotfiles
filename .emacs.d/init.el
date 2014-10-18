@@ -95,6 +95,17 @@
 (require 'align)
 (global-set-key (kbd "C-c a") 'align)
 
+;; table align with org-mode
+;; e.g.
+;; |---+---|
+;; | X | Y |
+;; |---+---|
+;; | a | 1 |
+;; | b | 2 |
+;; |---+---|
+(autoload 'org-table-align "org-table" nil)
+(global-set-key (kbd "C-c t") 'org-table-align)
+
 ;; define window resizer (see: http://d.hatena.ne.jp/khiker/20100119/window_resize)
 (global-set-key (kbd "C-c r") 'takezawa/window-resizer)
 (defun takezawa/window-resizer ()
