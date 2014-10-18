@@ -24,6 +24,7 @@
 (show-paren-mode 1)
 (column-number-mode t)
 (global-auto-revert-mode 1)
+(auto-image-file-mode +1)
 (setq dired-dwim-target t)
 (require 'generic-x)
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
