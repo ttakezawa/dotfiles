@@ -28,6 +28,7 @@
 (setq dired-dwim-target t)
 (require 'generic-x)
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
+(global-set-key (kbd "C-c C-c") 'compile)
 
 ;; tweak indentatino
 (setq-default indent-tabs-mode nil) ; [Tab] key insert spaces.
