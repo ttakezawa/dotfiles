@@ -381,6 +381,10 @@ See the variable `align-rules-list' for more details.")
 (setq plantuml-jar-path "/usr/local/Cellar/plantuml/8002/plantuml.8002.jar")
 (add-hook 'plantuml-mode-hook
           (lambda ()
+            ;; configure comment-style
+            (set (make-local-variable 'comment-start) "'")
+            (set (make-local-variable 'comment-end)   "")
+
             ;; workaround of error: "Wrong type argument: keymapp, nil"
             (when (null plantuml-mode-map)
               (setq plantuml-mode-map (make-sparse-keymap)))))
