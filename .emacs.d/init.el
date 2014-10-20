@@ -276,8 +276,6 @@ Run all sources defined in `helm-for-files-preferred-list'."
 (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
 (define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
 (setq ac-ignore-case nil)
-;; enabled on enh-ruby-mode
-(add-to-list 'ac-modes 'enh-ruby-mode)
 
 ;;;; {ac-helm}
 (global-set-key (kbd "M-/") 'ac-complete-with-helm)
@@ -308,6 +306,7 @@ Run all sources defined in `helm-for-files-preferred-list'."
      (add-hook 'go-mode-hook 'go-eldoc-setup)))
 
 ;;;; {enh-ruby-mode}
+(add-to-list 'ac-modes 'enh-ruby-mode) ;; Enable auto-complete-mode
 (add-to-list 'auto-mode-alist '("\\.\\(rb\\|ru\\)$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
@@ -376,6 +375,7 @@ See the variable `align-rules-list' for more details.")
 (define-key rinari-minor-mode-map (kbd "C-c p") 'rinari-goto-partial)
 
 ;;; {plantuml-mode}
+(add-to-list 'ac-modes 'plantuml-mode) ;; Enable auto-complete-mode
 (add-to-list 'auto-mode-alist '("\\.plu$" . plantuml-mode))
 (add-to-list 'auto-mode-alist '("\\.plantuml$" . plantuml-mode))
 (setq plantuml-jar-path "/usr/local/Cellar/plantuml/8002/plantuml.8002.jar")
