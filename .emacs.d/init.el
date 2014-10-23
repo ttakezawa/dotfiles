@@ -100,6 +100,12 @@
 (require 'align)
 (global-set-key (kbd "C-c a") 'align)
 
+;; eldoc-mode (builtin)
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
+
 ;; table align with org-mode
 ;; e.g.
 ;; |---+---|
