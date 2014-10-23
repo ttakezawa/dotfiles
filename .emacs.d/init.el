@@ -411,3 +411,12 @@ See the variable `align-rules-list' for more details.")
       web-mode-enable-current-element-highlight t)
 (custom-set-faces
  '(web-mode-current-element-highlight-face ((t (:background "#00005f")))))
+
+;; configure auto-complete for web-mode
+(add-to-list 'ac-modes 'web-mode) ;; Enable auto-complete-mode
+(setq web-mode-ac-sources-alist
+      '(("css" . (ac-source-css-property))
+        ("html" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+        ("erb" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+        ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+        ))
