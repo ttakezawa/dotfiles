@@ -91,15 +91,15 @@ fi
 #### ruby
 cdgem () {
   local gem
-  if bundle config >/dev/null; then
+  if bundle config >/dev/null 2>&1; then
     gem=$(bundle list | grep '\*' | sed -e 's/^ *\* *//g' | peco | cut -d \  -f 1)
     [[ -z "$gem" ]] && return 1
     cd $(bundle show $gem)
   else
     gem=$(gem list | peco | cut -d \  -f 1)
     [[ -z "$gem" ]] && return 1
-    if ruby --version | grep 'ruby 2'; then
-      cd $(ruby -e 'puts Gem::Specification.find(ARGV[0]).first.full_gem_path' -- $gem)
+    if ruby --version | grep 'ruby 2' >/dev/null; then
+      cd $(ruby -e 'puts Gem::Specification.find_by_name(ARGV[0]).full_gem_path' -- $gem)
     else
       cd $(ruby -e 'puts Gem.source_index.find_name(ARGV[0]).last.full_gem_path' -- $gem)
     fi
