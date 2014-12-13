@@ -154,7 +154,7 @@ if [[ -r $SOURCE_DIR/.bash.d/ag.bashcomp.sh ]]; then
 fi
 
 #### misc tweaks
-export GREP_OPTIONS='--color=auto'
+alias grep="grep --color=auto"
 alias ls="ls --color=tty"
 
 #### command time
