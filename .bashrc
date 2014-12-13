@@ -157,6 +157,16 @@ fi
 alias grep="grep --color=auto"
 alias ls="ls --color=tty"
 
+function conv-time () {
+  for arg in "$@"; do
+    if ( echo "$arg" | $(type -p ggrep grep | head -1) -qsP '^\d+$' ); then
+      $(type -p gdate date | head -1) -d "1970-1-1 GMT +$arg secs"
+    else
+      $(type -p gdate date | head -1) +%s -d "$arg"
+    fi
+  done
+}
+
 #### command time
 # trap ... DEBUG を上書きして実装している
 # また、PROMPT_COMMANDをいじる都合上、最後に設定するようにする
