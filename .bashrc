@@ -143,8 +143,8 @@ if (( ${BASH_VERSINFO[0]} >= 4 )) && type -P peco >/dev/null; then
   bind -x '"\C-r": _replace_by_history'
 
   g() {
-    local l=$(ghq list -p | peco)
-    [[ -n "$l" ]] && cd $l
+    local l=$(ghq list | peco)
+    [[ -n "$l" ]] && cd $(ghq root)/$l
   }
 fi
 
