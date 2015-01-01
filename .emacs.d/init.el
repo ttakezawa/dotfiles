@@ -181,6 +181,7 @@
   (exec-path-from-shell-copy-envs envs))
 
 ;;;; {helm}
+(helm-match-plugin-mode 1)
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
@@ -217,14 +218,12 @@
 (defvar takezawa/helm-source-home-filelist
   `((name . "Home FileList")
     (candidates-file ,(expand-file-name "home.filelist" user-emacs-directory) t)
-    (action . ,(cdr (helm-get-actions-from-type
-                     helm-source-locate)))))
+    (action . ,(helm-actions-from-type-file))))
 
 (defvar takezawa/helm-source-system-filelist
   `((name . "System FileList")
     (candidates-file ,(expand-file-name "system.filelist" user-emacs-directory) t)
-    (action . ,(cdr (helm-get-actions-from-type
-                     helm-source-locate)))))
+    (action . ,(helm-actions-from-type-file))))
 
 (require 'helm-ls-git)
 (defun takezawa/helm-for-files ()
