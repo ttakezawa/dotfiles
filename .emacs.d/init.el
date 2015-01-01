@@ -403,9 +403,12 @@ See the variable `align-rules-list' for more details.")
 ;;;; {web-mode}
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(setq web-mode-script-padding 2
+(setq web-mode-markup-indent-offset 2
+      web-mode-css-indent-offset 2
+      web-mode-code-indent-offset 2
+      web-mode-script-padding 2
       web-mode-style-padding 2
-      web-mode-tag-auto-close-style 2
+      web-mode-enable-auto-closing t
       web-mode-enable-auto-pairing t
       web-mode-enable-auto-opening t
       web-mode-enable-current-element-highlight t)
