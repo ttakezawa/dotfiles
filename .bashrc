@@ -90,9 +90,9 @@ fi
 
 #### ruby
 cdgem () {
-  local gem
-  if bundle config >/dev/null 2>&1; then
-    gem=$(bundle list | grep '\*' | sed -e 's/^ *\* *//g' | peco | cut -d \  -f 1)
+  local bundle_gems=$(bundle list | grep '\*' | sed -e 's/^ *\* *//g')
+  if [[ -n "$bundle_gems" ]]; then
+    gem=$(echo $bundle_gems | peco | cut -d \  -f 1)
     [[ -z "$gem" ]] && return 1
     cd $(bundle show $gem)
   else
