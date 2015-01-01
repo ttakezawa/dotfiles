@@ -30,10 +30,13 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
 (global-set-key (kbd "C-c C-c") 'compile)
 
-;; tweak indentatino
+;; tweak indentation
 (setq-default indent-tabs-mode nil) ; [Tab] key insert spaces.
 (setq sh-basic-offset 2
       sh-indentation 2)
+
+;; css indentation
+(setq css-indent-offset 2)
 
 ;; utf-8 coding
 (set-language-environment "Japanese")
