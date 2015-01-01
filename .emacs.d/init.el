@@ -229,21 +229,22 @@
 (require 'helm-ls-git)
 (defun takezawa/helm-for-files ()
   "Preconfigured `helm' for opening files.
-Run all sources defined in `helm-for-files-preferred-list'."
+Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (interactive)
+  (unless helm-source-buffers-list
+    (setq helm-source-buffers-list
+          (helm-make-source "Buffers" 'helm-source-buffers)))
   (let ((helm-ff-transformer-show-only-basename nil))
-    (helm-other-buffer
-     '(helm-source-buffers-list
-       helm-source-recentf
-       ;; helm-source-bookmarks
-       ;; elm-source-file-cache
-       helm-source-files-in-current-dir
-       helm-source-ls-git
-       takezawa/helm-source-home-filelist
-       takezawa/helm-source-system-filelist
-       ;; helm-source-locate
-       )
-     "*takezawa/helm-for-files*")))
+    (helm :buffer "*takezawa/helm-for-files*"
+          :sources '(helm-source-buffers-list
+                     helm-source-recentf
+                     ;; helm-source-bookmarks
+                     ;; helm-source-file-cache
+                     helm-source-files-in-current-dir
+                     ;; helm-source-locate
+                     helm-source-ls-git
+                     takezawa/helm-source-home-filelist
+                     takezawa/helm-source-system-filelist))))
 (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
 
 ;;;; {elscreen}
