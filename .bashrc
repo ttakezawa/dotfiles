@@ -92,7 +92,7 @@ fi
 cdgem () {
   local bundle_gems=$(bundle list | grep '\*' | sed -e 's/^ *\* *//g')
   if [[ -n "$bundle_gems" ]]; then
-    gem=$(echo $bundle_gems | peco | cut -d \  -f 1)
+    gem=$(echo "$bundle_gems" | peco | cut -d \  -f 1)
     [[ -z "$gem" ]] && return 1
     cd $(bundle show $gem)
   else
