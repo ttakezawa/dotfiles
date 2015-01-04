@@ -217,6 +217,10 @@
               :default (concat "\\_<" (thing-at-point 'symbol) "\\_>"))
       (message "Error: No tag file found, please create one with etags shell command."))))
 
+;;;; {helm-swoop}
+;; M-3 M-iで3行ずつ表示
+(global-set-key (kbd "M-i") 'helm-swoop)
+
 ;;;; {helm-ag}
 (global-set-key (kbd "C-c g") 'helm-ag)
 

@@ -17,6 +17,7 @@
 (depends-on "helm-ag")
 (depends-on "helm-ghq")
 (depends-on "helm-ls-git")
+(depends-on "helm-swoop")
 (depends-on "whitespace")
 (depends-on "yaml-mode")
 (depends-on "plantuml-mode")
