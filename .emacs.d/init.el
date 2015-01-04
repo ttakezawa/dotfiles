@@ -222,7 +222,12 @@
 (global-set-key (kbd "M-i") 'helm-swoop)
 
 ;;;; {helm-ag}
-(global-set-key (kbd "C-c g") 'helm-ag)
+(defun takezawa/helm-do-ag-dir ()
+  (interactive)
+  (let ((current-prefix-arg t))
+    (helm-do-ag)))
+(global-set-key (kbd "C-c G") 'takezawa/helm-do-ag-dir)
+(global-set-key (kbd "C-c g") 'helm-do-ag)
 
 ;;;; {helm-ghq}
 (global-set-key (kbd "C-x g") 'helm-ghq)
