@@ -126,7 +126,7 @@
 (autoload 'org-table-align "org-table" nil)
 (global-set-key (kbd "C-c t") 'org-table-align)
 
-;; define window resizer (see: http://d.hatena.ne.jp/khiker/20100119/window_resize)
+;; define window resizer  via: http://d.hatena.ne.jp/khiker/20100119/window_resize
 (global-set-key (kbd "C-c r") 'takezawa/window-resizer)
 (defun takezawa/window-resizer ()
   "Control window size and position."
@@ -187,16 +187,20 @@
   (exec-path-from-shell-copy-envs envs))
 
 ;;;; {helm}
-(helm-match-plugin-mode 1)
+(helm-match-plugin-mode 1) ;; ファイルリスト(candidates-file)でskip matchできるようにする
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
+(define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
+
+;; find-fileのときC-iで選択するようにする
 (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 (define-key helm-read-file-map (kbd "C-z") 'helm-select-action)
 (define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
-;; via: http://d.hatena.ne.jp/syohex/20131016/1381935863
+
+;; customize helm-etags-select  via: http://d.hatena.ne.jp/syohex/20131016/1381935863
 (global-set-key (kbd "M-.") 'takezawa/helm-etags-select)
 (defun takezawa/helm-etags-select (arg)
   (interactive "P")
@@ -239,6 +243,10 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (unless helm-source-buffers-list
     (setq helm-source-buffers-list
           (helm-make-source "Buffers" 'helm-source-buffers)))
+  (unless helm-source-ls-git
+    (setq helm-source-ls-git
+          (helm-make-source "Git files" 'helm-ls-git-source
+            :fuzzy-match helm-ls-git-fuzzy-match)))
   (let ((helm-ff-transformer-show-only-basename nil))
     (helm :buffer "*takezawa/helm-for-files*"
           :sources '(helm-source-buffers-list
