@@ -1,3 +1,8 @@
+;; Usage:
+;; cask upgrade-cask --path ~/.emacs.d
+;; cask install --path ~/.emacs.d
+;; cask update --path ~/.emacs.d
+
 (source gnu)
 (source melpa)
 (source marmalade)
