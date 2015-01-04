@@ -5,7 +5,8 @@
 (cask-initialize)
 (add-to-list 'auto-mode-alist '("Cask$" . emacs-lisp-mode))
 
-;;;; [Configure builtin features]
+;;;;;;;;;;;;;;;; Begin [Configure builtin features] ;;;;;;;;;;;;;;;;
+;; Emacs標準機能による設定
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key [backspace] 'delete-backward-char)
 (global-set-key (kbd "C-z") nil)
@@ -65,6 +66,11 @@
 (setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory)
       recentf-max-saved-items 2000
       recentf-exclude '(".recentf"))
+; 起動画面で履歴表示
+(add-hook 'after-init-hook
+          (lambda()
+            (recentf-mode 1)
+            (recentf-open-files)))
 
 ;; save place
 (require 'saveplace)
@@ -154,7 +160,9 @@
                (message "Quit")
                (throw 'end-flag t)))))))
 
-;; for darwin (Mac OS X)
+;;;;;;;;;;;;;;;; End [Configure builtin features] ;;;;;;;;;;;;;;;;
+
+;;;; font for darwin (Mac OS X)
 (when (eq system-type 'darwin)
   ;; swap 'Command' for 'option'
   (setq ns-command-modifier (quote meta))
@@ -169,8 +177,6 @@
                     nil
                     'append)
   (add-to-list 'default-frame-alist '(font . "fontset-rictydiscord")))
-
-;;;; End [Configure builtin features]
 
 ;;;; custom-theme
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
