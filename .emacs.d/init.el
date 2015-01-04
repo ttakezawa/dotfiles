@@ -327,13 +327,13 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;;;; {go-mode}
 ;; golang requirements
-; go get -v -u code.google.com/p/rog-go/exp/cmd/godef
-; go get -v -u code.google.com/p/go.tools/cmd/godoc
-; go get -v -u code.google.com/p/go.tools/cmd/goimports
-; go get -v -u github.com/golang/lint/golint      # flycheck
-; go get -v -u code.google.com/p/go.tools/cmd/vet # flycheck
-; go get -v -u github.com/kisielk/errcheck        # flycheck
-; go get -v -u github.com/nsf/gocode # go-eldoc
+; go get -f -v -u code.google.com/p/rog-go/exp/cmd/godef
+; go get -f -v -u code.google.com/p/go.tools/cmd/godoc
+; go get -f -v -u code.google.com/p/go.tools/cmd/goimports
+; go get -f -v -u github.com/golang/lint/golint      # flycheck
+; go get -f -v -u code.google.com/p/go.tools/cmd/vet # flycheck
+; go get -f -v -u github.com/kisielk/errcheck        # flycheck
+; go get -f -v -u github.com/nsf/gocode # go-eldoc
 (eval-after-load 'go-mode
   '(progn
      (add-hook 'before-save-hook 'gofmt-before-save)

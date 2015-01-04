@@ -40,6 +40,7 @@ export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
 # prefer $HOME/bin and $HOME/man
 export PATH="$HOME/bin:$PATH"
 export MANPATH="$HOME/man:$MANPATH"
+IGNOREEOF=3
 
 #### [ history ]
 # share accross sessions
