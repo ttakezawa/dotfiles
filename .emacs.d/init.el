@@ -206,12 +206,16 @@
 (global-set-key (kbd "M-i") 'helm-swoop)
 
 ;;;; {helm-ag}
+;; C-u打つのが面倒なので、常にC-uの挙動(ディレクトリ選択を求める)にする
 (defun takezawa/helm-do-ag-dir ()
   (interactive)
   (let ((current-prefix-arg t))
     (helm-do-ag)))
-(global-set-key (kbd "C-c G") 'takezawa/helm-do-ag-dir)
-(global-set-key (kbd "C-c g") 'helm-do-ag)
+(global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir)
+
+;;;; {ag}
+;; C-c C-p で{wgrep}による編集ができる
+(global-set-key (kbd "C-c G") 'ag)
 
 ;;;; {helm-ghq}
 (global-set-key (kbd "C-x g") 'helm-ghq)
