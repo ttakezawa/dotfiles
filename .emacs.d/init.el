@@ -320,6 +320,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ; go get -f -v -u github.com/nsf/gocode # go-eldoc
 (eval-after-load 'go-mode
   '(progn
+     (require 'go-autocomplete)
      (add-hook 'before-save-hook 'gofmt-before-save)
      (setq gofmt-command "goimports")
      (define-key go-mode-map (kbd "M-.") 'godef-jump)
