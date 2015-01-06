@@ -351,35 +351,33 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ; go get -f -v -u code.google.com/p/go.tools/cmd/vet # flycheck
 ; go get -f -v -u github.com/kisielk/errcheck        # flycheck
 ; go get -f -v -u github.com/nsf/gocode # go-eldoc
-(eval-after-load 'go-mode
-  '(progn
-     (require 'go-autocomplete)
-     (add-hook 'before-save-hook 'gofmt-before-save)
-     (setq gofmt-command "goimports")
-     (define-key go-mode-map (kbd "M-.") 'godef-jump)
-     (define-key go-mode-map (kbd "C-c d") 'godoc)
-     (add-hook 'go-mode-hook 'go-eldoc-setup)))
+(with-eval-after-load 'go-mode
+  (require 'go-autocomplete)
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (setq gofmt-command "goimports")
+  (define-key go-mode-map (kbd "M-.") 'godef-jump)
+  (define-key go-mode-map (kbd "C-c d") 'godoc)
+  (add-hook 'go-mode-hook 'go-eldoc-setup))
 
 ;;;; {enh-ruby-mode}
 (add-to-list 'ac-modes 'enh-ruby-mode) ;; Enable auto-complete-mode
 (add-to-list 'auto-mode-alist '("\\.\\(rb\\|ru\\)$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
-(eval-after-load 'enh-ruby-mode
-  '(progn
-     (setq enh-ruby-deep-arglist nil
-           enh-ruby-deep-indent-paren nil
-           enh-ruby-deep-indent-paren-style nil)
-     (custom-set-faces
-      '(erm-syn-errline  ((t (:weight bold :background "red3" :underline t))))
-      '(erm-syn-warnline ((t (:weight bold :background "yellow3" :underline t))))
-      '(enh-ruby-op-face ((t (:foreground "#00af5f")))))
+(with-eval-after-load 'enh-ruby-mode
+  (setq enh-ruby-deep-arglist nil
+        enh-ruby-deep-indent-paren nil
+        enh-ruby-deep-indent-paren-style nil)
+  (custom-set-faces
+   '(erm-syn-errline  ((t (:weight bold :background "red3" :underline t))))
+   '(erm-syn-warnline ((t (:weight bold :background "yellow3" :underline t))))
+   '(enh-ruby-op-face ((t (:foreground "#00af5f")))))
 
-     ;; C-ceでカーソル位置のerr or warnを表示
-     (define-key enh-ruby-mode-map (kbd "C-c e")
-       (lambda () (interactive)
-         (unless (enh-ruby-show-errors-at (point) 'erm-syn-errline)
-           (enh-ruby-show-errors-at (point) 'erm-syn-warnline))))))
+  ;; C-ceでカーソル位置のerr or warnを表示
+  (define-key enh-ruby-mode-map (kbd "C-c e")
+    (lambda () (interactive)
+      (unless (enh-ruby-show-errors-at (point) 'erm-syn-errline)
+        (enh-ruby-show-errors-at (point) 'erm-syn-warnline)))))
 
 ;; ruby align setup (see https://github.com/daveyeu/emacs-dot-d/blob/master/custom/ruby-align.el)
 (defconst align-ruby-modes '(enh-ruby-mode)
@@ -409,17 +407,15 @@ See the variable `align-rules-list' for more details.")
   (add-to-list 'align-rules-list it))
 
 ;;;; {ruby-block}
-(eval-after-load 'enh-ruby-mode
-  '(progn
-     (require 'ruby-block)
-     (ruby-block-mode t)
-     (setq ruby-block-highlight-toggle t)))
+(with-eval-after-load 'enh-ruby-mode
+  (require 'ruby-block)
+  (ruby-block-mode t)
+  (setq ruby-block-highlight-toggle t))
 
 ;;;; {ruby-end}
-(eval-after-load 'enh-ruby-mode
-  '(progn
-     (require 'ruby-end)
-     (setq ruby-end-insert-newline nil)))
+(with-eval-after-load 'enh-ruby-mode
+  (require 'ruby-end)
+  (setq ruby-end-insert-newline nil))
 
 ;;;; {rinari}
 (global-rinari-mode)
