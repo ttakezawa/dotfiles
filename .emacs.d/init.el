@@ -69,7 +69,7 @@
 (setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory)
       recentf-max-saved-items 2000
       recentf-exclude '(".recentf"))
-; 起動画面で履歴表示
+; 起動直後に履歴表示
 (add-hook 'after-init-hook
           (lambda()
             (recentf-mode 1)
@@ -83,6 +83,32 @@
 ;; uniquify
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+;; read-onlyファイルをtrampでsudoして開く
+;; via: http://tsdh.wordpress.com/2008/08/20/re-open-read-only-files-as-root-automagically/
+(defun th-rename-tramp-buffer ()
+  (when (file-remote-p (buffer-file-name))
+    (rename-buffer
+     (format "%s:%s"
+             (file-remote-p (buffer-file-name) 'method)
+             (buffer-name)))))
+
+(add-hook 'find-file-hook
+          'th-rename-tramp-buffer)
+
+(defadvice find-file (around th-find-file activate)
+  "Open FILENAME using tramp's sudo method if it's read-only."
+  (if (and (not (file-writable-p (ad-get-arg 0)))
+           (y-or-n-p (concat "File "
+                             (ad-get-arg 0)
+                             " is read-only.  Open it as root? ")))
+      (th-find-file-sudo (ad-get-arg 0))
+    ad-do-it))
+
+(defun th-find-file-sudo (file)
+  "Opens FILE with root privileges."
+  (interactive "F")
+  (set-buffer (find-file (concat "/sudo::" file))))
 
 ;; which-function-mode (builtin)
 (which-function-mode 1)
