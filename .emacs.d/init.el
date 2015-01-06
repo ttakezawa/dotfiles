@@ -467,3 +467,8 @@ See the variable `align-rules-list' for more details.")
         ("erb" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ))
+
+;; open-junk-fileパッケージがautoloadに対応してないので自分で設定
+(autoload 'open-junk-file "open-junk-file" nil t)
+(global-set-key (kbd "C-c , ,") 'open-junk-file)
+(setq open-junk-file-format "~/Dropbox/junk/%Y/%m/%Y_%m_%d.md")

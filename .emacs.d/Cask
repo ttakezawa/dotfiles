@@ -25,6 +25,7 @@
 (depends-on "helm-swoop")
 (depends-on "ag")
 (depends-on "wgrep")
+(depends-on "open-junk-file")
 (depends-on "yaml-mode")
 (depends-on "plantuml-mode")
 (depends-on "web-mode")
