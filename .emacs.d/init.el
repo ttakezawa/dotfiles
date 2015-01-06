@@ -27,6 +27,7 @@
 (global-auto-revert-mode 1)
 (auto-image-file-mode +1)
 (setq dired-dwim-target t)
+(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 (require 'generic-x)
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
 (global-set-key (kbd "C-c C-c") 'compile)
