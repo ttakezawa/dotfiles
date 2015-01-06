@@ -313,7 +313,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; flycheck disable specific modes
 (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
 (setq flycheck-display-errors-delay 0.1)
-(delq 'new-line flycheck-check-syntax-automatically) ;; new-lineは頻度が多すぎて重いので除外
+(with-eval-after-load 'flycheck
+  (delq 'new-line flycheck-check-syntax-automatically)) ;; new-lineは頻度が多すぎて重いので除外
 (custom-set-faces
  '(flycheck-error ((t (:background "red4" :weight bold))))
  '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
