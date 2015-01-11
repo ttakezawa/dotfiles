@@ -192,7 +192,8 @@
 ;;;;;;;;;;;;;;;; End [Configure builtin features] ;;;;;;;;;;;;;;;;
 
 ;;;; font for darwin (Mac OS X)
-(when (eq system-type 'darwin)
+(when (and (eq system-type 'darwin)
+           (window-system))
   ;; swap 'Command' for 'option'
   (setq ns-command-modifier (quote meta))
   (setq ns-alternate-modifier (quote super))
