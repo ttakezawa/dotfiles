@@ -238,7 +238,7 @@
 ;; C-u打つのが面倒なので、常にC-uの挙動(ディレクトリ選択を求める)にする
 (defun takezawa/helm-do-ag-dir ()
   (interactive)
-  (let ((current-prefix-arg t))
+  (let ((current-prefix-arg '(4)))
     (helm-do-ag)))
 (global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir)
 
