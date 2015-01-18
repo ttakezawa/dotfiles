@@ -428,7 +428,12 @@ See the variable `align-rules-list' for more details.")
 (define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
 (define-key rinari-minor-mode-map (kbd "C-c p") 'rinari-goto-partial)
 
-;;; {plantuml-mode}
+;;;; javascript
+(add-to-list 'auto-mode-alist '("\\.json5$" . js-mode))
+(setq js-indent-level 2
+      js-expr-indent-offset 2)
+
+;;;; {plantuml-mode}
 (add-to-list 'ac-modes 'plantuml-mode) ;; Enable auto-complete-mode
 (add-to-list 'auto-mode-alist '("\\.plu$" . plantuml-mode))
 (add-to-list 'auto-mode-alist '("\\.plantuml$" . plantuml-mode))
