@@ -160,10 +160,10 @@ alias ls="ls --color=tty"
 
 function conv-time () {
   for arg in "$@"; do
-    if ( echo "$arg" | $(type -p ggrep grep | head -1) -qsP '^\d+$' ); then
-      $(type -p gdate date | head -1) -d "1970-1-1 GMT +$arg secs"
+    if ( echo "$arg" | $(type -P ggrep grep | head -1) -qsP '^\d+$' ); then
+      $(type -P gdate date | head -1) -d "1970-1-1 GMT +$arg secs"
     else
-      $(type -p gdate date | head -1) +%s -d "$arg"
+      $(type -P gdate date | head -1) +%s -d "$arg"
     fi
   done
 }
