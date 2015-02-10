@@ -344,6 +344,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;;;; {yaml-mode}
 (add-to-list 'auto-mode-alist '("\\.yml\\." . yaml-mode))
+(add-to-list 'auto-mode-alist '("user-data$" . yaml-mode))
 
 ;;;; {go-mode}
 ;; golang requirements
@@ -471,6 +472,9 @@ See the variable `align-rules-list' for more details.")
         ("erb" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ))
+
+;; systemd *.service
+(add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
 
 ;; open-junk-fileパッケージがautoloadに対応してないので自分で設定
 (autoload 'open-junk-file "open-junk-file" nil t)
