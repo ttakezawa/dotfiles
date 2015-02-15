@@ -10,6 +10,7 @@
 
 (depends-on "auto-complete")
 (depends-on "crontab-mode")
+(depends-on "dockerfile-mode")
 (depends-on "elscreen" :git "https://github.com/emacs-jp/elscreen.git")
 (depends-on "etags-table")
 (depends-on "exec-path-from-shell")
