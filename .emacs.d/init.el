@@ -451,8 +451,12 @@ See the variable `align-rules-list' for more details.")
 
 ;;;; {web-mode}
 (require 'web-mode)
+(setq web-mode-engines-alist '())
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\.ctmpl$" . web-mode))
+(add-to-list 'web-mode-engines-alist '("go" . "\\.html\\.ctmpl$"))
+(add-to-list 'auto-mode-alist '("\\.html.ctmpl$" . web-mode))
 (setq web-mode-markup-indent-offset 2
       web-mode-css-indent-offset 2
       web-mode-code-indent-offset 2
