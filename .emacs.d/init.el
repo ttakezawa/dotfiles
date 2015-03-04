@@ -344,7 +344,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;;;; {yaml-mode}
 (add-to-list 'auto-mode-alist '("\\.yml\\." . yaml-mode))
-(add-to-list 'auto-mode-alist '("user-data$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("user-data\\(\\.j2\\)?$" . yaml-mode))
 
 ;;;; {go-mode}
 ;; golang requirements
