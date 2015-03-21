@@ -42,6 +42,8 @@
 (depends-on "ruby-end")
 (depends-on "rinari")
 
+(depends-on "markdown-mode")
+
 ;;;; default depends list
 ;; (depends-on "bind-key")
 ;; (depends-on "cask")
