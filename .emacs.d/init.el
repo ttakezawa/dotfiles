@@ -1,10 +1,5 @@
 ;; -*- coding:utf-8 -*-
 
-;;;; {cask}
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-(add-to-list 'auto-mode-alist '("Cask$" . emacs-lisp-mode))
-
 ;;;;;;;;;;;;;;;; Begin [Configure builtin features] ;;;;;;;;;;;;;;;;
 ;; Emacs標準機能による設定
 (keyboard-translate ?\C-h ?\C-?)
@@ -212,11 +207,29 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (load-theme 'tkzw t)
 
+;;;; {el-get}
+(when load-file-name
+  (setq user-emacs-directory (file-name-directory load-file-name)))
+
+(add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+;;;; {el-get-lock}
+(el-get-bundle tarao/el-get-lock)
+(el-get-lock)
+
 ;;;; {exec-path-from-shell}
-(let ((envs '("PATH" "MANPATH" "GEM_PATH" "GEM_HOME" "GOROOT" "GOPATH")))
+(el-get-bundle exec-path-from-shell)
+(let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
   (exec-path-from-shell-copy-envs envs))
 
 ;;;; {helm}
+(el-get-bundle helm)
 (require 'helm-match-plugin) ;; ファイルリスト(candidates-file)でskip matchできるようにする
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -232,10 +245,12 @@
 (define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
 
 ;;;; {helm-swoop}
+(el-get-bundle helm-swoop)
 ;; M-3 M-iで3行ずつ表示
 (global-set-key (kbd "M-i") 'helm-swoop)
 
 ;;;; {helm-ag}
+(el-get-bundle helm-ag)
 ;; C-u打つのが面倒なので、常にC-uの挙動(ディレクトリ選択を求める)にする
 (defun takezawa/helm-do-ag-dir ()
   (interactive)
@@ -244,13 +259,16 @@
 (global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir)
 
 ;;;; {ag}
+(el-get-bundle ag)
 ;; C-c C-p で{wgrep}による編集ができる
 (global-set-key (kbd "C-c G") 'ag)
 
 ;;;; {helm-ghq}
+(el-get-bundle helm-ghq)
 (global-set-key (kbd "C-x g") 'helm-ghq)
 
 ;;;; {helm-ls-git}
+(el-get-bundle helm-ls-git)
 ;; define takezawa/helm-for-files with helm-ls-git
 (defvar takezawa/helm-source-home-filelist
   `((name . "Home FileList")
@@ -288,6 +306,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
 
 ;;;; {elscreen}
+(el-get-bundle elscreen)
 (when (require 'elscreen nil t)
   (setq elscreen-prefix-key (kbd "C-q"))
   (setq elscreen-display-screen-number nil)
@@ -310,6 +329,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;;  - ruby: gem install rubocop
 ;;  - js:   npm install -g jshint
 ;;  - json: npm install -g jsonlint
+(el-get-bundle flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 ;; flycheck disable specific modes
 (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
@@ -321,13 +341,16 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
  '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
 
 ;;;; {etags-table}
+(el-get-bundle emacswiki:etags-table)
 (require 'etags-table)
 (setq etags-table-search-up-depth 10)
 
 ;;;; {git-gutter}
+(el-get-bundle git-gutter)
 (global-git-gutter-mode 1)
 
 ;;;; {auto-complete}
+(el-get-bundle auto-complete)
 (ac-config-default)
 (add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
 (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
@@ -335,35 +358,42 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (setq ac-ignore-case nil)
 
 ;;;; {ac-helm}
+(el-get-bundle ac-helm)
 (global-set-key (kbd "M-/") 'ac-complete-with-helm)
 (define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm)
 
 ;;;; {crontab-mode}
+(el-get-bundle crontab-mode)
 (add-to-list 'auto-mode-alist '("\\.?cron\\(tab\\)?\\'" . crontab-mode))
 (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\(_\\|\\.\\)" . crontab-mode))
 
 ;;;; {yaml-mode}
+(el-get-bundle yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\." . yaml-mode))
 (add-to-list 'auto-mode-alist '("user-data\\(\\.j2\\)?$" . yaml-mode))
 
 ;;;; {go-mode}
 ;; golang requirements
 ; go get -f -v -u code.google.com/p/rog-go/exp/cmd/godef
-; go get -f -v -u code.google.com/p/go.tools/cmd/godoc
+; go get -f -v -u golang.org/x/tools/cmd/godoc
 ; go get -f -v -u code.google.com/p/go.tools/cmd/goimports
-; go get -f -v -u github.com/golang/lint/golint      # flycheck
-; go get -f -v -u code.google.com/p/go.tools/cmd/vet # flycheck
-; go get -f -v -u github.com/kisielk/errcheck        # flycheck
+; go get -f -v -u github.com/golang/lint/golint    # flycheck
+; go get -f -v -u golang.org/x/tools/cmd/vet       # flycheck
+; go get -f -v -u github.com/kisielk/errcheck      # flycheck
 ; go get -f -v -u github.com/nsf/gocode # go-eldoc
+(el-get-bundle go-mode)
+(el-get-bundle go-autocomplete)
+(el-get-bundle go-eldoc)
 (with-eval-after-load 'go-mode
   (require 'go-autocomplete)
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq gofmt-command "goimports")
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
-  (define-key go-mode-map (kbd "C-c d") 'godoc)
+  (define-key go-mode-map (kbd "C-c d") 'godoc-at-point)
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
 ;;;; {enh-ruby-mode}
+(el-get-bundle enh-ruby-mode)
 (add-to-list 'ac-modes 'enh-ruby-mode) ;; Enable auto-complete-mode
 (add-to-list 'auto-mode-alist '("\\.\\(rb\\|ru\\)$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
@@ -411,17 +441,23 @@ See the variable `align-rules-list' for more details.")
   (add-to-list 'align-rules-list it))
 
 ;;;; {ruby-block}
+(el-get-bundle ruby-block)
 (with-eval-after-load 'enh-ruby-mode
   (require 'ruby-block)
   (ruby-block-mode t)
   (setq ruby-block-highlight-toggle t))
 
 ;;;; {ruby-end}
+(el-get-bundle ruby-end)
 (with-eval-after-load 'enh-ruby-mode
   (require 'ruby-end)
   (setq ruby-end-insert-newline nil))
 
 ;;;; {rinari}
+(el-get-bundle elpa:findr)
+(el-get-bundle elpa:jump :repo ("marmalade" . "http://marmalade-repo.org/packages/") :depends (findr inflections))
+(el-get-bundle elpa:rinari :depends (inf-ruby ruby-compilation jump))
+
 (global-rinari-mode)
 (define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
 (define-key rinari-minor-mode-map (kbd "C-c m") 'rinari-find-model)
@@ -435,6 +471,7 @@ See the variable `align-rules-list' for more details.")
       js-expr-indent-offset 2)
 
 ;;;; {markdown-mode}
+(el-get-bundle markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . gfm-mode))
 (custom-set-faces
  '(markdown-header-delimiter-face ((t (:inherit font-lock-function-name-face :underline t :weight bold))) t)
@@ -446,6 +483,7 @@ See the variable `align-rules-list' for more details.")
  '(markdown-header-face-6 ((t (:inherit markdown-header-face :underline t))) t))
 
 ;;;; {plantuml-mode}
+(el-get-bundle plantuml-mode)
 (add-to-list 'ac-modes 'plantuml-mode) ;; Enable auto-complete-mode
 (add-to-list 'auto-mode-alist '("\\.plu$" . plantuml-mode))
 (add-to-list 'auto-mode-alist '("\\.plantuml$" . plantuml-mode))
@@ -461,6 +499,7 @@ See the variable `align-rules-list' for more details.")
               (setq plantuml-mode-map (make-sparse-keymap)))))
 
 ;;;; {web-mode}
+(el-get-bundle web-mode)
 (require 'web-mode)
 (setq web-mode-engines-alist '())
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
@@ -492,7 +531,8 @@ See the variable `align-rules-list' for more details.")
 ;; systemd *.service
 (add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
 
-;; dockerfile-mode
+;;;; {dockerfile-mode}
+(el-get-bundle dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\." . dockerfile-mode))
 
 ;; open-junk-fileパッケージがautoloadに対応してないので自分で設定
