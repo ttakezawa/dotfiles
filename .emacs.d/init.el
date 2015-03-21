@@ -217,7 +217,7 @@
   (exec-path-from-shell-copy-envs envs))
 
 ;;;; {helm}
-(helm-match-plugin-mode 1) ;; ファイルリスト(candidates-file)でskip matchできるようにする
+(require 'helm-match-plugin) ;; ファイルリスト(candidates-file)でskip matchできるようにする
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
