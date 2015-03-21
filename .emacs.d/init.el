@@ -481,6 +481,9 @@ See the variable `align-rules-list' for more details.")
 ;; systemd *.service
 (add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
 
+;; dockerfile-mode
+(add-to-list 'auto-mode-alist '("Dockerfile\\." . dockerfile-mode))
+
 ;; open-junk-fileパッケージがautoloadに対応してないので自分で設定
 (autoload 'open-junk-file "open-junk-file" nil t)
 (global-set-key (kbd "C-c , ,") 'open-junk-file)
