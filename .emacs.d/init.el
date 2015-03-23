@@ -219,6 +219,8 @@
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
+(add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipes"))
+
 ;;;; {el-get-lock}
 (el-get-bundle tarao/el-get-lock)
 (el-get-lock)
@@ -332,7 +334,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 ;; flycheck disable specific modes
-(setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
+(setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc html-tidy))
 (setq flycheck-display-errors-delay 0.1)
 (with-eval-after-load 'flycheck
   (delq 'new-line flycheck-check-syntax-automatically)) ;; new-lineは頻度が多すぎて重いので除外
