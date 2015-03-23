@@ -536,6 +536,7 @@ See the variable `align-rules-list' for more details.")
 (add-to-list 'auto-mode-alist '("Dockerfile\\." . dockerfile-mode))
 
 ;; open-junk-fileパッケージがautoloadに対応してないので自分で設定
+(el-get-bundle open-junk-file)
 (autoload 'open-junk-file "open-junk-file" nil t)
 (global-set-key (kbd "C-c , ,") 'open-junk-file)
 (setq open-junk-file-format "~/Dropbox/junk/%Y/%m/%Y_%m_%d.md")

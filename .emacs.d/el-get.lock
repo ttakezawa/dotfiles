@@ -1,5 +1,6 @@
 (setq el-get-lock-package-versions
-      '((apel :checksum "8402e59eadb580f59969114557b331b4d9364f95")
+      '((open-junk-file :checksum "a5643846681c672b8f95af85b4d36349879b1aad")
+        (apel :checksum "8402e59eadb580f59969114557b331b4d9364f95")
         (flycheck :checksum "6625ba1ca6b8ea162bc91aee56d703f7ca60e97d")
         (helm :checksum "0cf113959a30de6b5f3e874754b6dec0b84f84c2")
         (plantuml-mode :checksum "14e1057264e3bb9126bb64efa4e90aafb719d291")
