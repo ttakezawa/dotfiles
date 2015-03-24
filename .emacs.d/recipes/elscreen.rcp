@@ -2,4 +2,5 @@
        :description "Screen Manager for Emacsen"
        :website "https://github.com/emacs-jp/elscreen"
        :type github
+       :branch "fixed"
        :pkgname "emacs-jp/elscreen")
