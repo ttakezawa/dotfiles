@@ -1,10 +1,5 @@
-(:name auto-complete
-       :website "https://github.com/auto-complete/auto-complete"
-       :description "The most intelligent auto-completion extension."
+(:name elscreen
+       :description "Screen Manager for Emacsen"
+       :website "https://github.com/emacs-jp/elscreen"
        :type github
-       :pkgname "auto-complete/auto-complete"
-       :features auto-complete-config
-       :post-init (progn
-                    (add-to-list 'ac-dictionary-directories
-                                 (expand-file-name "dict" default-directory))
-                                        (ac-config-default)))
+       :pkgname "emacs-jp/elscreen")
