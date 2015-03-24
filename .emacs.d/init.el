@@ -449,6 +449,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (setq enh-ruby-deep-arglist nil
         enh-ruby-deep-indent-paren nil
         enh-ruby-deep-indent-paren-style nil)
+  (defun enh-ruby-mode-set-encoding () nil)
   (custom-set-faces
    '(erm-syn-errline  ((t (:weight bold :background "red3" :underline t))))
    '(erm-syn-warnline ((t (:weight bold :background "yellow3" :underline t))))
