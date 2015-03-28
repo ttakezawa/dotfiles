@@ -33,7 +33,7 @@
         (dash :checksum "2b69c146e419bebd495cd1ed9b1392f753ffb924")
         (helm-ag :checksum "06ac80a668cf62f91d60f6f56ada360f0017b220")
         (helm-swoop :checksum "6c58f121db50963d037018fb66af1060dae987e4")
-        (helm :checksum "c8c9410d380272d4b91962c191a035ec0fb73111")
+        (helm :checksum "a4d82ddc744e8a38ac4196724eda0c5397ae3b7b")
         (exec-path-from-shell :checksum "54c1d4a0c6e3cbf66e1399298d4cf1bc575020be")))
 (setq el-get-lock-locked-packages 'nil)
 (setq el-get-lock-unlocked-packages 'nil)
