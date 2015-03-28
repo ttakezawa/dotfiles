@@ -1,6 +1,6 @@
 (setq el-get-lock-package-versions
       '((el-get-lock :checksum "046ffb568c6964ea30813338234aea2d60a5c632")
-        (el-get :checksum "957af1a871ff5295c10a86ce5a6e32dcaca4bd4f")
+        (el-get :checksum "57e011a51d1c055c8743cbe45bfdf158fc288d94")
         (open-junk-file :checksum "a5643846681c672b8f95af85b4d36349879b1aad")
         (dockerfile-mode :checksum "fadac401c83ce792fde2a74c016b3dfb2b92d2c4")
         (web-mode :checksum "2918840a16b890ad6d069e2add51f660553e2d29")
