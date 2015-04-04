@@ -588,3 +588,7 @@ See the variable `align-rules-list' for more details.")
 (autoload 'open-junk-file "open-junk-file" nil t)
 (global-set-key (kbd "C-c , ,") 'open-junk-file)
 (setq open-junk-file-format "~/Dropbox/junk/%Y/%m/%Y_%m_%d.md")
+
+;;;; {terraform-mode}
+(el-get-bundle elpa:terraform-mode)
+(setq terraform-indent-level 4)
