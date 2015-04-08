@@ -12,7 +12,7 @@
         (epl :checksum "66d1ff0929a58dea058786b8e90a02b5874a1e94")
         (etags-table :checksum "bcc2217c56ed14ff2c3d61ce83d5264da5077cef")
         (exec-path-from-shell :checksum "54c1d4a0c6e3cbf66e1399298d4cf1bc575020be")
-        (flycheck :checksum "6625ba1ca6b8ea162bc91aee56d703f7ca60e97d")
+        (flycheck :checksum "edacc3da6a5b878ffc4977732f92ea4d4be04416")
         (fuzzy :checksum "f7b8f668c3d364d3b52531b9b0fc152499d010fc")
         (git-gutter :checksum "62f6a296ff1117cdae899bda034f502525cce763")
         (go-autocomplete :checksum "ff777d6f20568a3c0a05bca91d1bbdfb5c63b323")
