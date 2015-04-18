@@ -154,10 +154,12 @@ if [[ -r $SOURCE_DIR/.bash.d/ag.bashcomp.sh ]]; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
 fi
 
-#### misc tweaks
+#### coreutils
 alias grep="grep --color=auto"
 alias ls="ls --color=tty"
+export LESS="-n -R"
 
+#### misc tweaks
 function conv-time () {
   for arg in "$@"; do
     if ( echo "$arg" | $(type -P ggrep grep | head -1) -qsP '^\d+$' ); then
