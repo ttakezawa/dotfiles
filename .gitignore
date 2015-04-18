@@ -2,3 +2,5 @@
 *~
 .emacs.d/.emacs-places
 .emacs.d/.recentf
+.emacs.d/el-get
+.emacs.d/elpa
