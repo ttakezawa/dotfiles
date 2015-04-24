@@ -501,6 +501,10 @@ See the variable `align-rules-list' for more details.")
   (require 'ruby-end)
   (setq ruby-end-insert-newline nil))
 
+;;;; {helm-rubygems-local}
+(el-get-bundle f-kubotar/helm-rubygems-local
+  (global-set-key (kbd "C-x p") 'helm-rubygems-local))
+
 ;;;; {rinari}
 (el-get-bundle elpa:findr)
 (el-get-bundle elpa:jump :repo ("marmalade" . "http://marmalade-repo.org/packages/") :depends (findr inflections))

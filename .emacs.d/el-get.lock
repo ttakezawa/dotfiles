@@ -22,6 +22,7 @@
         (helm-ag :checksum "ca1c4ff83b94321b538e8ec80547efa7e67153cf")
         (helm-ghq :checksum "fa7303169f4837782e073bdbb0f179deff748249")
         (helm-ls-git :checksum "9d2be89cb385cdd4bf0ad10fe6ab4a9a769d8fde")
+        (helm-rubygems-local :checksum "289cb33d41c703af9791d6da46b55f070013c2e3")
         (helm-swoop :checksum "6c58f121db50963d037018fb66af1060dae987e4")
         (inf-ruby :checksum "6c00b018bf271239a27322fbd98e46ab5e7e18b0")
         (let-alist :checksum "19818235b901c4414e9cd70782a3200af645d122")
