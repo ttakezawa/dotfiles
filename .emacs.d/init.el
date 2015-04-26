@@ -63,6 +63,8 @@
 ;; recentf
 (setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory)
       recentf-max-saved-items 2000
+      recentf-auto-cleanup 10
+      recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list)
       recentf-exclude '(".recentf"))
 ; 起動直後に履歴表示
 (add-hook 'after-init-hook
@@ -274,6 +276,9 @@
 (el-get-bundle exec-path-from-shell)
 (let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
   (exec-path-from-shell-copy-envs envs))
+
+;; {recentf-ext}
+(el-get-bundle recentf-ext)
 
 ;;;; {helm}
 (el-get-bundle helm)

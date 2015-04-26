@@ -31,6 +31,7 @@
         (pkg-info :checksum "475cdeb0b8d44f9854e506c429eeb445787014ec")
         (plantuml-mode :checksum "14e1057264e3bb9126bb64efa4e90aafb719d291")
         (popup :checksum "2af1c6c8a33ffa44e99d0e4df8769ca3d4098dd9")
+        (recentf-ext :checksum "495bfe07e8a759f1e6dfbd45e62ae2f72404ff79")
         (ruby-block :checksum "289c34dca6daa1a1591537e1c56b687c14631930")
         (ruby-end :checksum "79b4ea788b9cae9282da809507d0a56aa9c057c8")
         (s :checksum "e59915ec6fc35983fa4a164ff2a3f73df135ca88")
