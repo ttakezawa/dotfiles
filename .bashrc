@@ -107,6 +107,17 @@ cdgem () {
   fi
 }
 
+#### node
+if [[ -r $HOME/.nodebrew/current/bin ]]; then
+  export PATH=$HOME/.nodebrew/current/bin:$PATH
+fi
+if [[ -r $HOME/.nodebrew/completions/bash/nodebrew-completion ]]; then
+  source $HOME/.nodebrew/completions/bash/nodebrew-completion
+fi
+if type -P npm >/dev/null; then
+  . <(npm completion)
+fi
+
 #### awscli
 if type -P aws_completer >/dev/null; then
   complete -C aws_completer aws
