@@ -141,6 +141,9 @@
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
 
+;; conf-unix-mode (builtin)
+(add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
+
 ;; table align with org-mode
 ;; e.g.
 ;; |---+---|
@@ -559,11 +562,13 @@ See the variable `align-rules-list' for more details.")
 (el-get-bundle web-mode)
 (require 'web-mode)
 (setq web-mode-engines-alist '())
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'web-mode-engines-alist '("jsx" . "\\.jsx\\'"))
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\.ctmpl$" . web-mode))
 (add-to-list 'web-mode-engines-alist '("go" . "\\.html\\.ctmpl$"))
 (add-to-list 'auto-mode-alist '("\\.html.ctmpl$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (setq web-mode-markup-indent-offset 2
       web-mode-css-indent-offset 2
       web-mode-code-indent-offset 2
@@ -585,13 +590,11 @@ See the variable `align-rules-list' for more details.")
         ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ))
 
-;; systemd *.service
-(add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
-
 ;;;; {dockerfile-mode}
 (el-get-bundle dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\." . dockerfile-mode))
 
+;;;; {open-junk-file}
 ;; open-junk-fileパッケージがautoloadに対応してないので自分で設定
 (el-get-bundle open-junk-file)
 (autoload 'open-junk-file "open-junk-file" nil t)
