@@ -591,6 +591,9 @@ See the variable `align-rules-list' for more details.")
         ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ))
 
+;;;; {slim-mode}
+(el-get-bundle slim-mode)
+
 ;;;; {dockerfile-mode}
 (el-get-bundle dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\." . dockerfile-mode))
