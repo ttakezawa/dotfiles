@@ -5,6 +5,7 @@
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key [backspace] 'delete-backward-char)
 (global-set-key (kbd "C-z") nil)
+(global-set-key (kbd "C-\\") nil)  ; disable toggle-input-method
 (setq inhibit-startup-message t)
 (setq-default frame-background-mode 'dark)
 (setq ring-bell-function 'ignore) ; ignore bell
