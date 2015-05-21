@@ -396,6 +396,9 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
  '(flycheck-error ((t (:background "red4" :weight bold))))
  '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
 
+;; Enable eslint in web-mode
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+
 ;;;; {etags-table}
 (el-get-bundle emacswiki:etags-table)
 (require 'etags-table)
@@ -427,6 +430,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\." . yaml-mode))
 (add-to-list 'auto-mode-alist '("user-data\\(\\.j2\\)?$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.eslintrc$" . yaml-mode))
 
 ;;;; {go-mode}
 ;; golang requirements
@@ -589,6 +593,7 @@ See the variable `align-rules-list' for more details.")
         ("html" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ("erb" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+        ("jsx" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ))
 
 ;;;; {slim-mode}
