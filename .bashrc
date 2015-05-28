@@ -90,6 +90,13 @@ if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
 fi
 
 #### ruby
+# rbenv
+if [[ -d "$HOME/.rbenv/bin" ]]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
+
+# change the current directory to a rubygem directory
 cdgem () {
   local bundle_gems=$(bundle list | grep '\*' | sed -e 's/^ *\* *//g')
   if [[ -n "$bundle_gems" ]]; then
