@@ -1,6 +1,10 @@
-.emacs.d/.cask
 *~
-.emacs.d/.emacs-places
-.emacs.d/.recentf
-.emacs.d/el-get
-.emacs.d/elpa
+/.emacs.d/.cask
+/.emacs.d/.emacs-places
+/.emacs.d/.recentf
+/.emacs.d/ac-comphist.dat
+/.emacs.d/el-get
+/.emacs.d/elpa
+/.emacs.d/kkcrc
+/.emacs.d/tramp
+/.emacs.d/url
