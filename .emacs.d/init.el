@@ -382,9 +382,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;;;; {flycheck}
 ;; requires
-;;  - ruby: gem install rubocop
-;;  - js:   npm install -g jshint
-;;  - json: npm install -g jsonlint
+;;  * gem install rubocop
+;;  * npm install -g jsonlint
 (el-get-bundle flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 ;; flycheck disable specific modes
@@ -397,6 +396,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
  '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
 
 ;; Enable eslint in web-mode
+;; * npm install -g eslint
+(require 'flycheck)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
 ;;;; {etags-table}
