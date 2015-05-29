@@ -395,6 +395,13 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
  '(flycheck-error ((t (:background "red4" :weight bold))))
  '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
 
+;; Enable jsonlint in *.json with js-mode
+;; * npm install -g jsonlint
+(add-hook 'js-mode-hook
+          (lambda ()
+            (when (string-match "\.json$" (buffer-file-name))
+              (flycheck-select-checker 'json-jsonlint))))
+
 ;; Enable eslint in web-mode
 ;; * npm install -g eslint
 (require 'flycheck)
