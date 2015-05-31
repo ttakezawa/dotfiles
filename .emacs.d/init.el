@@ -289,6 +289,7 @@
 (require 'helm-match-plugin) ;; ファイルリスト(candidates-file)でskip matchできるようにする
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-r") 'helm-recentf)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
