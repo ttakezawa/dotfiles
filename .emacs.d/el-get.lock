@@ -35,6 +35,7 @@
         (ruby-block :checksum "289c34dca6daa1a1591537e1c56b687c14631930")
         (ruby-end :checksum "79b4ea788b9cae9282da809507d0a56aa9c057c8")
         (s :checksum "e59915ec6fc35983fa4a164ff2a3f73df135ca88")
+        (scss-mode :checksum "b010d134f499c4b4ad33fe8a669a81e9a531b0b2")
         (slim-mode :checksum "869c84821cf3e556b380c5c35d8ad62287c4df58")
         (web-mode :checksum "a4de397c90f3fff15d628c2731b75639d9d90ad0")
         (yaml-mode :checksum "210b0759deec33605248af9b315c0e9af4a5c0bc")))

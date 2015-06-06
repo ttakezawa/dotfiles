@@ -614,6 +614,9 @@ See the variable `align-rules-list' for more details.")
         ("jsx" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ))
 
+;;;; {scss-mode}
+(el-get-bundle scss-mode)
+
 ;;;; {slim-mode}
 (el-get-bundle slim-mode)
 
