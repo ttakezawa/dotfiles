@@ -5,6 +5,7 @@
 .\#*
 *.swp
 *_flymake.*
+flycheck_*
 
 # OS generated
 .DS_Store
