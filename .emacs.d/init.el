@@ -543,6 +543,15 @@ See the variable `align-rules-list' for more details.")
 (add-to-list 'auto-mode-alist '("\\.json5$" . js-mode))
 (setq js-indent-level 2
       js-expr-indent-offset 2)
+(add-to-list 'align-rules-list
+             '(javascript-assignment-literal
+               (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
+               (repeat . t)
+               (modes  . '(js-mode))))
+(add-to-list 'align-rules-list
+             '(javascript-hash-literal
+               (regexp . "^\\s-*[a-zA-Z0-9.:?_\"]+:\\(\\s-+\\)[a-zA-Z0-9:'\"]")
+               (modes  . '(js-mode))))
 
 ;;;; {markdown-mode}
 (el-get-bundle markdown-mode)
