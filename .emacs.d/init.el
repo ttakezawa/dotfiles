@@ -634,3 +634,16 @@ See the variable `align-rules-list' for more details.")
 ;;;; {terraform-mode}
 (el-get-bundle elpa:terraform-mode)
 (setq terraform-indent-level 4)
+
+;;;; {projectile-mode}
+(el-get-bundle projectile)
+(projectile-global-mode)
+;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
+(add-hook 'flycheck-mode-hook
+          (lambda ()
+            (when (projectile-project-p)
+              (let ((path (concat (projectile-project-root) "node_modules/.bin")))
+                (when (file-directory-p path)
+                  (let ((cmd (concat path "/eslint")))
+                    (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
+                  )))))
