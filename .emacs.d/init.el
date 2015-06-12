@@ -295,6 +295,9 @@
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
 (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
 
+;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
+(setq helm-etags-match-part-only nil)
+
 ;; find-fileのときC-iで選択するようにする
 (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
@@ -534,17 +537,20 @@ See the variable `align-rules-list' for more details.")
 
 ;;;; javascript
 (add-to-list 'auto-mode-alist '("\\.json5$" . js-mode))
-(setq js-indent-level 2
-      js-expr-indent-offset 2)
-(add-to-list 'align-rules-list
-             '(javascript-assignment-literal
-               (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
-               (repeat . t)
-               (modes  . '(js-mode))))
-(add-to-list 'align-rules-list
-             '(javascript-hash-literal
-               (regexp . "^\\s-*[a-zA-Z0-9.:?_\"]+:\\(\\s-+\\)[a-zA-Z0-9:'\"]")
-               (modes  . '(js-mode))))
+(with-eval-after-load 'js
+  (define-key js-mode-map (kbd "M-.") 'helm-etags-select) ;; etags
+  (setq js-indent-level 2
+        js-expr-indent-offset 2)
+  (add-to-list 'align-rules-list
+               '(javascript-assignment-literal
+                 (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
+                 (repeat . t)
+                 (modes  . '(js-mode))))
+  (add-to-list 'align-rules-list
+               '(javascript-hash-literal
+                 (regexp . "^\\s-*[a-zA-Z0-9.:?_\"]+:\\(\\s-+\\)[a-zA-Z0-9:'\"]")
+                 (modes  . '(js-mode))))
+  )
 
 ;;;; {json-mode}
 (el-get-bundle json-mode)
