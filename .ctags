@@ -9,3 +9,8 @@
 --regex-ruby=/(^|;)[ \t]*(attr_[a-z_]+)\(? *:([[:alnum:]_]+)/\3/f,function/
 --regex-ruby=/(^|;)[ \t]*(has_many|belongs_to|has_one)\(? *:([[:alnum:]_]+)/\3/f,function,association/
 --regex-ruby=/(^|;)[ \t]*(named_)?scope\(? *:([[:alnum:]_]+)/\3/f,function,named_scope/
+
+--langmap=javascript:+.jsx
+--exclude=*.bundle*.js
+--exclude=*.min.js
+--regex-javascript=/^[ \t]*(static)?[ \t]*([a-zA-Z0-9_]+)[ \t]*\(/\2/m,members/
