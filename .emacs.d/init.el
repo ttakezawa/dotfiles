@@ -345,6 +345,7 @@
   "Preconfigured `helm' for opening files.
 Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (interactive)
+  (require 'helm-projectile)
   (unless helm-source-buffers-list
     (setq helm-source-buffers-list
           (helm-make-source "Buffers" 'helm-source-buffers)))
@@ -360,7 +361,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
                      ;; helm-source-file-cache
                      helm-source-files-in-current-dir
                      ;; helm-source-locate
-                     helm-source-ls-git
+                     ;; helm-source-ls-git
+                     helm-source-projectile-files-list
                      takezawa/helm-source-home-filelist
                      takezawa/helm-source-system-filelist))))
 (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
