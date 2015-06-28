@@ -17,4 +17,5 @@ ln -s ~/.dotfiles/.tmux.conf ~/
 ln -s ~/.dotfiles/.emacs.d ~/
 ln -s ~/.dotfiles/.peco ~/
 ln -s ~/.dotfiles/.agignore ~/
+ln -s ~/.dotfiles/.aspell.conf ~/.dotfiles/.aspell.en.pws ~/
 ```

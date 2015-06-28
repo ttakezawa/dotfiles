@@ -142,6 +142,13 @@
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
 
+;; flyspell-mode
+; configure for camelCase
+(setq ispell-extra-args '("--run-together" "--run-together-limit=6" "--run-together-min=2"))
+(add-to-list 'ispell-extra-args "--sug-mode=ultra")
+(dolist (hook '(web-mode-hook js-mode-hook ruby-mode-hook enh-ruby-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+
 ;; conf-unix-mode (builtin)
 (add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
 
