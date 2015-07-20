@@ -22,7 +22,6 @@ curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-
 
 # .bash.d/ag.bashcomp.sh
 curl -L https://raw.githubusercontent.com/ggreer/the_silver_searcher/master/ag.bashcomp.sh > .bash.d/ag.bashcomp.sh
-sed -i 's/have ag &&//' .bash.d/ag.bashcomp.sh
 
 # bin/diff-highlight
 curl -L https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight > bin/diff-highlight
