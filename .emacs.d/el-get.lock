@@ -5,6 +5,7 @@
         (crontab-mode :checksum "f68206c1d10de68ba0685ce4cb14741c7ca7c648")
         (dash :checksum "70caa37eed551e167f05f1b3bdfa635b63fe1414")
         (dockerfile-mode :checksum "e16c164db2f406740b4efda137eb8dbd17208bb9")
+        (eimp :checksum "47db83e2b9b7c1f12fdc7e7ae1b862088e081039")
         (el-get :checksum "a69e036fb9e7af4bf12c8155a25305309bd5f7f8")
         (el-get-lock :checksum "046ffb568c6964ea30813338234aea2d60a5c632")
         (elscreen :checksum "0f9ae461204fe8d18907e84b18a88cb016d19de7")

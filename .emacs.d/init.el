@@ -580,9 +580,11 @@ See the variable `align-rules-list' for more details.")
 ;;;; {plantuml-mode}
 (el-get-bundle plantuml-mode)
 (add-to-list 'ac-modes 'plantuml-mode) ;; Enable auto-complete-mode
+(add-to-list 'auto-mode-alist '("\\.uml$" . plantuml-mode))
 (add-to-list 'auto-mode-alist '("\\.plu$" . plantuml-mode))
 (add-to-list 'auto-mode-alist '("\\.plantuml$" . plantuml-mode))
-(setq plantuml-jar-path "/usr/local/Cellar/plantuml/8002/plantuml.8002.jar")
+(setq plantuml-jar-path "/usr/local/Cellar/plantuml/8024/plantuml.8024.jar")
+(setq plantuml-run-command "java -Djava.awt.headless=true -jar %s")
 (add-hook 'plantuml-mode-hook
           (lambda ()
             ;; configure comment-style
@@ -592,6 +594,10 @@ See the variable `align-rules-list' for more details.")
             ;; workaround of error: "Wrong type argument: keymapp, nil"
             (when (null plantuml-mode-map)
               (setq plantuml-mode-map (make-sparse-keymap)))))
+
+;;;; {emip}
+(el-get-bundle eimp)
+(add-hook 'image-mode-hook 'eimp-mode)
 
 ;;;; {web-mode}
 (el-get-bundle web-mode)
