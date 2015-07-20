@@ -34,6 +34,7 @@ dir
 dom
 dup
 el
+elb
 env
 ev
 flg
@@ -69,6 +70,7 @@ nfc
 nfd
 nfkc
 nfkd
+ng
 num
 openssl
 params
@@ -81,6 +83,7 @@ redux
 ret
 sid
 src
+srv
 ssl
 str
 strftime
