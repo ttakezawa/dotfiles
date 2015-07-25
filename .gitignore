@@ -8,3 +8,5 @@
 /.emacs.d/kkcrc
 /.emacs.d/tramp
 /.emacs.d/url
+
+/bin/peco
