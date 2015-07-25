@@ -9,4 +9,5 @@
 /.emacs.d/tramp
 /.emacs.d/url
 
+/bin/ghq
 /bin/peco
