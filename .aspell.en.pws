@@ -21,6 +21,7 @@ ceil
 chdir
 cmd
 cn
+commify
 cond
 cp
 csrf
