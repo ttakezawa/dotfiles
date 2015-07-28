@@ -125,6 +125,12 @@ if type -P npm >/dev/null; then
   . <(npm completion)
 fi
 
+#### perl
+if [[ -d "$HOME/.plenv/bin" ]]; then
+  export PATH="$HOME/.plenv/bin:$PATH"
+  eval "$(plenv init -)"
+fi
+
 #### awscli
 if type -P aws_completer >/dev/null; then
   complete -C aws_completer aws
