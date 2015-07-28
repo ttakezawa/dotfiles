@@ -19,5 +19,7 @@ export MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
 export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
 
 # Homebrew rbenv
-export RBENV_ROOT=/usr/local/var/rbenv
-if type -P rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if [[ -d /usr/local/var/rbenv ]]; then
+  export RBENV_ROOT=/usr/local/var/rbenv
+  if type -P rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+fi
