@@ -641,6 +641,13 @@ See the variable `align-rules-list' for more details.")
 ;;;; {slim-mode}
 (el-get-bundle slim-mode)
 
+;;;; {highlight-indentation}
+(el-get-bundle highlight-indentation)
+(setq highlight-indentation-offset 4)
+(set-face-background 'highlight-indentation-current-column-face "#5f0000")
+(add-hook 'slim-mode-hook 'highlight-indentation-mode)
+(add-hook 'slim-mode-hook 'highlight-indentation-current-column-mode)
+
 ;;;; {dockerfile-mode}
 (el-get-bundle dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\." . dockerfile-mode))
