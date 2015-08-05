@@ -152,6 +152,9 @@
 ;; conf-unix-mode (builtin)
 (add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
 
+;; Open .env and .env.* files with shell-script-mode
+(add-to-list 'auto-mode-alist '("\\.env" . shell-script-mode))
+
 ;; table align with org-mode
 ;; e.g.
 ;; |---+---|
