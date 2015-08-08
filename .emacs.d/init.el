@@ -643,6 +643,7 @@ See the variable `align-rules-list' for more details.")
 
 ;;;; {highlight-indentation}
 (el-get-bundle highlight-indentation)
+(require 'highlight-indentation)
 (setq highlight-indentation-offset 4)
 (set-face-background 'highlight-indentation-current-column-face "#5f0000")
 (add-hook 'slim-mode-hook 'highlight-indentation-mode)
