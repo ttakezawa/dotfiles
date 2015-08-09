@@ -508,7 +508,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
      (modes  . align-ruby-modes))
     (ruby-new-style-hash
      (regexp . "^\\s-*[a-zA-Z0-9.:?_]+:\\(\\s-+\\)[a-zA-Z0-9:'\"]") ;; This guy needs more work.
-     (modes  . align-ruby-modes)))
+     (modes  . align-ruby-modes)
+     (repeat . t)))
   "Alignment rules specific to the ruby mode.
 See the variable `align-rules-list' for more details.")
 (add-to-list 'align-perl-modes 'enh-ruby-mode)
