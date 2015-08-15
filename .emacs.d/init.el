@@ -26,6 +26,10 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
 (global-set-key (kbd "C-c C-c") 'compile)
 
+;; desktop-save-mode (builtin)
+(setq desktop-files-not-to-save "") ;; バッファは復元しないようにする
+(desktop-save-mode 1)
+
 ;; dired
 ;; C-x C-qでwdired
 (setq dired-dwim-target t)
