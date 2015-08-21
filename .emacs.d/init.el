@@ -477,6 +477,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle enh-ruby-mode)
 (add-to-list 'ac-modes 'enh-ruby-mode) ;; Enable auto-complete-mode
 (add-to-list 'auto-mode-alist '("\\.\\(rb\\|ru\\)$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("unicorn.*\\.rb" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
 (with-eval-after-load 'enh-ruby-mode
