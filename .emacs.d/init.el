@@ -118,7 +118,15 @@
 (global-set-key (kbd "C-c w") (lambda () (interactive) (message (which-function))))
 
 ;; highlight current-line (builtin)
-(global-hl-line-mode 1)
+;; see: http://rubikitch.com/2015/05/14/global-hl-line-mode-timer/
+(require 'hl-line)
+(defun global-hl-line-timer-function ()
+  (global-hl-line-unhighlight-all)
+  (let ((global-hl-line-mode t))
+    (global-hl-line-highlight)))
+(setq global-hl-line-timer
+      (run-with-idle-timer 0.05 t 'global-hl-line-timer-function))
+
 (set-face-attribute hl-line-face nil :background "gray9" :underline t)
 
 ;; whitespace-mode (builtin)
