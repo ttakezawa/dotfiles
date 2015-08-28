@@ -317,8 +317,8 @@
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
 (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
 
-;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
-(setq helm-etags-match-part-only nil)
+;; ;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
+;; (setq helm-etags-match-part-only nil)
 
 ;; find-fileのときC-iで選択するようにする
 (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
