@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CTAGS=$(type -P ctags-exuberant ctags)
+
+$CTAGS --languages=ruby -e -R ./app ./lib
+$CTAGS --languages=ruby -e -R -a $(./bin/bundle exec ruby -rbundler -e 'print Bundler.load.specs.map(&:full_gem_path).join(" ")')
