@@ -308,7 +308,7 @@
 
 ;;;; {helm}
 (el-get-bundle helm)
-(require 'helm-match-plugin) ;; ファイルリスト(candidates-file)でskip matchできるようにする
+(require 'helm-multi-match) ;; ファイルリスト(candidates-file)でskip matchできるようにする
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-r") 'helm-recentf)
