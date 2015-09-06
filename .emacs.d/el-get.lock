@@ -2,6 +2,7 @@
       '((ac-helm :checksum "0cde22dac4726d08c27801c926cf40b1165c8a07")
         (ag :checksum "e5613b1dab3e358f2e5703224671d1c309143118")
         (auto-complete :checksum "dd5dc3d41c5acafac3202f4213baa7c2f198772d")
+        (coffee-mode :checksum "f9bb3fbb8a34292853ba1f7bcb4cab3389eb2c44")
         (crontab-mode :checksum "f68206c1d10de68ba0685ce4cb14741c7ca7c648")
         (dash :checksum "8fa70c5d078f773057694bd1e917b9e1c084decb")
         (dockerfile-mode :checksum "34a0a5d082609883ef667937c8bcf7eaec91a7e5")

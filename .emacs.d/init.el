@@ -582,6 +582,9 @@ See the variable `align-rules-list' for more details.")
 (el-get-bundle json-mode)
 (add-to-list 'auto-mode-alist '("\\.babelrc$" . json-mode))
 
+;;;; {coffee-mode}
+(el-get-bundle coffee-mode)
+
 ;;;; {markdown-mode}
 (el-get-bundle markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . gfm-mode))
