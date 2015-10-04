@@ -27,3 +27,6 @@
 # 	insteadOf = https://github.com/
 [ghq]
 	root = ~/dev/src
+[grep]
+	lineNumber = true
+	patternType = perl
