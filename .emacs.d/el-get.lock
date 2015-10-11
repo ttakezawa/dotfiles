@@ -28,6 +28,7 @@
         (helm-rubygems-local :checksum "289cb33d41c703af9791d6da46b55f070013c2e3")
         (helm-swoop :checksum "3f340244f9fff1d4821f42ba90e62bf90a1e73c3")
         (highlight-indentation :checksum "cd6d8168ccb04c6c0394f42e9512c58f23c01689")
+        (highlight-symbol :checksum "c2e15fee52aebf5c8e618460b8f924331d0df2a3")
         (inf-ruby :checksum "beb39ad5af8777769367d6458329036bb7064e89")
         (json-mode :checksum "8646af183a3300560e8dfb4568ecd47d7242f47a")
         (json-reformat :checksum "4e95c111744f420b69a3eead34d7429d60bf9ed9")

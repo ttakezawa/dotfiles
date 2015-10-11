@@ -303,8 +303,13 @@
 (let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
   (exec-path-from-shell-copy-envs envs))
 
-;; {recentf-ext}
+;;;; {recentf-ext}
 (el-get-bundle recentf-ext)
+
+;;;; {highlight-symbol}
+(el-get-bundle highlight-symbol)
+(setq highlight-symbol-idle-delay 0.5)
+(add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
 ;;;; {helm}
 (el-get-bundle helm)
