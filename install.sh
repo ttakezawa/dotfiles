@@ -27,7 +27,7 @@ fi
 chmod +x $dir/bin/ghq
 
 # Install peco from https://github.com/peco/peco/releases
-PECO_VERSION=v0.3.3
+PECO_VERSION=v0.3.4
 echo Install peco $PECO_VERSION
 if [[ "$OSTYPE" =~ linux ]]; then
   curl -L https://github.com/peco/peco/releases/download/${PECO_VERSION}/peco_linux_${PROCESSOR}.tar.gz \
