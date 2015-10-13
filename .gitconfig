@@ -5,6 +5,7 @@
 	email = ttakezawa@users.noreply.github.com
 [core]
 	excludesfile = ~/.gitignore_global
+	attributesfile = ~/.gitattributes_global
 [color]
 	ui = auto
 [push]
