@@ -64,7 +64,52 @@ if [[ $IS_SCREEN ]]; then
   # screen
   prompt_screen='\[\033k\033\\\]'
 fi
-_PROMPT1='\[\e[0;36m\]\t \[\e[34m\]\h \[\e[31m\]${?##0}\[\e[33m\]\w\[\e[0m\]'
+
+function prettify_exit_code {
+  # Taken from https://github.com/bric3/nice-exit-code/blob/master/nice-exit-code.plugin.zsh
+  local exit_status="$?"
+  # nothing to do here
+  [[ -z $exit_status || $exit_status == 0 ]] && return;
+
+  local msg;
+
+  case $exit_status in
+    # is this a signal name (error code = signal + 128) ?
+    129)  msg=SIGHUP  ;;
+    130)  msg=SIGINT  ;;
+    131)  msg=SIGQUIT ;;
+    132)  msg=SIGILL  ;;
+    134)  msg=SIGABRT ;;
+    136)  msg=SIGFPE  ;;
+    137)  msg=SIGKILL ;;
+    139)  msg=SIGSEGV ;;
+    141)  msg=SIGPIPE ;;
+    143)  msg=SIGTERM ;;
+
+    # usual exit codes
+    1)    msg=MISCERROR     ;; # Miscellaneous errors, such as "divide by zero"
+    2)    msg=BUILTINMISUSE ;; # misuse of shell builtins (pretty rare)
+    126)  msg=CCANNOTINVOKE ;; # cannot invoke requested command (ex : source script_with_syntax_error)
+    127)  msg=CNOTFOUND     ;; # command not found (ex : source script_not_existing)
+    255)  msg=FATAL         ;;
+
+    # assuming we are on an x86 system here
+    # this MIGHT get annoying since those are in a range of exit codes
+    # programs sometimes use.... we'll see.
+    19)  msg=SIGSTOP ;;
+    20)  msg=SIGTSTP ;;
+    21)  msg=SIGTTIN ;;
+    22)  msg=SIGTTOU ;;
+  esac
+
+  if [[ -n $msg ]]; then
+    echo -n "${exit_status}(${msg}) "
+  else
+    echo -n "${exit_status} "
+  fi
+}
+
+_PROMPT1='\[\e[0;36m\]\t \[\e[34m\]\h \[\e[31m\]$(prettify_exit_code)\[\e[33m\]\w\[\e[0m\]'
 _PROMPT2="\\n$prompt_screen\$ "
 PS1=$_PROMPT1$_PROMPT2
 
