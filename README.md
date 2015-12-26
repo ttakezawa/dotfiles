@@ -7,7 +7,7 @@ git clone git@github.com:ttakezawa/dotfiles.git ~/.dotfiles
 echo 'source $HOME/.dotfiles/.bashrc' >> ~/.bash_profile
 
 # Linux
-echo 'source $HOME/.dotfiles/.bashrc' >> ~/.bashrc
+echo 'source ~/.dotfiles/.bashrc' >> ~/.bashrc
 
 # Common
 ln -s ~/.dotfiles/.inputrc ~/
@@ -19,6 +19,5 @@ ln -s ~/.dotfiles/.emacs.d ~/
 ln -s ~/.dotfiles/.peco ~/
 ln -s ~/.dotfiles/.agignore ~/
 ln -s ~/.dotfiles/.aspell.conf ~/.dotfiles/.aspell.en.pws ~/
-
-# ln -s ~/.dotfiles/.gemrc ~/
+ln -s ~/.dotfiles/.gemrc ~/
 ```
