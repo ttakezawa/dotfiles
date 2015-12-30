@@ -15,7 +15,7 @@ else
 fi
 
 # Install ghq from https://github.com/motemen/ghq/releases
-GHQ_VERSION=v0.7.1
+GHQ_VERSION=v0.7.2
 echo Install ghq $GHQ_VERSION
 if [[ "$OSTYPE" =~ linux ]]; then
   curl -L https://github.com/motemen/ghq/releases/download/${GHQ_VERSION}/ghq_linux_${PROCESSOR}.zip \
