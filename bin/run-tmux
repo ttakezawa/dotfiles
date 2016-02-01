@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+session=${1:-default}
+
 export PATH="$HOME/local/bin:$PATH"
 export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
 
@@ -15,4 +17,4 @@ else
 fi
 
 builtin cd ~/
-tmux detach; tmux attach || tmux
+tmux detach -s $session; tmux attach -t $session || tmux new -s $session
