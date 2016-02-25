@@ -699,3 +699,6 @@ See the variable `align-rules-list' for more details.")
                   (let ((cmd (concat path "/eslint")))
                     (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
                   )))))
+
+;;;; {helm-projectile}
+(el-get-bundle helm-projectile)
