@@ -311,6 +311,11 @@
 (setq highlight-symbol-idle-delay 0.5)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
+;;;; {etags-table}
+(el-get-bundle emacswiki:etags-table)
+(require 'etags-table)
+(setq etags-table-search-up-depth 10)
+
 ;;;; {helm}
 (el-get-bundle helm)
 (require 'helm-multi-match) ;; ファイルリスト(candidates-file)でskip matchできるようにする
@@ -432,11 +437,6 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; * npm install -g eslint
 (require 'flycheck)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
-
-;;;; {etags-table}
-(el-get-bundle emacswiki:etags-table)
-(require 'etags-table)
-(setq etags-table-search-up-depth 10)
 
 ;;;; {git-gutter}
 (el-get-bundle git-gutter)
