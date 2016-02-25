@@ -320,6 +320,7 @@
 (el-get-bundle helm)
 (require 'helm-multi-match) ;; ファイルリスト(candidates-file)でskip matchできるようにする
 (helm-mode 1)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-r") 'helm-recentf)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
