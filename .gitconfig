@@ -31,3 +31,5 @@
 [grep]
 	lineNumber = true
 	patternType = perl
+[merge]
+	conflictstyle = diff3
