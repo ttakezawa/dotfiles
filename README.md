@@ -16,6 +16,7 @@ ln -s ~/.dotfiles/.gitignore_global ~/
 ln -s ~/.dotfiles/.gitattributes_global ~/
 ln -s ~/.dotfiles/.tmux.conf ~/
 ln -s ~/.dotfiles/.emacs.d ~/
+ln -s ~/.dotfiles/.vimrc ~/
 ln -s ~/.dotfiles/.peco ~/
 ln -s ~/.dotfiles/.agignore ~/
 ln -s ~/.dotfiles/.aspell.conf ~/.dotfiles/.aspell.en.pws ~/

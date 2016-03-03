@@ -52,10 +52,10 @@ ln -fs ~/.dotfiles/.gitignore_global ~/
 ln -fs ~/.dotfiles/.gitattributes_global ~/
 ln -fs ~/.dotfiles/.tmux.conf ~/
 ln -fs ~/.dotfiles/.emacs.d ~/
+ln -fs ~/.dotfiles/.vimrc ~/
 ln -fs ~/.dotfiles/.peco ~/
 ln -fs ~/.dotfiles/.agignore ~/
 ln -fs ~/.dotfiles/.aspell.conf ~/.dotfiles/.aspell.en.pws ~/
-
 ln -fs ~/.dotfiles/.gemrc ~/
 
 if ! type -P bsdtar >/dev/null; then

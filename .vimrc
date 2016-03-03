@@ -1,0 +1,10 @@
+syntax enable
+set ruler
+set hlsearch
+set ignorecase
+set smartcase
+set expandtab
+set tabstop=4
+set list
+set listchars=tab:>-,trail:.
+set showcmd
