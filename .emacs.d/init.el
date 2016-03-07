@@ -469,13 +469,13 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;;;; {go-mode}
 ;; golang requirements
-; go get -f -v -u code.google.com/p/rog-go/exp/cmd/godef
-; go get -f -v -u golang.org/x/tools/cmd/godoc
-; go get -f -v -u code.google.com/p/go.tools/cmd/goimports
-; go get -f -v -u github.com/golang/lint/golint    # flycheck
-; go get -f -v -u golang.org/x/tools/cmd/vet       # flycheck
-; go get -f -v -u github.com/kisielk/errcheck      # flycheck
-; go get -f -v -u github.com/nsf/gocode # go-eldoc
+; go get -v -u -f github.com/rogpeppe/godef
+; go get -v -u -f golang.org/x/tools/cmd/godoc
+; go get -v -u -f golang.org/x/tools/cmd/goimports
+; go get -v -u -f github.com/golang/lint/golint    # flycheck
+; go get -v -u -f golang.org/x/tools/cmd/vet       # flycheck
+; go get -v -u -f github.com/kisielk/errcheck      # flycheck
+; go get -v -u -f github.com/nsf/gocode # go-eldoc
 (el-get-bundle go-mode)
 (el-get-bundle go-autocomplete)
 (el-get-bundle go-eldoc)
