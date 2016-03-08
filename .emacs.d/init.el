@@ -140,7 +140,7 @@
 (setq whitespace-action '(auto-cleanup)) ; ファイル保存時に余分な空白を削除
 (custom-set-faces
  '(whitespace-trailing ((t (:background nil :foreground "DeepPink"     :underline t))))
- '(whitespace-tab      ((t (:background nil :foreground "LightSkyBlue" :underline t))))
+ '(whitespace-tab      ((t (:background nil :foreground "DarkSlateGray" :underline t))))
  '(whitespace-space    ((t (:background nil :foreground "GreenYellow"  :underline t)))))
 (global-whitespace-mode 1)
 
