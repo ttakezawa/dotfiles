@@ -23,6 +23,9 @@ curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-
 # .bash.d/ag.bashcomp.sh
 curl -L https://raw.githubusercontent.com/ggreer/the_silver_searcher/master/ag.bashcomp.sh > .bash.d/ag.bashcomp.sh
 
+# .bash.d/go-pkg-complete.bash.inc
+curl -L https://raw.githubusercontent.com/skelterjohn/go-pkg-complete/master/go-pkg-complete.bash.inc -o .bash.d/go-pkg-complete.bash.inc
+
 # bin/diff-highlight
 curl -L https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight > bin/diff-highlight
 chmod +x bin/diff-highlight

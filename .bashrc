@@ -187,9 +187,9 @@ export PATH="$HOME/.cask/bin:$PATH"
 #### golang
 export GOPATH=$HOME/dev
 export PATH=$GOPATH/bin:$PATH
-if type -P go >/dev/null && [[ -r $(go env GOROOT)/misc/bash/go ]]; then
+if [[ -f $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc ]]; then
   # completion
-  source $(go env GOROOT)/misc/bash/go
+  source $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc
 fi
 
 #### peco
