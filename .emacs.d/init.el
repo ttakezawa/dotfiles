@@ -485,7 +485,11 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (setq gofmt-command "goimports")
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
   (define-key go-mode-map (kbd "C-c d") 'godoc-at-point)
-  (add-hook 'go-mode-hook 'go-eldoc-setup))
+  (add-hook 'go-mode-hook 'go-eldoc-setup)
+  (add-hook 'go-mode-hook
+            '(lambda ()
+               (set (make-local-variable 'tab-width) 4)))
+)
 
 ;;;; {enh-ruby-mode}
 (el-get-bundle enh-ruby-mode)
