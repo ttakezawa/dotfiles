@@ -16,3 +16,6 @@
 
 /bin/ghq
 /bin/peco
+
+*.old
+*.tmp
