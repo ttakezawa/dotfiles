@@ -311,6 +311,20 @@
 (setq highlight-symbol-idle-delay 0.5)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
+;;;; {auto-save-buffers-enhanced}
+(el-get-bundle auto-save-buffers-enhanced)
+(setq auto-save-buffers-enhanced-interval 2)
+(setq auto-save-buffers-enhanced-save-scratch-buffer-to-file-p t) ; *scratch* も保存
+(setq auto-save-buffers-enhanced-file-related-with-scratch-buffer (locate-user-emacs-file "scratch"))
+(auto-save-buffers-enhanced t)
+
+;;;; {backup-each-save}
+(el-get-bundle backup-each-save)
+(setq backup-each-save-mirror-location
+      (expand-file-name (format-time-string "backups/%Y_%m" (current-time)) user-emacs-directory))
+(setq backup-each-save-time-format "%Y%m%d_%H%M%S")
+(add-hook 'after-save-hook 'backup-each-save)
+
 ;;;; {etags-table}
 (el-get-bundle emacswiki:etags-table)
 (require 'etags-table)
