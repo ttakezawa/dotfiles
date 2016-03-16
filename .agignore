@@ -21,3 +21,5 @@ TAGS
 *.old
 *.min.js
 *-min.js
+
+vendor
