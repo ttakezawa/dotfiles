@@ -186,7 +186,7 @@ export PATH="$HOME/.cask/bin:$PATH"
 
 #### golang
 export GOPATH=$HOME/dev
-export PATH=$GOPATH/bin:$PATH
+export PATH=$PATH:$GOPATH/bin
 if [[ -f $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc ]]; then
   # completion
   source $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc
