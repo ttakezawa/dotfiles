@@ -457,6 +457,12 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle git-gutter)
 (global-git-gutter-mode 1)
 
+;;;; {git-modes}
+;; gitattributes-mode, gitconfig-mode, gitignore-mode
+(el-get-bundle git-modes)
+(add-to-list 'auto-mode-alist '("/\\.gitignore_global\\'" . gitignore-mode))
+(add-hook 'gitconfig-mode-hook 'intent-tabs-mode) ; TODO: これでもなぜかタブでインデントさせてくれない
+
 ;;;; {auto-complete}
 (el-get-bundle auto-complete)
 (ac-config-default)
