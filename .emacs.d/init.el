@@ -308,12 +308,12 @@
 
 ;;;; {highlight-symbol}
 (el-get-bundle highlight-symbol)
-(setq highlight-symbol-idle-delay 0.5)
+(setq highlight-symbol-idle-delay 0.1)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
 ;;;; {auto-save-buffers-enhanced}
 (el-get-bundle auto-save-buffers-enhanced)
-(setq auto-save-buffers-enhanced-interval 2)
+(setq auto-save-buffers-enhanced-interval 0.5)
 (setq auto-save-buffers-enhanced-save-scratch-buffer-to-file-p t) ; *scratch* も保存
 (setq auto-save-buffers-enhanced-file-related-with-scratch-buffer (locate-user-emacs-file "scratch"))
 (auto-save-buffers-enhanced t)
