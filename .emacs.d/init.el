@@ -448,6 +448,13 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
  '(flycheck-error ((t (:background "red4" :weight bold))))
  '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
 
+;;;; {flycheck-tip}
+(el-get-bundle flycheck-tip)
+(setq flycheck-tip-avoid-show-func nil) ;; 通常通りminibufferにもエラーを表示する
+(with-eval-after-load 'flycheck
+  (define-key flycheck-mode-map (kbd "C-c C-n") 'flycheck-tip-cycle)
+  (define-key flycheck-mode-map (kbd "C-c C-p") 'flycheck-tip-cycle-reverse))
+
 ;; Enable eslint in web-mode
 ;; * npm install -g eslint
 (require 'flycheck)
