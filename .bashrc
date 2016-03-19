@@ -143,7 +143,7 @@ fi
 
 # change the current directory to a rubygem directory
 cdgem () {
-  local bundle_gems=$(bundle list | grep '\*' | sed -e 's/^ *\* *//g')
+  local bundle_gems="$(bundle list | grep '\*' | sed -e 's/^ *\* *//g')"
   if [[ -n "$bundle_gems" ]]; then
     gem=$(echo "$bundle_gems" | peco | cut -d \  -f 1)
     [[ -z "$gem" ]] && return 1
