@@ -474,8 +474,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle auto-complete)
 (ac-config-default)
 (add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
-(define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
-(define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
+(setq ac-use-menu-map t)
 (setq ac-ignore-case nil)
 
 ;;;; {ac-helm}
