@@ -21,4 +21,7 @@ ln -s ~/.dotfiles/.peco ~/
 ln -s ~/.dotfiles/.agignore ~/
 ln -s ~/.dotfiles/.aspell.conf ~/.dotfiles/.aspell.en.pws ~/
 ln -s ~/.dotfiles/.gemrc ~/
+
+mkdir -p ~/.atom
+ln -s ~/.dotfiles/.atom/keymap.cson ~/.atom/
 ```

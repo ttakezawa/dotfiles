@@ -23,3 +23,11 @@
 # This file uses CoffeeScript Object Notation (CSON).
 # If you are unfamiliar with CSON, you can read more about it here:
 # https://github.com/bevry/cson#what-is-cson
+
+# References:
+# https://github.com/avendael/atomic-emacs/blob/master/keymaps/atomic-emacs.cson
+# https://github.com/aki77/atom-emacs-plus/blob/master/keymaps/emacs.cson
+'atom-text-editor:not(.autocomplete-active):not(.mini)':
+  'ctrl-v': 'core:page-down'
+  'cmd-v': 'core:page-up'
+  'ctrl-y': 'core:paste'
