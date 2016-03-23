@@ -311,11 +311,16 @@
 (setq highlight-symbol-idle-delay 0.1)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
+;;;; {scratch-log}
+(el-get-bundle scratch-log)
+(setq sl-scratch-log-file         (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m/scratch-log"      (current-time)))))
+(setq sl-prev-scratch-string-file (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m/scratch-log-prev" (current-time)))))
+(setq sl-timer-interval 3)
+(require 'scratch-log)
+
 ;;;; {auto-save-buffers-enhanced}
 (el-get-bundle auto-save-buffers-enhanced)
-(setq auto-save-buffers-enhanced-interval 0.5)
-(setq auto-save-buffers-enhanced-save-scratch-buffer-to-file-p t) ; *scratch* も保存
-(setq auto-save-buffers-enhanced-file-related-with-scratch-buffer (locate-user-emacs-file "scratch"))
+(setq auto-save-buffers-enhanced-interval 1.0)
 (auto-save-buffers-enhanced t)
 
 ;;;; {backup-each-save}
