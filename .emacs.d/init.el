@@ -82,6 +82,12 @@
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".emacs-places" user-emacs-directory))
 
+;; バックアップファイル(*~)の保存先を変更
+(setq backup-directory-alist `(("." . ,(locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time))))))
+
+;; 自動保存ファイル(#*#)の保存先を変更 (デフォルトだと/tmpでマシンが再起動したときに消えてしまう)
+(setq auto-save-file-name-transforms `((".*" ,(locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time))) t)))
+
 ;; uniquify
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
