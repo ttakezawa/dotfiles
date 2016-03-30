@@ -87,7 +87,7 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 ;; ダブルクリックでURLを開く
-(global-set-key [double-mouse-1] 'browse-url-at-mouse)
+(global-set-key [double-mouse-1] 'ffap-at-mouse)
 
 ;; read-onlyファイルをtrampでsudoして開く
 ;; via: http://tsdh.wordpress.com/2008/08/20/re-open-read-only-files-as-root-automagically/
