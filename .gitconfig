@@ -3,6 +3,9 @@
 [user]
 	name = Tomohiro Takezawa
 	email = ttakezawa@users.noreply.github.com
+	signingkey = ttakezawa@users.noreply.github.com
+[commit]
+	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes_global
