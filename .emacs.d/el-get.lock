@@ -2,6 +2,7 @@
       '((ac-helm :checksum "baf2b1e04bcffa835084389c0fab415f26efbf32")
         (ag :checksum "95e6d9f14303c22e29fca64e8a5090960ad558f5")
         (auto-complete :checksum "6a34b1aaa4c2724bca77e19e157b7015b214fd75")
+        (auto-install :checksum "4c7626db5ec2fd3be5ee075887ec2af59c6b7e26")
         (backup-each-save :checksum "9a3b44773175ab18ca6d0cc8a8e64a3b0c12728e")
         (coffee-mode :checksum "cb1e997c0195a8a51bfa77d6bdec919e68a88904")
         (crontab-mode :checksum "f68206c1d10de68ba0685ce4cb14741c7ca7c648")

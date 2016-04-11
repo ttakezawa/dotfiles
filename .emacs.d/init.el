@@ -747,3 +747,20 @@ See the variable `align-rules-list' for more details.")
 
 ;;;; {helm-projectile}
 (el-get-bundle helm-projectile)
+
+;;;; {auto-install}
+(el-get-bundle auto-install)
+(setq auto-install-directory (locate-user-emacs-file "auto-install"))
+(add-to-list 'load-path auto-install-directory)
+(require 'auto-install)
+
+;;;; {solidity-mode)
+;; (el-get-bundle solidity-mode) だとうまくいかないので、auto-installで入れることにする
+(auto-install-from-url "https://raw.githubusercontent.com/ttakezawa/emacs-solidity/master/solidity-mode.el")
+(require 'flycheck)
+(require 'solidity-mode)
+(add-to-list 'flycheck-checkers 'solidity-checker)
+(setq solidity-solc-path (executable-find "solc"))
+(add-hook 'solidity-mode-hook
+          '(lambda ()
+             (set (make-local-variable 'c-basic-offset) 4)))
