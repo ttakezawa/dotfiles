@@ -447,6 +447,11 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (add-hook 'ediff-before-setup-hook 'elscreen-show-display-tab)
   (add-hook 'ediff-quit-hook 'elscreen-hide-display-tab))
 
+;;;; {foreign-regexp}
+(el-get-bundle foreign-regexp)
+(require 'foreign-regexp)
+(setq foreign-regexp/regexp-type 'perl)
+
 ;;;; {flycheck}
 ;; requires
 ;;  * gem install rubocop
