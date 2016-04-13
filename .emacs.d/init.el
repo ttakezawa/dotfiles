@@ -339,6 +339,10 @@
 (setq backup-each-save-time-format "%Y%m%d_%H%M%S")
 (add-hook 'after-save-hook 'backup-each-save)
 
+;;;; 絵文字
+(el-get-bundle emojify)
+(add-hook 'after-init-hook #'global-emojify-mode)
+
 ;;;; {etags-table}
 (el-get-bundle emacswiki:etags-table)
 (require 'etags-table)
