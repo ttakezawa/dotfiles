@@ -341,6 +341,7 @@
 
 ;;;; 絵文字
 (el-get-bundle emojify)
+(emojify-set-emoji-styles '(unicode))
 (add-hook 'after-init-hook #'global-emojify-mode)
 
 ;;;; {etags-table}
