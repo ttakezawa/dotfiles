@@ -160,12 +160,11 @@ cdgem () {
 }
 
 #### node
-if [[ -r $HOME/.nodebrew/current/bin ]]; then
-  export PATH=$HOME/.nodebrew/current/bin:$PATH
+if [[ -s $HOME/.nvm/nvm.sh ]]; then
+  source $HOME/.nvm/nvm.sh
+  [[ -s $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
 fi
-if [[ -r $HOME/.nodebrew/completions/bash/nodebrew-completion ]]; then
-  source $HOME/.nodebrew/completions/bash/nodebrew-completion
-fi
+
 if type -P npm >/dev/null; then
   . <(npm completion)
 fi
