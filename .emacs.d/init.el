@@ -72,9 +72,9 @@
       recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list)
       recentf-exclude '(".recentf"))
 ; 起動直後に履歴表示
+(recentf-mode 1)
 (add-hook 'after-init-hook
           (lambda()
-            (recentf-mode 1)
             (recentf-open-files)))
 
 ;; save place
