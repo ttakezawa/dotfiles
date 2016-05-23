@@ -5,9 +5,11 @@
 /.emacs.d/.emacs.desktop.lock
 /.emacs.d/.recentf
 /.emacs.d/ac-comphist.dat
+/.emacs.d/auto-install
 /.emacs.d/backups
 /.emacs.d/el-get
 /.emacs.d/elpa
+/.emacs.d/emojis
 /.emacs.d/kkcrc
 /.emacs.d/projectile-bookmarks.eld
 /.emacs.d/scratch
