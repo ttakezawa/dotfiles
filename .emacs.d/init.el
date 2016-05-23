@@ -187,6 +187,11 @@
 (autoload 'org-table-align "org-table" nil)
 (global-set-key (kbd "C-c t") 'org-table-align)
 
+;; Atom Edtior
+(defun open-atom ()
+  (interactive)
+  (call-process "atom" nil nil nil buffer-file-name))
+
 ;; define window resizer  via: http://d.hatena.ne.jp/khiker/20100119/window_resize
 (global-set-key (kbd "C-c r") 'takezawa/window-resizer)
 (defun takezawa/window-resizer ()
