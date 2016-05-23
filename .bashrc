@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck disable=SC1090
 # -*- coding:utf-8; mode:sh; sh-basic-offset:2; sh-indentation:2; -*-
 
 #### basic
