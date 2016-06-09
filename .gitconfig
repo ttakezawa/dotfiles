@@ -9,7 +9,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes_global
-	pager = diff-highlight | less
+	pager = emojify | diff-highlight | less -rX
 [color]
 	ui = auto
 [push]
