@@ -16,3 +16,6 @@ Thumbs.db
 
 # work file
 TAGS
+
+# Ignore Carthage/Build
+Carthage/Build
