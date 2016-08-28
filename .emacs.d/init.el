@@ -779,3 +779,11 @@ See the variable `align-rules-list' for more details.")
 (add-hook 'solidity-mode-hook
           '(lambda ()
              (set (make-local-variable 'c-basic-offset) 4)))
+
+(auto-install-from-url "https://raw.githubusercontent.com/chrisbarrett/swift-mode/master/swift-mode.el")
+(require 'swift-mode)
+(add-to-list 'flycheck-checkers 'swift)
+(setq flycheck-swift-sdk-path
+      (replace-regexp-in-string
+       "\n+$" "" (shell-command-to-string
+                  "xcrun --show-sdk-path --sdk macosx")))
