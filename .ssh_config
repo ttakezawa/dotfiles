@@ -1,0 +1,12 @@
+# SEE: http://qiita.com/kawaz/items/a0151d3aa2b6f9c4b3b8
+Host *+*
+  ProxyCommand ssh -W "$(sed -E 's/.*\+//'<<<"%h")":%p "$(sed -E 's/\+[^\+]*//'<<<"%h")"
+
+# default config
+Host *
+  AddKeysToAgent yes
+  AddressFamily inet
+  ForwardAgent yes
+  StrictHostKeyChecking no
+  ServerAliveInterval 60
+  ServerAliveCountMax 10
