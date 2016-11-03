@@ -161,12 +161,7 @@ cdgem () {
   fi
 }
 
-#### node
-if [[ -s $HOME/.nvm/nvm.sh ]]; then
-  source $HOME/.nvm/nvm.sh
-  [[ -s $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
-fi
-
+#### nodejs
 if type -P npm >/dev/null; then
   . <(npm completion)
 fi
