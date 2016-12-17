@@ -229,7 +229,8 @@ fi
 #### coreutils
 alias grep="grep --color=auto"
 alias ls="ls --color=tty"
-export LESS="-n -R"
+# +e は zless において末尾で自動終了させないための設定
+export LESS="-n -R +e"
 
 #### misc tweaks
 function conv-time () {
