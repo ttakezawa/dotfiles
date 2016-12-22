@@ -363,6 +363,7 @@
 (global-set-key (kbd "C-x C-r") 'helm-recentf)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+(global-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
 (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
 
