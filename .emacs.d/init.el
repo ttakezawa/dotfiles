@@ -524,14 +524,16 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (add-to-list 'auto-mode-alist '("\\.eslintrc$" . yaml-mode))
 
 ;;;; {go-mode}
-;; golang requirements
-; go get -v -u -f github.com/rogpeppe/godef
-; go get -v -u -f golang.org/x/tools/cmd/godoc
-; go get -v -u -f golang.org/x/tools/cmd/goimports
-; go get -v -u -f github.com/golang/lint/golint    # flycheck
-; go get -v -u -f golang.org/x/tools/cmd/vet       # flycheck
-; go get -v -u -f github.com/kisielk/errcheck      # flycheck
-; go get -v -u -f github.com/nsf/gocode # go-eldoc
+;; # Golang environment
+;; flycheck: golint, errcheck, unconvert
+;; go-eldoc: gocode
+;; $ go get -v -u -f github.com/rogpeppe/godef golang.org/x/tools/cmd/godoc golang.org/x/tools/cmd/goimports github.com/golang/lint/golint github.com/kisielk/errcheck github.com/mdempsky/unconvert github.com/nsf/gocode
+;;
+;; # Update .goimportsignore
+;; $ go get -v -u -f github.com/pwaller/goimports-update-ignore
+;; $ goimports-update-ignore -max-depth 20
+;; crontab: 0 3 * * * bash -lc '(goimports-update-ignore -max-depth 20) 2>&1 | gawk "{ print strftime(\"\%Y/\%m/\%d \%H:\%M:\%S\"), \$0; fflush() }"' >>$HOME/.crontab.log 2>&1
+
 (el-get-bundle go-mode)
 (el-get-bundle go-autocomplete)
 (el-get-bundle go-eldoc)
