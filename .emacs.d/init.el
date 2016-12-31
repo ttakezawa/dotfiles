@@ -482,8 +482,6 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle flycheck-tip)
 (setq flycheck-tip-avoid-show-func nil) ;; 通常通りminibufferにもエラーを表示する (ただしverboseについては効かないっぽい)
 (require 'flycheck-tip)
-(with-eval-after-load 'flycheck-tip
-  (flycheck-tip-use-timer 'verbose))
 
 ;; Enable eslint in web-mode
 ;; * npm install -g eslint
