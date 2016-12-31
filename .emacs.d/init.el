@@ -344,11 +344,6 @@
 (setq backup-each-save-time-format "%Y%m%d_%H%M%S")
 (add-hook 'after-save-hook 'backup-each-save)
 
-;;;; 絵文字
-(el-get-bundle emojify)
-(emojify-set-emoji-styles '(unicode))
-(add-hook 'after-init-hook #'global-emojify-mode)
-
 ;;;; {etags-table}
 (el-get-bundle emacswiki:etags-table)
 (require 'etags-table)
@@ -497,6 +492,11 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle git-modes)
 (add-to-list 'auto-mode-alist '("/\\.gitignore_global\\'" . gitignore-mode))
 (add-hook 'gitconfig-mode-hook 'intent-tabs-mode) ; TODO: これでもなぜかタブでインデントさせてくれない
+
+;;;; 絵文字
+(el-get-bundle emojify)
+(emojify-set-emoji-styles '(unicode))
+(add-hook 'after-init-hook #'global-emojify-mode)
 
 ;;;; {auto-complete}
 (el-get-bundle auto-complete)
