@@ -522,12 +522,13 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (add-to-list 'auto-mode-alist '("\\.eslintrc$" . yaml-mode))
 
 ;;;; {go-mode}
-;; # Golang environment
-;; flycheck: golint, errcheck, unconvert
-;; go-eldoc: gocode
-;; $ go get -v -u -f github.com/rogpeppe/godef golang.org/x/tools/cmd/godoc golang.org/x/tools/cmd/goimports github.com/golang/lint/golint github.com/kisielk/errcheck github.com/mdempsky/unconvert github.com/nsf/gocode
-;;
-;; # Update .goimportsignore
+;; ##### Golang environment
+;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point
+;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc
+;; ### Install gometalinter and tools
+;; $ go get -v -u -f github.com/alecthomas/gometalinter
+;; $ gometalinter --install -u -f
+;; ### Update .goimportsignore
 ;; $ go get -v -u -f github.com/pwaller/goimports-update-ignore
 ;; $ goimports-update-ignore -max-depth 20
 ;; crontab: 0 3 * * * bash -lc '(goimports-update-ignore -max-depth 20) 2>&1 | gawk "{ print strftime(\"\%Y/\%m/\%d \%H:\%M:\%S\"), \$0; fflush() }"' >>$HOME/.crontab.log 2>&1
@@ -545,7 +546,49 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (add-hook 'go-mode-hook
             '(lambda ()
                (set (make-local-variable 'tab-width) 4)))
-)
+  )
+
+(add-hook 'go-mode-hook
+          '(lambda ()
+             (add-to-list 'flycheck-disabled-checkers 'go-golint)
+             (add-to-list 'flycheck-disabled-checkers 'go-vet)
+             (add-to-list 'flycheck-disabled-checkers 'go-errcheck)
+             (add-to-list 'flycheck-disabled-checkers 'go-uncovert)
+             ))
+
+;;;; {flycheck-gometalinter}
+(el-get-bundle flycheck-gometalinter)
+(with-eval-after-load 'flycheck
+  (add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
+
+(setq flycheck-gometalinter-deadline "25s")
+(setq flycheck-gometalinter-disable-all t)
+(setq flycheck-gometalinter-enable-linters
+      '(
+        ;; "aligncheck" ;; slow
+        ;; "deadcode"   ;; slow
+        "dupl"
+        "errcheck" ;; slow
+        "gas"
+        "goconst"
+        "gocyclo"
+        ;; "gofmt"
+        ;; "goimports"
+        "golint"
+        "gosimple"
+        ;; "gotype" ;; vendorが考慮されずにimportエラーが起きてしまうのでコメントアウト could not import github.com/foo/bar/baz (can't find import: github.com/foo/bar/baz)
+        ;; "ineffassign"
+        "interfacer" ;; slow
+        ;; "lll"
+        ;; "misspell"
+        "staticcheck"
+        ;; "structcheck" ;; slow
+        "unconvert" ;; slow
+        ;; "unused"
+        ;; "varcheck" ;; slow
+        "vet"
+        "vetshadow"
+        ))
 
 ;;;; {enh-ruby-mode}
 (el-get-bundle enh-ruby-mode)

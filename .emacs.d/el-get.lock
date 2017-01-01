@@ -18,6 +18,7 @@
         (etags-table :checksum "bcc2217c56ed14ff2c3d61ce83d5264da5077cef")
         (exec-path-from-shell :checksum "0f53502d463eeeaefe48dfeb0c2fbaac1e6302e3")
         (flycheck :checksum "319ba94a8165c886184a233986c4be138db0b523")
+        (flycheck-gometalinter :checksum "b6fa2468401d9035b2aeb1dc9bdb12a518e0d13b")
         (flycheck-tip :checksum "53e812ae6d517e8d35907eed8ddcee95c2922e91")
         (fuzzy :checksum "534d723ad2e06322ff8d9bd0ba4863d243f698e7")
         (git-gutter :checksum "00c05264af046b5ce248e5b0bc42f117d9c27a09")
