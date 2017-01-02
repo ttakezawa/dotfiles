@@ -344,6 +344,11 @@
 (setq backup-each-save-time-format "%Y%m%d_%H%M%S")
 (add-hook 'after-save-hook 'backup-each-save)
 
+;;;; {dumb-jump}
+(el-get-bundle jacktasia/dumb-jump :depends (f s dash popup))
+(global-set-key (kbd "M-.") 'dumb-jump-go)
+(global-set-key (kbd "M-*") 'dumb-jump-back)
+
 ;;;; {etags-table}
 (el-get-bundle emacswiki:etags-table)
 (require 'etags-table)
@@ -357,8 +362,8 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-r") 'helm-recentf)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
-(global-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+;; (global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+;; (global-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
 (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
 
