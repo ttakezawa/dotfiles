@@ -332,10 +332,10 @@
 (setq sl-timer-interval 3)
 (require 'scratch-log)
 
-;;;; {auto-save-buffers-enhanced}
-(el-get-bundle auto-save-buffers-enhanced)
-(setq auto-save-buffers-enhanced-interval 1.0)
-(auto-save-buffers-enhanced t)
+;; ;;;; {auto-save-buffers-enhanced}
+;; (el-get-bundle auto-save-buffers-enhanced)
+;; (setq auto-save-buffers-enhanced-interval 30.0)
+;; (auto-save-buffers-enhanced t)
 
 ;;;; {backup-each-save}
 (el-get-bundle backup-each-save)
