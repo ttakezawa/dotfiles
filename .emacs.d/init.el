@@ -480,8 +480,9 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;;;; {flycheck-tip}
 (el-get-bundle flycheck-tip)
-(setq flycheck-tip-avoid-show-func nil) ;; 通常通りminibufferにもエラーを表示する (ただしverboseについては効かないっぽい)
 (require 'flycheck-tip)
+(define-key global-map (kbd "C-0") 'error-tip-cycle-dwim)
+(define-key global-map (kbd "C-9") 'error-tip-cycle-dwim-reverse)
 
 ;; Enable eslint in web-mode
 ;; * npm install -g eslint
