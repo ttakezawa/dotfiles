@@ -532,7 +532,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc
 ;; ### Install gometalinter and tools
 ;; $ go get -v -u -f github.com/alecthomas/gometalinter
-;; $ gometalinter --install -u -f
+;; $ gometalinter --no-vendored-linters -d -i -u -f
 ;; ### Update .goimportsignore
 ;; $ go get -v -u -f github.com/pwaller/goimports-update-ignore
 ;; $ goimports-update-ignore -max-depth 20
