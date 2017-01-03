@@ -79,8 +79,8 @@
 
 ;; save place
 (require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file (expand-file-name ".emacs-places" user-emacs-directory))
+(setq save-place-file (locate-user-emacs-file ".emacs-places"))
+(save-place-mode 1)
 
 ;; バックアップファイル(*~)の保存先を変更
 (setq backup-directory-alist `(("." . ,(locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time))))))
