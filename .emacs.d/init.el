@@ -2,6 +2,9 @@
 
 ;;;;;;;;;;;;;;;; Begin [Configure builtin features] ;;;;;;;;;;;;;;;;
 ;; Emacs標準機能による設定
+
+(package-initialize)
+
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key [backspace] 'delete-backward-char)
 (global-set-key (kbd "C-z") nil)
