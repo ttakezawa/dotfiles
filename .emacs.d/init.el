@@ -404,6 +404,8 @@
 
 ;;;; {helm-ls-git}
 (el-get-bundle helm-ls-git)
+(global-set-key (kbd "C-x G") 'helm-ls-git-ls)
+
 ;; define takezawa/helm-for-files with helm-ls-git
 (defvar takezawa/helm-source-home-filelist
   `((name . "Home FileList")
