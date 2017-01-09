@@ -370,6 +370,10 @@
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
 (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
 
+(when (eq system-type 'darwin)
+  (setq locate-command "mdfind -name")
+  (setq helm-locate-command "mdfind -name %s %s"))
+
 ;; ;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
 ;; (setq helm-etags-match-part-only nil)
 
