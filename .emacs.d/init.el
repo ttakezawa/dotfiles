@@ -446,7 +446,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
                      helm-source-projectile-files-list
                      takezawa/helm-source-home-filelist
                      takezawa/helm-source-system-filelist))))
-(global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
+;; 最近使っていないのでコメントアウト
+;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
 
 ;;;; {elscreen}
 (el-get-bundle elscreen)
