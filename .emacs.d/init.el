@@ -383,6 +383,16 @@
 (define-key helm-read-file-map (kbd "C-z") 'helm-select-action)
 (define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
 
+;; Configure helm-for-files
+(setq helm-for-files-preferred-list
+      '(helm-source-buffers-list
+        helm-source-recentf
+        ;; helm-source-bookmarks
+        ;; helm-source-file-cache
+        ;; helm-source-files-in-current-dir
+        helm-source-locate))
+(global-set-key (kbd "C-x f") 'helm-for-files)
+
 ;;;; {helm-swoop}
 (el-get-bundle helm-swoop)
 ;; M-3 M-iで3行ずつ表示
