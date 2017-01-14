@@ -147,11 +147,11 @@ fi
 cdgem () {
   local bundle_gems="$(bundle list | grep '\*' | sed -e 's/^ *\* *//g')"
   if [[ -n "$bundle_gems" ]]; then
-    gem=$(echo "$bundle_gems" | peco | cut -d \  -f 1)
+    gem=$(echo "$bundle_gems" | fzf --reverse | cut -d \  -f 1)
     [[ -z "$gem" ]] && return 1
     cd $(bundle show $gem)
   else
-    gem=$(gem list | peco | cut -d \  -f 1)
+    gem=$(gem list | fzf --reverse | cut -d \  -f 1)
     [[ -z "$gem" ]] && return 1
     if ruby --version | grep 'ruby 2' >/dev/null; then
       cd $(ruby -e 'puts Gem::Specification.find_by_name(ARGV[0]).full_gem_path' -- $gem)
