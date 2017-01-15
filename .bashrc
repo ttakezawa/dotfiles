@@ -195,30 +195,35 @@ if [[ -f $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc ]]; then
   source $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc
 fi
 
-#### peco
-if (( ${BASH_VERSINFO[0]} >= 4 )) && type -P peco >/dev/null; then
-  # READLINE_* は Bash4 で実装されている
-
-  _replace_by_history() {
-    local -a args
-    if [[ -n "$READLINE_LINE" ]]; then
-      args=(${args[@]} "--query $READLINE_LINE")
-    fi
-
-    # 頻度が多く、新しいコマンドの順にリストする
-    #  ASCII文字([\t -~])で構成されたコマンドのみ対象とする
-    local l=$(HISTTIMEFORMAT='' history | grep -E '^[\t -~]+$' \
-                | sort -rk2 | uniq -cf1 | sort -rn \
-                | sed -r 's/^\s*[0-9]+\s+[0-9]+\s*//' | peco ${args[@]})
-    READLINE_LINE="$l"
-    READLINE_POINT=${#l}
-  }
-  bind -x '"\C-r": _replace_by_history'
+#### fzf
+if type -P fzf >/dev/null; then
+  export FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line'
 
   g() {
-    local l=$(ghq list | peco)
+    local l=$(ghq list | fzf --reverse)
     [[ -n "$l" ]] && cd $(ghq root)/$l
   }
+
+  # Taken from https://github.com/junegunn/fzf/issues/808 and key-bindings.bash
+  # Remove duplicates from history selection
+  __fzf_history__() (
+    local line
+    shopt -u nocaseglob nocasematch
+    countskip="$(echo $(($(wc -l $HISTFILE | grep -E '^[0-9]+' -o) / 2)) | wc -c)"
+    countskip="$(( countskip + 1 ))"
+    line=$(
+      HISTTIMEFORMAT= history |
+      tac |
+      nauniq --skip-chars="$countskip" |
+      tac |
+      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS +s --tac --no-reverse -n2..,.. --tiebreak=index --toggle-sort=ctrl-r $FZF_CTRL_R_OPTS +m" $(__fzfcmd) |
+      command grep '^ *[0-9]') &&
+      if [[ $- =~ H ]]; then
+        sed 's/^ *\([0-9]*\)\** .*/!\1/' <<< "$line"
+      else
+        sed 's/^ *\([0-9]*\)\** *//' <<< "$line"
+      fi
+  )
 fi
 
 #### ag
