@@ -204,8 +204,10 @@ if type -P fzf >/dev/null; then
     [[ -n "$l" ]] && cd $(ghq root)/$l
   }
 
-  # Taken from https://github.com/junegunn/fzf/issues/808 and key-bindings.bash
   # Remove duplicates from history selection
+  #   Taken from https://github.com/junegunn/fzf/issues/808 and key-bindings.bash
+  # Requires nauniq
+  #   mkdir -p ~/bin && curl https://raw.githubusercontent.com/perlancar/perl-App-nauniq/master/bin/nauniq | sed 's?#!perl?#!/usr/bin/env perl?' > ~/bin/nauniq && chmod +x ~/bin/nauniq
   __fzf_history__() (
     local line
     shopt -u nocaseglob nocasematch
