@@ -333,6 +333,11 @@
 (setq highlight-symbol-idle-delay 0.1)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
+;;;; {which-key}
+(el-get-bundle which-key)
+(which-key-setup-side-window-bottom)
+(which-key-mode 1)
+
 ;;;; {scratch-log}
 (el-get-bundle scratch-log)
 (setq sl-scratch-log-file         (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m/scratch-log"      (current-time)))))

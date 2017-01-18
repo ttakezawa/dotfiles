@@ -56,6 +56,7 @@
         (scss-mode :checksum "b010d134f499c4b4ad33fe8a669a81e9a531b0b2")
         (slim-mode :checksum "869c84821cf3e556b380c5c35d8ad62287c4df58")
         (web-mode :checksum "abd9c738feb0d6069cf8de07fa7d109441a5ca54")
+        (which-key :checksum "49ab7afd93ef36e5f0261eff7151360edeeea4e6")
         (yaml-mode :checksum "f378589912af8731428198ef57546c616d941df0")))
 (setq el-get-lock-locked-packages 'nil)
 (setq el-get-lock-unlocked-packages 'nil)
