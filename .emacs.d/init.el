@@ -33,6 +33,11 @@
 (setq desktop-files-not-to-save "") ;; バッファは復元しないようにする
 (desktop-save-mode 1)
 
+;; server server for emacsclient
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 ;; dired
 ;; C-x C-qでwdired
 (setq dired-dwim-target t)
