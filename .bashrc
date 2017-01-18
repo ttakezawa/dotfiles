@@ -197,11 +197,25 @@ fi
 
 #### fzf
 if type -P fzf >/dev/null; then
+  [[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
+
   export FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line'
 
   g() {
     local l=$(ghq list | fzf --reverse)
     [[ -n "$l" ]] && cd $(ghq root)/$l
+  }
+
+  # Taken from https://github.com/junegunn/fzf/wiki/Examples#git
+  l() {
+    git log --graph --color=always \
+        --format="%C(auto)%h%d %C(green)%an %C(reset)%s %C(black)%C(bold)%cr" "$@" |
+    fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+        --bind "ctrl-m:execute:
+                  (grep -o '[a-f0-9]\{7\}' | head -1 |
+                  xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                  {}
+FZF-EOF"
   }
 
   # Remove duplicates from history selection
