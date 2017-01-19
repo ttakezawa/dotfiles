@@ -5,7 +5,7 @@
 
 (package-initialize)
 
-(keyboard-translate ?\C-h ?\C-?)
+(define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key [backspace] 'delete-backward-char)
 (global-set-key (kbd "C-z") nil)
 (global-set-key (kbd "C-\\") nil)  ; disable toggle-input-method
