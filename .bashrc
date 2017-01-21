@@ -196,9 +196,8 @@ if [[ -f $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc ]]; then
 fi
 
 #### fzf
-if type -P fzf >/dev/null; then
-  [[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
-
+if [[ -f ~/.fzf.bash ]]; then
+  source ~/.fzf.bash
   export FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line'
 
   g() {
@@ -207,7 +206,8 @@ if type -P fzf >/dev/null; then
   }
 
   # Taken from https://github.com/junegunn/fzf/wiki/Examples#git
-  l() {
+  unalias l
+  function l() {
     git log --graph --color=always \
         --format="%C(auto)%h%d %C(green)%an %C(reset)%s %C(black)%C(bold)%cr" "$@" |
     fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
