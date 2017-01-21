@@ -824,7 +824,8 @@ See the variable `align-rules-list' for more details.")
 (setq open-junk-file-format "~/Dropbox/journals/junk/%Y/%m/%Y_%m_%d.md")
 
 ;;;; {terraform-mode}
-(el-get-bundle elpa:terraform-mode)
+(el-get-bundle elpa:hcl-mode :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
+(el-get-bundle elpa:terraform-mode :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
 (setq terraform-indent-level 4)
 
 ;;;; {projectile-mode}
@@ -860,7 +861,8 @@ See the variable `align-rules-list' for more details.")
           '(lambda ()
              (set (make-local-variable 'c-basic-offset) 4)))
 
-(auto-install-from-url "https://raw.githubusercontent.com/chrisbarrett/swift-mode/master/swift-mode.el")
+;;;; {swift-mode}
+(el-get-bundle swift-mode)
 (require 'swift-mode)
 (add-to-list 'flycheck-checkers 'swift)
 (setq flycheck-swift-sdk-path
