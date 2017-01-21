@@ -30,8 +30,9 @@
 (global-set-key (kbd "C-c C-c") 'compile)
 
 ;; desktop-save-mode (builtin)
-(setq desktop-files-not-to-save "") ;; バッファは復元しないようにする
-(desktop-save-mode 1)
+(when (window-system)
+  (setq desktop-files-not-to-save "") ;; バッファは復元しないようにする
+  (desktop-save-mode 1))
 
 ;; server server for emacsclient
 (require 'server)
