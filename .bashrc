@@ -242,6 +242,14 @@ FZF-EOF"
   )
 fi
 
+#### fasd
+eval "$(fasd --init bash-hook bash-ccomp bash-ccomp-install)"
+
+z() {
+  local dir
+  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
+
 #### ag
 if [[ -r $SOURCE_DIR/.bash.d/ag.bashcomp.sh ]]; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
