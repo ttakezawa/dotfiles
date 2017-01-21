@@ -373,15 +373,15 @@
 (helm-mode 1)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x C-r") 'helm-recentf)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 ;; (global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
 ;; (global-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
 (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
 
+;; macOSのときは locate の代わりに mdfind を使う
 (when (eq system-type 'darwin)
-  (setq locate-command "mdfind -name")
+  (setq helm-locate-fuzzy-match nil)
   (setq helm-locate-command "mdfind -name %s %s"))
 
 ;; ;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
@@ -395,13 +395,13 @@
 
 ;; Configure helm-for-files
 (setq helm-for-files-preferred-list
-      '(helm-source-buffers-list
+      '(;; helm-source-buffers-list
         helm-source-recentf
         ;; helm-source-bookmarks
         ;; helm-source-file-cache
         ;; helm-source-files-in-current-dir
         helm-source-locate))
-(global-set-key (kbd "C-x f") 'helm-for-files)
+(global-set-key (kbd "C-x C-r") 'helm-for-files)
 
 ;;;; {helm-swoop}
 (el-get-bundle helm-swoop)
