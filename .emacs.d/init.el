@@ -509,8 +509,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;;;; {flycheck-tip}
 (el-get-bundle flycheck-tip)
 (require 'flycheck-tip)
-(define-key global-map (kbd "C-0") 'error-tip-cycle-dwim)
-(define-key global-map (kbd "C-9") 'error-tip-cycle-dwim-reverse)
+(global-set-key (kbd "M-g n") 'error-tip-cycle-dwim)
+(global-set-key (kbd "M-g p") 'error-tip-cycle-dwim-reverse)
 
 ;; Enable eslint in web-mode
 ;; * npm install -g eslint
