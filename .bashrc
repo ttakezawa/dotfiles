@@ -206,7 +206,7 @@ if [[ -f ~/.fzf.bash ]]; then
   }
 
   # Taken from https://github.com/junegunn/fzf/wiki/Examples#git
-  unalias l
+  unalias l 2>/dev/null
   function l() {
     git log --graph --color=always \
         --format="%C(auto)%h%d %C(green)%an %C(reset)%s %C(black)%C(bold)%cr" "$@" |
