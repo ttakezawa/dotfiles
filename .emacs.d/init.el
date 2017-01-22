@@ -420,11 +420,6 @@
     (helm-do-ag)))
 (global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir)
 
-;;;; {ag}
-(el-get-bundle ag)
-;; C-c C-p で{wgrep}による編集ができる
-(global-set-key (kbd "C-c G") 'ag)
-
 ;;;; {helm-ghq}
 (el-get-bundle helm-ghq)
 (global-set-key (kbd "C-x g") 'helm-ghq)
