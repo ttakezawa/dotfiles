@@ -304,14 +304,14 @@
   (setq ns-alternate-modifier (quote super))
   ;; set transparency
   (add-to-list 'default-frame-alist '(alpha . 80))
-  ;; font Ricty Discord
-  (create-fontset-from-ascii-font "Ricty Discord:size=14:weight=normal:slant=normal" nil "rictydiscord")
-  (set-fontset-font "fontset-rictydiscord"
+  ;; font Ricty Diminished Discord
+  (create-fontset-from-ascii-font "Ricty Diminished Discord:size=14:weight=normal:slant=normal" nil "rictydiminisheddiscord")
+  (set-fontset-font "fontset-rictydiminisheddiscord"
                     'unicode
-                    (font-spec :family "Ricty Discord" :size 14)
+                    (font-spec :family "Ricty Diminished Discord" :size 14)
                     nil
                     'append)
-  (add-to-list 'default-frame-alist '(font . "fontset-rictydiscord")))
+  (add-to-list 'default-frame-alist '(font . "fontset-rictydiminisheddiscord")))
 
 ;;;; custom-theme
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
