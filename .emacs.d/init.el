@@ -422,11 +422,18 @@
 
 ;;;; {helm-swoop}
 (el-get-bundle helm-swoop)
-;; M-3 M-iで3行ずつ表示
-(global-set-key (kbd "M-i") 'helm-swoop)
+;; デフォルトでhelm-swoopで周辺3行も表示する つまり M-3 M-x helm-swoop と同じ
+(defun takezawa/helm-swoop ()
+  (interactive)
+  (if current-prefix-arg
+      (helm-swoop)
+    (let ((current-prefix-arg '(3)))
+      (helm-swoop))))
+(global-set-key (kbd "M-i") 'takezawa/helm-swoop)
 
 ;;;; {helm-ag}
 (el-get-bundle helm-ag)
+;; C-c C-e: Switch to edit mode
 ;; C-u打つのが面倒なので、常にC-uの挙動(ディレクトリ選択を求める)にする
 (defun takezawa/helm-do-ag-dir ()
   (interactive)
