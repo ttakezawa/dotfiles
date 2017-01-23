@@ -268,6 +268,27 @@ if [[ -r $SOURCE_DIR/.bash.d/ag.bashcomp.sh ]]; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
 fi
 
+#### net-tools deprecation (Taken from http://blog.livedoor.jp/sonots/archives/38589335.html )
+net_tools_deprecated_message () {
+  echo -n 'net-tools is deprecated.'
+}
+arp () {
+  net_tools_deprecated_message
+  echo 'Use `ip n`'
+}
+ifconfig () {
+  net_tools_deprecated_message
+  echo 'Use `ip a`, `ip link`, `ip -s link`'
+}
+netstat () {
+  net_tools_deprecated_message
+  echo 'Use `ss`, `ip route` (for netstat -r), `ip -s link` (for netstat -i), `ip maddr` (for netstat -g)'
+}
+route () {
+  net_tools_deprecated_message
+  echo 'Use `ip r`'
+}
+
 #### coreutils
 alias grep="grep --color=auto"
 alias ls="ls --color=tty"
