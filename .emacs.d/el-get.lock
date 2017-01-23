@@ -12,7 +12,6 @@
         (el-get :checksum "bcb05bc970e1dd19e8542b562bafb0ad68cef8cb")
         (el-get-lock :checksum "df8cfe55441695865a64b97946750b6413a40425")
         (elscreen :checksum "0f9ae461204fe8d18907e84b18a88cb016d19de7")
-        (emojify :checksum "62609316f269bed9e6775f9614783789a79268e7")
         (enh-ruby-mode :checksum "5493f9fde48557d6aaaf38dd63adfdd8538496ff")
         (epl :checksum "a5ad061d0a5eb42f66c384e55d102da7d52c96b0")
         (etags-table :checksum "bcc2217c56ed14ff2c3d61ce83d5264da5077cef")
