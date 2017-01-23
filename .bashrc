@@ -202,6 +202,12 @@ if [[ -f $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc ]]; then
   source $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc
 fi
 
+# goenv
+if [[ -d "$HOME/.goenv/bin" ]]; then
+  export PATH="$HOME/.goenv/bin:$PATH"
+  eval "$(goenv init -)"
+fi
+
 #### fzf
 if [[ -f ~/.fzf.bash ]]; then
   source ~/.fzf.bash
