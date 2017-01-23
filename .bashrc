@@ -184,9 +184,15 @@ if type -P aws_completer >/dev/null; then
   complete -C aws_completer aws
 fi
 
-#### emacs
+#### Emacs
 export EDITOR="emacsclient -c -nw --alternate-editor=vim"
 alias e="emacsclient -c -nw --alternate-editor=vim"
+# evm
+if [[ -d "$HOME/.evm/bin" ]]; then
+  export PATH="$HOME/.evm/bin:$PATH"
+  # You can shim emacsclient
+  # cd $(dirname $(which emacs)); sed 's|bin/emacs|bin/emacsclient|g' emacs > emacsclient; chmod +x emacsclient
+fi
 
 #### emacs cask
 export PATH="$HOME/.cask/bin:$PATH"
