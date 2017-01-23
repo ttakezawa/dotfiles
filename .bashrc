@@ -184,6 +184,10 @@ if type -P aws_completer >/dev/null; then
   complete -C aws_completer aws
 fi
 
+#### emacs
+export EDITOR="emacsclient -c -nw --alternate-editor=vim"
+alias e="emacsclient -c -nw --alternate-editor=vim"
+
 #### emacs cask
 export PATH="$HOME/.cask/bin:$PATH"
 
