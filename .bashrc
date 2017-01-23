@@ -194,10 +194,7 @@ if [[ -d "$HOME/.evm/bin" ]]; then
   # cd $(dirname $(which emacs)); sed 's|bin/emacs|bin/emacsclient|g' emacs > emacsclient; chmod +x emacsclient
 fi
 
-#### emacs cask
-export PATH="$HOME/.cask/bin:$PATH"
-
-#### golang
+#### Golang
 export GOPATH=$HOME/dev
 export PATH=$PATH:$GOPATH/bin
 if [[ -f $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc ]]; then
