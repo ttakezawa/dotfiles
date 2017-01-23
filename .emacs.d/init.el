@@ -216,7 +216,7 @@
   (call-process "atom" nil nil nil buffer-file-name))
 
 ;; define window resizer  via: http://d.hatena.ne.jp/khiker/20100119/window_resize
-(global-set-key (kbd "C-c r") 'takezawa/window-resizer)
+(global-set-key (kbd "C-c s") 'takezawa/window-resizer)
 (defun takezawa/window-resizer ()
   "Control window size and position."
   (interactive)
@@ -462,10 +462,11 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (add-hook 'ediff-before-setup-hook 'elscreen-show-display-tab)
   (add-hook 'ediff-quit-hook 'elscreen-hide-display-tab))
 
-;;;; {foreign-regexp}
-(el-get-bundle foreign-regexp)
-(require 'foreign-regexp)
-(setq foreign-regexp/regexp-type 'perl)
+;;;; {visual-regexp-steroids}
+(el-get-bundle visual-regexp-steroids)
+(global-set-key (kbd "C-M-%") 'vr/query-replace)
+(global-set-key (kbd "C-M-s") 'vr/isearch-forward)
+(global-set-key (kbd "C-M-r") 'vr/isearch-backward)
 
 ;;;; {flycheck}
 ;; requires
