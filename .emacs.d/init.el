@@ -565,6 +565,9 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 (add-hook 'go-mode-hook
           '(lambda ()
+             (unless (getenv "GOROOT")
+               ;; goenvを使っている場合にgodefなどが使えなくなってしまうのでworkaroundする
+               (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))
              (add-to-list 'flycheck-disabled-checkers 'go-golint)
              (add-to-list 'flycheck-disabled-checkers 'go-vet)
              (add-to-list 'flycheck-disabled-checkers 'go-errcheck)
