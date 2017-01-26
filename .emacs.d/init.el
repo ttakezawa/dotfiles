@@ -525,6 +525,14 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (global-set-key (kbd "M-/") 'ac-complete-with-helm)
 (define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm)
 
+;;;; {yasnippet}
+(el-get-bundle yasnippet)
+(yas-global-mode 1)
+
+;;;; {helm-c-yasnippet}
+(el-get-bundle helm-c-yasnippet)
+(global-set-key (kbd "C-c y") 'helm-yas-complete)
+
 ;;;; {crontab-mode}
 (el-get-bundle crontab-mode)
 (add-to-list 'auto-mode-alist '("\\.?cron\\(tab\\)?\\'" . crontab-mode))
