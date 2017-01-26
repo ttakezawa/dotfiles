@@ -672,9 +672,9 @@ See the variable `align-rules-list' for more details.")
   (require 'ruby-end)
   (setq ruby-end-insert-newline nil))
 
-;;;; {helm-rubygems-local}
-(el-get-bundle f-kubotar/helm-rubygems-local
-  (global-set-key (kbd "C-x p") 'helm-rubygems-local))
+;;;; {helm-bundle-show}
+(el-get-bundle elpa:helm-bundle-show :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
+(global-set-key (kbd "C-x p") 'helm-bundle-show)
 
 ;;;; {rinari}
 (el-get-bundle elpa:findr)
