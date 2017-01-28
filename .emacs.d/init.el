@@ -314,14 +314,11 @@
 (el-get-bundle moe-theme)
 (require 'moe-theme)
 (moe-dark)
-(set-face-background 'default "black") ;; I want to use true black.
-(when (window-system)
-  ;; Disable italic globally
-  (mapc
-   (lambda (face)
-     ;;(set-face-attribute face nil :weight 'normal :underline nil))
-     (set-face-italic-p face nil))
-   (face-list)))
+;; Customize colors
+(let ((comment "#af5f00")) ;; Assign comment to moe-dark pallete orange-5
+  (set-face-background 'default "black") ;; Use true black in background.
+  (set-face-attribute font-lock-comment-face           nil :foreground comment :slant 'normal)
+  (set-face-attribute font-lock-comment-delimiter-face nil :foreground comment :slant 'normal))
 
 ;;;; {highlight-symbol}
 (el-get-bundle highlight-symbol)
