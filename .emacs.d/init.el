@@ -267,10 +267,10 @@
   ;; set transparency
   (add-to-list 'default-frame-alist '(alpha . 85))
   ;; font Ricty Diminished Discord
-  (create-fontset-from-ascii-font "Ricty Diminished Discord:size=14:weight=normal:slant=normal" nil "rictydiminisheddiscord")
+  (create-fontset-from-ascii-font "Ricty Diminished Discord:size=15:weight=normal:slant=normal" nil "rictydiminisheddiscord")
   (set-fontset-font "fontset-rictydiminisheddiscord"
                     'unicode
-                    (font-spec :family "Ricty Diminished Discord" :size 16)
+                    (font-spec :family "Ricty Diminished Discord" :size 15)
                     nil
                     'append)
   (add-to-list 'default-frame-alist '(font . "fontset-rictydiminisheddiscord")))
