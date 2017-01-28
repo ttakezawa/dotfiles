@@ -193,8 +193,11 @@ alias e="emacsclient -c -nw --alternate-editor=vim"
 # evm
 if [[ -d "$HOME/.evm/bin" ]]; then
   export PATH="$HOME/.evm/bin:$PATH"
-  # You can shim emacsclient
-  # cd $(dirname $(which emacs)); sed 's|bin/emacs|bin/emacsclient|g' emacs > emacsclient; chmod +x emacsclient
+  if ! type -P emacsclient >/dev/null; then
+    echo "emacsclient not found." >&2
+    # You can shim emacsclient
+    # cd $(dirname $(which emacs)); sed 's|bin/emacs|bin/emacsclient|g' emacs > emacsclient; chmod +x emacsclient
+  fi
 fi
 
 #### Golang
@@ -216,6 +219,9 @@ if [[ -f ~/.fzf.bash ]]; then
   source ~/.fzf.bash
   export FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line'
 
+  if ! type -P ghq >/dev/null; then
+    echo "ghq not found." >&2
+  fi
   g() {
     local l=$(ghq list | fzf --reverse)
     [[ -n "$l" ]] && cd $(ghq root)/$l
@@ -256,15 +262,21 @@ FZF-EOF"
         sed 's/^ *\([0-9]*\)\** *//' <<< "$line"
       fi
   )
+else
+  echo "~/.fzf.bash not found." >&2
 fi
 
 #### fasd
-eval "$(fasd --init bash-hook bash-ccomp bash-ccomp-install)"
+if type -P fasd >/dev/null; then
+  eval "$(fasd --init bash-hook bash-ccomp bash-ccomp-install)"
 
-z() {
-  local dir
-  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-}
+  z() {
+    local dir
+    dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+  }
+else
+  echo "fasd not found." >&2
+fi
 
 #### ag
 if [[ -r $SOURCE_DIR/.bash.d/ag.bashcomp.sh ]]; then
