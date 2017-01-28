@@ -29,11 +29,6 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
 (global-set-key (kbd "C-c C-c") 'compile)
 
-;; desktop-save-mode (builtin)
-(when (window-system)
-  (setq desktop-files-not-to-save "") ;; バッファは復元しないようにする
-  (desktop-save-mode 1))
-
 ;; server server for emacsclient
 (require 'server)
 (unless (server-running-p)
@@ -294,6 +289,10 @@
 (el-get-bundle exec-path-from-shell)
 (let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
   (exec-path-from-shell-copy-envs envs))
+
+;;;; {save-framegeometry}
+(el-get-bundle gist:218fd80d9390845bf9dcad727237d4af:save-framegeometry
+  :features save-framegeometry)
 
 ;;;; {recentf-ext}
 (el-get-bundle recentf-ext)
