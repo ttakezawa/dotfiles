@@ -34,6 +34,12 @@
 (unless (server-running-p)
   (server-start))
 
+;; desktop-save-mode (builtin)
+(setq desktop-files-not-to-save "") ;; バッファを復元させない
+(setq desktop-restore-frames nil)   ;; フレームを復元させない
+(setq desktop-globals-to-save '(search-ring regexp-search-ring kill-ring))
+(desktop-save-mode 1)
+
 ;; dired
 ;; C-x C-qでwdired
 (setq dired-dwim-target t)
