@@ -253,19 +253,15 @@
   (setq ns-command-modifier (quote meta))
   (setq ns-alternate-modifier (quote super))
   ;; set transparency
-  (add-to-list 'default-frame-alist '(alpha . 80))
+  (add-to-list 'default-frame-alist '(alpha . 85))
   ;; font Ricty Diminished Discord
   (create-fontset-from-ascii-font "Ricty Diminished Discord:size=14:weight=normal:slant=normal" nil "rictydiminisheddiscord")
   (set-fontset-font "fontset-rictydiminisheddiscord"
                     'unicode
-                    (font-spec :family "Ricty Diminished Discord" :size 14)
+                    (font-spec :family "Ricty Diminished Discord" :size 16)
                     nil
                     'append)
   (add-to-list 'default-frame-alist '(font . "fontset-rictydiminisheddiscord")))
-
-;;;; custom-theme
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-(load-theme 'tkzw t)
 
 ;;;; {el-get}
 (when load-file-name
@@ -297,6 +293,23 @@
 
 ;;;; {recentf-ext}
 (el-get-bundle recentf-ext)
+
+;;;; custom-theme
+;; (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+;; (load-theme 'tkzw t)
+
+;;;; {moe-theme}
+(el-get-bundle moe-theme)
+(require 'moe-theme)
+(moe-dark)
+(set-face-background 'default "black") ;; I want to use true black.
+(when (window-system)
+  ;; Disable italic globally
+  (mapc
+   (lambda (face)
+     ;;(set-face-attribute face nil :weight 'normal :underline nil))
+     (set-face-italic-p face nil))
+   (face-list)))
 
 ;;;; {highlight-symbol}
 (el-get-bundle highlight-symbol)
