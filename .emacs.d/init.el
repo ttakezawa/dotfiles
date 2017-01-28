@@ -293,6 +293,7 @@
 ;;;; {save-framegeometry}
 (el-get-bundle gist:218fd80d9390845bf9dcad727237d4af:save-framegeometry
   :features save-framegeometry)
+(add-to-list 'recentf-exclude "framegeometry")
 
 ;;;; {recentf-ext}
 (el-get-bundle recentf-ext)
