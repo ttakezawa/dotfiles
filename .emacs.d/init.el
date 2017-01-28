@@ -76,10 +76,16 @@
 (global-set-key (kbd "C-c i") 'indent-region)
 
 ;; recentf
+(defmacro with-suppressed-message (&rest body)
+  "Suppress new messages temporarily in the echo area and the `*Messages*' buffer while BODY is evaluated."
+  (declare (indent 0))
+  (let ((message-log-max nil))
+    `(with-temp-message (or (current-message) "") ,@body)))
+
 (setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory)
       recentf-max-saved-items 2000
       recentf-auto-cleanup 10
-      recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list)
+      recentf-auto-save-timer (run-with-idle-timer 30 t '(lambda () (with-suppressed-message (recentf-save-list))))
       recentf-exclude '(".recentf"))
 ; 起動直後に履歴表示
 (recentf-mode 1)
