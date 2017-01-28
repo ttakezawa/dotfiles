@@ -18,6 +18,7 @@ ln -s ~/.dotfiles/.tmux.conf ~/
 ln -s ~/.dotfiles/.emacs.d ~/
 ln -s ~/.dotfiles/.vimrc ~/
 ln -s ~/.dotfiles/.peco ~/
+ln -s ~/.dotfiles/.cobra.yaml ~/
 ln -s ~/.dotfiles/.agignore ~/
 ln -s ~/.dotfiles/.aspell.conf ~/.dotfiles/.aspell.en.pws ~/
 ln -s ~/.dotfiles/.gemrc ~/
