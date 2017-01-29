@@ -575,6 +575,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; ##### Golang environment
 ;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point
 ;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc
+;; ### To use Flycheck default checkers: http://www.flycheck.org/en/latest/languages.html#go
+;; $ go get -v -u -v github.com/mdempsky/unconvert github.com/golang/lint/golint github.com/kisielk/errcheck
 ;; ### Install gometalinter and tools
 ;; $ go get -v -u -f github.com/alecthomas/gometalinter
 ;; $ gometalinter --no-vendored-linters -d -i -u -f
@@ -602,45 +604,46 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
           '(lambda ()
              (unless (getenv "GOROOT")
                ;; goenvを使っている場合にgodefなどが使えなくなってしまうのでworkaroundする
-               (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))
-             (add-to-list 'flycheck-disabled-checkers 'go-golint)
-             (add-to-list 'flycheck-disabled-checkers 'go-vet)
-             (add-to-list 'flycheck-disabled-checkers 'go-errcheck)
-             (add-to-list 'flycheck-disabled-checkers 'go-uncovert)
-             ))
+               (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))))
+
+(setq flycheck-go-vet-shadow 'strict) ;; flycheck go-vet use "-shadowstrict" option
 
 ;;;; {flycheck-gometalinter}
 (el-get-bundle flycheck-gometalinter)
-(with-eval-after-load 'flycheck
-  (add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
+(with-eval-after-load 'flycheck-gometalinter
+  ;; flycheckデフォルトのcheckerのうち最後の go-unconvert よりも後に gometalinter を実行させる
+  (flycheck-add-next-checker 'go-unconvert '(warning . gometalinter))
+  (add-hook 'go-mode-hook
+            '(lambda ()
+               (flycheck-select-checker 'go-gofmt))))
 
-(setq flycheck-gometalinter-deadline "25s")
+;; たくさん実行すると重いのでできるだけ絞る。flycheckで用意されているものややたら遅いものはまず除外する
 (setq flycheck-gometalinter-disable-all t)
 (setq flycheck-gometalinter-enable-linters
       '(
         ;; "aligncheck" ;; slow
         ;; "deadcode"   ;; slow
         "dupl"
-        "errcheck" ;; slow
+        ;; "errcheck" ;; flycheck slow
         "gas"
         "goconst"
         "gocyclo"
-        ;; "gofmt"
+        ;; "gofmt" ;; flycheck
         ;; "goimports"
-        "golint"
+        ;; "golint" ;; flycheck
         "gosimple"
-        ;; "gotype" ;; vendorが考慮されずにimportエラーが起きてしまうのでコメントアウト could not import github.com/foo/bar/baz (can't find import: github.com/foo/bar/baz)
+        ;; "gotype" ;; vendorが考慮されずにimportエラーが起きてしまうので除外 E.g. could not import github.com/foo/bar/baz (can't find import: github.com/foo/bar/baz)
         ;; "ineffassign"
         "interfacer" ;; slow
         ;; "lll"
         ;; "misspell"
         "staticcheck"
         ;; "structcheck" ;; slow
-        "unconvert" ;; slow
+        ;; "unconvert" ;; flycheck slow
         ;; "unused"
         ;; "varcheck" ;; slow
-        "vet"
-        "vetshadow"
+        ;; "vet" ;; flycheck
+        ;; "vetshadow" ;; flycheck
         ))
 
 ;;;; {enh-ruby-mode}
