@@ -11,6 +11,7 @@
 (global-set-key (kbd "C-\\") nil)  ; disable toggle-input-method
 (setq inhibit-startup-message t)
 (setq-default frame-background-mode 'dark)
+(load (setq custom-file (locate-user-emacs-file "custom.el")) t)
 (setq ring-bell-function 'ignore) ; ignore bell
 (cond
  (window-system (tool-bar-mode -1))
@@ -87,7 +88,7 @@
       recentf-max-saved-items 2000
       recentf-auto-cleanup 10
       recentf-auto-save-timer (run-with-idle-timer 30 t '(lambda () (with-suppressed-message (recentf-save-list))))
-      recentf-exclude '(".recentf"))
+      recentf-exclude '(".recentf" "custom.el"))
 ; 起動直後に履歴表示
 (recentf-mode 1)
 (add-hook 'after-init-hook
