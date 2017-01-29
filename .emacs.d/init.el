@@ -712,9 +712,7 @@ See the variable `align-rules-list' for more details.")
 (global-set-key (kbd "C-x p") 'helm-bundle-show)
 
 ;;;; {rinari}
-(el-get-bundle elpa:findr)
-(el-get-bundle elpa:jump :repo ("marmalade" . "http://marmalade-repo.org/packages/") :depends (findr inflections))
-(el-get-bundle elpa:rinari :depends (inf-ruby ruby-compilation jump))
+(el-get-bundle rinari :type github :pkgname "eschulte/rinari" :load-path ("." "util" "util/jump") :build (("bundle")) :features rinari)
 
 (global-rinari-mode)
 (define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)

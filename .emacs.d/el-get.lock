@@ -50,6 +50,7 @@
         (popup :checksum "80829dd46381754639fb764da11c67235fe63282")
         (projectile :checksum "72a8be50b9e6d4c23a178f777043e67794fc9728")
         (recentf-ext :checksum "95f81dfac24d3f67002024f0a24e6b997bf6d647")
+        (rinari :checksum "be07b0f42aefa24c5d36c441d1f3f72e64fffaa4")
         (ruby-block :checksum "289c34dca6daa1a1591537e1c56b687c14631930")
         (ruby-end :checksum "79b4ea788b9cae9282da809507d0a56aa9c057c8")
         (s :checksum "fc395c8d5e6c14d5e0920ab80d4d5df007eed14a")
