@@ -21,6 +21,7 @@
 (setq completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 (setq vc-follow-symlinks t)
+(setq large-file-warning-threshold (* 100 1024)) ;; 100KB
 (show-paren-mode 1)
 (column-number-mode t)
 (global-auto-revert-mode 1)
