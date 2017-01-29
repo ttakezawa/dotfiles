@@ -296,6 +296,7 @@
 
 ;;;; {exec-path-from-shell}
 (el-get-bundle exec-path-from-shell)
+(setq exec-path-from-shell-check-startup-files nil)
 (let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
   (exec-path-from-shell-copy-envs envs))
 
