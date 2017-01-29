@@ -327,6 +327,8 @@
 
 ;;;; {which-key}
 (el-get-bundle which-key)
+(setq which-key-lighter "")
+(setq which-key-idle-delay 0.5)
 (which-key-setup-side-window-bottom)
 (which-key-mode 1)
 
