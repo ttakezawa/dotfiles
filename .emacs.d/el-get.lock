@@ -28,6 +28,7 @@
         (go-mode :checksum "259110bfd7acb62196b09487d0883429b444bf1b")
         (helm :checksum "aa0a15f2cfb3565f60b392aea868693f25a16d12")
         (helm-ag :checksum "997107a53abd3bda06d52e7021c87527c5747389")
+        (helm-bundle-show :checksum "b34523aa8a7f82ed9a1bf3643c35b65866a7877a")
         (helm-c-yasnippet :checksum "5bf2c2adc0afe38c17c7cbf8c5d8a0604c4ee51f")
         (helm-ghq :checksum "21ccdb537a3be3d9351e01c6365df8e804e8bc56")
         (helm-ls-git :checksum "98ce7dc709cf1468a50de18e96c028baa7f4357d")

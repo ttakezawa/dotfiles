@@ -707,7 +707,7 @@ See the variable `align-rules-list' for more details.")
   (setq ruby-end-insert-newline nil))
 
 ;;;; {helm-bundle-show}
-(el-get-bundle elpa:helm-bundle-show :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
+(el-get-bundle helm-bundle-show :type github :pkgname "masutaka/emacs-helm-bundle-show" :features helm-bundle-show)
 (global-set-key (kbd "C-x p") 'helm-bundle-show)
 
 ;;;; {rinari}
