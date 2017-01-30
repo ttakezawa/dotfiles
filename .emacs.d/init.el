@@ -58,8 +58,8 @@
 (require 'mwheel)
 (mouse-wheel-mode 1)
 
-;; dired
-;; C-x C-qでwdired
+;; dired (C-x C-qでwdired)
+(add-hook 'dired-load-hook (lambda () (load "dired-x")))
 (setq dired-dwim-target t)
 
 ;; tweak indentation
