@@ -173,7 +173,7 @@
   (let ((global-hl-line-mode t))
     (global-hl-line-highlight)))
 (setq global-hl-line-timer
-      (run-with-idle-timer 0.05 t 'global-hl-line-timer-function))
+      (run-with-idle-timer 0.5 t 'global-hl-line-timer-function))
 
 (set-face-attribute hl-line-face nil :background "gray9" :underline t)
 
