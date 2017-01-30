@@ -107,7 +107,13 @@
       recentf-auto-save-timer (run-with-idle-timer 30 t '(lambda () (with-suppressed-message (recentf-save-list))))
       recentf-exclude '(".recentf" "custom.el"))
 (recentf-mode 1)
-;; 起動直後に履歴表示
+
+;; suppress recentf-cleanup  ( Cleaning up the recentf list...done (0 removed) )
+(defadvice recentf-cleanup (around recentf-cleanup-quiet activate)
+  "suppress the output from `message' to minibuffer"
+  (with-suppressed-message ad-do-it))
+
+;; dashboard-modeを使ってない場合、起動直後にrecentf-open-filesを実行
 (add-hook 'after-init-hook
           '(lambda()
              (when (and
