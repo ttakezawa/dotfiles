@@ -7,8 +7,8 @@
 
 (define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key [backspace] 'delete-backward-char)
-(global-set-key (kbd "C-z") nil)
-(global-set-key (kbd "C-\\") nil)  ; disable toggle-input-method
+(global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-\\"))  ; disable toggle-input-method
 (setq inhibit-startup-message t)
 (setq-default frame-background-mode 'dark)
 (load (setq custom-file (locate-user-emacs-file "custom.el")) t)
