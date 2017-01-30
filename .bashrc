@@ -164,6 +164,12 @@ cdgem () {
   fi
 }
 
+#### python
+if [[ -d "$HOME/.pyenv/bin" ]]; then
+  export PATH="$HOME/.pyenv/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
+
 #### nodejs
 # nvm
 if [[ -s $HOME/.nvm/nvm.sh ]]; then
