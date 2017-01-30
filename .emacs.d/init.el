@@ -14,7 +14,7 @@
 (load (setq custom-file (locate-user-emacs-file "custom.el")) t)
 (setq ring-bell-function 'ignore) ; ignore bell
 (menu-bar-mode -1)
-(tool-bar-mode -1)
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (windmove-default-keybindings)
 (add-hook 'makefile-mode 'intent-tabs-mode)
 (fset 'yes-or-no-p 'y-or-n-p)
