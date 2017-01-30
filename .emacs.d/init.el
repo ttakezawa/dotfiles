@@ -89,11 +89,12 @@
       recentf-auto-cleanup 10
       recentf-auto-save-timer (run-with-idle-timer 30 t '(lambda () (with-suppressed-message (recentf-save-list))))
       recentf-exclude '(".recentf" "custom.el"))
-; 起動直後に履歴表示
 (recentf-mode 1)
+;; 起動直後に履歴表示
 (add-hook 'after-init-hook
-          (lambda()
-            (recentf-open-files)))
+          '(lambda()
+             (when (= 1 (length command-line-args))
+               (recentf-open-files))))
 
 ;; save place
 (require 'saveplace)
