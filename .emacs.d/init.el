@@ -13,9 +13,8 @@
 (setq-default frame-background-mode 'dark)
 (load (setq custom-file (locate-user-emacs-file "custom.el")) t)
 (setq ring-bell-function 'ignore) ; ignore bell
-(cond
- (window-system (tool-bar-mode -1))
- (t             (menu-bar-mode -1)))
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 (windmove-default-keybindings)
 (add-hook 'makefile-mode 'intent-tabs-mode)
 (fset 'yes-or-no-p 'y-or-n-p)
