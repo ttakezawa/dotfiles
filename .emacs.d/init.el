@@ -13,8 +13,6 @@
 (setq-default frame-background-mode 'dark)
 (load (setq custom-file (locate-user-emacs-file "custom.el")) t)
 (setq ring-bell-function 'ignore) ; ignore bell
-(menu-bar-mode -1)
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (windmove-default-keybindings)
 (add-hook 'makefile-mode 'intent-tabs-mode)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -29,6 +27,20 @@
 (require 'generic-x)
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
 (global-set-key (kbd "C-c C-c") 'compile)
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+
+;; MacでGUIのときだけは特に邪魔にならないのでメニューバーを表示させる
+(defun takezawa/setup-menu-bar-mode (&optional frame)
+  "setup menu-bar-mode."
+  (unless frame
+    (setq frame (selected-frame)))
+  (select-frame frame)
+  (if (and (eq system-type 'darwin) window-system)
+      (menu-bar-mode 1)
+    (menu-bar-mode -1)))
+(takezawa/setup-menu-bar-mode)
+(add-hook 'after-make-frame-functions
+          'takezawa/setup-menu-bar-mode)
 
 ;; server server for emacsclient
 (require 'server)
