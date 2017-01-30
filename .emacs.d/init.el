@@ -41,6 +41,11 @@
 (setq desktop-globals-to-save '(search-ring regexp-search-ring kill-ring))
 (desktop-save-mode 1)
 
+;; mouse
+(xterm-mouse-mode)
+(require 'mwheel)
+(mouse-wheel-mode 1)
+
 ;; dired
 ;; C-x C-qでwdired
 (setq dired-dwim-target t)
