@@ -93,7 +93,9 @@
 ;; 起動直後に履歴表示
 (add-hook 'after-init-hook
           '(lambda()
-             (when (< (length command-line-args) 2)
+             (when (and
+                    (< (length command-line-args) 2)
+                    (not (fboundp 'dashboard-mode)))
                (recentf-open-files))))
 
 ;; save place
@@ -888,3 +890,8 @@ See the variable `align-rules-list' for more details.")
       (replace-regexp-in-string
        "\n+$" "" (shell-command-to-string
                   "xcrun --show-sdk-path --sdk macosx")))
+
+;;;; {dashboard}
+(el-get-bundle rakanalh/emacs-dashboard :depends (page-break-lines) :features dashboard)
+(dashboard-setup-startup-hook)
+(setq dashboard-items '((projects . 5) (recents  . 20)))

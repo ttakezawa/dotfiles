@@ -45,6 +45,7 @@
         (markdown-mode :checksum "df4ac404ce92abdf1a0b78da8ef1675f1cd1f196")
         (moe-theme :checksum "70e71ef7404cc5c38254771695eee221090d5110")
         (open-junk-file :checksum "f87b93ec26e92dc747da43499d0cbf5ab70fd8c2")
+        (page-break-lines :checksum "c133848345ceef91e257aab8804c61f31c31b264")
         (pkg-info :checksum "76ba7415480687d05a4353b27fea2ae02b8d9d61")
         (plantuml-mode :checksum "1cf387adc979157358b5a8e617a627504d5e1d78")
         (popup :checksum "80829dd46381754639fb764da11c67235fe63282")
