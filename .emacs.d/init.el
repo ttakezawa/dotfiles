@@ -93,7 +93,7 @@
 ;; 起動直後に履歴表示
 (add-hook 'after-init-hook
           '(lambda()
-             (when (= 1 (length command-line-args))
+             (when (< (length command-line-args) 2)
                (recentf-open-files))))
 
 ;; save place
