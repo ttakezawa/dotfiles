@@ -57,6 +57,7 @@
 (xterm-mouse-mode)
 (require 'mwheel)
 (mouse-wheel-mode 1)
+(global-unset-key [M-down-mouse-1]) ;; ターミナルで M-左クリック のとき文字が入力されてしまうのを回避
 
 ;; dired (C-x C-qでwdired)
 (add-hook 'dired-load-hook (lambda () (load "dired-x")))
