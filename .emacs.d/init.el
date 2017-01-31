@@ -532,9 +532,12 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (setq flycheck-display-errors-delay 0.1)
 (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)) ;; new-lineは頻度が多すぎて重いので除外
 (setq flycheck-idle-change-delay 20.0)
+(global-set-key (kbd "C-c l") 'flycheck-list-errors)
+(global-set-key (kbd "C-c e") 'flycheck-explain-error-at-point)
 (custom-set-faces
  '(flycheck-error ((t (:background "red4" :weight bold))))
  '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
+
 
 ;;;; {flycheck-tip}
 (el-get-bundle flycheck-tip)
