@@ -928,3 +928,7 @@ See the variable `align-rules-list' for more details.")
 (el-get-bundle rakanalh/emacs-dashboard :depends (page-break-lines) :features dashboard)
 (dashboard-setup-startup-hook)
 (setq dashboard-items '((projects . 5) (recents  . 20)))
+(add-hook 'dashboard-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "C-n") 'widget-forward)
+             (local-set-key (kbd "C-p") 'widget-backward)))
