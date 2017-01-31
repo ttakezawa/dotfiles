@@ -626,8 +626,10 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (add-hook 'go-mode-hook 'go-eldoc-setup)
   (add-hook 'go-mode-hook
             '(lambda ()
-               (set (make-local-variable 'tab-width) 4)))
-  )
+               (setq-local tab-width 4)
+               (setq-local comment-auto-fill-only-comments t)
+               (set-fill-column 90)
+               (auto-fill-mode 1))))
 
 (add-hook 'go-mode-hook
           '(lambda ()
