@@ -418,9 +418,33 @@
 (define-key helm-read-file-map (kbd "C-z") 'helm-select-action)
 (define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
 
+;;;; {helm-ls-git}
+(el-get-bundle helm-ls-git)
+(global-set-key (kbd "C-x G") 'helm-ls-git-ls)
+
+;;;; {projectile-mode}
+(el-get-bundle projectile)
+(projectile-global-mode)
+
+;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
+(add-hook 'flycheck-mode-hook
+          (lambda ()
+            (when (projectile-project-p)
+              (let ((path (concat (projectile-project-root) "node_modules/.bin")))
+                (when (file-directory-p path)
+                  (let ((cmd (concat path "/eslint")))
+                    (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
+                  )))))
+
+;;;; {helm-projectile}
+(el-get-bundle helm-projectile)
+
 ;; Configure helm-for-files
+(require 'helm-projectile)
 (setq helm-for-files-preferred-list
       '(;; helm-source-buffers-list
+        helm-source-ls-git-status
+        helm-source-projectile-files-list
         helm-source-recentf
         ;; helm-source-bookmarks
         ;; helm-source-file-cache
@@ -452,10 +476,6 @@
 ;;;; {helm-ghq}
 (el-get-bundle helm-ghq)
 (global-set-key (kbd "C-x g") 'helm-ghq)
-
-;;;; {helm-ls-git}
-(el-get-bundle helm-ls-git)
-(global-set-key (kbd "C-x G") 'helm-ls-git-ls)
 
 ;; define takezawa/helm-for-files with helm-ls-git
 (defvar takezawa/helm-source-home-filelist
@@ -881,22 +901,6 @@ See the variable `align-rules-list' for more details.")
 (el-get-bundle elpa:hcl-mode :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
 (el-get-bundle elpa:terraform-mode :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
 (setq terraform-indent-level 4)
-
-;;;; {projectile-mode}
-(el-get-bundle projectile)
-(projectile-global-mode)
-;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
-(add-hook 'flycheck-mode-hook
-          (lambda ()
-            (when (projectile-project-p)
-              (let ((path (concat (projectile-project-root) "node_modules/.bin")))
-                (when (file-directory-p path)
-                  (let ((cmd (concat path "/eslint")))
-                    (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
-                  )))))
-
-;;;; {helm-projectile}
-(el-get-bundle helm-projectile)
 
 ;;;; {auto-install}
 (el-get-bundle auto-install)
