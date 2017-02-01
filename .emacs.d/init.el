@@ -771,7 +771,12 @@ See the variable `align-rules-list' for more details.")
 (global-set-key (kbd "C-x p") 'helm-bundle-show)
 
 ;;;; {rinari}
-(el-get-bundle rinari :type github :pkgname "eschulte/rinari" :load-path ("." "util" "util/jump") :build (("bundle")) :features rinari)
+(el-get-bundle rinari
+  :type github :pkgname "eschulte/rinari"
+  :load-path ("." "util" "util/jump")
+  :build (("bundle")) :submodule nil
+  :depends (inf-ruby)
+  :features rinari)
 
 (global-rinari-mode)
 (define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
