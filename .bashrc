@@ -250,6 +250,9 @@ FZF-EOF"
   #   Taken from https://github.com/junegunn/fzf/issues/808 and key-bindings.bash
   # Requires nauniq
   #   mkdir -p ~/bin && curl https://raw.githubusercontent.com/perlancar/perl-App-nauniq/master/bin/nauniq | sed 's?#!perl?#!/usr/bin/env perl?' > ~/bin/nauniq && chmod +x ~/bin/nauniq
+  if ! type -P nauniq >/dev/null; then
+    echo "nauniq not found." >&2
+  fi
   __fzf_history__() (
     local line
     shopt -u nocaseglob nocasematch
