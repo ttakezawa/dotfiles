@@ -939,5 +939,6 @@ See the variable `align-rules-list' for more details.")
 (setq dashboard-items '((projects . 5) (recents  . 20)))
 (add-hook 'dashboard-mode-hook
           '(lambda ()
+             (local-set-key (kbd "n") 'widget-forward)
              (local-set-key (kbd "C-n") 'widget-forward)
              (local-set-key (kbd "C-p") 'widget-backward)))
