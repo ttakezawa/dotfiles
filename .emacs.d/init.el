@@ -221,6 +221,22 @@
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
 
+;; javascript-mode (builtin)
+(add-to-list 'auto-mode-alist '("\\.json5$" . js-mode))
+(with-eval-after-load 'js
+  (define-key js-mode-map (kbd "M-.") 'helm-etags-select) ;; etags
+  (setq js-indent-level 2
+        js-expr-indent-offset 2)
+  (add-to-list 'align-rules-list
+               '(javascript-assignment-literal
+                 (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
+                 (repeat . t)
+                 (modes  . '(js-mode))))
+  (add-to-list 'align-rules-list
+               '(javascript-hash-literal
+                 (regexp . "^\\s-*[a-zA-Z0-9.:?_\"]+:\\(\\s-+\\)[a-zA-Z0-9:'\"]")
+                 (modes  . '(js-mode)))))
+
 ;; flyspell-mode
 ; configure for camelCase
 (setq ispell-extra-args '("--run-together" "--run-together-limit=6" "--run-together-min=2"))
@@ -785,23 +801,6 @@ See the variable `align-rules-list' for more details.")
 (define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
 (define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
 (define-key rinari-minor-mode-map (kbd "C-c p") 'rinari-goto-partial)
-
-;;;; javascript
-(add-to-list 'auto-mode-alist '("\\.json5$" . js-mode))
-(with-eval-after-load 'js
-  (define-key js-mode-map (kbd "M-.") 'helm-etags-select) ;; etags
-  (setq js-indent-level 2
-        js-expr-indent-offset 2)
-  (add-to-list 'align-rules-list
-               '(javascript-assignment-literal
-                 (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
-                 (repeat . t)
-                 (modes  . '(js-mode))))
-  (add-to-list 'align-rules-list
-               '(javascript-hash-literal
-                 (regexp . "^\\s-*[a-zA-Z0-9.:?_\"]+:\\(\\s-+\\)[a-zA-Z0-9:'\"]")
-                 (modes  . '(js-mode))))
-  )
 
 ;;;; {json-mode}
 (el-get-bundle json-mode)
