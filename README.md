@@ -10,6 +10,7 @@ echo 'source $HOME/.dotfiles/.bashrc' >> ~/.bash_profile
 echo 'source ~/.dotfiles/.bashrc' >> ~/.bashrc
 
 # Common
+ln -s ~/.dotfiles/.ssh_config ~/.ssh/config
 ln -s ~/.dotfiles/.inputrc ~/
 ln -s ~/.dotfiles/.gitconfig ~/
 ln -s ~/.dotfiles/.gitignore_global ~/
