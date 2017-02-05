@@ -47,11 +47,23 @@
 (unless (server-running-p)
   (server-start))
 
-;; desktop-save-mode (builtin)
+;;;; desktop-save-mode (builtin)
 (setq desktop-files-not-to-save "") ;; バッファを復元させない
 (setq desktop-restore-frames nil)   ;; フレームを復元させない
 (setq desktop-globals-to-save '(search-ring regexp-search-ring kill-ring))
 (desktop-save-mode 1)
+
+;; Automatically overriding stale locks
+;; Taken from https://www.emacswiki.org/emacs/Desktop#toc4 and https://github.com/hjz/emacs/blob/master/config/desktop.el
+(defun emacs-process-p (pid)
+  "If pid is the process ID of an emacs process, return t, else nil."
+  (when pid
+    (= 0 (call-process "kill" nil nil nil "-0" (number-to-string pid)))))
+
+(defadvice desktop-owner (after pry-from-cold-dead-hands activate)
+  "Don't allow dead emacsen to own the desktop file."
+  (when (not (emacs-process-p ad-return-value))
+    (setq ad-return-value nil)))
 
 ;; mouse
 (xterm-mouse-mode)
