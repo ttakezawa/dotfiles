@@ -908,23 +908,6 @@ See the variable `align-rules-list' for more details.")
 (el-get-bundle elpa:terraform-mode :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
 (setq terraform-indent-level 4)
 
-;;;; {auto-install}
-(el-get-bundle auto-install)
-(setq auto-install-directory (locate-user-emacs-file "auto-install"))
-(add-to-list 'load-path auto-install-directory)
-(require 'auto-install)
-
-;;;; {solidity-mode)
-;; (el-get-bundle solidity-mode) だとうまくいかないので、auto-installで入れることにする
-(auto-install-from-url "https://raw.githubusercontent.com/ttakezawa/emacs-solidity/master/solidity-mode.el")
-(require 'flycheck)
-(require 'solidity-mode)
-(add-to-list 'flycheck-checkers 'solidity-checker)
-(setq solidity-solc-path (executable-find "solc"))
-(add-hook 'solidity-mode-hook
-          '(lambda ()
-             (set (make-local-variable 'c-basic-offset) 4)))
-
 ;;;; {swift-mode}
 (el-get-bundle swift-mode)
 (require 'swift-mode)

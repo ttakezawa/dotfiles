@@ -1,7 +1,6 @@
 (setq el-get-lock-package-versions
       '((ac-helm :checksum "baf2b1e04bcffa835084389c0fab415f26efbf32")
         (auto-complete :checksum "2e83566ddfa758c69afe50b8a1c62a66f47471e3")
-        (auto-install :checksum "4c7626db5ec2fd3be5ee075887ec2af59c6b7e26")
         (backup-each-save :checksum "9a3b44773175ab18ca6d0cc8a8e64a3b0c12728e")
         (coffee-mode :checksum "d7d554cbf435aa875fbf56e67c4374375a164a93")
         (crontab-mode :checksum "f68206c1d10de68ba0685ce4cb14741c7ca7c648")
