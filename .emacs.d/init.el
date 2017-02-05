@@ -771,11 +771,12 @@ See the variable `align-rules-list' for more details.")
 (global-set-key (kbd "C-x p") 'helm-bundle-show)
 
 ;;;; {rinari}
+(el-get-bundle eschulte-jump :type github :pkgname "eschulte/jump.el" :depends (findr))
 (el-get-bundle rinari
   :type github :pkgname "eschulte/rinari"
   :load-path ("." "util" "util/jump")
   :build (("bundle")) :submodule nil
-  :depends (inf-ruby)
+  :depends (inf-ruby eschulte-jump)
   :features rinari)
 
 (global-rinari-mode)
