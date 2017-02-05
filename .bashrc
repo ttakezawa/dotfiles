@@ -34,6 +34,7 @@ export PATH="$PATH:$SOURCE_DIR/bin"
 [[ $IS_DARWIN ]] && source $SOURCE_DIR/.bashrc.darwin
 
 #### basic tweaks
+export TZ="Asia/Tokyo"
 export LANG=ja_JP.UTF-8
 # use $HOME/local
 export PATH="$HOME/local/bin:$PATH"
