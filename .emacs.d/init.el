@@ -493,6 +493,7 @@
 
 ;;;; {helm-ag}
 (el-get-bundle helm-ag)
+(setq helm-ag-insert-at-point 'symbol)
 ;; C-c C-e: Switch to edit mode
 ;; C-u打つのが面倒なので、常にC-uの挙動(ディレクトリ選択を求める)にする
 (defun takezawa/helm-do-ag-dir ()
