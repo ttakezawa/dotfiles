@@ -682,8 +682,11 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (add-hook 'go-mode-hook
           '(lambda ()
              (unless (getenv "GOROOT")
-               ;; goenvを使っている場合にgodefなどが使えなくなってしまうのでworkaroundする
-               (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))))
+               ;; goenvを使っている場合にGOROOTが認識されずgodefなどが使えなくなってしまうので、GOROOTを再設定することでworkaroundする
+               (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))
+             ;; Disable flycheck under GOROOT directory to avoid heavy process.
+             (when (string-prefix-p (getenv "GOROOT") default-directory)
+               (setq-local flycheck-checkers '()))))
 
 ;; highlight err[0-9]*
 (font-lock-add-keywords
