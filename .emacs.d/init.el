@@ -466,6 +466,7 @@
 
 ;;;; {helm-projectile}
 (el-get-bundle helm-projectile)
+(global-set-key (kbd "C-c .") 'helm-projectile-ag)
 
 ;; Configure helm-for-files
 (require 'helm-projectile)
