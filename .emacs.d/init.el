@@ -443,6 +443,7 @@
 ;;;; {dumb-jump}
 (el-get-bundle jacktasia/dumb-jump :depends (f s dash popup))
 (global-set-key (kbd "M-.") 'dumb-jump-go)
+(global-set-key (kbd "C-c j") 'dumb-jump-go)
 (global-set-key (kbd "M-*") 'dumb-jump-back)
 
 ;;;; {etags-table}
