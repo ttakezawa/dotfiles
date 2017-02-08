@@ -210,9 +210,8 @@ fi
 #### Golang
 export GOPATH=$HOME/dev
 export PATH=$PATH:$GOPATH/bin
-if [[ -f $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc ]]; then
-  # completion
-  source $SOURCE_DIR/.bash.d/go-pkg-complete.bash.inc
+if [[ -f $SOURCE_DIR/.bash.d/go.completion.bash ]]; then
+  source $SOURCE_DIR/.bash.d/go.completion.bash
 fi
 
 # goenv

@@ -23,8 +23,8 @@ curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-
 # .bash.d/ag.bashcomp.sh
 curl -L https://raw.githubusercontent.com/ggreer/the_silver_searcher/master/ag.bashcomp.sh > .bash.d/ag.bashcomp.sh
 
-# .bash.d/go-pkg-complete.bash.inc
-curl -L https://raw.githubusercontent.com/skelterjohn/go-pkg-complete/master/go-pkg-complete.bash.inc -o .bash.d/go-pkg-complete.bash.inc
+# .bash.d/go.completion.bash
+curl -L https://raw.githubusercontent.com/Bash-it/bash-it/master/completion/available/go.completion.bash -o .bash.d/go.completion.bash
 
 # .bash.d/gibo-completion.bash
 curl -L https://raw.githubusercontent.com/simonwhitaker/gibo/master/gibo-completion.bash -o .bash.d/gibo-completion.bash
