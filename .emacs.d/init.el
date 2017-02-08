@@ -208,15 +208,47 @@
 
 (set-face-attribute hl-line-face nil :background "gray9" :underline t)
 
-;; whitespace-mode (builtin)
-(setq whitespace-space-regexp "\\(\u3000+\\)") ; 全角スペース
-(setq whitespace-style '(face      ; faceで可視化
-                         trailing  ; 行末
-                         tabs      ; タブ
-                         spaces    ; スペース
-                         empty     ; 先頭/末尾の空行
-                         tab-mark))
-(setq whitespace-action '(auto-cleanup)) ; ファイル保存時に余分な空白を削除
+;;;; whitespace-mode (builtin)
+
+;; ファイル保存時に余分な空白を削除
+(setq whitespace-action '(auto-cleanup))
+
+;; non-printable character を別の文字に置き換えて表示する
+;; 参考: https://www.cs.tut.fi/~jkorpela/chars/spaces.html
+(setq whitespace-display-mappings
+      '((tab-mark ?\t [?» ?\t] [?\\ ?\t]) ;; タブを»を使って表示する
+
+        ;; 以下のUnicode Whitespaceを半角スペースや□などに置き換えて表示する。
+        ;; また、後のwhitespace-space face設定にて下線を付けて強調表示される。
+        (space-mark ?\u2000 [?\ ]) ; EN QUAD
+        (space-mark ?\u2001 [?\ ]) ; EM QUAD
+        (space-mark ?\u2002 [?\ ]) ; EN SPACE
+        (space-mark ?\u2003 [?\ ]) ; EM SPACE
+        (space-mark ?\u2004 [?\ ]) ; THREE-PER-EM SPACE
+        (space-mark ?\u2005 [?\ ]) ; FOUR-PER-EM SPACE
+        (space-mark ?\u2006 [?\ ]) ; SIX-PER-EM SPACE
+        (space-mark ?\u2007 [?\ ]) ; FIGURE SPACE
+        (space-mark ?\u2008 [?\ ]) ; PUNCTUATION SPACE
+        (space-mark ?\u2009 [?\ ]) ; THIN SPACE
+        (space-mark ?\u200A [?\ ]) ; HAIR SPACE
+        (space-mark ?\u200B [?\ ]) ; ZERO WIDTH SPACE
+        (space-mark ?\u202F [?\ ]) ; NARROW NO-BREAK SPACE
+        (space-mark ?\u205F [?\ ]) ; MEDIUM MATHEMATICAL SPACE
+        (space-mark ?\u3000 [?□]) ; IDEOGRAPHIC SPACE - 全角スペース
+        (space-mark ?\uFEFF [?B?O?M]) ; ZERO WIDTH NO-BREAK SPACE
+        ))
+
+;; 全角スペースや、Unicode Whitespaceをspaceのfaceで強調させる
+(setq whitespace-space-regexp "\\([\u3000\u2000-\u200B\u202F\u205F\uFEFF]+\\)")
+
+(setq whitespace-style '(face       ; faceで可視化
+                         trailing   ; 行末
+                         tabs       ; タブ
+                         spaces     ; スペース
+                         empty      ; 先頭/末尾の空行
+                         space-mark ; white-display-mappingsのspace-mark置換を適用させる
+                         tab-mark   ; white-display-mappingsのtab-mark置換を適用させる
+                         ))
 (custom-set-faces
  '(whitespace-trailing ((t (:background nil :foreground "DeepPink"     :underline t))))
  '(whitespace-tab      ((t (:background nil :foreground "DarkSlateGray" :underline t))))
