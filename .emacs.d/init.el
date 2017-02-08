@@ -452,6 +452,7 @@
 
 ;;;; {projectile-mode}
 (el-get-bundle projectile)
+(setq projectile-keymap-prefix (kbd "C-c C-p"))
 (projectile-global-mode)
 
 ;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
@@ -466,7 +467,7 @@
 
 ;;;; {helm-projectile}
 (el-get-bundle helm-projectile)
-(global-set-key (kbd "C-c .") 'helm-projectile-ag)
+(global-set-key (kbd "C-c p g") 'helm-projectile-ag)
 
 ;; Configure helm-for-files
 (require 'helm-projectile)
