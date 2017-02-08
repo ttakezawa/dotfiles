@@ -104,7 +104,7 @@
 (setq ibuffer-use-other-window t)
 
 ;; indent
-(global-set-key (kbd "C-c i") 'indent-region)
+(global-set-key (kbd "C-c C-i") 'indent-region)
 
 ;; recentf
 (defmacro with-suppressed-message (&rest body)
