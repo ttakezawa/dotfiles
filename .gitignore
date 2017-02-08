@@ -11,7 +11,9 @@
 /.emacs.d/elpa
 /.emacs.d/emojis
 /.emacs.d/kkcrc
+/.emacs.d/network-security.data
 /.emacs.d/projectile-bookmarks.eld
+/.emacs.d/projectile.cache
 /.emacs.d/scratch
 /.emacs.d/tramp
 /.emacs.d/url
