@@ -214,12 +214,17 @@
 (setq whitespace-action '(auto-cleanup))
 
 ;; non-printable character を別の文字に置き換えて表示する
-;; 参考: https://www.cs.tut.fi/~jkorpela/chars/spaces.html
+;; 参考:
+;;   - http://www.ecma-international.org/ecma-262/6.0/#sec-white-space
+;;   - https://github.com/rails/rails/blob/v5.0.1/activesupport/lib/active_support/multibyte/unicode.rb#L38
 (setq whitespace-display-mappings
       '((tab-mark ?\t [?» ?\t] [?\\ ?\t]) ;; タブを»を使って表示する
 
         ;; 以下のUnicode Whitespaceを半角スペースや□などに置き換えて表示する。
         ;; また、後のwhitespace-space face設定にて下線を付けて強調表示される。
+        (space-mark ?\u000B [?\ ]) ; Vertical tab
+        (space-mark ?\u000C [?\ ]) ; Form Feed
+        (space-mark ?\u00A0 [?\ ]) ; NO-BREAK SPACE
         (space-mark ?\u2000 [?\ ]) ; EN QUAD
         (space-mark ?\u2001 [?\ ]) ; EM QUAD
         (space-mark ?\u2002 [?\ ]) ; EN SPACE
@@ -235,11 +240,11 @@
         (space-mark ?\u202F [?\ ]) ; NARROW NO-BREAK SPACE
         (space-mark ?\u205F [?\ ]) ; MEDIUM MATHEMATICAL SPACE
         (space-mark ?\u3000 [?□]) ; IDEOGRAPHIC SPACE - 全角スペース
-        (space-mark ?\uFEFF [?B?O?M]) ; ZERO WIDTH NO-BREAK SPACE
+        (space-mark ?\uFEFF [?B?O?M]) ; ZERO WIDTH NO-BREAK SPACE - BOM
         ))
 
 ;; 全角スペースや、Unicode Whitespaceをspaceのfaceで強調させる
-(setq whitespace-space-regexp "\\([\u3000\u2000-\u200B\u202F\u205F\uFEFF]+\\)")
+(setq whitespace-space-regexp "\\([\u000B\u000C\u00A0\u2000-\u200B\u202F\u205F\u3000\uFEFF]+\\)")
 
 (setq whitespace-style '(face       ; faceで可視化
                          trailing   ; 行末
