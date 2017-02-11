@@ -330,6 +330,8 @@ function conv-time () {
   done
 }
 
+alias stracev="strace -f -T -tt -v -x -y -yy"
+
 #### command time
 # trap ... DEBUG を上書きして実装している
 # また、PROMPT_COMMANDをいじる都合上、最後に設定するようにする
