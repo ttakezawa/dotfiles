@@ -764,7 +764,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
         ;; "ineffassign"
         "interfacer" ;; slow
         ;; "lll"
-        ;; "misspell"
+        "misspell"
         "staticcheck"
         ;; "structcheck" ;; slow
         ;; "unconvert" ;; flycheck slow
