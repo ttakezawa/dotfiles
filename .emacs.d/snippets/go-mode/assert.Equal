@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: assert.Equal
+# key: assert.Equal
+# --
+assert.Equal(t, ${1:expected}, ${2:got}, ${3:message})
