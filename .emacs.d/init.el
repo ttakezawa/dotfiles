@@ -322,6 +322,12 @@ want to use in the modeline *in lieu of* the original.")
 ;; Open .env and .env.* files with shell-script-mode
 (add-to-list 'auto-mode-alist '("\\.env" . shell-script-mode))
 
+;; $HOME/.[a-z]+env/ 以下は read-only-mode とする。伴ってflycheckも無効化される
+(add-hook 'find-file-hook
+          '(lambda ()
+             (when (string-match (concat "^" (file-name-as-directory (getenv "HOME")) "\.[a-z]+env") (buffer-file-name))
+               (read-only-mode 1))))
+
 ;; table align with org-mode
 ;; e.g.
 ;; |---+---|
@@ -750,10 +756,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
           '(lambda ()
              (unless (getenv "GOROOT")
                ;; goenvを使っている場合にGOROOTが認識されずgodefなどが使えなくなってしまうので、GOROOTを再設定することでworkaroundする
-               (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))
-             ;; Disable flycheck under GOROOT directory to avoid heavy process.
-             (when (string-prefix-p (getenv "GOROOT") default-directory)
-               (setq-local flycheck-checkers '()))))
+               (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))))
 
 ;; highlight err[0-9]*
 (font-lock-add-keywords
