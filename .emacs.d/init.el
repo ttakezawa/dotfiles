@@ -144,6 +144,28 @@
 ;; 自動保存ファイル(#*#)の保存先を変更 (デフォルトだと/tmpでマシンが再起動したときに消えてしまう)
 (setq auto-save-file-name-transforms `((".*" ,(locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time))) t)))
 
+;; Compact mode-line
+;; Taken from https://www.masteringemacs.org/article/hiding-replacing-modeline-strings
+(defvar mode-line-cleaner-alist
+  `((emacs-lisp-mode . "El"))
+  "Alist for `clean-mode-line'.
+
+When you add a new element to the alist, keep in mind that you
+must pass the correct minor/major mode symbol and a string you
+want to use in the modeline *in lieu of* the original.")
+(defun clean-mode-line ()
+  (interactive)
+  (loop for cleaner in mode-line-cleaner-alist
+        do (let* ((mode (car cleaner))
+                  (mode-str (cdr cleaner))
+                  (old-mode-str (cdr (assq mode minor-mode-alist))))
+             (when old-mode-str
+               (setcar old-mode-str mode-str))
+             ;; major mode
+             (when (eq mode major-mode)
+               (setq mode-name mode-str)))))
+(add-hook 'after-change-major-mode-hook 'clean-mode-line)
+
 ;; uniquify
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -269,6 +291,7 @@
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
+(add-to-list 'mode-line-cleaner-alist '(eldoc-mode . "")) ;; Hide from mode-line
 
 ;; javascript-mode (builtin)
 (add-to-list 'auto-mode-alist '("\\.json5$" . js-mode))
@@ -417,6 +440,7 @@
 ;;;; {highlight-symbol}
 (el-get-bundle highlight-symbol)
 (setq highlight-symbol-idle-delay 0.1)
+(add-to-list 'mode-line-cleaner-alist '(highlight-symbol-mode . "")) ;; Hide from mode-line
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
 ;;;; {which-key}
@@ -459,6 +483,7 @@
 ;;;; {helm}
 (el-get-bundle helm)
 (require 'helm-multi-match) ;; ファイルリスト(candidates-file)でskip matchできるようにする
+(add-to-list 'mode-line-cleaner-alist '(helm-mode . "")) ;; Hide from mode-line
 (helm-mode 1)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -642,6 +667,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;;;; {git-gutter}
 (el-get-bundle git-gutter)
 (global-git-gutter-mode 1)
+(add-to-list 'mode-line-cleaner-alist '(git-gutter-mode . "")) ;; Hide from mode-line
 
 ;;;; {git-modes}
 ;; gitattributes-mode, gitconfig-mode, gitignore-mode
