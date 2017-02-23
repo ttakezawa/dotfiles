@@ -292,6 +292,11 @@ if [[ -r $SOURCE_DIR/.bash.d/ag.bashcomp.sh ]]; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
 fi
 
+#### ripgrep
+if [[ -r $SOURCE_DIR/.bash.d/rg.bash-completion ]]; then
+  source $SOURCE_DIR/.bash.d/rg.bash-completion
+fi
+
 #### net-tools deprecation (Taken from http://blog.livedoor.jp/sonots/archives/38589335.html )
 net_tools_deprecated_message () {
   echo -n 'net-tools is deprecated.'
