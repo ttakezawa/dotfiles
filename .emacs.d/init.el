@@ -325,7 +325,9 @@ want to use in the modeline *in lieu of* the original.")
 ;; $HOME/.[a-z]+env/ 以下は read-only-mode とする。伴ってflycheckも無効化される
 (add-hook 'find-file-hook
           '(lambda ()
-             (when (string-match (concat "^" (file-name-as-directory (getenv "HOME")) "\.[a-z]+env") (buffer-file-name))
+             (when (or
+                    (string-match (concat "^" (file-name-as-directory (getenv "HOME")) "\.[a-z]+env") (buffer-file-name))
+                    (string-match "^/usr" (buffer-file-name)))
                (read-only-mode 1))))
 
 ;; table align with org-mode
