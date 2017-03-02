@@ -16,7 +16,9 @@
 	default = simple
 [alias]
 	# for completion
+        cat-file = cat-file
 	ls-files = ls-files
+        show-ref = show-ref
 
 	# shortcuts
 	df  = diff -w
