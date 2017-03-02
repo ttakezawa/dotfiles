@@ -25,14 +25,3 @@ elif [[ "$OSTYPE" =~ darwin ]]; then
     | bsdtar -xzf - -C $dir/bin --strip=0 './ghq'
 fi
 chmod +x $dir/bin/ghq
-
-# Install peco from https://github.com/peco/peco/releases
-PECO_VERSION=v0.3.5
-echo Install peco $PECO_VERSION
-if [[ "$OSTYPE" =~ linux ]]; then
-  curl -L https://github.com/peco/peco/releases/download/${PECO_VERSION}/peco_linux_${PROCESSOR}.tar.gz \
-    | tar xz -C $dir/bin --strip=1 --wildcards '*/peco' --no-same-owner --no-same-permissions
-elif [[ "$OSTYPE" =~ darwin ]]; then
-  curl -L https://github.com/peco/peco/releases/download/${PECO_VERSION}/peco_darwin_${PROCESSOR}.zip \
-    | bsdtar -xzf - -C $dir/bin --strip=1 '*/peco'
-fi

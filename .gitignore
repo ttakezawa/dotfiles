@@ -19,7 +19,6 @@
 /.emacs.d/url
 
 /bin/ghq
-/bin/peco
 
 *.old
 *.tmp
