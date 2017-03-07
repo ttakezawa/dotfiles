@@ -982,8 +982,12 @@ See the variable `align-rules-list' for more details.")
 (require 'highlight-indentation)
 (setq highlight-indentation-offset 4)
 (set-face-background 'highlight-indentation-current-column-face "#5f0000")
-(add-hook 'slim-mode-hook 'highlight-indentation-mode)
-(add-hook 'slim-mode-hook 'highlight-indentation-current-column-mode)
+(add-hook 'slim-mode-hook
+          (lambda()
+            (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+            (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+            (highlight-indentation-mode)
+            (highlight-indentation-current-column-mode)))
 
 ;;;; {dockerfile-mode}
 (el-get-bundle dockerfile-mode)
