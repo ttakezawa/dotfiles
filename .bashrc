@@ -44,6 +44,8 @@ export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
 export PATH="$HOME/bin:$PATH"
 export MANPATH="$HOME/man:$MANPATH"
 IGNOREEOF=3
+# ディストリによっては設定されていることがあるので初期化する
+PROMPT_COMMAND=''
 
 #### [ history ]
 # share accross sessions
@@ -112,6 +114,7 @@ function prettify_exit_code {
   fi
 }
 
+# Set window title as a side effect of $prompt_screen
 _PROMPT1='\[\e[0;36m\]\t \[\e[34m\]\h \[\e[31m\]$(prettify_exit_code)\[\e[33m\]\w\[\e[0m\]'
 _PROMPT2="\\n$prompt_screen\$ "
 PS1=$_PROMPT1$_PROMPT2
