@@ -974,6 +974,9 @@ See the variable `align-rules-list' for more details.")
 ;;;; {scss-mode}
 (el-get-bundle scss-mode)
 
+;;;; {sass-mode}
+(el-get-bundle sass-mode)
+
 ;;;; {slim-mode}
 (el-get-bundle slim-mode)
 
