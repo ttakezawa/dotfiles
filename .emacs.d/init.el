@@ -761,10 +761,11 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
                ;; goenvを使っている場合にGOROOTが認識されずgodefなどが使えなくなってしまうので、GOROOTを再設定することでworkaroundする
                (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))))
 
-;; highlight err[0-9]*
+;; highlight err[0-9]* and Err([A-Z]\S+)?
 (font-lock-add-keywords
  'go-mode
- '(("\\b\\(err[0-9]*\\)\\b" 1 '((:foreground "#ff4b4b") (:weight bold)) t)))
+ '(("\\b\\(err[0-9]*\\)\\b" 1 '((:foreground "#ff4b4b") (:weight bold)) t)
+   ("\\b\\(Err\\([A-Z]\\w+\\)?\\)\\b" 1 '((:foreground "#ff4b4b") (:weight bold)) t)))
 
 (setq flycheck-go-vet-shadow 'strict) ;; flycheck go-vet use "-shadowstrict" option
 
