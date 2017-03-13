@@ -761,10 +761,11 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
                ;; goenvを使っている場合にGOROOTが認識されずgodefなどが使えなくなってしまうので、GOROOTを再設定することでworkaroundする
                (setenv "GOROOT" (substring (shell-command-to-string "go env GOROOT") 0 -1)))))
 
-;; highlight err[0-9]*
+;; highlight err[0-9]* and Err([A-Z]\S+)?
 (font-lock-add-keywords
  'go-mode
- '(("\\b\\(err[0-9]*\\)\\b" 1 '((:foreground "#ff4b4b") (:weight bold)) t)))
+ '(("\\b\\(err[0-9]*\\)\\b" 1 '((:foreground "#ff4b4b") (:weight bold)) t)
+   ("\\b\\(Err\\([A-Z]\\w+\\)?\\)\\b" 1 '((:foreground "#ff4b4b") (:weight bold)) t)))
 
 (setq flycheck-go-vet-shadow 'strict) ;; flycheck go-vet use "-shadowstrict" option
 
@@ -828,6 +829,12 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
     (lambda () (interactive)
       (unless (enh-ruby-show-errors-at (point) 'erm-syn-errline)
         (enh-ruby-show-errors-at (point) 'erm-syn-warnline)))))
+
+(add-hook 'enh-ruby-mode-hook
+          (lambda ()
+            (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+            (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+            ))
 
 ;; ruby align setup (see https://github.com/daveyeu/emacs-dot-d/blob/master/custom/ruby-align.el)
 (defconst align-ruby-modes '(enh-ruby-mode)
@@ -968,6 +975,9 @@ See the variable `align-rules-list' for more details.")
 ;;;; {scss-mode}
 (el-get-bundle scss-mode)
 
+;;;; {sass-mode}
+(el-get-bundle sass-mode)
+
 ;;;; {slim-mode}
 (el-get-bundle slim-mode)
 
@@ -976,8 +986,12 @@ See the variable `align-rules-list' for more details.")
 (require 'highlight-indentation)
 (setq highlight-indentation-offset 4)
 (set-face-background 'highlight-indentation-current-column-face "#5f0000")
-(add-hook 'slim-mode-hook 'highlight-indentation-mode)
-(add-hook 'slim-mode-hook 'highlight-indentation-current-column-mode)
+(add-hook 'slim-mode-hook
+          (lambda()
+            (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+            (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+            (highlight-indentation-mode)
+            (highlight-indentation-current-column-mode)))
 
 ;;;; {dockerfile-mode}
 (el-get-bundle dockerfile-mode)
