@@ -15,6 +15,11 @@
 [push]
 	default = simple
 [alias]
+	# utility
+	co = !git checkout $(git branch --color | sed 's/.* //' | fzf-tmux --ansi --select-1 --query="$@")
+	clean-branch      = !echo '[Dry-run]' && git branch --merged | grep -Pv '^\\*|^\\s*master'
+	clean-branch-exec = !                    git branch --merged | grep -Pv '^\\*|^\\s*master' | xargs git branch -d
+
 	# for completion
         cat-file = cat-file
 	ls-files = ls-files
@@ -22,9 +27,8 @@
 
 	# shortcuts
 	df  = diff -w
-	dfc = diff -w --cached
-	clean-branch      = !echo '[Dry-run]' && git branch --merged | grep -Pv '^\\*|^\\s*master'
-	clean-branch-exec = !                    git branch --merged | grep -Pv '^\\*|^\\s*master' | xargs git branch -d
+        dfc = diff -w --cached
+
 # [url "git@github.com:"]
 # 	insteadOf = git://github.com/
 # 	insteadOf = https://github.com/
