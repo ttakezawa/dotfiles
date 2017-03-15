@@ -658,8 +658,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (global-set-key (kbd "C-c e") 'flycheck-explain-error-at-point)
 (custom-set-faces
  '(flycheck-error ((t (:background "red4" :weight bold))))
- '(flycheck-warning ((t (:background "yellow4" :weight bold)))))
-
+ '(flycheck-warning ((t (:background "color-58" :weight bold))))
+ '(flycheck-info ((t (:foreground "white" :background "darkgreen")))))
 
 ;;;; {flycheck-tip}
 (el-get-bundle flycheck-tip)
@@ -820,8 +820,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
         enh-ruby-deep-indent-paren-style nil)
   (defun enh-ruby-mode-set-encoding () nil)
   (custom-set-faces
-   '(erm-syn-errline  ((t (:weight bold :background "red3" :underline t))))
-   '(erm-syn-warnline ((t (:weight bold :background "yellow3" :underline t))))
+   '(erm-syn-errline  ((t (:weight bold :background "red3" :underline nil))))
+   '(erm-syn-warnline ((t (:weight bold :background "goldenrod4" :underline nil))))
    '(enh-ruby-op-face ((t (:foreground "#00af5f")))))
 
   ;; C-ceでカーソル位置のerr or warnを表示
