@@ -511,11 +511,11 @@ want to use in the modeline *in lieu of* the original.")
 ;; ;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
 ;; (setq helm-etags-match-part-only nil)
 
-;; find-fileのときC-iで選択するようにする
+;; C-M-iでアクション選択
+(define-key helm-map (kbd "C-M-i") 'helm-select-action)
+;; find-fileのときC-iで選択
 (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
-(define-key helm-read-file-map (kbd "C-z") 'helm-select-action)
-(define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
 
 ;;;; {helm-ls-git}
 (el-get-bundle helm-ls-git)
