@@ -526,6 +526,27 @@ want to use in the modeline *in lieu of* the original.")
 (setq projectile-keymap-prefix (kbd "C-c C-p"))
 (projectile-global-mode)
 
+;; Taken from http://emacs.stackexchange.com/questions/2891/projectile-project-in-folder-without-write-access
+(defun projectile-root-child-of (dir &optional list)
+  (projectile-locate-dominating-file
+   dir
+   (lambda (dir)
+     (--first
+      (if (and
+           (string-equal (file-remote-p it) (file-remote-p dir))
+           (string-match-p (expand-file-name it) (expand-file-name dir)))
+          dir)
+      (or list project-root-regexps (list))))))
+(defvar project-root-regexps ()
+  "List of regexps to match against when projectile is searching
+  for project root directories.")
+;; rbenv以下のgemがprojectルートになるように設定
+(add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/lib/ruby/gems/[^/]+/gems/[^/]+/?$")
+;; rbenv以下のrubyがprojectルートになるように設定
+(add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/?$")
+
+(add-to-list 'projectile-project-root-files-functions 'projectile-root-child-of)
+
 ;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
 (add-hook 'flycheck-mode-hook
           (lambda ()
