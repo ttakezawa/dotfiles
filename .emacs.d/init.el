@@ -697,6 +697,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle git-gutter)
 (global-git-gutter-mode 1)
 (add-to-list 'mode-line-cleaner-alist '(git-gutter-mode . "")) ;; Hide from mode-line
+(setq git-gutter:diff-option "-w")
 
 ;;;; {git-modes}
 ;; gitattributes-mode, gitconfig-mode, gitignore-mode
