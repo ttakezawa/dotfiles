@@ -856,6 +856,18 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
             (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
             ))
 
+(defun ruby-mode-set-frozen-string-literal-true ()
+  (when (eq major-mode 'enh-ruby-mode)
+    (save-excursion
+      (widen)
+      (goto-char (point-min))
+      (unless (looking-at "^# frozen_string_literal: true")
+        (insert "# frozen_string_literal: true\n")))))
+
+(add-hook 'enh-ruby-mode-hook
+          (lambda()
+            (add-hook 'before-save-hook 'ruby-mode-set-frozen-string-literal-true)))
+
 ;; ruby align setup (see https://github.com/daveyeu/emacs-dot-d/blob/master/custom/ruby-align.el)
 (defconst align-ruby-modes '(enh-ruby-mode)
   "align-perl-modes is a variable defined in `align.el'.")
