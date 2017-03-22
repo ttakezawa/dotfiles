@@ -309,13 +309,6 @@ want to use in the modeline *in lieu of* the original.")
                  (regexp . "^\\s-*[a-zA-Z0-9.:?_\"]+:\\(\\s-+\\)[a-zA-Z0-9:'\"]")
                  (modes  . '(js-mode)))))
 
-;; flyspell-mode
-; configure for camelCase
-(setq ispell-extra-args '("--run-together" "--run-together-limit=6" "--run-together-min=2"))
-(add-to-list 'ispell-extra-args "--sug-mode=ultra")
-(dolist (hook '(web-mode-hook js-mode-hook ruby-mode-hook enh-ruby-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode 1))))
-
 ;; conf-unix-mode (builtin)
 (add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
 
