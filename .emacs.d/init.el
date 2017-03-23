@@ -934,6 +934,10 @@ See URL `https://github.com/troessner/reek'."
   :modes (enh-ruby-mode ruby-mode)
   :next-checkers ((info . ruby-rubocop)))
 
+;; ruby-rubocopのあとにruby-lintが処理されるようにする
+;; (ruby-rubocop のエラーが info 以下なら ruby-reek が実行される)
+(setq flycheck-checkers (append flycheck-checkers '(ruby-reek)))
+(flycheck-add-next-checker 'ruby-rubocop '(info . ruby-reek))
 
 ;;;; {json-mode}
 (el-get-bundle json-mode)
