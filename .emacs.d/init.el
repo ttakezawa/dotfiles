@@ -921,6 +921,20 @@ See the variable `align-rules-list' for more details.")
 (define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
 (define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
 
+;;;; Configure flycheck ruby-reek
+;;;; Taken by https://github.com/flycheck/flycheck/pull/886
+(flycheck-def-config-file-var flycheck-reekrc ruby-reek "config.reek" :safe #'stringp)
+(flycheck-define-checker ruby-reek
+  "A Ruby smell checker using reek.
+See URL `https://github.com/troessner/reek'."
+  :command ("reek" "--format=xml"
+            (config-file "--config" flycheck-reekrc)
+            source)
+  :error-parser flycheck-parse-checkstyle
+  :modes (enh-ruby-mode ruby-mode)
+  :next-checkers ((info . ruby-rubocop)))
+
+
 ;;;; {json-mode}
 (el-get-bundle json-mode)
 (add-to-list 'auto-mode-alist '("\\.babelrc$" . json-mode))
