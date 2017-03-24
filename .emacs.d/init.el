@@ -453,8 +453,10 @@ want to use in the modeline *in lieu of* the original.")
 
 ;;;; {scratch-log}
 (el-get-bundle scratch-log)
-(setq sl-scratch-log-file         (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m/scratch-log"      (current-time)))))
-(setq sl-prev-scratch-string-file (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m/scratch-log-prev" (current-time)))))
+(setq takezawa/sl-dir (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time)))))
+(unless (file-exists-p takezawa/sl-dir) (make-directory takezawa/sl-dir))
+(setq sl-scratch-log-file         (concat takezawa/sl-dir "/scratch-log"))
+(setq sl-prev-scratch-string-file (concat takezawa/sl-dir "/scratch-log-prev"))
 (setq sl-timer-interval 3)
 (require 'scratch-log)
 
