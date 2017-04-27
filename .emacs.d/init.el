@@ -455,8 +455,8 @@ want to use in the modeline *in lieu of* the original.")
 (el-get-bundle scratch-log)
 (setq takezawa/sl-dir (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time)))))
 (unless (file-exists-p takezawa/sl-dir) (make-directory takezawa/sl-dir))
-(setq sl-scratch-log-file         (concat takezawa/sl-dir "/scratch-log"))
-(setq sl-prev-scratch-string-file (concat takezawa/sl-dir "/scratch-log-prev"))
+(setq sl-scratch-log-file         (expand-file-name "scratch-log"     takezawa/sl-dir))
+(setq sl-prev-scratch-string-file (expand-file-name "scratch-log-prev"takezawa/sl-dir))
 (setq sl-timer-interval 3)
 (require 'scratch-log)
 
@@ -675,7 +675,13 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (custom-set-faces
  '(flycheck-error ((t (:background "red4" :weight bold))))
  '(flycheck-warning ((t (:background "color-58" :weight bold))))
- '(flycheck-info ((t (:foreground "white" :background "darkgreen")))))
+ '(flycheck-info ((t (:background "darkgreen")))))
+
+ ;; '(flycheck-warning ((t (:background "darkgreen" :weight bold))))
+;; '(flycheck-info ((t (:background "color-58")))))
+
+;; '(flycheck-warning ((t (:background "color-58" :weight bold))))
+ ;; '(flycheck-info ((t (:foreground "white" :background "darkgreen")))))
 
 ;;;; {flycheck-tip}
 (el-get-bundle flycheck-tip)
@@ -687,6 +693,26 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; * npm install -g eslint
 (require 'flycheck)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
+
+;;;; {flymake}
+(custom-set-faces
+ '(flymake-warnline ((t (:background "color-58" :weight bold))))
+ '(flymake-errline ((t (:background "red4" :weight bold)))))
+
+;; Use flycheck-tip for flymake
+(el-get-bundle flycheck-tip)
+(require 'flymake-tip)
+
+;; Support rails_best_practices error pattern
+(push '("\\(.*\\):\\([0-9]+\\) - \\(.*\\)"  1 2 nil 3) flymake-err-line-patterns)
+
+;; Enable Makefile check-synatx with flymake in ruby
+(push '("\\.rb\\'" flymake-simple-make-init) flymake-allowed-file-name-masks)
+(add-hook 'enh-ruby-mode-hook
+          '(lambda ()
+             (if (and buffer-file-name
+                      (file-exists-p (expand-file-name "Makefile" (projectile-project-root))))
+                 (flymake-mode))))
 
 ;;;; {git-gutter}
 (el-get-bundle git-gutter)
@@ -933,13 +959,47 @@ See URL `https://github.com/troessner/reek'."
             (config-file "--config" flycheck-reekrc)
             source)
   :error-parser flycheck-parse-checkstyle
-  :modes (enh-ruby-mode ruby-mode)
-  :next-checkers ((info . ruby-rubocop)))
+  :modes (enh-ruby-mode ruby-mode))
+  ;; :next-checkers ((info . ruby-rubocop)))
 
 ;; ruby-rubocopのあとにruby-lintが処理されるようにする
 ;; (ruby-rubocop のエラーが info 以下なら ruby-reek が実行される)
-(setq flycheck-checkers (append flycheck-checkers '(ruby-reek)))
-(flycheck-add-next-checker 'ruby-rubocop '(info . ruby-reek))
+;; (flycheck-add-next-checker 'ruby-rubocop '(info . ruby-reek))
+;;(setq flycheck-checkers (append flycheck-checkers '(ruby-reek)))
+(add-to-list 'flycheck-checkers 'ruby-reek t)
+
+;;;; Configure flycheck ruby-rails_best_practices
+;;;; Taken by https://github.com/flycheck/flycheck/pull/886
+;;(flycheck-def-config-file-var flycheck-rails_best_practicesrc ruby-rails_best_practices "config.rails_best_practices" :safe #'stringp)
+(flycheck-def-config-file-var flycheck-rails_best_practicesrc ruby-rails_best_practices "rails_best_practices.yml" :safe #'stringp)
+(flycheck-define-checker ruby-rails_best_practices
+  "A Ruby smell checker using rails_best_practices.
+See URL `https://github.com/troessner/rails_best_practices'."
+  :command ("rails_best_practices" "--without-color" source-original (config-file "-c" flycheck-rails_best_practicesrc))
+  :error-patterns
+  ((warning line-start (file-name) ":" line " - " (message) line-end))
+  :modes (enh-ruby-mode ruby-mode)
+  :next-checkers ((warning . ruby-reek)))
+
+;; ruby-rubocopのあとにruby-lintが処理されるようにする
+;; (ruby-rubocop のエラーが info 以下なら ruby-rails_best_practices が実行される)
+;;(add-to-list 'flycheck-checkers 'ruby-rails_best_practices)
+;;(setq flycheck-checkers (append flycheck-checkers '(ruby-rails_best_practices)))
+(add-to-list 'flycheck-checkers 'ruby-rails_best_practices t)
+(flycheck-add-next-checker 'ruby-rubocop '(info . ruby-rails_best_practices))
+
+;; ;;;; 動く
+;; (require 'flymake-tip)
+;; (push '("\\.rb\\'" flymake-simple-make-init) flymake-allowed-file-name-masks)
+;; ;; (add-hook 'enh-ruby-mode-hook
+;; ;;           '(lambda ()
+;; ;;              (if (not (null buffer-file-name)) (flymake-mode))))
+
+;; ;; rails_best_practices error pattern
+;; (push '("\\(.*\\):\\([0-9]+\\) - \\(.*\\)"  1 2 nil 3) flymake-err-line-patterns)
+;; (custom-set-faces
+;;  '(flymake-warnline ((t (:background "color-58" :weight bold))))
+;;  '(flymake-errline ((t (:background "red4" :weight bold)))))
 
 ;;;; {json-mode}
 (el-get-bundle json-mode)
