@@ -30,5 +30,8 @@ curl -L https://raw.githubusercontent.com/Bash-it/bash-it/master/completion/avai
 curl -L https://raw.githubusercontent.com/simonwhitaker/gibo/master/gibo-completion.bash -o .bash.d/gibo-completion.bash
 
 # bin/diff-highlight
-curl -L https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight > bin/diff-highlight
+# SEE: https://github.com/git/git/blob/master/contrib/diff-highlight/Makefile
+echo '#!/usr/bin/perl' > bin/diff-highlight
+curl -L https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/DiffHighlight.pm >> bin/diff-highlight
+curl -L https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight.perl >> bin/diff-highlight
 chmod +x bin/diff-highlight
