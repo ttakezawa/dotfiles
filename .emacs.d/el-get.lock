@@ -11,6 +11,7 @@
         (el-get :checksum "6b707565b7328d8bcb8898db1a5b9dffaa06cdf8")
         (el-get-lock :checksum "df8cfe55441695865a64b97946750b6413a40425")
         (elscreen :checksum "0f9ae461204fe8d18907e84b18a88cb016d19de7")
+        (emacs-async :checksum "d6222c2959caaca5c4980038756097da8a51e505")
         (emacs-dashboard :checksum "89875ba44ef9f69dd561591ea8ec6d39a0b4aa6d")
         (enh-ruby-mode :checksum "5493f9fde48557d6aaaf38dd63adfdd8538496ff")
         (epl :checksum "a5ad061d0a5eb42f66c384e55d102da7d52c96b0")
