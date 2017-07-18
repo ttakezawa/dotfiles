@@ -115,7 +115,18 @@ function prettify_exit_code {
 }
 
 # Set window title as a side effect of $prompt_screen
-_PROMPT1='\[\e[0;36m\]\t \[\e[34m\]\h \[\e[31m\]$(prettify_exit_code)\[\e[33m\]\w\[\e[0m\]'
+host_label="\[\e[34m\]$HOSTNAME"
+host_type=""
+if type -P mount.vboxsf >/dev/null; then
+  host_type="vbox"
+elif [[ $IS_DARWIN ]]; then
+  host_type="macos"
+fi
+if [[ $host_type ]]; then
+  host_label="\[\e[33m\]${host_type}\[\e[0m\]:${host_label}"
+fi
+
+_PROMPT1='\[\e[0;36m\]\t \[\e[34m\]'${host_label}' \[\e[31m\]$(prettify_exit_code)\[\e[33m\]\w\[\e[0m\]'
 _PROMPT2="\\n$prompt_screen\$ "
 PS1=$_PROMPT1$_PROMPT2
 
