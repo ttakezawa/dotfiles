@@ -143,6 +143,9 @@ if [[ "$(type -t __git_ps1)" ]]; then
 fi
 
 #### completions
+# Stop improperly $ escaping
+shopt -s direxpand
+
 # git-competion
 source $SOURCE_DIR/.bash.d/git-completion.bash
 
