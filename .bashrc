@@ -118,12 +118,12 @@ function prettify_exit_code {
 host_label="\[\e[34m\]$HOSTNAME"
 host_type=""
 if type -P mount.vboxsf >/dev/null; then
-  host_type="vbox"
+  host_type="vb"
 elif [[ $IS_DARWIN ]]; then
-  host_type="macos"
+  host_type="mac"
 fi
 if [[ $host_type ]]; then
-  host_label="\[\e[33m\]${host_type}\[\e[0m\]:${host_label}"
+  host_label="\[\e[32m\]${host_type}\[\e[0m\]:${host_label}"
 fi
 
 _PROMPT1='\[\e[0;36m\]\t \[\e[34m\]'${host_label}' \[\e[31m\]$(prettify_exit_code)\[\e[33m\]\w\[\e[0m\]'
