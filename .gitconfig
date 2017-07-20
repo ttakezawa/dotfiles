@@ -9,7 +9,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes_global
-	pager = emojify | diff-highlight | less -rX # gem install terminal-emojify
+	pager = goemoji ' ' | diff-highlight | less -rX  # go get -v github.com/math2001/goemoji
 [color]
 	ui = auto
 [push]
