@@ -478,6 +478,11 @@ want to use in the modeline *in lieu of* the original.")
 (global-set-key (kbd "C-c j") 'dumb-jump-go)
 (global-set-key (kbd "M-*") 'dumb-jump-back)
 
+(defun takezawa/dump-jump-go-prompt-at-point ()
+  (interactive)
+  (dumb-jump-go nil nil (read-from-minibuffer "Jump to: " (thing-at-point 'symbol))))
+(global-set-key (kbd "M-,") 'takezawa/dump-jump-go-prompt-at-point)
+
 ;;;; {etags-table}
 (el-get-bundle emacswiki:etags-table)
 (require 'etags-table)
