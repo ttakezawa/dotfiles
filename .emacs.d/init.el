@@ -24,10 +24,13 @@
 (column-number-mode t)
 (global-auto-revert-mode 1)
 (auto-image-file-mode +1)
-(require 'generic-x)
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p) ; auto chmod +x
 (global-set-key (kbd "C-c C-c") 'compile)
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+
+;; generic-x
+(require 'generic-x)
+(add-to-list 'auto-mode-alist '("/\\.ssh/config" . default-generic-mode))
 
 ;; MacでGUIのときだけは特に邪魔にならないのでメニューバーを表示させる
 (defun takezawa/setup-menu-bar-mode (&optional frame)
@@ -311,6 +314,8 @@ want to use in the modeline *in lieu of* the original.")
 
 ;; conf-unix-mode (builtin)
 (add-to-list 'auto-mode-alist '("\\.service$" . conf-unix-mode))
+(add-to-list 'auto-mode-alist '("\\.aws/credentials" . conf-unix-mode))
+(add-to-list 'auto-mode-alist '("\\.aws/config" . conf-unix-mode))
 
 ;; Open .env and .env.* files with shell-script-mode
 (add-to-list 'auto-mode-alist '("\\.env" . shell-script-mode))
