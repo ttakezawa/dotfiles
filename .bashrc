@@ -157,6 +157,13 @@ if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
   source $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all
 fi
 
+#### android
+# platform-tools (adb)
+if [[ -d "$HOME/Library/Android/sdk/platform-tools" ]]; then
+  export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
+fi
+source $SOURCE_DIR/.bash.d/android.sh
+
 #### ruby
 # rbenv
 if [[ -d "$HOME/.rbenv/bin" ]]; then

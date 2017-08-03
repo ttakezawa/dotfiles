@@ -29,6 +29,9 @@ curl -L https://raw.githubusercontent.com/Bash-it/bash-it/master/completion/avai
 # .bash.d/gibo-completion.bash
 curl -L https://raw.githubusercontent.com/simonwhitaker/gibo/master/gibo-completion.bash -o .bash.d/gibo-completion.bash
 
+# .bash.d/android.sh
+curl -L https://raw.githubusercontent.com/mbrubeck/android-completion/master/android -o .bash.d/android.sh
+
 # bin/diff-highlight
 # SEE: https://github.com/git/git/blob/master/contrib/diff-highlight/Makefile
 echo '#!/usr/bin/perl' > bin/diff-highlight
