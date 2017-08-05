@@ -152,6 +152,9 @@ source $SOURCE_DIR/.bash.d/git-completion.bash
 # gibo-completion
 source $SOURCE_DIR/.bash.d/gibo-completion.bash
 
+# exa completion
+source $SOURCE_DIR/.bash.d/exa-completions.bash
+
 # completion-ruby-all
 if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
   source $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all

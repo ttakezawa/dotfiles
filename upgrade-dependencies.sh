@@ -11,6 +11,9 @@ curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-
 # .bash.d/git-prompt.sh
 curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > .bash.d/git-prompt.sh
 
+# .bash.d/exa-completions.bash
+curl -L https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.bash -o .bash.d/exa-completions.bash
+
 # .bash.d/completion-ruby/
 (
   cd .bash.d &&
