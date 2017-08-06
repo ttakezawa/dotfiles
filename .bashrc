@@ -363,6 +363,7 @@ function conv-time () {
 }
 
 alias stracev="strace -f -T -tt -v -x -y -yy"
+alias el="exa -aghl@ --git --time-style long-iso"
 
 #### command time
 # trap ... DEBUG を上書きして実装している
