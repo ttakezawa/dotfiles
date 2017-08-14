@@ -13,7 +13,9 @@
 [color]
 	ui = auto
 [push]
-	default = simple
+        default = simple
+[log]
+        decorate = auto
 [alias]
 	# utility
 	co = !git checkout $(git branch --color | sed 's/.* //' | fzf-tmux --ansi --select-1 --query="$@")
