@@ -160,6 +160,11 @@ if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
   source $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all
 fi
 
+#### direnv
+if type -P direnv >/dev/null; then
+  eval "$(direnv hook bash)"
+fi
+
 #### android
 # platform-tools (adb)
 if [[ -d "$HOME/Library/Android/sdk/platform-tools" ]]; then
