@@ -663,6 +663,11 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (add-hook 'ediff-before-setup-hook 'elscreen-show-display-tab)
   (add-hook 'ediff-quit-hook 'elscreen-hide-display-tab))
 
+;;;; {direnv}
+(el-get-bundle wbolster/emacs-direnv :name direnv)
+(require 'direnv)
+(direnv-mode)
+
 ;;;; {visual-regexp-steroids}
 (el-get-bundle visual-regexp-steroids)
 (global-set-key (kbd "C-M-%") 'vr/query-replace)

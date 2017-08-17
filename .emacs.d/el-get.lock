@@ -5,6 +5,7 @@
         (coffee-mode :checksum "86ab8aae8662e8eff54d3013010b9c693b16eac5")
         (crontab-mode :checksum "f68206c1d10de68ba0685ce4cb14741c7ca7c648")
         (dash :checksum "0468a3137c9e0d49121213f416fc7e2547d46a77")
+        (direnv :checksum "d181475192138b256e124a42660ac60ae62d11d0")
         (dockerfile-mode :checksum "3c6bc90360a2df53caad1721ee4c8285e2e22369")
         (dumb-jump :checksum "0328d922da4b1bbbb8f41848585c920608f6e9d3")
         (eimp :checksum "47db83e2b9b7c1f12fdc7e7ae1b862088e081039")
