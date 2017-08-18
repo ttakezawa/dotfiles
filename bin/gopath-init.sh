@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 if [[ -d $PWD/.gopath ]]; then
   echo $PWD/.gopath already exists.
   exit 1
@@ -10,7 +12,7 @@ if [[ -f $PWD/.envrc ]]; then
   exit 1
 fi
 
-pkg=${PWD##"$HOME/dev/src/"}
+pkg=$(go list -e -f '{{.ImportPath}}')
 pkgdir=$PWD/.gopath/src/$pkg
 
 cat <<'EOF' > $PWD/.envrc
