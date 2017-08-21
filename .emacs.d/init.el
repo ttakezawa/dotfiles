@@ -28,6 +28,9 @@
 (global-set-key (kbd "C-c C-c") 'compile)
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
+;; replacing all symbolic links with their target names
+(setq-default find-file-visit-truename t)
+
 ;; generic-x
 (require 'generic-x)
 (add-to-list 'auto-mode-alist '("/\\.ssh/config" . default-generic-mode))
