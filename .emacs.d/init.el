@@ -567,7 +567,8 @@ want to use in the modeline *in lieu of* the original.")
 
 ;;;; {helm-projectile}
 (el-get-bundle helm-projectile)
-(global-set-key (kbd "C-c p g") 'helm-projectile-ag)
+(global-set-key (kbd "C-c C-p g") 'helm-projectile-ag)
+(define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-ag)
 
 ;; Configure helm-for-files
 (require 'helm-projectile)
