@@ -72,7 +72,7 @@
     (setq ad-return-value nil)))
 
 ;; mouse
-(xterm-mouse-mode)
+(xterm-mouse-mode 0)
 (require 'mwheel)
 (mouse-wheel-mode 1)
 (global-unset-key [M-down-mouse-1]) ;; ターミナルで M-左クリック のとき文字が入力されてしまうのを回避
