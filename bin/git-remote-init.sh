@@ -14,7 +14,8 @@ fi
 
 fork=$(git remote show origin -n | grep -oP "Fetch URL: .*" | sed -r "s|^.*URL: (.*[/:])[^/]*/([^/]*)$|\1${github_user}/\2|")
 
+echo "Set remote rename origin upstream"
 git remote rename origin upstream
-git remote add $github_user $fork
 
-echo "Set upstream: $fork"
+echo "Set remote $github_user: $fork"
+git remote add $github_user $fork
