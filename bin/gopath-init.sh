@@ -2,8 +2,12 @@
 
 set -euo pipefail
 
-if [[ -d $PWD/.gopath ]]; then
-  echo $PWD/.gopath already exists.
+pkg=$(go list -e -f '{{.ImportPath}}')
+# gopath=$PWD/.gopath
+gopath=$HOME/dev/.gopath/$(echo $pkg | tr / _)
+
+if [[ -d $gopath ]]; then
+  echo $gopath already exists.
   exit 1
 fi
 
@@ -12,15 +16,18 @@ if [[ -f $PWD/.envrc ]]; then
   exit 1
 fi
 
-pkg=$(go list -e -f '{{.ImportPath}}')
-pkgdir=$PWD/.gopath/src/$pkg
+pkgdir=$gopath/src/$pkg
 
-cat <<'EOF' > $PWD/.envrc
-export GOPATH=$PWD/.gopath
-PATH_add $GOPATH/bin
+# Init GOPATH Directory
+mkdir -p $(dirname $pkgdir)
+mv $PWD $pkgdir
+ln -sfv $pkgdir $PWD
+
+# Init .envrc
+cat <<EOF > $pkgdir/.envrc
+export GOPATH=${gopath/$HOME/\$HOME}
+export PATH=\$GOPATH/bin:\$PATH
 EOF
 
-direnv allow
-
-mkdir -p $(dirname $pkgdir)
-ln -sfv $PWD $pkgdir
+direnv allow $pkgdir/.envrc
+direnv allow $PWD/.envrc
