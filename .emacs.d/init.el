@@ -765,6 +765,12 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm)
 
 ;;;; {yasnippet}
+(defun my/downcase-first-char (&optional string)
+  "Capitalize only the first character of the input STRING."
+  (when (and string (> (length string) 0))
+    (let ((first-char (substring string nil 1))
+          (rest-str   (substring string 1)))
+      (concat (downcase first-char) rest-str))))
 (el-get-bundle yasnippet)
 (yas-global-mode 1)
 

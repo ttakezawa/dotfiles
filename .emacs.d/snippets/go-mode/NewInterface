@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: NewInterface
+# key: NewInterface
+# --
+
+type $1Interface interface {
+	Find(params model.$1)
+}
+
+type ${1:$(my/downcase-first-char yas-text)} struct{}
+
+func New$1() $1Interface {
+	return &${1:$(my/downcase-first-char yas-text)}{}
+}
+
+func (*${1:$(my/downcase-first-char yas-text)}) Find(params model.$1) (*model.$1, error) {
+	return nil, nil
+}
