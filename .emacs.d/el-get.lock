@@ -21,6 +21,7 @@
         (f :checksum "fabdbd4a4a8caf8684f0fa656f457a03c5dfa4de")
         (findr :checksum "0103db836bb340b7b040ce8642df89048da63a40")
         (flycheck :checksum "a637445793b57c77e2b48eaecb8d1874745b95c0")
+        (flycheck-gometalinter :checksum "c90ea1aba80ddfdf603c9ba731be302400fd6ba2")
         (flycheck-tip :checksum "53e812ae6d517e8d35907eed8ddcee95c2922e91")
         (fuzzy :checksum "534d723ad2e06322ff8d9bd0ba4863d243f698e7")
         (git-gutter :checksum "00c05264af046b5ce248e5b0bc42f117d9c27a09")

@@ -848,6 +848,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;; たくさん実行すると重いのでできるだけ絞る。flycheckで用意されているものややたら遅いものはまず除外する
 (setq flycheck-gometalinter-disable-all t)
+(setq flycheck-gometalinter-deadline "10s")
 (setq flycheck-gometalinter-enable-linters
       '(
         ;; "aligncheck" ;; slow
