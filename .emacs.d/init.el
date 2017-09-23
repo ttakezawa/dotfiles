@@ -806,6 +806,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (setq gofmt-command "goimports")
   (setq go-packages-function 'go-packages-go-list)
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
+  (define-key go-mode-map (kbd "C-x 4 M-.") 'godef-jump-other-window)
   (define-key go-mode-map (kbd "C-c d") 'godoc-at-point)
   (add-hook 'go-mode-hook 'go-eldoc-setup)
   (add-hook 'go-mode-hook
