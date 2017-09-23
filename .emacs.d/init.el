@@ -219,6 +219,29 @@ want to use in the modeline *in lieu of* the original.")
   (interactive "F")
   (set-buffer (find-file (concat "/sudo::" file))))
 
+;; See: https://github.com/vincentbernat/dot.emacs/blob/master/files.conf.el#L13
+;; Let emacs open files with line and column number in it
+(defadvice find-file (around find-file-line-number
+                             (path &optional wildcards)
+                             activate)
+  "Turn files like file.js:14:10 into file.js and going to line 14, col 10."
+  (save-match-data
+    (let* ((match (string-match "^\\(.*?\\):\\([0-9]+\\):?\\([0-9]*\\):?$" path))
+           (line-no (and match
+                         (match-string 2 path)
+                         (string-to-number (match-string 2 path))))
+           (col-no (and match
+                        (match-string 3 path)
+                        (string-to-number (match-string 3 path))))
+           (path (if match (match-string 1 path) path)))
+      ad-do-it
+      (when line-no
+        ;; goto-line is for interactive use
+        (goto-char (point-min))
+        (forward-line (1- line-no))
+        (when (> col-no 0)
+          (forward-char (1- col-no)))))))
+
 ;; which-function-mode (builtin)
 (which-function-mode 1)
 (setq which-func-modes t) ;; If this is equal to t, then it is enabled in any major mode that supports it.
