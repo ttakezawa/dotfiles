@@ -804,6 +804,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (require 'go-autocomplete)
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq gofmt-command "goimports")
+  (setq go-packages-function 'go-packages-go-list)
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
   (define-key go-mode-map (kbd "C-c d") 'godoc-at-point)
   (add-hook 'go-mode-hook 'go-eldoc-setup)
