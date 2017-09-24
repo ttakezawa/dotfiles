@@ -798,6 +798,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; ### Install gometalinter and tools
 ;; $ go get -v -u -f github.com/alecthomas/gometalinter
 ;; $ gometalinter --no-vendored-linters -d -i -u -f
+;; ### gorepl-mode
+;; $ go get -v -u -f github.com/motemen/gore
 ;; ### Update .goimportsignore
 ;; $ go get -v -u -f github.com/pwaller/goimports-update-ignore
 ;; $ goimports-update-ignore -max-depth 20
@@ -806,6 +808,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle go-mode)
 (el-get-bundle go-autocomplete)
 (el-get-bundle go-eldoc)
+(el-get-bundle manute/gorepl-mode :depends (f s hydra))
 (with-eval-after-load 'go-mode
   (require 'go-autocomplete)
   (add-hook 'before-save-hook 'gofmt-before-save)
@@ -815,6 +818,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (define-key go-mode-map (kbd "C-x 4 M-.") 'godef-jump-other-window)
   (define-key go-mode-map (kbd "C-c d") 'godoc-at-point)
   (add-hook 'go-mode-hook 'go-eldoc-setup)
+  (add-hook 'go-mode-hook #'gorepl-mode)
   (add-hook 'go-mode-hook
             '(lambda ()
                (setq ac-sources '(ac-source-go))
