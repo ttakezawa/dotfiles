@@ -808,6 +808,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle go-mode)
 (el-get-bundle go-autocomplete)
 (el-get-bundle go-eldoc)
+(el-get-bundle go-test)
 (el-get-bundle manute/gorepl-mode :depends (f s hydra))
 (with-eval-after-load 'go-mode
   (require 'go-autocomplete)

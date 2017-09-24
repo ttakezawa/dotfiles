@@ -30,6 +30,7 @@
         (go-autocomplete :checksum "c7fddb39ecbc9ebd1ebe7d2a3af473ed0fffffa1")
         (go-eldoc :checksum "cbbd2ea1e94a36004432a9ac61414cb5a95a39bd")
         (go-mode :checksum "99b06da201afb91e8db0c525c0f3c3590fd92fa6")
+        (go-test :checksum "8a5ef7363f83edb3b77c5e23876f13dd8c23b2b9")
         (gorepl-mode :checksum "bbd27f6a0a77f484e2a3f082d70dc69da63ae52a")
         (haml-mode :checksum "c7c96a269f9b1a0302ff81360e1b5e693d784774")
         (helm :checksum "161c90ffb4b07df3a872df6a258e23de12837306")
