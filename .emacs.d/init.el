@@ -793,6 +793,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; ##### Golang environment
 ;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point
 ;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc
+;; $ gocode set autobuild true
 ;; ### To use Flycheck default checkers: http://www.flycheck.org/en/latest/languages.html#go
 ;; $ go get -v -u -v github.com/mdempsky/unconvert github.com/golang/lint/golint github.com/kisielk/errcheck
 ;; ### Install gometalinter and tools
