@@ -265,6 +265,11 @@ if [[ -f ~/.fzf.bash ]]; then
     [[ -n "$l" ]] && cd $(ghq root)/$l
   }
 
+  gg() {
+    local l=$(GHQ_ROOT=$GOPATH/src ghq list | fzf --reverse)
+    [[ -n "$l" ]] && cd $(GHQ_ROOT=$GOPATH/src ghq root)/$l
+  }
+
   # Taken from https://github.com/junegunn/fzf/wiki/Examples#git
   unalias l 2>/dev/null
   function l() {
