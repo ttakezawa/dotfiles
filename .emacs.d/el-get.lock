@@ -70,6 +70,7 @@
         (visual-regexp-steroids :checksum "a6420b25ec0fbba43bf57875827092e1196d8a9e")
         (web-mode :checksum "80e6de3b249c565506e29b2f1eca4104867f989d")
         (which-key :checksum "6d2e17c949ff7bfebfe0b0878a93d94b31585031")
+        (with-editor :checksum "fb9e56082b50f15e5179238df3760d4e670f38af")
         (yaml-mode :checksum "28c34033194130d452d5c958b5241c88d42ca02b")
         (yasnippet :checksum "89eb7ab64d67e96646576dc0d551e8c23d50438a")))
 (setq el-get-lock-locked-packages 'nil)

@@ -691,7 +691,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (add-hook 'ediff-quit-hook 'elscreen-hide-display-tab))
 
 ;;;; {direnv}
-(el-get-bundle wbolster/emacs-direnv :name direnv)
+(el-get-bundle wbolster/emacs-direnv :name direnv :depends (dash with-editor))
 (require 'direnv)
 (direnv-mode)
 
