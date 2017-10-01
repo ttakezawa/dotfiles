@@ -882,6 +882,26 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
         ;; "vetshadow" ;; flycheck
         ))
 
+(flycheck-define-checker go-flycheck-gometalinter
+  "A Golang checker using flycheck-gometalinter.sh"
+  :command ("flycheck-gometalinter.sh" source-original)
+  :error-patterns
+  ((error line-start (file-name) ":" line ":" column ":error: " (message) line-end)
+   (warning line-start (file-name) ":" line ":" column ":warning: " (message) line-end))
+  :modes go-mode
+  :next-checkers ((warning . go-golint)
+                  ;; Fall back, if go-golint doesn't exist
+                  (warning . go-vet)
+                  ;; Fall back, if go-vet doesn't exist
+                  (warning . go-build) (warning . go-test)
+                  (warning . go-errcheck)
+                  (warning . go-unconvert)
+                  (warning . go-megacheck)))
+
+(flycheck-add-next-checker 'go-gofmt 'go-flycheck-gometalinter)
+
+(add-to-list 'flycheck-checkers 'go-flycheck-gometalinter)
+
 ;;;; {enh-ruby-mode}
 (el-get-bundle enh-ruby-mode)
 (add-to-list 'ac-modes 'enh-ruby-mode) ;; Enable auto-complete-mode
