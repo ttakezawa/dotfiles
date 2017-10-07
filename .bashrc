@@ -358,6 +358,7 @@ route () {
 #### coreutils
 alias grep="grep --color=auto"
 alias ls="ls --color=tty"
+alias ll="exa --time-style long-iso"
 # +e は zless において末尾で自動終了させないための設定
 export LESS="-n -R +e"
 
