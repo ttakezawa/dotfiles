@@ -1,15 +1,26 @@
 #!/bin/bash
 
-target=$1
+readlink() {
+  if [[ -z $1 ]]; then
+    echo -n '.'
+  else
+    echo -n $(command readlink -f $1)
+  fi
+}
 
-target=$(readlink -f $target)
+target=$(readlink $1)
 
-dir=$(readlink -f $(git rev-parse --show-cdup))
+dir=$(readlink $(git rev-parse --show-cdup))
 cd $dir
 
 target=$(realpath $target --relative-base=$dir)
+absdir=$(realpath $dir)
 
 if [[ -f .gometalinter.conf ]]; then
-  gometalinter --config .gometalinter.conf -s vendor $(dirname $target) | sed -r "s|^(.+)\$|${dir}/\1|"
-  echo ${dir}/${target}:99999:1:error: dummy
+  if [[ "$target" = "." ]]; then
+    gometalinter --config=.gometalinter.conf -s vendor ./...
+  else
+    gometalinter --config .gometalinter.conf -s vendor $(dirname $target) | sed -r "s|^(.+)\$|${absdir}/\1|"
+    echo ${absdir}/${target}:99999:1:error: dummy
+  fi
 fi
