@@ -886,8 +886,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   "A Golang checker using flycheck-gometalinter.sh"
   :command ("flycheck-gometalinter.sh" source-original)
   :error-patterns
-  ((error line-start (file-name) ":" line ":" column ":error: " (message) line-end)
-   (warning line-start (file-name) ":" line ":" column ":warning: " (message) line-end))
+  ((error line-start (file-name) ":" line ":" (optional column) ":error: " (message) line-end)
+   (warning line-start (file-name) ":" line ":" (optional column) ":warning: " (message) line-end))
   :modes go-mode
   :next-checkers ((warning . go-golint)
                   ;; Fall back, if go-golint doesn't exist
