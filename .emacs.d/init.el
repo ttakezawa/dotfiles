@@ -827,7 +827,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
                (setq ac-sources '(ac-source-go))
                (setq-local tab-width 4)
                (setq-local comment-auto-fill-only-comments t)
-               (set-fill-column 90)
+               (set-fill-column 140)
                (auto-fill-mode 1))))
 
 (add-hook 'go-mode-hook
