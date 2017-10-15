@@ -465,7 +465,8 @@ want to use in the modeline *in lieu of* the original.")
 (moe-dark)
 ;; Customize colors
 (let ((comment "#af5f00")) ;; Assign comment to moe-dark pallete orange-5
-  (set-face-background 'default "black") ;; Use true black in background.
+  ;; (set-face-background 'default "black") ;; Use true black in background.
+  (set-face-background 'default "unspecified-bg") ;; Use terminal background.
   (set-face-attribute font-lock-comment-face           nil :foreground comment :slant 'normal)
   (set-face-attribute font-lock-comment-delimiter-face nil :foreground comment :slant 'normal))
 
