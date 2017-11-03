@@ -808,7 +808,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; $ go get -v -u -v github.com/mdempsky/unconvert github.com/golang/lint/golint github.com/kisielk/errcheck
 ;; ### Install gometalinter and tools
 ;; $ go get -v -u -f github.com/alecthomas/gometalinter
-;; $ gometalinter --no-vendored-linters -d -i -u -f
+;; $ gometalinter -d -i -u -f
 ;; ### gorepl-mode
 ;; $ go get -v -u -f github.com/motemen/gore
 ;; ### Update .goimportsignore
