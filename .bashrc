@@ -37,7 +37,7 @@ export PATH="$PATH:$SOURCE_DIR/bin"
 export TZ="Asia/Tokyo"
 export LANG=ja_JP.UTF-8
 # use $HOME/local
-export PATH="$HOME/local/bin:$PATH"
+export PATH="$HOME/local/bin:$PATH:$HOME/.local/bin"
 export MANPATH="$HOME/local/share/man:$MANPATH"
 export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
 # prefer $HOME/bin and $HOME/man
