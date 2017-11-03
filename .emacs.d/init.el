@@ -53,6 +53,9 @@
 (unless (server-running-p)
   (server-start))
 
+;; extend kill-ring history
+(setq kill-ring-max 500)
+
 ;;;; desktop-save-mode (builtin)
 (setq desktop-files-not-to-save "") ;; バッファを復元させない
 (setq desktop-restore-frames nil)   ;; フレームを復元させない
