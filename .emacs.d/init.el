@@ -1156,3 +1156,7 @@ See URL `https://github.com/troessner/reek'."
              (local-set-key (kbd "n") 'widget-forward)
              (local-set-key (kbd "C-n") 'widget-forward)
              (local-set-key (kbd "C-p") 'widget-backward)))
+
+;;;; {smartparens}
+(el-get-bundle smartparens)
+(smartparens-global-mode)

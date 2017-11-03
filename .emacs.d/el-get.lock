@@ -65,6 +65,7 @@
         (save-framegeometry :checksum "2c249b6b60fd50588bbaaf69d83a8f7d1163d131")
         (scss-mode :checksum "b010d134f499c4b4ad33fe8a669a81e9a531b0b2")
         (slim-mode :checksum "3636d18ab1c8b316eea71c4732eb44743e2ded87")
+        (smartparens :checksum "cdd10bc259fe7303e40efd8a6a05c7e43d12a242")
         (swift-mode :checksum "e8d9a5d7af59e8be25997b8b048d7c3e257cd0b0")
         (visual-regexp :checksum "b3096c2d391ff4e28a2a4e8cd82efbf11071ea85")
         (visual-regexp-steroids :checksum "a6420b25ec0fbba43bf57875827092e1196d8a9e")
