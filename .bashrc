@@ -250,6 +250,7 @@ fi
 if [[ -d "$HOME/.goenv/bin" ]]; then
   export PATH="$HOME/.goenv/bin:$PATH"
   eval "$(goenv init -)"
+  export GOROOT="$(goenv prefix)"
 fi
 
 #### fzf
