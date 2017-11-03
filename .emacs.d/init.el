@@ -150,6 +150,9 @@
 ;; バックアップファイル(*~)の保存先を変更
 (setq backup-directory-alist `(("." . ,(locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time))))))
 
+;; Disable symbolic links that looks like .#foobar.go
+(setq create-lockfiles nil)
+
 ;; 自動保存ファイル(#*#)の保存先を変更 (デフォルトだと/tmpでマシンが再起動したときに消えてしまう)
 (setq auto-save-file-name-transforms `((".*" ,(locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time))) t)))
 
