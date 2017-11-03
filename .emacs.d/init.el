@@ -555,6 +555,9 @@ want to use in the modeline *in lieu of* the original.")
 (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 
+;; set column size of helm buffer list
+(setq helm-buffer-max-length 50)
+
 ;;;; {helm-ls-git}
 (el-get-bundle helm-ls-git)
 (global-set-key (kbd "C-x G") 'helm-ls-git-ls)
