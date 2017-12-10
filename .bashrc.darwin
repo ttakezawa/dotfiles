@@ -1,7 +1,11 @@
 # -*- coding:utf-8; mode:sh; sh-basic-offset:2; sh-indentation:2; -*-
 
 #### 10. Homebrew
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
+if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+  # bash-competion@2
+  . $(brew --prefix)/share/bash-completion/bash_completion
+elif [ -f $(brew --prefix)/etc/bash_completion ]; then
+  # bash-completion
   . $(brew --prefix)/etc/bash_completion
 fi
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
