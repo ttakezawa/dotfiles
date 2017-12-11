@@ -11,6 +11,6 @@ Host *
   AddKeysToAgent yes
   AddressFamily inet
   # PreferredAuthentications publickey
-  # StrictHostKeyChecking no
+  StrictHostKeyChecking no
   ServerAliveInterval 60
   ServerAliveCountMax 10
