@@ -1,3 +1,5 @@
+.dir-locals.el
+
 # Ignore Carthage/Build
 Carthage/Build
 
