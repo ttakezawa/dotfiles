@@ -16,11 +16,19 @@ cd $dir
 target=$(realpath $target --relative-base=$dir)
 absdir=$(realpath $dir)
 
+conf=''
+
 if [[ -f .gometalinter.conf ]]; then
+  conf=.gometalinter.conf
+elif [[ -f .gometalinter.json ]]; then
+  conf=.gometalinter.json
+fi
+
+if [[ -f $conf ]]; then
   if [[ "$target" = "." ]]; then
-    gometalinter --config=.gometalinter.conf -s vendor ./...
+    gometalinter --config $conf -s vendor ./...
   else
-    gometalinter --config .gometalinter.conf -s vendor $(dirname $target) | sed -r "s|^(.+)\$|${absdir}/\1|"
+    gometalinter --config $conf -s vendor $(dirname $target) | sed -r "s|^(.+)\$|${absdir}/\1|"
     echo ${absdir}/${target}:99999:1:error: dummy
   fi
 fi
