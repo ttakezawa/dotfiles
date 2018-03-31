@@ -1163,3 +1163,6 @@ See URL `https://github.com/troessner/reek'."
 ;;;; {smartparens}
 (el-get-bundle smartparens)
 (smartparens-global-mode)
+
+;;;; {protobuf-mode}
+(el-get-bundle protobuf-mode)
