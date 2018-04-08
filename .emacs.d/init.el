@@ -784,6 +784,9 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (el-get-bundle yasnippet)
 (yas-global-mode 1)
 
+;;;; {yasnippet-snippets}
+(el-get-bundle yasnippet-snippets)
+
 ;;;; {helm-c-yasnippet}
 (el-get-bundle helm-c-yasnippet)
 (global-set-key (kbd "C-c y") 'helm-yas-complete)

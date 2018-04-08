@@ -73,6 +73,7 @@
         (which-key :checksum "d19fe4e037baf8a5cd6e8c0609d3999528bb5ac9")
         (with-editor :checksum "fcbccec6ec0f6639eab769d6ff8e97f25347a48e")
         (yaml-mode :checksum "3fc5a33760b0bbb6e67adbce48ab3dc4ae34b847")
-        (yasnippet :checksum "5170f051ad39353ed46ae7ff7b67e50e0e27324c")))
+        (yasnippet :checksum "5170f051ad39353ed46ae7ff7b67e50e0e27324c")
+        (yasnippet-snippets :checksum "4bbe565b7c9c7286f7ac465f0cc79c3fe5796c0b")))
 (setq el-get-lock-locked-packages 'nil)
 (setq el-get-lock-unlocked-packages 'nil)
