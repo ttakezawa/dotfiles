@@ -56,6 +56,7 @@
         (plantuml-mode :checksum "fce628885b54635b0287b3337626752b2725369d")
         (popup :checksum "80829dd46381754639fb764da11c67235fe63282")
         (projectile :checksum "40b01b9d61ed310737d87e86b226bb4e1ed2e0cb")
+        (protobuf-mode :checksum "dc27d96872b2992c7bbce151b627a0bfbd83e85d")
         (recentf-ext :checksum "95f81dfac24d3f67002024f0a24e6b997bf6d647")
         (rinari :checksum "134438af8fbdfa9c8077267c768d273a9792b484")
         (ruby-block :checksum "289c34dca6daa1a1591537e1c56b687c14631930")
