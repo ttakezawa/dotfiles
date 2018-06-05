@@ -609,7 +609,7 @@ want to use in the modeline *in lieu of* the original.")
 (setq helm-for-files-preferred-list
       '(;; helm-source-buffers-list
         helm-source-ls-git-status
-        helm-source-projectile-files-list
+        ;; helm-source-projectile-files-list
         helm-source-recentf
         ;; helm-source-bookmarks
         ;; helm-source-file-cache
