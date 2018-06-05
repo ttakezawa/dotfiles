@@ -158,6 +158,7 @@
 
 ;; Compact mode-line
 ;; Taken from https://www.masteringemacs.org/article/hiding-replacing-modeline-strings
+(require 'cl)
 (defvar mode-line-cleaner-alist
   `((emacs-lisp-mode . "El"))
   "Alist for `clean-mode-line'.
