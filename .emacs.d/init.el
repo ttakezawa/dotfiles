@@ -1070,9 +1070,10 @@ See URL `https://github.com/troessner/reek'."
             (when (null plantuml-mode-map)
               (setq plantuml-mode-map (make-sparse-keymap)))))
 
-;;;; {emip}
-(el-get-bundle eimp)
-(add-hook 'image-mode-hook 'eimp-mode)
+;; ;;;; {eimp}
+;; ;; Emacs Image Manipulation
+;; (el-get-bundle eimp)
+;; (add-hook 'image-mode-hook 'eimp-mode)
 
 ;;;; {web-mode}
 (el-get-bundle web-mode)
