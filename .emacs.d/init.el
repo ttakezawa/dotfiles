@@ -626,7 +626,7 @@ want to use in the modeline *in lieu of* the original.")
       (helm-swoop)
     (let ((current-prefix-arg '(3)))
       (helm-swoop))))
-(global-set-key (kbd "M-i") 'takezawa/helm-swoop)
+(global-set-key (kbd "C-c C-s") 'takezawa/helm-swoop)
 
 ;;;; {helm-ag}
 (el-get-bundle helm-ag)
