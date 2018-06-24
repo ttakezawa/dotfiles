@@ -39,6 +39,7 @@
         (helm-ghq :checksum "49481685adbb25b3f766aabfdb7472becc673a94")
         (helm-ls-git :checksum "ceeac5c89a3db7868ff94e5ac272bc1cd9262aa0")
         (helm-projectile :checksum "8aae5d87fa9937777cfa67b7012f5ca33c81893f")
+        (helm-rg :checksum "b3611e21c1a01601d58789676f7fec81746110d4")
         (helm-swoop :checksum "c66336b8245ddc51c4206f19c119f1081920985c")
         (highlight-indentation :checksum "35e2c1d4f8f368685893128f77f90454cb9c2708")
         (highlight-symbol :checksum "7a789c779648c55b16e43278e51be5898c121b3a")

@@ -601,8 +601,8 @@ want to use in the modeline *in lieu of* the original.")
 
 ;;;; {helm-projectile}
 (el-get-bundle helm-projectile)
-(global-set-key (kbd "C-c C-p g") 'helm-projectile-ag)
-(define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-ag)
+(global-set-key (kbd "C-c C-p g") 'helm-projectile-rg)
+(define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-rg)
 
 ;; Configure helm-for-files
 (require 'helm-projectile)
@@ -638,6 +638,10 @@ want to use in the modeline *in lieu of* the original.")
   (let ((current-prefix-arg '(4)))
     (helm-do-ag)))
 (global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir)
+
+;; {helm-rg}
+(el-get-bundle cosmicexplorer/helm-rg :name helm-rg :depends (dash helm))
+(global-set-key (kbd "C-c g") 'helm-rg)
 
 ;;;; {helm-ghq}
 (el-get-bundle helm-ghq)
