@@ -813,7 +813,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; $ gocode set autobuild true; gocode set unimported-packages true; gocode set propose-builtins true
 ;; ### To use Flycheck default checkers: http://www.flycheck.org/en/latest/languages.html#go
 ;; $ go get -v -u -v github.com/mdempsky/unconvert github.com/golang/lint/golint github.com/kisielk/errcheck
-;; ### Install gometalinter and tools
+;; ### Install gometalinter and linters
 ;; $ go get -v -u -f github.com/alecthomas/gometalinter
 ;; $ gometalinter -d -i -u -f
 ;; ### gorepl-mode
