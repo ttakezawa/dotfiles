@@ -770,6 +770,9 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (setq ac-ignore-case t)
 (setq ac-auto-start t)
 
+(add-to-list 'ac-modes 'makefile-mode)        ;; Enable auto-complete-mode
+(add-to-list 'ac-modes 'makefile-gmake-mode)  ;; Enable auto-complete-mode
+
 ;;;; {ac-helm}
 (el-get-bundle ac-helm)
 (global-set-key (kbd "M-/") 'ac-complete-with-helm)
