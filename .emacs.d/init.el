@@ -768,7 +768,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
 (setq ac-use-menu-map t)
 (setq ac-ignore-case t)
-(setq ac-auto-start nil)
+(setq ac-auto-start t)
 
 ;;;; {ac-helm}
 (el-get-bundle ac-helm)
