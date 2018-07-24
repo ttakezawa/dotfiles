@@ -397,3 +397,8 @@ function timer_stop {
 }
 trap 'timer_start' DEBUG
 PROMPT_COMMAND=$(echo -n "timer_stop; $PROMPT_COMMAND; unset timer" | sed -e 's/;;/;/')
+
+#### local configuration
+if [[ -r $SOURCE_DIR/.env.sh ]]; then
+  source $SOURCE_DIR/.env.sh
+fi

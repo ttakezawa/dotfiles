@@ -158,6 +158,7 @@
 
 ;; Compact mode-line
 ;; Taken from https://www.masteringemacs.org/article/hiding-replacing-modeline-strings
+(require 'cl)
 (defvar mode-line-cleaner-alist
   `((emacs-lisp-mode . "El"))
   "Alist for `clean-mode-line'.
@@ -600,15 +601,15 @@ want to use in the modeline *in lieu of* the original.")
 
 ;;;; {helm-projectile}
 (el-get-bundle helm-projectile)
-(global-set-key (kbd "C-c C-p g") 'helm-projectile-ag)
-(define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-ag)
+(global-set-key (kbd "C-c C-p g") 'helm-projectile-rg)
+(define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-rg)
 
 ;; Configure helm-for-files
 (require 'helm-projectile)
 (setq helm-for-files-preferred-list
       '(;; helm-source-buffers-list
         helm-source-ls-git-status
-        helm-source-projectile-files-list
+        ;; helm-source-projectile-files-list
         helm-source-recentf
         ;; helm-source-bookmarks
         ;; helm-source-file-cache
@@ -625,7 +626,7 @@ want to use in the modeline *in lieu of* the original.")
       (helm-swoop)
     (let ((current-prefix-arg '(3)))
       (helm-swoop))))
-(global-set-key (kbd "M-i") 'takezawa/helm-swoop)
+(global-set-key (kbd "C-c C-s") 'takezawa/helm-swoop)
 
 ;;;; {helm-ag}
 (el-get-bundle helm-ag)
@@ -637,6 +638,10 @@ want to use in the modeline *in lieu of* the original.")
   (let ((current-prefix-arg '(4)))
     (helm-do-ag)))
 (global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir)
+
+;; {helm-rg}
+(el-get-bundle cosmicexplorer/helm-rg :name helm-rg :depends (dash helm))
+(global-set-key (kbd "C-c g") 'helm-rg)
 
 ;;;; {helm-ghq}
 (el-get-bundle helm-ghq)
@@ -767,7 +772,10 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 (add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
 (setq ac-use-menu-map t)
 (setq ac-ignore-case t)
-(setq ac-auto-start nil)
+(setq ac-auto-start t)
+
+(add-to-list 'ac-modes 'makefile-mode)        ;; Enable auto-complete-mode
+(add-to-list 'ac-modes 'makefile-gmake-mode)  ;; Enable auto-complete-mode
 
 ;;;; {ac-helm}
 (el-get-bundle ac-helm)
@@ -783,6 +791,9 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
       (concat (downcase first-char) rest-str))))
 (el-get-bundle yasnippet)
 (yas-global-mode 1)
+
+;;;; {yasnippet-snippets}
+(el-get-bundle yasnippet-snippets)
 
 ;;;; {helm-c-yasnippet}
 (el-get-bundle helm-c-yasnippet)
@@ -803,10 +814,10 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;; ##### Golang environment
 ;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point
 ;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc
-;; $ gocode set autobuild true
+;; $ gocode set autobuild true; gocode set unimported-packages true; gocode set propose-builtins true
 ;; ### To use Flycheck default checkers: http://www.flycheck.org/en/latest/languages.html#go
 ;; $ go get -v -u -v github.com/mdempsky/unconvert github.com/golang/lint/golint github.com/kisielk/errcheck
-;; ### Install gometalinter and tools
+;; ### Install gometalinter and linters
 ;; $ go get -v -u -f github.com/alecthomas/gometalinter
 ;; $ gometalinter -d -i -u -f
 ;; ### gorepl-mode
@@ -1066,9 +1077,10 @@ See URL `https://github.com/troessner/reek'."
             (when (null plantuml-mode-map)
               (setq plantuml-mode-map (make-sparse-keymap)))))
 
-;;;; {emip}
-(el-get-bundle eimp)
-(add-hook 'image-mode-hook 'eimp-mode)
+;; ;;;; {eimp}
+;; ;; Emacs Image Manipulation
+;; (el-get-bundle eimp)
+;; (add-hook 'image-mode-hook 'eimp-mode)
 
 ;;;; {web-mode}
 (el-get-bundle web-mode)
@@ -1163,3 +1175,6 @@ See URL `https://github.com/troessner/reek'."
 ;;;; {smartparens}
 (el-get-bundle smartparens)
 (smartparens-global-mode)
+
+;;;; {protobuf-mode}
+(el-get-bundle protobuf-mode)

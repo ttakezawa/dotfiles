@@ -30,7 +30,7 @@ curl -L https://raw.githubusercontent.com/ggreer/the_silver_searcher/master/ag.b
 curl -L https://raw.githubusercontent.com/Bash-it/bash-it/master/completion/available/go.completion.bash -o .bash.d/go.completion.bash
 
 # .bash.d/gibo-completion.bash
-curl -L https://raw.githubusercontent.com/simonwhitaker/gibo/master/gibo-completion.bash -o .bash.d/gibo-completion.bash
+curl -L https://raw.githubusercontent.com/simonwhitaker/gibo/master/shell-completions/gibo-completion.bash -o .bash.d/gibo-completion.bash
 
 # .bash.d/android.sh
 curl -L https://raw.githubusercontent.com/mbrubeck/android-completion/master/android -o .bash.d/android.sh
