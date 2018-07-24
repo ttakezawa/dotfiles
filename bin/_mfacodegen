@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+_mfacodegen() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+
+  case "$3" in
+    -s)
+      COMPREPLY=( $(compgen -W "$(mfacodegen -l | cut -f1 -d' ')" -- $cur) )
+      ;;
+    *)
+      COMPREPLY=(-s -c -l -a)
+      ;;
+  esac
+}
+
+complete -F _mfacodegen mfacodegen

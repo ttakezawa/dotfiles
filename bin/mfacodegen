@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+set -e
+
+LIST_PATH=~/Dropbox/keys/MFAlist.txt
+
+usage() {
+  echo "Usage: $0 [-clah] [-s service]" 1>&2
+  exit 1
+}
+
+while getopts clas:h OPT; do
+  case $OPT in
+    c)  mode='copy'
+        ;;
+    l)  cmd='show'
+        ;;
+    s)  cmd='generate'
+        service=$OPTARG
+        ;;
+    a)  cmd='all'
+        ;;
+    h)  usage
+        ;;
+    \?) usage
+        ;;
+  esac
+done
+
+[ -z "$cmd" ] && usage
+
+echoTimeLeft() {
+  echo $(expr 30 - $(date '+%S') % 30) seconds left.
+}
+
+generateToken() {
+  echoTimeLeft
+
+  list=$(loadList)
+  seckey=$(echo "${list}" | awk "\$1==\"${service}\"{print \$2}")
+  [ -z "$seckey" ] && { echo "Service ${service} not found." >&2; exit 1; }
+
+  password=$(oathtool -b --totp $seckey)
+  echo $password
+  if [ "$(uname)" = 'Darwin' -a "$mode" = 'copy' ]; then
+    echo -n $password | pbcopy
+    echo copied
+  fi
+}
+
+generateAllTokens() {
+  echoTimeLeft
+
+  loadList | while read LINE; do
+    service=$(echo $LINE | awk "{print \$1}")
+    seckey=$(echo $LINE | awk "{print \$2}")
+    [ -z "$seckey" ] && { echo "Service ${service} not found." >&2; exit 1; }
+    echo $service $(oathtool -b --totp $seckey)
+  done | column -t
+}
+
+loadList() {
+  cat $LIST_PATH
+}
+
+showServiceList() {
+  list=$(loadList)
+  echo "${list}" | cut -f1 | sort
+}
+
+case "$cmd" in
+  'show' )
+    showServiceList
+    ;;
+  'generate' )
+    generateToken
+    ;;
+  'all' )
+    generateAllTokens
+    ;;
+esac

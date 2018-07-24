@@ -335,6 +335,11 @@ if [[ -r $SOURCE_DIR/.bash.d/rg.bash-completion ]]; then
   source $SOURCE_DIR/.bash.d/rg.bash-completion
 fi
 
+#### mfacodegen
+if [[ -r $SOURCE_DIR/bin/_mfacodegen ]]; then
+  source $SOURCE_DIR/bin/_mfacodegen
+fi
+
 #### net-tools deprecation (Taken from http://blog.livedoor.jp/sonots/archives/38589335.html )
 net_tools_deprecated_message () {
   echo -n 'net-tools is deprecated.'
