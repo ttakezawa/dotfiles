@@ -8,4 +8,4 @@
 (
   echo -e "Name\tPrivateIpAddress\tLaunchTime\tInstanceId\tState\tInstanceType"
   AWS_DEFAULT_REGION=ap-northeast-1 aws ec2 describe-instances | jq -r '.Reservations | .[].Instances[] | [(.Tags[] | select(.Key == "Name").Value), .PrivateIpAddress // "-", .LaunchTime, .InstanceId, .State.Name, .InstanceType] | @tsv'
-) | sort | column -t
+) | LC_ALL=C sort | column -t
