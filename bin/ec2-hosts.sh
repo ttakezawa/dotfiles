@@ -15,4 +15,5 @@
   | column -t                \
   | GREP_COLORS="mt=05;32" grep --color=always -E 'pending|$'                                     \
   | GREP_COLORS="mt=05;31" grep --color=always -E 'rebooting|stopping|shutting-down|terminated|$' \
-  | GREP_COLORS="mt=00;31" grep --color=always -E 'stopped|$'
+  | GREP_COLORS="mt=00;31" grep --color=always -E 'stopped|$'                                     \
+  | awk '{ if ("'$(date --iso-8601=seconds -d '-24HOURS')'" < $3 && $3 != "LaunchTime" ) { print $1,$2,"\033[32m"$3"\033[0m",$4,$5,$6 } else { print $0 } }'
