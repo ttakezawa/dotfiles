@@ -8,4 +8,11 @@
 (
   echo -e "Name\tPrivateIpAddress\tLaunchTime\tInstanceId\tState\tInstanceType"
   AWS_DEFAULT_REGION=ap-northeast-1 aws ec2 describe-instances | jq -r '.Reservations | .[].Instances[] | [(.Tags[] | select(.Key == "Name").Value), .PrivateIpAddress // "-", .LaunchTime, .InstanceId, .State.Name, .InstanceType] | @tsv'
-) | LC_ALL=C sort | column -t
+) | awk '{print $1, $3, $0}' \
+  | sed -r 's/\s+/ /g'       \
+  | LC_ALL=C sort            \
+  | cut -d' ' -f3-           \
+  | column -t                \
+  | GREP_COLORS="mt=05;32" grep --color=always -E 'pending|$'                                     \
+  | GREP_COLORS="mt=05;31" grep --color=always -E 'rebooting|stopping|shutting-down|terminated|$' \
+  | GREP_COLORS="mt=00;31" grep --color=always -E 'stopped|$'
