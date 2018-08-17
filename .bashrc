@@ -343,6 +343,11 @@ else
   warn "fasd not found."
 fi
 
+#### hub
+if type -P hub >/dev/null; then
+  alias git=hub
+fi
+
 #### ag
 if [[ -r $SOURCE_DIR/.bash.d/ag.bashcomp.sh ]]; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
