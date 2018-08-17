@@ -18,6 +18,7 @@ ln -s ~/.dotfiles/.gitconfig ~/
 ln -s ~/.dotfiles/.gitignore_global ~/
 ln -s ~/.dotfiles/.gitattributes_global ~/
 ln -s ~/.dotfiles/.byobu-tmux.conf ~/
+mkdir -p ~/.byobu && echo 'source $HOME/.byobu-tmux.conf' >> .byobu/.tmux.conf
 ln -s ~/.dotfiles/.tmux.conf ~/
 ln -s ~/.dotfiles/.emacs.d ~/
 ln -s ~/.dotfiles/.vimrc ~/
