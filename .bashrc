@@ -3,6 +3,12 @@
 # -*- coding:utf-8; mode:sh; sh-basic-offset:2; sh-indentation:2; -*-
 
 #### basic
+# Find REALDIR of this script
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
+SOURCE_DIR="$(cd -P "$( dirname "$SOURCE" )" && pwd)"
+export PATH="$PATH:$SOURCE_DIR/bin"
+
 # Inspect system environment
 [[ $- == *i* ]] && IS_INTERACTIVE_SH=1
 if [[ $SHLVL -gt 1 ]]; then
@@ -32,14 +38,16 @@ if [[ $IS_INTERACTIVE_SH ]]; then
   stty start undef
 fi
 
-# Find REALDIR of this script
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
-SOURCE_DIR="$(cd -P "$( dirname "$SOURCE" )" && pwd)"
-export PATH="$PATH:$SOURCE_DIR/bin"
+ignore_warn=''
+
+warn() {
+  [[ $ignore_warn ]] && return 0
+   echo 1>&2 $*
+}
 
 #### load environment resource
 [[ $IS_DARWIN ]] && source $SOURCE_DIR/.bashrc.darwin
+[[ -r $SOURCE_DIR/.env.sh ]] && source $SOURCE_DIR/.env.sh
 
 #### basic tweaks
 export TZ="Asia/Tokyo"
@@ -132,7 +140,6 @@ elif [[ $IS_VBOX ]]; then
 elif [[ $IS_DARWIN ]]; then
   host_type="mac"
 fi
-
 if [[ $host_type ]]; then
   host_label="\[\e[32m\]${host_type}\[\e[0m\]:${host_label}"
 fi
@@ -321,7 +328,7 @@ FZF-EOF"
       fi
   )
 else
-  echo "~/.fzf.bash not found." >&2
+  warn "~/.fzf.bash not found."
 fi
 
 #### fasd
@@ -333,7 +340,7 @@ if type -P fasd >/dev/null; then
     dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
   }
 else
-  echo "fasd not found." >&2
+  warn "fasd not found."
 fi
 
 #### ag
@@ -408,8 +415,3 @@ function timer_stop {
 }
 trap 'timer_start' DEBUG
 PROMPT_COMMAND=$(echo -n "timer_stop; $PROMPT_COMMAND; unset timer" | sed -e 's/;;/;/')
-
-#### local configuration
-if [[ -r $SOURCE_DIR/.env.sh ]]; then
-  source $SOURCE_DIR/.env.sh
-fi
