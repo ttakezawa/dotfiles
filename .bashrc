@@ -13,6 +13,14 @@ case $OSTYPE in
   darwin*) IS_DARWIN=1 ;;
   linux*)  IS_LINUX=1  ;;
 esac
+if type -P mount.vboxsf >/dev/null; then
+  IS_VBOX=1
+fi
+if [[ ( ! $IS_VBOX ) && $IS_LINUX && $IS_INTERACTIVE_SH ]] && type -P curl >/dev/null; then
+  if $(curl --connect-timeout 0.01 -s http://169.254.169.254/1.0); then
+    IS_EC2=1
+  fi
+fi
 
 if [[ $IS_INTERACTIVE_SH ]]; then
   # disable stty bindings
@@ -117,11 +125,14 @@ function prettify_exit_code {
 # Set window title as a side effect of $prompt_screen
 host_label="\[\e[34m\]$HOSTNAME"
 host_type=""
-if type -P mount.vboxsf >/dev/null; then
-  host_type="vb"
+if [[ $IS_EC2 ]]; then
+host_type="ec2"
+elif [[ $IS_VBOX ]]; then
+  host_type="vbox"
 elif [[ $IS_DARWIN ]]; then
   host_type="mac"
 fi
+
 if [[ $host_type ]]; then
   host_label="\[\e[32m\]${host_type}\[\e[0m\]:${host_label}"
 fi
