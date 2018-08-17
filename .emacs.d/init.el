@@ -617,6 +617,8 @@ want to use in the modeline *in lieu of* the original.")
         helm-source-locate))
 (global-set-key (kbd "C-x C-r") 'helm-for-files)
 
+(global-set-key (kbd "C-x r") 'helm-projectile)
+
 ;;;; {helm-swoop}
 (el-get-bundle helm-swoop)
 ;; デフォルトでhelm-swoopで周辺3行も表示する つまり M-3 M-x helm-swoop と同じ
