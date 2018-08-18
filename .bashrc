@@ -54,6 +54,7 @@ else
 fi
 # save host_type for .byobu-tmux.conf
 echo $host_type > /tmp/${USER}-host_type
+export BYOBU_NO_TITLE=1
 
 if [[ $IS_INTERACTIVE_SH ]]; then
   # set window title
