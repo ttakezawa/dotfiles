@@ -55,6 +55,11 @@ fi
 # save host_type for .byobu-tmux.conf
 echo $host_type > /tmp/${USER}-host_type
 
+if [[ $IS_INTERACTIVE_SH ]]; then
+  # set window title
+  echo -ne "\e]0;${host_type}\a"
+fi
+
 # common utility
 ignore_warn=''
 
