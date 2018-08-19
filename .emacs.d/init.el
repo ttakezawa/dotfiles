@@ -814,8 +814,8 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;;;; {go-mode}
 ;; ##### Golang environment
-;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point, github.com/zmb3/gogetdo for godoc-at-point
-;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc
+;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point, gogetdoc for godoc-at-point
+;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc github.com/zmb3/gogetdoc
 ;; $ gocode set autobuild true; gocode set unimported-packages true; gocode set propose-builtins true
 ;; ### To use Flycheck default checkers: http://www.flycheck.org/en/latest/languages.html#go
 ;; $ go get -v -u -v github.com/mdempsky/unconvert github.com/golang/lint/golint github.com/kisielk/errcheck
@@ -885,7 +885,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
         ;; "deadcode"   ;; slow
         "dupl"
         ;; "errcheck" ;; flycheck slow
-        "gas"
+        "gosec"
         "goconst"
         "gocyclo"
         ;; "gofmt" ;; flycheck
