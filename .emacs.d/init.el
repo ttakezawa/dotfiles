@@ -814,7 +814,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 
 ;;;; {go-mode}
 ;; ##### Golang environment
-;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point
+;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point, github.com/zmb3/gogetdo for godoc-at-point
 ;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc
 ;; $ gocode set autobuild true; gocode set unimported-packages true; gocode set propose-builtins true
 ;; ### To use Flycheck default checkers: http://www.flycheck.org/en/latest/languages.html#go
@@ -839,6 +839,7 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq gofmt-command "goimports")
   (setq go-packages-function 'go-packages-go-list)
+  (setq godoc-at-point-function 'godoc-gogetdoc)
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
   (define-key go-mode-map (kbd "C-x 4 M-.") 'godef-jump-other-window)
   (define-key go-mode-map (kbd "C-c d") 'godoc-at-point)
