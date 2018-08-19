@@ -97,7 +97,7 @@ function share_history {
 PROMPT_COMMAND="share_history;$PROMPT_COMMAND"
 shopt -u histappend
 # customize history
-HISTFILE=~/.bash_history
+HISTFILE=~/.bash_history_x
 HISTSIZE=100000
 HISTFILESIZE=1000000
 HISTCONTROL=ignoredups
