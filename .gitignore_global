@@ -175,3 +175,8 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+
+
+## C
+*.o
+*.a
