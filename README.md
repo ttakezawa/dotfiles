@@ -1,9 +1,9 @@
 ## Setup
 
 ```bash
-mkdir -p ~/dev/src/github.com/ttakezawa
-git clone git@github.com:ttakezawa/dotfiles.git ~/dev/src/github.com/ttakezawa/dotfiles
-ln -s ~/dev/src/github.com/ttakezawa/dotfiles ~/.dotfiles
+mkdir -p ~/go/src/github.com/ttakezawa
+git clone git@github.com:ttakezawa/dotfiles.git ~/go/src/github.com/ttakezawa/dotfiles
+ln -s ~/go/src/github.com/ttakezawa/dotfiles ~/.dotfiles
 
 # Mac OS X
 echo 'source $HOME/.dotfiles/.bashrc' >> ~/.bash_profile

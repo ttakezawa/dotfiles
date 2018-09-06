@@ -271,7 +271,7 @@ if [[ -d "$HOME/.evm/bin" ]]; then
 fi
 
 #### Golang
-export GOPATH=$HOME/dev
+export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
 if [[ -f $SOURCE_DIR/.bash.d/go.completion.bash ]]; then
   source $SOURCE_DIR/.bash.d/go.completion.bash
