@@ -615,7 +615,7 @@ want to use in the modeline *in lieu of* the original.")
         ;; helm-source-file-cache
         ;; helm-source-files-in-current-dir
         helm-source-locate))
-(global-set-key (kbd "C-x C-r") 'helm-for-files)
+(global-set-key (kbd "C-x f") 'helm-for-files)
 
 (global-set-key (kbd "C-x r") 'helm-projectile)
 
