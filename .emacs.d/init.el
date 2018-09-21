@@ -815,17 +815,17 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
 ;;;; {go-mode}
 ;; ##### Golang environment
 ;; ### Install godef for godef-jump, gocode for go-eldoc, godoc for godoc-at-point, gogetdoc for godoc-at-point
-;; $ go get -v -u -f github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc github.com/zmb3/gogetdoc
+;; $ go get -v -u github.com/rogpeppe/godef github.com/nsf/gocode golang.org/x/tools/cmd/godoc github.com/zmb3/gogetdoc golang.org/x/tools/cmd/guru
 ;; $ gocode set autobuild true; gocode set unimported-packages true; gocode set propose-builtins true
 ;; ### To use Flycheck default checkers: http://www.flycheck.org/en/latest/languages.html#go
-;; $ go get -v -u -v github.com/mdempsky/unconvert github.com/golang/lint/golint github.com/kisielk/errcheck
+;; $ go get -v -u github.com/mdempsky/unconvert github.com/golang/lint/golint github.com/kisielk/errcheck
 ;; ### Install gometalinter and linters
 ;; $ go get -v -u -f github.com/alecthomas/gometalinter
 ;; $ gometalinter -d -i -u -f
 ;; ### gorepl-mode
 ;; $ go get -v -u -f github.com/motemen/gore
 ;; ### Update .goimportsignore
-;; $ go get -v -u -f github.com/pwaller/goimports-update-ignore
+;; $ go get -v -u go get golang.org/x/tools/cmd/goimports github.com/pwaller/goimports-update-ignore
 ;; $ goimports-update-ignore -max-depth 20
 ;; crontab: 0 3 * * * bash -lc '(goimports-update-ignore -max-depth 20) 2>&1 | gawk "{ print strftime(\"\%Y/\%m/\%d \%H:\%M:\%S\"), \$0; fflush() }"' >>$HOME/.crontab.log 2>&1
 
