@@ -26,6 +26,9 @@ ln -s ~/.dotfiles/.cobra.yaml ~/
 ln -s ~/.dotfiles/.agignore ~/
 ln -s ~/.dotfiles/.aspell.conf ~/.dotfiles/.aspell.en.pws ~/
 ln -s ~/.dotfiles/.gemrc ~/
+git config --global pr-release.template .pr-release.erb
+git config --global pr-release.branch.staging development
+# ln -s ~/.dotfiles/.pr-release.erb ./
 
 mkdir -p ~/.atom
 ln -s ~/.dotfiles/.atom/keymap.cson ~/.atom/
