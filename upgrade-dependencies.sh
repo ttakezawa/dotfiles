@@ -44,3 +44,14 @@ chmod +x bin/diff-highlight
 
 curl -L https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -o bin/diff-so-fancy
 chmod +x bin/diff-so-fancy
+
+# update rbenv
+if [[ -d "$MY_RBENV_ROOT" ]]; then
+  cd $MY_RBENV_ROOT
+  git pull
+
+  if [[ -d plugins/ruby-build ]]; then
+    cd plugins/ruby-build
+    git pull
+  fi
+fi
