@@ -293,14 +293,10 @@ if [[ -f ~/.fzf.bash ]]; then
   if ! type -P ghq >/dev/null; then
     echo "ghq not found." >&2
   fi
-  g() {
-    local l=$(ghq list | fzf --reverse)
-    [[ -n "$l" ]] && cd $(ghq root)/$l
-  }
 
-  gg() {
-    local l=$(GHQ_ROOT=$GOPATH/src ghq list | fzf --reverse)
-    [[ -n "$l" ]] && cd $(GHQ_ROOT=$GOPATH/src ghq root)/$l
+  g() {
+    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C tree -C $HOME/{} -I _tools")
+    [[ -n "$l" ]] && cd "$HOME/$l"
   }
 
   # Taken from https://github.com/junegunn/fzf/wiki/Examples#git
