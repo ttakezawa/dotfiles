@@ -191,6 +191,30 @@ if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
   source $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all
 fi
 
+## asdf
+if [[ -d $HOME/.asdf ]]; then
+  . $HOME/.asdf/asdf.sh
+  . $HOME/.asdf/completions/asdf.bash
+
+  asdf-install-fzf() {
+    local lang=${1}
+    if [[ ! $lang ]]; then
+      lang=$(asdf plugin-list | fzf)
+    fi
+
+    if [[ $lang ]]; then
+      local versions=$(asdf list-all $lang | fzf --tac -m)
+      if [[ $versions ]]; then
+        for version in $(echo $versions); do
+          asdf install $lang $version
+        done
+      fi
+    fi
+  }
+
+  alias asdfi=asdf-install-fzf
+fi
+
 #### direnv
 if type -P direnv >/dev/null; then
   eval "$(direnv hook bash)"
@@ -205,11 +229,11 @@ source $SOURCE_DIR/.bash.d/android.sh
 
 #### ruby
 # rbenv
-if [[ -d "$HOME/.rbenv/bin" ]]; then
-  export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
-  export MY_RBENV_ROOT=$(rbenv root)
-fi
+#if [[ -d "$HOME/.rbenv/bin" ]]; then
+#  export PATH="$HOME/.rbenv/bin:$PATH"
+#  eval "$(rbenv init -)"
+#  export MY_RBENV_ROOT=$(rbenv root)
+#fi
 
 # change the current directory to a rubygem directory
 cdgem () {
@@ -236,14 +260,14 @@ if [[ -d "$HOME/.pyenv/bin" ]]; then
 fi
 
 #### nodejs
-# nvm
-if [[ -s $HOME/.nvm/nvm.sh ]]; then
-  source $HOME/.nvm/nvm.sh
-  [[ -s $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
-fi
+## nvm
+#if [[ -s $HOME/.nvm/nvm.sh ]]; then
+#  source $HOME/.nvm/nvm.sh
+#  [[ -s $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
+#fi
 
 # npm
-if type -P npm >/dev/null; then
+if type -P npm >/dev/null && npm version >/dev/null; then
   . <(npm completion)
 fi
 
@@ -278,12 +302,12 @@ if [[ -f $SOURCE_DIR/.bash.d/go.completion.bash ]]; then
   source $SOURCE_DIR/.bash.d/go.completion.bash
 fi
 
-# goenv
-if [[ -d "$HOME/.goenv/bin" ]]; then
-  export PATH="$HOME/.goenv/bin:$PATH"
-  eval "$(goenv init -)"
-  export GOROOT="$(goenv prefix)"
-fi
+## goenv
+#if [[ -d "$HOME/.goenv/bin" ]]; then
+#  export PATH="$HOME/.goenv/bin:$PATH"
+#  eval "$(goenv init -)"
+#  export GOROOT="$(goenv prefix)"
+#fi
 
 #### fzf
 if [[ -f ~/.fzf.bash ]]; then
