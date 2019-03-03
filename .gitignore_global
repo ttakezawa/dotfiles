@@ -157,7 +157,7 @@ tags
 ### Xcode - From: https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore
 ##########################################################################################
 ## Build generated
-build/
+#build/
 DerivedData/
 
 ## Various settings
