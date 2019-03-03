@@ -254,8 +254,13 @@ cdgem () {
 }
 
 #### npm
-if type -P npm >/dev/null && npm version >/dev/null; then
+if type -P npm >/dev/null; then
   . <(npm completion)
+fi
+
+#### pip
+if type -P pip >/dev/null; then
+  eval "$(pip completion --bash 2>/dev/null)"
 fi
 
 #### perl
