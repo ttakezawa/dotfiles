@@ -304,7 +304,12 @@ if [[ -f ~/.fzf.bash ]]; then
   fi
 
   g() {
-    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C tree -C $HOME/{} -I _tools")
+    # # use tree command
+    # local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C tree -C $HOME/{} -I _tools")
+
+    # use exa command
+    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C exa $HOME/{} --color=always --tree --git-ignore -I=_tools | sed 's/├──/|--/; s/│  /|  /; s/└──/\`--/;'")
+
     [[ -n "$l" ]] && cd "$HOME/$l"
   }
 
@@ -422,7 +427,7 @@ function conv-time () {
 }
 
 alias stracev="strace -f -T -tt -v -x -y -yy"
-alias el="exa -aghl@ --git --time-style long-iso"
+alias la="exa -aghl@ --git --time-style long-iso"
 
 #### command time
 # trap ... DEBUG を上書きして実装している
