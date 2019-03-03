@@ -228,13 +228,6 @@ fi
 source $SOURCE_DIR/.bash.d/android.sh
 
 #### ruby
-# rbenv
-#if [[ -d "$HOME/.rbenv/bin" ]]; then
-#  export PATH="$HOME/.rbenv/bin:$PATH"
-#  eval "$(rbenv init -)"
-#  export MY_RBENV_ROOT=$(rbenv root)
-#fi
-
 # change the current directory to a rubygem directory
 cdgem () {
   local bundle_gems="$(bundle list | grep '\*' | sed -e 's/^ *\* *//g')"
