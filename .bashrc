@@ -162,7 +162,9 @@ _PROMPT2="\\n$prompt_screen\$ "
 PS1=$_PROMPT1$_PROMPT2
 
 # git prompt
-source $SOURCE_DIR/.bash.d/git-prompt.sh
+if ! type -t __git_ps1 >/dev/null 2>&1; then
+  source $SOURCE_DIR/.bash.d/git-prompt.sh
+fi
 if [[ "$(type -t __git_ps1)" ]]; then
   GIT_PS1_SHOWDIRTYSTATE=true
   GIT_PS1_SHOWUPSTREAM="verbose"
@@ -177,14 +179,18 @@ fi
 # Stop improperly $ escaping
 shopt -s direxpand
 
-# git-competion
-source $SOURCE_DIR/.bash.d/git-completion.bash
+# git-completion
+if ! type -t __git >/dev/null 2>&1; then
+  source $SOURCE_DIR/.bash.d/git-completion.bash
+fi
 
 # gibo-completion
 source $SOURCE_DIR/.bash.d/gibo-completion.bash
 
 # exa completion
-source $SOURCE_DIR/.bash.d/exa-completions.bash
+if ! type -t _exa >/dev/null 2>&1; then
+  source $SOURCE_DIR/.bash.d/exa-completions.bash
+fi
 
 # completion-ruby-all
 if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
@@ -247,8 +253,10 @@ cdgem () {
 }
 
 #### npm
-if type -P npm >/dev/null; then
-  . <(npm completion)
+if ! type -t _npm_completion >/dev/null 2>&1; then
+  if type -P npm >/dev/null; then
+    source <(npm completion)
+  fi
 fi
 
 #### pip
@@ -373,12 +381,12 @@ if type -P hub >/dev/null; then
 fi
 
 #### ag
-if [[ -r $SOURCE_DIR/.bash.d/ag.bashcomp.sh ]]; then
+if ! type -t _ag >/dev/null 2>&1; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
 fi
 
 #### ripgrep
-if [[ -r $SOURCE_DIR/.bash.d/rg.bash-completion ]]; then
+if ! type -t _rg >/dev/null 2>&1; then
   source $SOURCE_DIR/.bash.d/rg.bash-completion
 fi
 
