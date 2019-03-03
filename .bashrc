@@ -253,20 +253,7 @@ cdgem () {
   fi
 }
 
-#### python
-if [[ -d "$HOME/.pyenv/bin" ]]; then
-  export PATH="$HOME/.pyenv/bin:$PATH"
-  eval "$(pyenv init -)"
-fi
-
-#### nodejs
-## nvm
-#if [[ -s $HOME/.nvm/nvm.sh ]]; then
-#  source $HOME/.nvm/nvm.sh
-#  [[ -s $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
-#fi
-
-# npm
+#### npm
 if type -P npm >/dev/null && npm version >/dev/null; then
   . <(npm completion)
 fi
