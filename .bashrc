@@ -291,8 +291,10 @@ fi
 #### Golang
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
-if [[ -f $SOURCE_DIR/.bash.d/go.completion.bash ]]; then
-  source $SOURCE_DIR/.bash.d/go.completion.bash
+
+## https://github.com/posener/complete
+if type -P gocomplete >/dev/null; then
+  complete -C gocomplete go
 fi
 
 ## goenv

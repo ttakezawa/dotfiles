@@ -26,9 +26,6 @@ curl -L https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.b
 # .bash.d/ag.bashcomp.sh
 curl -L https://raw.githubusercontent.com/ggreer/the_silver_searcher/master/ag.bashcomp.sh > .bash.d/ag.bashcomp.sh
 
-# .bash.d/go.completion.bash
-curl -L https://raw.githubusercontent.com/Bash-it/bash-it/master/completion/available/go.completion.bash -o .bash.d/go.completion.bash
-
 # .bash.d/gibo-completion.bash
 curl -L https://raw.githubusercontent.com/simonwhitaker/gibo/master/shell-completions/gibo-completion.bash -o .bash.d/gibo-completion.bash
 
@@ -45,6 +42,9 @@ chmod +x bin/diff-highlight
 # bin/diff-so-fancy
 curl -L https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -o bin/diff-so-fancy
 chmod +x bin/diff-so-fancy
+
+# update gocomplete
+go get -v -u github.com/posener/complete/gocomplete
 
 # update asdf
 if type asdf >/dev/null; then
