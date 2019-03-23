@@ -12,7 +12,7 @@ function mysed() {
 
 (
   echo -e "Name\tPrivateIpAddress\tLaunchTime\tInstanceId\tState\tInstanceType"
-  AWS_DEFAULT_REGION=ap-northeast-1 aws ec2 describe-instances | jq -r '.Reservations | .[].Instances[] | [(.Tags[] | select(.Key == "Name").Value), .PrivateIpAddress // "-", .LaunchTime, .InstanceId, .State.Name, .InstanceType] | @tsv'
+  AWS_DEFAULT_REGION=ap-northeast-1 aws ec2 describe-instances | jq -r '.Reservations | .[].Instances[] | [if has("Tags") then (.Tags[] | select(.Key == "Name").Value) else "_No_Name_" end, .PrivateIpAddress // "-", .LaunchTime, .InstanceId, .State.Name, .InstanceType] | @tsv'
 ) | awk '{print $1, $3, $0}' \
   | mysed -r 's/\s+/ /g'     \
   | LC_ALL=C sort            \
