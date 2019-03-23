@@ -14,6 +14,10 @@ else
   PROCESSOR=386
 fi
 
-# Install exa manpage
-mkdir -p $HOME/local/share/man/man1
-curl -L https://raw.githubusercontent.com/ogham/exa/master/contrib/man/exa.1 -o $HOME/local/share/man/man1/exa.1
+if type -P sshrc >/dev/null; then
+  # setup sshrc
+  mkdir -p .sshrc.d
+  cp -p .emacs.d/init-builtin.el ./.sshrc.d/init.el
+  cp -p .vimrc .sshrc.d/
+  cp -p ./bin/ec2-hosts.sh .sshrc.d/
+fi

@@ -20,5 +20,7 @@
 
 /bin/ghq
 
+/.sshrc.d
+
 *.old
 *.tmp

@@ -439,6 +439,12 @@ function conv-time () {
 alias stracev="strace -f -T -tt -v -x -y -yy"
 alias la="exa -aghl@ --git --time-style long-iso"
 
+if type -P sshrc >/dev/null; then
+  _completion_loader ssh 2>/dev/null # for bash-completion >= 1.90, bash >= 4.1
+  eval $(complete -p ssh | sed 's/ ssh$/ sshrc/')
+  export SSHHOME=$SOURCE_DIR
+fi
+
 #### command time
 # trap ... DEBUG を上書きして実装している
 # また、PROMPT_COMMANDをいじる都合上、最後に設定するようにする

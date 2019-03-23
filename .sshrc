@@ -1,0 +1,12 @@
+stty -ixon
+
+_completion_loader ssh 2>/dev/null # for bash-completion >= 1.90, bash >= 4.1
+eval $(complete -p ssh | sed 's/ ssh$/ sshrc/')
+
+export PATH=$SSHHOME/.sshrc.d:$PATH
+
+export VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
+
+if type -P emacs 2>/dev/null; then
+    export EDITOR="emacs -l $SSHHOME/.sshrc.d/init.el"
+fi
