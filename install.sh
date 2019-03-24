@@ -25,3 +25,5 @@ fi
 # install gocomplete
 go get -u github.com/posener/complete/gocomplete
 
+# install ghq
+go get -u github.com/motemen/ghq
