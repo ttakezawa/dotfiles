@@ -51,3 +51,6 @@ if type asdf >/dev/null; then
   asdf update
   asdf plugin-update --all
 fi
+
+# update ghq
+go get -v -u github.com/motemen/ghq

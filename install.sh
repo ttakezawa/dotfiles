@@ -65,9 +65,3 @@ if type -P sshrc >/dev/null; then
   cp -p .vimrc .sshrc.d/
   cp -p ./bin/ec2-hosts.sh .sshrc.d/
 fi
-
-# install gocomplete
-go get -u github.com/posener/complete/gocomplete
-
-# install ghq
-go get -u github.com/motemen/ghq
