@@ -1,5 +1,7 @@
 .dir-locals.el
 local.sh
+.idea/markdown-navigator
+.idea/markdown-navigator.xml
 
 # Ignore Carthage/Build
 Carthage/Build
