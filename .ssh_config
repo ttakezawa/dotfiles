@@ -8,6 +8,7 @@ Host *+*
 ### default config
 Host *
   ForwardAgent yes
+  UseKeychain yes
   AddKeysToAgent yes
   AddressFamily inet
   # PreferredAuthentications publickey
