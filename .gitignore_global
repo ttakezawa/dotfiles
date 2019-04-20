@@ -2,6 +2,7 @@
 local.sh
 .idea/markdown-navigator
 .idea/markdown-navigator.xml
+.idea/markdown-exported-files.xml
 
 # Ignore Carthage/Build
 Carthage/Build
