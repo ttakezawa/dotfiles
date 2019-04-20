@@ -426,6 +426,35 @@ alias ll="exa --time-style long-iso"
 export LESS="-n -R +e"
 
 #### misc tweaks
+function dotenv() {
+  if [[ ! -r $1 ]]; then
+    echo 1>&2 "could not read '$1'"
+    exit 1
+  fi
+
+  (
+    set -e -o allexport
+    source $1
+    set +e +o allexport
+    shift
+    exec "$@"
+  )
+}
+
+_dotenv()
+{
+  local cur prev cword
+  _get_comp_words_by_ref -n : cur prev cword
+  if [ "${cword}" -eq 1 ]; then
+    COMPREPLY=( $(compgen -f -- "${cur}") )
+  elif [ "${cword}" -eq 2 ]; then
+    COMPREPLY=( $(compgen -c -- "${cur}") )
+  else
+    COMPREPLY=( $(compgen -f -- "${cur}") )
+  fi
+}
+complete -F _dotenv dotenv
+
 function conv-time () {
   for arg in "$@"; do
     if ( echo "$arg" | $(type -P ggrep grep | head -1) -qsP '^\d+$' ); then
