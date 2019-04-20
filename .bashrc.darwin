@@ -7,18 +7,11 @@ export MANPATH="/usr/local/share/man:$MANPATH"
 # Avoid exec 'brew --prefix'
 brew_prefix=/usr/local
 
-# Homebrew bash-completion@2
-if [[ -f ${brew_prefix}/share/bash-completion/bash_completion ]]; then
-  # bash-competion@2
-  . ${brew_prefix}/share/bash-completion/bash_completion
-fi
+# use existing Homebrew v1 completions
+export BASH_COMPLETION_COMPAT_DIR="${brew_prefix}/etc/bash_completion.d"
 
-# Homebrew completions
-if type brew 2&>/dev/null; then
-  for completion_file in ${brew_prefix}/etc/bash_completion.d/*; do
-    source "$completion_file"
-  done
-fi
+# Homebrew bash-completion@2
+[[ -r "${brew_prefix}/etc/profile.d/bash_completion.sh" ]] && . "${brew_prefix}/etc/profile.d/bash_completion.sh"
 
 # Homebrew coreutils
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
