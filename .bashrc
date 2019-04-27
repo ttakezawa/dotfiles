@@ -350,10 +350,12 @@ FZF-EOF"
     countskip="$(( countskip + 1 ))"
     line=$(
       HISTTIMEFORMAT= history |
+      grep '.\{1,79\}' |
+      sed 's/ *$//g' |
       tac |
       nauniq --skip-chars="$countskip" |
       tac |
-      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS +s --tac --no-reverse -n2..,.. --tiebreak=index --toggle-sort=ctrl-r $FZF_CTRL_R_OPTS +m" $(__fzfcmd) |
+      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tac --sync -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) |
       command grep '^ *[0-9]') &&
       if [[ $- =~ H ]]; then
         sed 's/^ *\([0-9]*\)\** .*/!\1/' <<< "$line"
