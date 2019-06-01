@@ -428,21 +428,6 @@ alias ll="exa --time-style long-iso"
 export LESS="-n -R +e"
 
 #### misc tweaks
-function dotenv() {
-  if [[ ! -r $1 ]]; then
-    echo 1>&2 "could not read '$1'"
-    exit 1
-  fi
-
-  (
-    set -e -o allexport
-    source $1
-    set +e +o allexport
-    shift
-    exec "$@"
-  )
-}
-
 _dotenv()
 {
   local cur prev cword
