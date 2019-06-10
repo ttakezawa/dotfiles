@@ -12,12 +12,12 @@
 [color]
 	ui = auto
 [pager]
-    diff = diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '
+	diff = diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '
 [push]
-        default = simple
+	default = simple
 [log]
-        decorate = auto
-        date = iso8601-strict
+	decorate = auto
+	date = iso8601-strict
 [alias]
 	# utility
 	co = !git checkout $(git branch --color | sed 's/.* //' | fzf-tmux --ansi --select-1 --query="$@")
@@ -25,13 +25,13 @@
 	clean-branch-exec = !                    git branch --merged | grep -Ev '^\\*|^\\s*master' | xargs git branch -d
 
 	# for completion
-        cat-file = cat-file
+	cat-file = cat-file
 	ls-files = ls-files
-        show-ref = show-ref
+	show-ref = show-ref
 
 	# shortcuts
 	df  = diff -w
-        dfc = diff -w --cached
+	dfc = diff -w --cached
 
 [url "git@github.com:"]
 	insteadOf = https://github.com/
