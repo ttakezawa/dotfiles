@@ -64,4 +64,5 @@ if type -P sshrc >/dev/null; then
   cp -p .emacs.d/init-builtin.el ./.sshrc.d/init.el
   cp -p .vimrc .sshrc.d/
   cp -p ./bin/ec2-hosts.sh .sshrc.d/
+  cp -p .inputrc .sshrc.d/
 fi

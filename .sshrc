@@ -10,3 +10,5 @@ export VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
 if type -P emacs 2>/dev/null; then
     export EDITOR="emacs -l $SSHHOME/.sshrc.d/init.el"
 fi
+
+bind -f $SSHHOME/.sshrc.d/.inputrc
