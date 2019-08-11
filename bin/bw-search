@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Search from item
+
+bw_uuid="$(bw-sess list items \
+  | jq -r '.[] | [.name, .login.username // "", .notes, .id] | @tsv' \
+  | fzf -q "$*" --with-nth 1..-2 \
+        --preview-window down:70% \
+        --preview "item=\$(bw-sess get item \$(echo {} | awk '{print \$NF}') ); echo \$item | jq -r .name; echo \$item | jq -C .login; echo "[Notes]"; echo \$item | jq -r .notes" \
+  | awk '{print $NF}')"
+if [[ -z "$bw_uuid" ]]; then
+  exit 1
+fi
+bw-sess get item "$bw_uuid" | jq -C .

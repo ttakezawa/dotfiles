@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Get TOTP token from bw with fzf
+
+selected="$(bw-sess list items \
+  | jq -r '.[] | select(.login.totp != null) | [.name, .login.username // "", .login.totp] | @tsv' \
+  | column -ts $'\t' \
+  | fzf -q "$*" --select-1 --with-nth 1..-2 \
+        --preview-window down:1 \
+        --preview "bw-sess get totp \$(echo {} | awk '{print \$NF}')"
+)"
+seckey="$(echo "$selected" | awk '{print $NF}')"
+if [[ -z "$seckey" ]]; then
+  exit 1
+fi
+token="$(oathtool -b --totp $seckey)"
+echo -n "$token" | pbcopy
+text="$(echo "$selected" | sed -E "s/ *$seckey\$//")"
+echo -e "$text\n$token copied to clipboard."

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Invoke bw command with session
+
+path="/tmp/bitwarden-tmp/${USER}.$(TZ=Asia/Tokyo date '+%Y%m%d')"
+
+if [[ ! -r "$path" ]]; then
+  bw-unlock >/dev/null || exit 1
+fi
+BW_SESSION="$(cat "$path")" bw "$@"
+

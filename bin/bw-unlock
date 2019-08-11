@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Unlock bitwarden with password stored in keychain and save session into a temporary file.
+# To store your password in keychain, `security add-generic-password -s bitwarden-cli -a t.takezawa@gmail.com -p <PASSWORD>'
+
+mkdir -p "/tmp/bitwarden-tmp"
+path="/tmp/bitwarden-tmp/${USER}.$(TZ=Asia/Tokyo date '+%Y%m%d')"
+
+bw_session=$(bw unlock "$(security find-generic-password -s bitwarden-cli -a t.takezawa@gmail.com -gw)" --raw) || exit 1
+echo "$bw_session" > "$path"
+echo "SESSION - $path: $bw_session"
+bw-sess sync
