@@ -18,6 +18,9 @@ export BASH_COMPLETION_COMPAT_DIR="${brew_prefix}/etc/bash_completion.d"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
+# Homebrew mysql-client
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+
 # utlize ps
 ps() {
   command ps -axwwo user,pid,ppid,pgid,command \
