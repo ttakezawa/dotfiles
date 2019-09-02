@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+perl -Xpne 'BEGIN{$|=1} s/\\u([0-9a-fA-F]{4})/chr(hex($1))/eg'
+
