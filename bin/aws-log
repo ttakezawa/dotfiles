@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<EOF;
+Usage
+
+aws-log
+aws-log "your-log-name"
+aws-log "your-log-name" -s 1m
+EOF
+  exit 1
+}
+
+main() {
+  if [[ $1 = '-h' || $1 = '--help' ]]; then
+    usage
+  fi
+
+  if [[ $# -gt 0 ]]; then
+    name=$1
+    shift
+  else
+    name=$(aws logs describe-log-groups | jq -r '.logGroups[].logGroupName' | fzf)
+    if [[ -z "$name" ]]; then exit 1; fi
+    echo "${FUNCNAME[0]} $name"
+  fi
+  # cmd="cw tail -n -v 'Datadog Tracer' -f \"${name}\" $* | uniunescape"
+  cmd="awslogs get \"${name}\" -w -S --color=always $* | grep --line-buffered -v 'Datadog Tracer' | uniunescape"
+  echo "$cmd"
+  bash -c "exec $cmd"
+}
+
+main "$@"
