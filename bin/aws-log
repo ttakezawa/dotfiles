@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# go get -v github.com/knqyf263/utern
+
 usage() {
   cat <<EOF;
 Usage
@@ -22,10 +24,11 @@ main() {
   else
     name=$(aws logs describe-log-groups | jq -r '.logGroups[].logGroupName' | fzf)
     if [[ -z "$name" ]]; then exit 1; fi
-    echo "${FUNCNAME[0]} $name"
+    echo "aws-log $name"
   fi
   # cmd="cw tail -n -v 'Datadog Tracer' -f \"${name}\" $* | uniunescape"
-  cmd="awslogs get \"${name}\" -w -S --color=always $* | grep --line-buffered -v 'Datadog Tracer' | uniunescape"
+  # cmd="awslogs get \"${name}\" -w -S --color=always $* | grep --line-buffered -v 'Datadog Tracer' | uniunescape"
+  cmd="utern --no-log-stream $* \"${name}\" | uniunescape"
   echo "$cmd"
   bash -c "exec $cmd"
 }
