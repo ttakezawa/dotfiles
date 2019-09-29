@@ -46,6 +46,9 @@ chmod +x bin/diff-so-fancy
 # update gocomplete
 go get -v -u github.com/posener/complete/gocomplete
 
+# goimports
+go get -v -u golang.org/x/tools/cmd/goimports
+
 # update asdf
 if type asdf >/dev/null; then
   asdf update
