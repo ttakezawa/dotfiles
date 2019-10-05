@@ -370,49 +370,46 @@
 ;; (emojify-set-emoji-styles '(unicode))
 ;; (add-hook 'after-init-hook #'global-emojify-mode)
 
-;;;; {auto-complete}
-(el-get-bundle auto-complete)
-(ac-config-default)
-(add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
-(setq ac-use-menu-map t)
-(setq ac-ignore-case t)
-(setq ac-auto-start t)
+(use-package auto-complete
+  :config
+  (ac-config-default)
+  (add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
+  (setq ac-use-menu-map t)
+  (setq ac-ignore-case t)
+  (setq ac-auto-start t)
 
-(add-to-list 'ac-modes 'makefile-mode)        ;; Enable auto-complete-mode
-(add-to-list 'ac-modes 'makefile-gmake-mode)  ;; Enable auto-complete-mode
+  ;; Enable auto-complete-mode
+  (add-to-list 'ac-modes 'makefile-mode)
+  (add-to-list 'ac-modes 'makefile-gmake-mode))
 
-;;;; {ac-helm}
-(el-get-bundle ac-helm)
-(global-set-key (kbd "M-/") 'ac-complete-with-helm)
-(define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm)
+(use-package ac-helm
+  :bind (("M-/" . ac-complete-with-helm))
+  :init
+  (define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm))
 
-;;;; {yasnippet}
-(defun my/downcase-first-char (&optional string)
-  "Capitalize only the first character of the input STRING."
-  (when (and string (> (length string) 0))
-    (let ((first-char (substring string nil 1))
-          (rest-str   (substring string 1)))
-      (concat (downcase first-char) rest-str))))
-(el-get-bundle yasnippet)
-(yas-global-mode 1)
+(use-package yasnippet
+  :config
+  (yas-global-mode 1)
+  (defun my/downcase-first-char (&optional string)
+    "Capitalize only the first character of the input STRING."
+    (when (and string (> (length string) 0))
+      (let ((first-char (substring string nil 1))
+            (rest-str   (substring string 1)))
+        (concat (downcase first-char) rest-str)))))
 
-;;;; {yasnippet-snippets}
-(el-get-bundle yasnippet-snippets)
+(use-package yasnippet-snippets)
 
-;;;; {helm-c-yasnippet}
-(el-get-bundle helm-c-yasnippet)
-(global-set-key (kbd "C-c y") 'helm-yas-complete)
+(use-package helm-c-yasnippet
+  :bind (("C-c y" . helm-yas-complete)))
 
-;;;; {crontab-mode}
-(el-get-bundle crontab-mode)
-(add-to-list 'auto-mode-alist '("\\.?cron\\(tab\\)?\\'" . crontab-mode))
-(add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\(_\\|\\.\\)" . crontab-mode))
+(use-package crontab-mode
+  :mode (("\\.?cron\\(tab\\)?\\'" . crontab-mode)
+         ("cron\\(tab\\)?\\(_\\|\\.\\)" . crontab-mode)))
 
-;;;; {yaml-mode}
-(el-get-bundle yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\." . yaml-mode))
-(add-to-list 'auto-mode-alist '("user-data\\(\\.j2\\)?$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.eslintrc$" . yaml-mode))
+(use-package yaml-mode
+  :mode (("\\.yml\\." . yaml-mode)
+         ("user-data\\(\\.j2\\)?$" . yaml-mode)
+         ("\\.eslintrc$" . yaml-mode)))
 
 ;;;; {go-mode}
 ;; ##### Golang environment
@@ -431,11 +428,11 @@
 ;; $ goimports-update-ignore -max-depth 20
 ;; crontab: 0 3 * * * bash -lc '(goimports-update-ignore -max-depth 20) 2>&1 | gawk "{ print strftime(\"\%Y/\%m/\%d \%H:\%M:\%S\"), \$0; fflush() }"' >>$HOME/.crontab.log 2>&1
 
-(el-get-bundle go-mode)
-(el-get-bundle go-autocomplete)
-(el-get-bundle go-eldoc)
-(el-get-bundle go-test)
-(el-get-bundle manute/gorepl-mode :depends (f s hydra))
+(use-package go-mode)
+(use-package go-autocomplete)
+(use-package go-eldoc)
+(use-package gotest)
+(use-package gorepl-mode)
 (with-eval-after-load 'go-mode
   (require 'go-autocomplete)
   (add-hook 'before-save-hook 'gofmt-before-save)
@@ -471,14 +468,14 @@
 
 (setq flycheck-go-vet-shadow 'strict) ;; flycheck go-vet use "-shadowstrict" option
 
-;;;; {flycheck-gometalinter}
-(el-get-bundle flycheck-gometalinter)
-(with-eval-after-load 'flycheck-gometalinter
-  ;; flycheckデフォルトのcheckerのうち最後の go-unconvert よりも後に gometalinter を実行させる
-  (flycheck-add-next-checker 'go-unconvert '(warning . gometalinter))
-  (add-hook 'go-mode-hook
-            '(lambda ()
-               (flycheck-select-checker 'go-gofmt))))
+(use-package flycheck-gometalinter
+  :config
+  (with-eval-after-load 'flycheck-gometalinter
+    ;; flycheckデフォルトのcheckerのうち最後の go-unconvert よりも後に gometalinter を実行させる
+    (flycheck-add-next-checker 'go-unconvert '(warning . gometalinter))
+    (add-hook 'go-mode-hook
+              '(lambda ()
+                 (flycheck-select-checker 'go-gofmt)))))
 
 ;; たくさん実行すると重いのでできるだけ絞る。flycheckで用意されているものややたら遅いものはまず除外する
 (setq flycheck-gometalinter-disable-all t)
