@@ -659,23 +659,23 @@ See URL `https://github.com/troessner/reek'."
  '(markdown-header-face-6 ((t (:inherit outline-6 markdown-header-face))))
  )
 
-;;;; {plantuml-mode}
-(el-get-bundle plantuml-mode)
-(add-to-list 'ac-modes 'plantuml-mode) ;; Enable auto-complete-mode
-(add-to-list 'auto-mode-alist '("\\.uml$" . plantuml-mode))
-(add-to-list 'auto-mode-alist '("\\.plu$" . plantuml-mode))
-(add-to-list 'auto-mode-alist '("\\.plantuml$" . plantuml-mode))
-(setq plantuml-jar-path "/usr/local/Cellar/plantuml/8024/plantuml.8024.jar")
-(setq plantuml-run-command "java -Djava.awt.headless=true -jar %s")
-(add-hook 'plantuml-mode-hook
-          (lambda ()
-            ;; configure comment-style
-            (set (make-local-variable 'comment-start) "'")
-            (set (make-local-variable 'comment-end)   "")
+(use-package plantuml-mode
+  :mode (("\\.uml$" . plantuml-mode)
+         ("\\.plu$" . plantuml-mode)
+         ("\\.plantuml$" . plantuml-mode))
+  :config
+  (add-to-list 'ac-modes 'plantuml-mode) ;; Enable auto-complete-mode
+  (setq plantuml-jar-path "/usr/local/Cellar/plantuml/8024/plantuml.8024.jar")
+  (setq plantuml-run-command "java -Djava.awt.headless=true -jar %s")
+  (add-hook 'plantuml-mode-hook
+            (lambda ()
+              ;; configure comment-style
+              (set (make-local-variable 'comment-start) "'")
+              (set (make-local-variable 'comment-end)   "")
 
-            ;; workaround of error: "Wrong type argument: keymapp, nil"
-            (when (null plantuml-mode-map)
-              (setq plantuml-mode-map (make-sparse-keymap)))))
+              ;; workaround of error: "Wrong type argument: keymapp, nil"
+              (when (null plantuml-mode-map)
+                (setq plantuml-mode-map (make-sparse-keymap))))))
 
 ;; ;;;; {eimp}
 ;; ;; Emacs Image Manipulation
@@ -716,26 +716,24 @@ See URL `https://github.com/troessner/reek'."
         ("jsx" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
         ))
 
-;;;; {scss-mode}
-(el-get-bundle scss-mode)
+(use-package scss-mode)
 
-;;;; {sass-mode}
-(el-get-bundle sass-mode)
+(use-package sass-mode)
 
-;;;; {slim-mode}
-(el-get-bundle slim-mode)
+(use-package slim-mode
+  :config
+  (add-hook 'slim-mode-hook
+            (lambda()
+              (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+              (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+              (when (require 'highlight-indentation nil t)
+                (highlight-indentation-mode)
+                (highlight-indentation-current-column-mode)))))
 
-;;;; {highlight-indentation}
-(el-get-bundle highlight-indentation)
-(require 'highlight-indentation)
-(setq highlight-indentation-offset 4)
-(set-face-background 'highlight-indentation-current-column-face "#5f0000")
-(add-hook 'slim-mode-hook
-          (lambda()
-            (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
-            (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
-            (highlight-indentation-mode)
-            (highlight-indentation-current-column-mode)))
+(use-package highlight-indentation
+  :config
+  (setq highlight-indentation-offset 4)
+  (set-face-background 'highlight-indentation-current-column-face "#5f0000"))
 
 (use-package dockerfile-mode
   :mode (("Dockerfile\\." . dockerfile-mode)))
