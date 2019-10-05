@@ -101,8 +101,8 @@
   (setq backup-each-save-time-format "%Y%m%d_%H%M%S")
   (add-hook 'after-save-hook 'backup-each-save))
 
-(use-package dumb-jump
-  :config
+(use-package dumb-jump :defer t
+  :init
   (global-set-key (kbd "M-.") 'dumb-jump-go)
   (global-set-key (kbd "C-c j") 'dumb-jump-go)
   (global-set-key (kbd "M-*") 'dumb-jump-back)
@@ -115,20 +115,16 @@
   :config
   (setq etags-table-search-up-depth 10))
 
-(use-package helm
-  :config
-  (require 'helm-multi-match) ;; ファイルリスト(candidates-file)でskip matchできるようにする
+(use-package helm :defer t
+  :bind (("C-x C-f" . helm-find-files)
+         ("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+         ("C-x b" . helm-buffers-list)
+         ("C-c i" . helm-semantic-or-imenu))
+  :init
   (add-to-list 'mode-line-cleaner-alist '(helm-mode . "")) ;; Hide from mode-line
-  (helm-mode 1)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list)
-  (global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
   ;; (global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
   ;; (global-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
-  (define-key helm-map (kbd "C-h") 'delete-backward-char)
-  (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
 
   ;; macOSのときは locate の代わりに mdfind を使う
   (when (eq system-type 'darwin)
@@ -138,20 +134,38 @@
   ;; ;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
   ;; (setq helm-etags-match-part-only nil)
 
+  ;; set column size of helm buffer list
+  (setq helm-buffer-max-length 50)
+
+  :config
+  (helm-mode 1)
+  ;; ファイルリスト(candidates-file)でskip matchできるようにする
+  (require 'helm-multi-match)
+  (define-key helm-map (kbd "C-h") 'delete-backward-char)
+  (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
+
   ;; C-M-iでアクション選択
   (define-key helm-map (kbd "C-M-i") 'helm-select-action)
   ;; find-fileのときC-iで選択
   (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
-  (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+  (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action))
 
-  ;; set column size of helm buffer list
-  (setq helm-buffer-max-length 50))
-
-(use-package helm-ls-git
+(use-package helm-ls-git :defer t
+  :bind (("C-x G" . helm-ls-git-ls)
+         ("C-x f" . helm-for-files))
   :config
-  (global-set-key (kbd "C-x G") 'helm-ls-git-ls))
+  ;; Configure helm-for-files
+  (setq helm-for-files-preferred-list
+        '(;; helm-source-buffers-list
+          helm-source-ls-git-status
+          ;; helm-source-projectile-files-list
+          helm-source-recentf
+          ;; helm-source-bookmarks
+          ;; helm-source-file-cache
+          ;; helm-source-files-in-current-dir
+          helm-source-locate)))
 
-(use-package projectile
+(use-package projectile :defer t
   :config
   (setq projectile-keymap-prefix (kbd "C-c C-p"))
   (projectile-global-mode)
@@ -187,25 +201,11 @@
                       (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
                     ))))))
 
-(use-package helm-projectile
+(use-package helm-projectile :defer t
+  :bind (("C-c C-p g" . helm-projectile-rg)
+         ("C-x r"     . helm-projectile))
   :config
-  (global-set-key (kbd "C-c C-p g") 'helm-projectile-rg)
-  (define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-rg)
-
-  ;; Configure helm-for-files
-  (require 'helm-projectile)
-  (setq helm-for-files-preferred-list
-        '(;; helm-source-buffers-list
-          helm-source-ls-git-status
-          ;; helm-source-projectile-files-list
-          helm-source-recentf
-          ;; helm-source-bookmarks
-          ;; helm-source-file-cache
-          ;; helm-source-files-in-current-dir
-          helm-source-locate))
-  (global-set-key (kbd "C-x f") 'helm-for-files)
-
-  (global-set-key (kbd "C-x r") 'helm-projectile))
+  (define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-rg))
 
 (use-package helm-swoop
   :config
@@ -329,9 +329,10 @@
   ;; * npm install -g eslint
   (flycheck-add-mode 'javascript-eslint 'web-mode))
 
-(use-package flycheck-tip)
-(global-set-key (kbd "M-g n") 'error-tip-cycle-dwim)
-(global-set-key (kbd "M-g p") 'error-tip-cycle-dwim-reverse)
+(use-package flycheck-tip :defer t
+  :config
+  (global-set-key (kbd "M-g n") 'error-tip-cycle-dwim)
+  (global-set-key (kbd "M-g p") 'error-tip-cycle-dwim-reverse))
 
 (use-package git-gutter
   :config
@@ -372,7 +373,7 @@
   :init
   (define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm))
 
-(use-package yasnippet
+(use-package yasnippet :defer 2
   :config
   (yas-global-mode 1)
   (defun my/downcase-first-char (&optional string)
@@ -382,7 +383,7 @@
             (rest-str   (substring string 1)))
         (concat (downcase first-char) rest-str)))))
 
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets :defer t)
 
 (use-package helm-c-yasnippet
   :bind (("C-c y" . helm-yas-complete)))
@@ -413,10 +414,10 @@
 ;; $ goimports-update-ignore -max-depth 20
 ;; crontab: 0 3 * * * bash -lc '(goimports-update-ignore -max-depth 20) 2>&1 | gawk "{ print strftime(\"\%Y/\%m/\%d \%H:\%M:\%S\"), \$0; fflush() }"' >>$HOME/.crontab.log 2>&1
 
-(use-package go-mode)
+(use-package go-mode :defer t)
 (use-package go-autocomplete)
-(use-package go-eldoc)
-(use-package gotest)
+(use-package go-eldoc :defer t)
+(use-package gotest :defer t)
 (use-package gorepl-mode)
 (with-eval-after-load 'go-mode
   (require 'go-autocomplete)
@@ -690,11 +691,11 @@ See URL `https://github.com/troessner/reek'."
           ("jsx" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
           )))
 
-(use-package scss-mode)
+(use-package scss-mode :defer t)
 
-(use-package sass-mode)
+(use-package sass-mode :defer t)
 
-(use-package slim-mode
+(use-package slim-mode :defer t
   :config
   (add-hook 'slim-mode-hook
             (lambda()
@@ -743,4 +744,4 @@ See URL `https://github.com/troessner/reek'."
   :config
   (smartparens-global-mode))
 
-(use-package protobuf-mode)
+(use-package protobuf-mode :defer t)
