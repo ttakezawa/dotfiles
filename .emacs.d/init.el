@@ -324,42 +324,41 @@
 ;; requires
 ;;  * gem install rubocop
 ;;  * npm install -g jsonlint
-(el-get-bundle flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-;; flycheck disable specific modes
-(setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc html-tidy))
-(setq flycheck-display-errors-delay 0.1)
-(setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)) ;; new-lineは頻度が多すぎて重いので除外
-(setq flycheck-idle-change-delay 20.0)
-(global-set-key (kbd "C-c l") 'flycheck-list-errors)
-(global-set-key (kbd "C-c e") 'flycheck-explain-error-at-point)
-(custom-set-faces
- '(flycheck-error ((t (:background "red4" :weight bold))))
- '(flycheck-warning ((t (:background "color-58" :weight bold))))
- '(flycheck-info ((t (:foreground "white" :background "darkgreen")))))
+(use-package flycheck
+  :bind (("C-c l" . flycheck-list-errors)
+         ("C-c e" . flycheck-explain-error-at-point))
+  :init
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  ;; flycheck disable specific modes
+  (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc html-tidy))
+  (setq flycheck-display-errors-delay 0.1)
+  (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)) ;; new-lineは頻度が多すぎて重いので除外
+  (setq flycheck-idle-change-delay 20.0)
+  (custom-set-faces
+   '(flycheck-error ((t (:background "red4" :weight bold))))
+   '(flycheck-warning ((t (:background "color-58" :weight bold))))
+   '(flycheck-info ((t (:foreground "white" :background "darkgreen")))))
+  :config
+  ;; Enable eslint in web-mode
+  ;; * npm install -g eslint
+  (flycheck-add-mode 'javascript-eslint 'web-mode))
 
-;;;; {flycheck-tip}
-(el-get-bundle flycheck-tip)
-(require 'flycheck-tip)
+(use-package flycheck-tip)
 (global-set-key (kbd "M-g n") 'error-tip-cycle-dwim)
 (global-set-key (kbd "M-g p") 'error-tip-cycle-dwim-reverse)
 
-;; Enable eslint in web-mode
-;; * npm install -g eslint
-(require 'flycheck)
-(flycheck-add-mode 'javascript-eslint 'web-mode)
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode 1)
+  (add-to-list 'mode-line-cleaner-alist '(git-gutter-mode . "")) ;; Hide from mode-line
+  (setq git-gutter:diff-option "-w"))
 
-;;;; {git-gutter}
-(el-get-bundle git-gutter)
-(global-git-gutter-mode 1)
-(add-to-list 'mode-line-cleaner-alist '(git-gutter-mode . "")) ;; Hide from mode-line
-(setq git-gutter:diff-option "-w")
-
-;;;; {git-modes}
 ;; gitattributes-mode, gitconfig-mode, gitignore-mode
-(el-get-bundle git-modes)
-(add-to-list 'auto-mode-alist '("/\\.gitignore_global\\'" . gitignore-mode))
-(add-hook 'gitconfig-mode-hook 'intent-tabs-mode) ; TODO: これでもなぜかタブでインデントさせてくれない
+(use-package git-modes
+  :mode (("/\\.gitignore_global\\'" . gitignore-mode))
+  :init
+  ;; TODO: これでもなぜかタブでインデントさせてくれない
+  (add-hook 'gitconfig-mode-hook 'intent-tabs-mode))
 
 ;;;; 絵文字
 ;; Test characters
