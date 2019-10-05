@@ -66,36 +66,34 @@
   :config
   (add-to-list 'recentf-exclude "framegeometry"))
 
-;;;; {recentf-ext}
-(el-get-bundle recentf-ext)
+(use-package recentf-ext)
 
 ;;;; custom-theme
 ;; (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 ;; (load-theme 'tkzw t)
 
-;;;; {moe-theme}
-(el-get-bundle moe-theme)
-(require 'moe-theme)
-(moe-dark)
-;; Customize colors
-(let ((comment "#af5f00")) ;; Assign comment to moe-dark pallete orange-5
-  ;; (set-face-background 'default "black") ;; Use true black in background.
+(use-package moe-theme
+  :config
+  (moe-dark)
+  ;; Customize colors
+  (let ((comment "#af5f00")) ;; Assign comment to moe-dark pallete orange-5
+    ;; (set-face-background 'default "black") ;; Use true black in background.
   (set-face-background 'default "unspecified-bg") ;; Use terminal background.
   (set-face-attribute font-lock-comment-face           nil :foreground comment :slant 'normal)
-  (set-face-attribute font-lock-comment-delimiter-face nil :foreground comment :slant 'normal))
+  (set-face-attribute font-lock-comment-delimiter-face nil :foreground comment :slant 'normal)))
 
-;;;; {highlight-symbol}
-(el-get-bundle highlight-symbol)
-(setq highlight-symbol-idle-delay 0.1)
-(add-to-list 'mode-line-cleaner-alist '(highlight-symbol-mode . "")) ;; Hide from mode-line
-(add-hook 'prog-mode-hook 'highlight-symbol-mode)
+(use-package highlight-symbol
+  :init
+  (setq highlight-symbol-idle-delay 0.1)
+  (add-to-list 'mode-line-cleaner-alist '(highlight-symbol-mode . "")) ;; Hide from mode-line
+  (add-hook 'prog-mode-hook 'highlight-symbol-mode))
 
-;;;; {which-key}
-(el-get-bundle which-key)
-(setq which-key-lighter "")
-(setq which-key-idle-delay 0.5)
-(which-key-setup-side-window-bottom)
-(which-key-mode 1)
+(use-package which-key
+  :config
+  (setq which-key-lighter "")
+  (setq which-key-idle-delay 0.5)
+  (which-key-setup-side-window-bottom)
+  (which-key-mode 1))
 
 ;;;; {scratch-log}
 (el-get-bundle scratch-log)
