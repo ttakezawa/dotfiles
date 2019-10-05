@@ -83,7 +83,7 @@
   (set-face-attribute font-lock-comment-delimiter-face nil :foreground comment :slant 'normal)))
 
 (use-package highlight-symbol
-  :init
+  :config
   (setq highlight-symbol-idle-delay 0.1)
   (add-to-list 'mode-line-cleaner-alist '(highlight-symbol-mode . "")) ;; Hide from mode-line
   (add-hook 'prog-mode-hook 'highlight-symbol-mode))
@@ -95,164 +95,161 @@
   (which-key-setup-side-window-bottom)
   (which-key-mode 1))
 
-;;;; {scratch-log}
-(el-get-bundle scratch-log)
-(setq takezawa/sl-dir (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time)))))
-(unless (file-exists-p takezawa/sl-dir) (make-directory takezawa/sl-dir t))
-(setq sl-scratch-log-file         (concat takezawa/sl-dir "/scratch-log"))
-(setq sl-prev-scratch-string-file (concat takezawa/sl-dir "/scratch-log-prev"))
-(setq sl-timer-interval 3)
-(require 'scratch-log)
+(use-package scratch-log
+  :config
+  (setq takezawa/sl-dir (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time)))))
+  (unless (file-exists-p takezawa/sl-dir) (make-directory takezawa/sl-dir t))
+  (setq sl-scratch-log-file         (concat takezawa/sl-dir "/scratch-log"))
+  (setq sl-prev-scratch-string-file (concat takezawa/sl-dir "/scratch-log-prev"))
+  (setq sl-timer-interval 3))
 
 ;; ;;;; {auto-save-buffers-enhanced}
 ;; (el-get-bundle auto-save-buffers-enhanced)
 ;; (setq auto-save-buffers-enhanced-interval 30.0)
 ;; (auto-save-buffers-enhanced t)
 
-;;;; {backup-each-save}
-(el-get-bundle backup-each-save)
-(setq backup-each-save-mirror-location
-      (expand-file-name (format-time-string "backups/%Y_%m" (current-time)) user-emacs-directory))
-(setq backup-each-save-time-format "%Y%m%d_%H%M%S")
-(add-hook 'after-save-hook 'backup-each-save)
+(use-package backup-each-save
+  :config
+  (setq backup-each-save-mirror-location
+        (expand-file-name (format-time-string "backups/%Y_%m" (current-time)) user-emacs-directory))
+  (setq backup-each-save-time-format "%Y%m%d_%H%M%S")
+  (add-hook 'after-save-hook 'backup-each-save))
 
-;;;; {dumb-jump}
-(el-get-bundle jacktasia/dumb-jump :depends (f s dash popup))
-(global-set-key (kbd "M-.") 'dumb-jump-go)
-(global-set-key (kbd "C-c j") 'dumb-jump-go)
-(global-set-key (kbd "M-*") 'dumb-jump-back)
+(use-package dumb-jump
+  :config
+  (global-set-key (kbd "M-.") 'dumb-jump-go)
+  (global-set-key (kbd "C-c j") 'dumb-jump-go)
+  (global-set-key (kbd "M-*") 'dumb-jump-back)
+  (defun takezawa/dump-jump-go-prompt-at-point ()
+    (interactive)
+    (dumb-jump-go nil nil (read-from-minibuffer "Jump to: " (thing-at-point 'symbol))))
+  (global-set-key (kbd "M-,") 'takezawa/dump-jump-go-prompt-at-point))
 
-(defun takezawa/dump-jump-go-prompt-at-point ()
-  (interactive)
-  (dumb-jump-go nil nil (read-from-minibuffer "Jump to: " (thing-at-point 'symbol))))
-(global-set-key (kbd "M-,") 'takezawa/dump-jump-go-prompt-at-point)
+(use-package etags-table
+  :config
+  (setq etags-table-search-up-depth 10))
 
-;;;; {etags-table}
-(el-get-bundle emacswiki:etags-table)
-(require 'etags-table)
-(setq etags-table-search-up-depth 10)
+(use-package helm
+  :config
+  (require 'helm-multi-match) ;; ファイルリスト(candidates-file)でskip matchできるようにする
+  (add-to-list 'mode-line-cleaner-alist '(helm-mode . "")) ;; Hide from mode-line
+  (helm-mode 1)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
+  ;; (global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+  ;; (global-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+  (define-key helm-map (kbd "C-h") 'delete-backward-char)
+  (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
 
-;;;; {helm}
-(el-get-bundle helm)
-(require 'helm-multi-match) ;; ファイルリスト(candidates-file)でskip matchできるようにする
-(add-to-list 'mode-line-cleaner-alist '(helm-mode . "")) ;; Hide from mode-line
-(helm-mode 1)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
-;; (global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
-;; (global-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
-(define-key helm-map (kbd "C-h") 'delete-backward-char)
-(define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
+  ;; macOSのときは locate の代わりに mdfind を使う
+  (when (eq system-type 'darwin)
+    (setq helm-locate-fuzzy-match nil)
+    (setq helm-locate-command "mdfind -name %s %s"))
 
-;; macOSのときは locate の代わりに mdfind を使う
-(when (eq system-type 'darwin)
-  (setq helm-locate-fuzzy-match nil)
-  (setq helm-locate-command "mdfind -name %s %s"))
+  ;; ;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
+  ;; (setq helm-etags-match-part-only nil)
 
-;; ;; TAGS絞込のとき、helmバッファの見た目通りにマッチさせる
-;; (setq helm-etags-match-part-only nil)
+  ;; C-M-iでアクション選択
+  (define-key helm-map (kbd "C-M-i") 'helm-select-action)
+  ;; find-fileのときC-iで選択
+  (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+  (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 
-;; C-M-iでアクション選択
-(define-key helm-map (kbd "C-M-i") 'helm-select-action)
-;; find-fileのときC-iで選択
-(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
-(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+  ;; set column size of helm buffer list
+  (setq helm-buffer-max-length 50))
 
-;; set column size of helm buffer list
-(setq helm-buffer-max-length 50)
+(use-package helm-ls-git
+  :config
+  (global-set-key (kbd "C-x G") 'helm-ls-git-ls))
 
-;;;; {helm-ls-git}
-(el-get-bundle helm-ls-git)
-(global-set-key (kbd "C-x G") 'helm-ls-git-ls)
+(use-package projectile
+  :config
+  (setq projectile-keymap-prefix (kbd "C-c C-p"))
+  (projectile-global-mode)
 
-;;;; {projectile-mode}
-(el-get-bundle projectile)
-(setq projectile-keymap-prefix (kbd "C-c C-p"))
-(projectile-global-mode)
+  ;; Taken from http://emacs.stackexchange.com/questions/2891/projectile-project-in-folder-without-write-access
+  (defun projectile-root-child-of (dir &optional list)
+    (projectile-locate-dominating-file
+     dir
+     (lambda (dir)
+       (--first
+        (if (and
+             (string-equal (file-remote-p it) (file-remote-p dir))
+             (string-match-p (expand-file-name it) (expand-file-name dir)))
+            dir)
+        (or list project-root-regexps (list))))))
+  (defvar project-root-regexps ()
+    "List of regexps to match against when projectile is searching
+    for project root directories.")
+  ;; rbenv以下のgemがprojectルートになるように設定
+  (add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/lib/ruby/gems/[^/]+/gems/[^/]+/?$")
+  ;; rbenv以下のrubyがprojectルートになるように設定
+  (add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/?$")
 
-;; Taken from http://emacs.stackexchange.com/questions/2891/projectile-project-in-folder-without-write-access
-(defun projectile-root-child-of (dir &optional list)
-  (projectile-locate-dominating-file
-   dir
-   (lambda (dir)
-     (--first
-      (if (and
-           (string-equal (file-remote-p it) (file-remote-p dir))
-           (string-match-p (expand-file-name it) (expand-file-name dir)))
-          dir)
-      (or list project-root-regexps (list))))))
-(defvar project-root-regexps ()
-  "List of regexps to match against when projectile is searching
-  for project root directories.")
-;; rbenv以下のgemがprojectルートになるように設定
-(add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/lib/ruby/gems/[^/]+/gems/[^/]+/?$")
-;; rbenv以下のrubyがprojectルートになるように設定
-(add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/?$")
+  (add-to-list 'projectile-project-root-files-functions 'projectile-root-child-of)
 
-(add-to-list 'projectile-project-root-files-functions 'projectile-root-child-of)
+  ;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
+  (add-hook 'flycheck-mode-hook
+            (lambda ()
+              (when (projectile-project-p)
+                (let ((path (concat (projectile-project-root) "node_modules/.bin")))
+                  (when (file-directory-p path)
+                    (let ((cmd (concat path "/eslint")))
+                      (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
+                    ))))))
 
-;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
-(add-hook 'flycheck-mode-hook
-          (lambda ()
-            (when (projectile-project-p)
-              (let ((path (concat (projectile-project-root) "node_modules/.bin")))
-                (when (file-directory-p path)
-                  (let ((cmd (concat path "/eslint")))
-                    (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
-                  )))))
+(use-package helm-projectile
+  :config
+  (global-set-key (kbd "C-c C-p g") 'helm-projectile-rg)
+  (define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-rg)
 
-;;;; {helm-projectile}
-(el-get-bundle helm-projectile)
-(global-set-key (kbd "C-c C-p g") 'helm-projectile-rg)
-(define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-rg)
+  ;; Configure helm-for-files
+  (require 'helm-projectile)
+  (setq helm-for-files-preferred-list
+        '(;; helm-source-buffers-list
+          helm-source-ls-git-status
+          ;; helm-source-projectile-files-list
+          helm-source-recentf
+          ;; helm-source-bookmarks
+          ;; helm-source-file-cache
+          ;; helm-source-files-in-current-dir
+          helm-source-locate))
+  (global-set-key (kbd "C-x f") 'helm-for-files)
 
-;; Configure helm-for-files
-(require 'helm-projectile)
-(setq helm-for-files-preferred-list
-      '(;; helm-source-buffers-list
-        helm-source-ls-git-status
-        ;; helm-source-projectile-files-list
-        helm-source-recentf
-        ;; helm-source-bookmarks
-        ;; helm-source-file-cache
-        ;; helm-source-files-in-current-dir
-        helm-source-locate))
-(global-set-key (kbd "C-x f") 'helm-for-files)
+  (global-set-key (kbd "C-x r") 'helm-projectile))
 
-(global-set-key (kbd "C-x r") 'helm-projectile)
+(use-package helm-swoop
+  :config
+  ;; デフォルトでhelm-swoopで周辺3行も表示する つまり M-3 M-x helm-swoop と同じ
+  (defun takezawa/helm-swoop ()
+    (interactive)
+    (if current-prefix-arg
+        (helm-swoop)
+      (let ((current-prefix-arg '(3)))
+        (helm-swoop))))
+  (global-set-key (kbd "C-c C-s") 'takezawa/helm-swoop))
 
-;;;; {helm-swoop}
-(el-get-bundle helm-swoop)
-;; デフォルトでhelm-swoopで周辺3行も表示する つまり M-3 M-x helm-swoop と同じ
-(defun takezawa/helm-swoop ()
-  (interactive)
-  (if current-prefix-arg
-      (helm-swoop)
-    (let ((current-prefix-arg '(3)))
-      (helm-swoop))))
-(global-set-key (kbd "C-c C-s") 'takezawa/helm-swoop)
+(use-package helm-ag
+  :config
+  (setq helm-ag-insert-at-point 'symbol)
+  ;; C-c C-e: Switch to edit mode
+  ;; C-u打つのが面倒なので、常にC-uの挙動(ディレクトリ選択を求める)にする
+  (defun takezawa/helm-do-ag-dir ()
+    (interactive)
+    (let ((current-prefix-arg '(4)))
+      (helm-do-ag)))
+  (global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir))
 
-;;;; {helm-ag}
-(el-get-bundle helm-ag)
-(setq helm-ag-insert-at-point 'symbol)
-;; C-c C-e: Switch to edit mode
-;; C-u打つのが面倒なので、常にC-uの挙動(ディレクトリ選択を求める)にする
-(defun takezawa/helm-do-ag-dir ()
-  (interactive)
-  (let ((current-prefix-arg '(4)))
-    (helm-do-ag)))
-(global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir)
+(use-package helm-rg
+  :config
+  (global-set-key (kbd "C-c g") 'helm-rg))
 
-;; {helm-rg}
-(el-get-bundle cosmicexplorer/helm-rg :name helm-rg :depends (dash helm))
-(global-set-key (kbd "C-c g") 'helm-rg)
-
-;;;; {helm-ghq}
-(el-get-bundle helm-ghq)
-(global-set-key (kbd "C-x g") 'helm-ghq)
+(use-package helm-ghq
+  :config
+  (global-set-key (kbd "C-x g") 'helm-ghq))
 
 ;; define takezawa/helm-for-files with helm-ls-git
 (defvar takezawa/helm-source-home-filelist
@@ -265,37 +262,38 @@
     (candidates-file ,(expand-file-name "system.filelist" user-emacs-directory) t)
     (action . ,(helm-actions-from-type-file))))
 
-(require 'helm-ls-git)
-(defun takezawa/helm-for-files ()
-  "Preconfigured `helm' for opening files.
-Run all sources defined in `takezawa/helm-for-files-preferred-list'."
-  (interactive)
-  (require 'helm-projectile)
-  (unless helm-source-buffers-list
-    (setq helm-source-buffers-list
-          (helm-make-source "Buffers" 'helm-source-buffers)))
-  (unless helm-source-ls-git
-    (setq helm-source-ls-git
-          (helm-make-source "Git files" 'helm-ls-git-source
-            :fuzzy-match helm-ls-git-fuzzy-match)))
-  (let ((helm-ff-transformer-show-only-basename nil))
-    (helm :buffer "*takezawa/helm-for-files*"
-          :sources '(helm-source-buffers-list
-                     helm-source-recentf
-                     ;; helm-source-bookmarks
-                     ;; helm-source-file-cache
-                     helm-source-files-in-current-dir
-                     ;; helm-source-locate
-                     ;; helm-source-ls-git
-                     helm-source-projectile-files-list
-                     takezawa/helm-source-home-filelist
-                     takezawa/helm-source-system-filelist))))
-;; 最近使っていないのでコメントアウト
-;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
+(use-package helm-ls-git
+  :config
+  (defun takezawa/helm-for-files ()
+    "Preconfigured `helm' for opening files.
+  Run all sources defined in `takezawa/helm-for-files-preferred-list'."
+    (interactive)
+    (require 'helm-projectile)
+    (unless helm-source-buffers-list
+      (setq helm-source-buffers-list
+            (helm-make-source "Buffers" 'helm-source-buffers)))
+    (unless helm-source-ls-git
+      (setq helm-source-ls-git
+            (helm-make-source "Git files" 'helm-ls-git-source
+              :fuzzy-match helm-ls-git-fuzzy-match)))
+    (let ((helm-ff-transformer-show-only-basename nil))
+      (helm :buffer "*takezawa/helm-for-files*"
+            :sources '(helm-source-buffers-list
+                       helm-source-recentf
+                       ;; helm-source-bookmarks
+                       ;; helm-source-file-cache
+                       helm-source-files-in-current-dir
+                       ;; helm-source-locate
+                       ;; helm-source-ls-git
+                       helm-source-projectile-files-list
+                       takezawa/helm-source-home-filelist
+                       takezawa/helm-source-system-filelist))))
+  ;; 最近使っていないのでコメントアウト
+  ;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
+  )
 
-;;;; {elscreen}
-(el-get-bundle elscreen)
-(when (require 'elscreen nil t)
+(use-package elscreen
+  :config
   (setq elscreen-prefix-key (kbd "C-q"))
   (setq elscreen-display-screen-number nil)
   (elscreen-start)
@@ -312,16 +310,15 @@ Run all sources defined in `takezawa/helm-for-files-preferred-list'."
   (add-hook 'ediff-before-setup-hook 'elscreen-show-display-tab)
   (add-hook 'ediff-quit-hook 'elscreen-hide-display-tab))
 
-;;;; {direnv}
-(el-get-bundle wbolster/emacs-direnv :name direnv :depends (dash with-editor))
-(require 'direnv)
-(direnv-mode)
+(use-package direnv
+  :config
+  (direnv-mode))
 
-;;;; {visual-regexp-steroids}
-(el-get-bundle visual-regexp-steroids)
-(global-set-key (kbd "C-M-%") 'vr/query-replace)
-(global-set-key (kbd "C-M-s") 'vr/isearch-forward)
-(global-set-key (kbd "C-M-r") 'vr/isearch-backward)
+(use-package visual-regexp-steroids
+  :config
+  (global-set-key (kbd "C-M-%") 'vr/query-replace)
+  (global-set-key (kbd "C-M-s") 'vr/isearch-forward)
+  (global-set-key (kbd "C-M-r") 'vr/isearch-backward))
 
 ;;;; {flycheck}
 ;; requires
@@ -618,7 +615,7 @@ See the variable `align-rules-list' for more details.")
 (global-set-key (kbd "C-x p") 'helm-bundle-show)
 
 (use-package rinari
-  :init
+  :config
   (global-rinari-mode)
   (define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
   (define-key rinari-minor-mode-map (kbd "C-c m") 'rinari-find-model)
