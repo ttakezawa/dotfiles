@@ -21,10 +21,16 @@ export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 # Homebrew mysql-client
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 
+# Homebrew asdf
+if [[ -r /usr/local/opt/asdf ]]; then
+  . /usr/local/opt/asdf/asdf.sh
+  . /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash
+fi
+
 # utlize ps
 ps() {
   command ps -axwwo user,pid,ppid,pgid,command \
-    | grep -Pv ' (/usr/sbin/|/usr/libexec/|/System/Library/|/Applications/(Clipy|Amazon|HyperSwitch|Alfred|Display|Quiver|LastPass|iTunes|Safari|Mail|iBooks|Dictionary|Keynote|Dash|Pages|Firefox|draw|Google|Slack|Visual|Jasper|Xcode|Dropbox)|/Library)' \
+    | ggrep -Pv ' (/usr/sbin/|/usr/libexec/|/System/Library/|/Applications/(Clipy|Amazon|HyperSwitch|Alfred|Display|Quiver|LastPass|iTunes|Safari|Mail|iBooks|Dictionary|Keynote|Dash|Pages|Firefox|draw|Google|Slack|Visual|Jasper|Xcode|Dropbox)|/Library)' \
     | sort -n \
     | pstree -f '-' \
     | gsed -r 's/^([ +=|\\-]*) ([^ ]*) ([^ ]*) (.*)$/\x1B[34m\1\x1B[0m \x1B[32m\2\x1b[0m \x1B[31m\3\x1b[0m \4/g'
