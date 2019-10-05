@@ -60,3 +60,9 @@ fi
 
 # update ghq
 go get -v -u github.com/motemen/ghq
+
+# git-switch-trainer
+go get -v -u github.com/sonatard/git-switch-trainer/
+
+# nauniq
+mkdir -p ~/bin && curl https://raw.githubusercontent.com/perlancar/perl-App-nauniq/master/script/nauniq | sed 's?#!perl?#!/usr/bin/env perl?' > ~/bin/nauniq && chmod +x ~/bin/nauniq
