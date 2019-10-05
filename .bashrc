@@ -384,6 +384,10 @@ if type -P hub >/dev/null; then
   alias git=hub
 fi
 
+if type -P git-switch-trainer >/dev/null; then
+  alias git=git-switch-trainer
+fi
+
 #### ag
 if ! type -t _ag >/dev/null 2>&1; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
