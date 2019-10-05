@@ -737,44 +737,38 @@ See URL `https://github.com/troessner/reek'."
             (highlight-indentation-mode)
             (highlight-indentation-current-column-mode)))
 
-;;;; {dockerfile-mode}
-(el-get-bundle dockerfile-mode)
-(add-to-list 'auto-mode-alist '("Dockerfile\\." . dockerfile-mode))
+(use-package dockerfile-mode
+  :mode (("Dockerfile\\." . dockerfile-mode)))
 
-;;;; {open-junk-file}
-;; open-junk-fileパッケージがautoloadに対応してないので自分で設定
-(el-get-bundle open-junk-file)
-(autoload 'open-junk-file "open-junk-file" nil t)
-(global-set-key (kbd "C-c , ,") 'open-junk-file)
-(setq open-junk-file-format "~/Dropbox/journals/junk/%Y/%m/%Y_%m_%d.md")
+(use-package open-junk-file
+  :bind (("C-c , ," . open-junk-file))
+  :config
+  (setq open-junk-file-format "~/Dropbox/journals/junk/%Y/%m/%Y_%m_%d.md"))
 
-;;;; {terraform-mode}
-(el-get-bundle elpa:hcl-mode :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
-(el-get-bundle elpa:terraform-mode :repo ("marmalade" . "http://marmalade-repo.org/packages/"))
-(setq terraform-indent-level 4)
+(use-package terraform-mode
+  :config
+  (setq terraform-indent-level 4))
 
-;;;; {swift-mode}
-(el-get-bundle swift-mode)
-(require 'swift-mode)
-(add-to-list 'flycheck-checkers 'swift)
-(setq flycheck-swift-sdk-path
-      (replace-regexp-in-string
-       "\n+$" "" (shell-command-to-string
-                  "xcrun --show-sdk-path --sdk macosx")))
+(use-package swift-mode
+  :config
+  (add-to-list 'flycheck-checkers 'swift)
+  (setq flycheck-swift-sdk-path
+        (replace-regexp-in-string
+         "\n+$" "" (shell-command-to-string
+                    "xcrun --show-sdk-path --sdk macosx"))))
 
-;;;; {dashboard}
-(el-get-bundle rakanalh/emacs-dashboard :depends (page-break-lines) :features dashboard)
-(dashboard-setup-startup-hook)
-(setq dashboard-items '((projects . 5) (recents  . 20)))
-(add-hook 'dashboard-mode-hook
-          '(lambda ()
-             (local-set-key (kbd "n") 'widget-forward)
-             (local-set-key (kbd "C-n") 'widget-forward)
-             (local-set-key (kbd "C-p") 'widget-backward)))
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-items '((projects . 5) (recents  . 20)))
+  (add-hook 'dashboard-mode-hook
+            '(lambda ()
+               (local-set-key (kbd "n") 'widget-forward)
+               (local-set-key (kbd "C-n") 'widget-forward)
+               (local-set-key (kbd "C-p") 'widget-backward))))
 
-;;;; {smartparens}
-(el-get-bundle smartparens)
-(smartparens-global-mode)
+(use-package smartparens
+  :config
+  (smartparens-global-mode))
 
-;;;; {protobuf-mode}
-(el-get-bundle protobuf-mode)
+(use-package protobuf-mode)
