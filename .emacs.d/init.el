@@ -610,9 +610,8 @@ See the variable `align-rules-list' for more details.")
   (require 'ruby-end)
   (setq ruby-end-insert-newline nil))
 
-;;;; {helm-bundle-show}
-(el-get-bundle helm-bundle-show :type github :pkgname "masutaka/emacs-helm-bundle-show" :features helm-bundle-show)
-(global-set-key (kbd "C-x p") 'helm-bundle-show)
+(use-package helm-bundle-show
+  :bind (("C-x p" . helm-bundle-show)))
 
 (use-package rinari
   :config
@@ -640,24 +639,21 @@ See URL `https://github.com/troessner/reek'."
 (setq flycheck-checkers (append flycheck-checkers '(ruby-reek)))
 (flycheck-add-next-checker 'ruby-rubocop '(info . ruby-reek))
 
-;;;; {json-mode}
-(el-get-bundle json-mode)
-(add-to-list 'auto-mode-alist '("\\.babelrc$" . json-mode))
+(use-package json-mode
+  :mode (("\\.babelrc$" . json-mode)))
 
-;;;; {coffee-mode}
-(el-get-bundle coffee-mode)
+(use-package coffee-mode)
 
-;;;; {markdown-mode}
-(el-get-bundle markdown-mode)
-(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . gfm-mode))
-(custom-set-faces
- '(markdown-header-face-1 ((t (:inherit outline-1 markdown-header-face))))
- '(markdown-header-face-2 ((t (:inherit outline-2 markdown-header-face))))
- '(markdown-header-face-3 ((t (:inherit outline-3 markdown-header-face))))
- '(markdown-header-face-4 ((t (:inherit outline-4 markdown-header-face))))
- '(markdown-header-face-5 ((t (:inherit outline-5 markdown-header-face))))
- '(markdown-header-face-6 ((t (:inherit outline-6 markdown-header-face))))
- )
+(use-package markdown-mode
+  :mode (("\\.\\(md\\|markdown\\)$" . gfm-mode))
+  :config
+  (custom-set-faces
+   '(markdown-header-face-1 ((t (:inherit outline-1 markdown-header-face))))
+   '(markdown-header-face-2 ((t (:inherit outline-2 markdown-header-face))))
+   '(markdown-header-face-3 ((t (:inherit outline-3 markdown-header-face))))
+   '(markdown-header-face-4 ((t (:inherit outline-4 markdown-header-face))))
+   '(markdown-header-face-5 ((t (:inherit outline-5 markdown-header-face))))
+   '(markdown-header-face-6 ((t (:inherit outline-6 markdown-header-face))))))
 
 (use-package plantuml-mode
   :mode (("\\.uml$" . plantuml-mode)
@@ -682,39 +678,38 @@ See URL `https://github.com/troessner/reek'."
 ;; (el-get-bundle eimp)
 ;; (add-hook 'image-mode-hook 'eimp-mode)
 
-;;;; {web-mode}
-(el-get-bundle web-mode)
-(require 'web-mode)
-(setq web-mode-engines-alist '())
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(add-to-list 'web-mode-engines-alist '("jsx" . "\\.jsx\\'"))
-(add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.j2$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\.ctmpl$" . web-mode))
-(add-to-list 'web-mode-engines-alist '("go" . "\\.html\\.ctmpl$"))
-(add-to-list 'auto-mode-alist '("\\.html.ctmpl$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(setq web-mode-markup-indent-offset 2
-      web-mode-css-indent-offset 2
-      web-mode-code-indent-offset 2
-      web-mode-script-padding 2
-      web-mode-style-padding 2
-      web-mode-enable-auto-closing t
-      web-mode-enable-auto-pairing t
-      web-mode-enable-auto-opening t
-      web-mode-enable-current-element-highlight t)
-(custom-set-faces
- '(web-mode-current-element-highlight-face ((t (:background "#00005f")))))
+(use-package web-mode
+  :mode (("\\.jsx\\'" . web-mode)
+         ("\\.erb$" . web-mode)
+         ("\\.j2$" . web-mode)
+         ("\\.html\\.ctmpl$" . web-mode)
+         ("\\.html.ctmpl$" . web-mode)
+         ("\\.html?\\'" . web-mode))
+  :config
+  (setq web-mode-engines-alist '())
+  (add-to-list 'web-mode-engines-alist '("jsx" . "\\.jsx\\'"))
+  (add-to-list 'web-mode-engines-alist '("go" . "\\.html\\.ctmpl$"))
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-script-padding 2
+        web-mode-style-padding 2
+        web-mode-enable-auto-closing t
+        web-mode-enable-auto-pairing t
+        web-mode-enable-auto-opening t
+        web-mode-enable-current-element-highlight t)
+  (custom-set-faces
+   '(web-mode-current-element-highlight-face ((t (:background "#00005f")))))
 
-;; configure auto-complete for web-mode
-(add-to-list 'ac-modes 'web-mode) ;; Enable auto-complete-mode
-(setq web-mode-ac-sources-alist
-      '(("css" . (ac-source-css-property))
-        ("html" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-        ("erb" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-        ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-        ("jsx" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-        ))
+  ;; configure auto-complete for web-mode
+  (add-to-list 'ac-modes 'web-mode) ;; Enable auto-complete-mode
+  (setq web-mode-ac-sources-alist
+        '(("css" . (ac-source-css-property))
+          ("html" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+          ("erb" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+          ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+          ("jsx" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+          )))
 
 (use-package scss-mode)
 
