@@ -3,6 +3,29 @@
 ;;;; Configure builtin features
 (load-file (locate-user-emacs-file "init-builtin.el"))
 
+;;;; package
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+;;;; straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+
 ;;;; font for darwin (Mac OS X)
 (when (and (eq system-type 'darwin)
            (window-system))

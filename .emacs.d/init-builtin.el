@@ -1,6 +1,4 @@
 ;; Emacs標準機能による設定
-(package-initialize)
-
 (define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key [backspace] 'delete-backward-char)
 (global-unset-key (kbd "C-z"))
