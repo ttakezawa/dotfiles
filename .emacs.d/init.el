@@ -101,15 +101,15 @@
   (setq backup-each-save-time-format "%Y%m%d_%H%M%S")
   (add-hook 'after-save-hook 'backup-each-save))
 
-(use-package dumb-jump :defer t
+(use-package dumb-jump :defer t)
+
+(use-package smart-jump :defer t
+  :bind (("M-." . smart-jump-go)
+         ("M-*" . smart-jump-back))
   :init
-  (global-set-key (kbd "M-.") 'dumb-jump-go)
-  (global-set-key (kbd "C-c j") 'dumb-jump-go)
-  (global-set-key (kbd "M-*") 'dumb-jump-back)
-  (defun takezawa/dump-jump-go-prompt-at-point ()
-    (interactive)
-    (dumb-jump-go nil nil (read-from-minibuffer "Jump to: " (thing-at-point 'symbol))))
-  (global-set-key (kbd "M-,") 'takezawa/dump-jump-go-prompt-at-point))
+  (setq smart-jump-pop-key "M-*")
+  :config
+  (smart-jump-setup-default-registers))
 
 (use-package etags-table
   :config
@@ -415,6 +415,7 @@
 ;; crontab: 0 3 * * * bash -lc '(goimports-update-ignore -max-depth 20) 2>&1 | gawk "{ print strftime(\"\%Y/\%m/\%d \%H:\%M:\%S\"), \$0; fflush() }"' >>$HOME/.crontab.log 2>&1
 
 (use-package go-mode :defer t)
+(use-package go-guru :defer t)
 (use-package go-autocomplete)
 (use-package go-eldoc :defer t)
 (use-package gotest :defer t)
@@ -427,7 +428,7 @@
   (setq godoc-at-point-function 'godoc-gogetdoc)
   ;;(define-key go-mode-map (kbd "M-.") 'godef-jump)
   ;;(define-key go-mode-map (kbd "C-x 4 M-.") 'godef-jump-other-window)
-  (define-key go-mode-map (kbd "M-.") 'go-guru-definition)
+  ;;(define-key go-mode-map (kbd "M-.") 'go-guru-definition)
   (define-key go-mode-map (kbd "C-x 4 M-.") 'go-guru-definition-other-window)
   (define-key go-mode-map (kbd "C-c d") 'godoc-at-point)
   (add-hook 'go-mode-hook 'go-eldoc-setup)
@@ -535,8 +536,8 @@
 
   (add-hook 'enh-ruby-mode-hook
             (lambda ()
-              (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
-              (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+              ;;(local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+              ;;(local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
               ))
 
   (defun ruby-mode-set-frozen-string-literal-true ()
@@ -699,8 +700,8 @@ See URL `https://github.com/troessner/reek'."
   :config
   (add-hook 'slim-mode-hook
             (lambda()
-              (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
-              (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+              ;;(local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+              ;;(local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
               (when (require 'highlight-indentation nil t)
                 (highlight-indentation-mode)
                 (highlight-indentation-current-column-mode)))))
