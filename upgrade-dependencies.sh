@@ -58,9 +58,6 @@ if type asdf >/dev/null; then
   asdf plugin-update --all
 fi
 
-# update ghq
-go get -v -u github.com/motemen/ghq
-
 # git-switch-trainer
 go get -v -u github.com/sonatard/git-switch-trainer/
 
