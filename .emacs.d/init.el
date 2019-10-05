@@ -61,16 +61,17 @@
 (el-get-bundle tarao/el-get-lock)
 (el-get-lock)
 
-;;;; {exec-path-from-shell}
-(el-get-bundle exec-path-from-shell)
-(setq exec-path-from-shell-check-startup-files nil)
-(let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
-  (exec-path-from-shell-copy-envs envs))
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (setq exec-path-from-shell-check-startup-files nil)
+  (let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
+    (exec-path-from-shell-copy-envs envs)))
 
-;;;; {save-framegeometry}
-(el-get-bundle gist:218fd80d9390845bf9dcad727237d4af:save-framegeometry
-  :features save-framegeometry)
-(add-to-list 'recentf-exclude "framegeometry")
+(use-package save-framegeometry
+  :straight (:type git :repo "https://gist.github.com/218fd80d9390845bf9dcad727237d4af.git")
+  :config
+  (add-to-list 'recentf-exclude "framegeometry"))
 
 ;;;; {recentf-ext}
 (el-get-bundle recentf-ext)
