@@ -20,6 +20,10 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+;;;; use-pacakge-report
+(setq use-package-compute-statistics t)
+(setq use-package-verbose t)
+
 ;;;; font for darwin (Mac OS X)
 (when (and (eq system-type 'darwin)
            (window-system))
