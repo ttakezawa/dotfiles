@@ -54,7 +54,7 @@ go get -v -u github.com/cweill/gotests/gotests
 
 # update asdf
 if type asdf >/dev/null; then
-  asdf update
+  asdf update || :
   asdf plugin-update --all
 fi
 
