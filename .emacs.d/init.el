@@ -530,12 +530,11 @@
 
 (add-to-list 'flycheck-checkers 'go-flycheck-gometalinter)
 
-;;;; {enh-ruby-mode}
-(el-get-bundle enh-ruby-mode)
-(add-to-list 'ac-modes 'enh-ruby-mode) ;; Enable auto-complete-mode
-(add-to-list 'auto-mode-alist '("\\.\\(rb\\|ruby\\|ru\\|jbuilder\\|arb\\)$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\(Gemfile\\|Rakefile\\|\\.pryrc\\)$" . enh-ruby-mode))
-(with-eval-after-load 'enh-ruby-mode
+(use-package enh-ruby-mode
+  :mode (("\\.\\(rb\\|ruby\\|ru\\|jbuilder\\|arb\\)$" . enh-ruby-mode)
+         ("\\(Gemfile\\|Rakefile\\|\\.pryrc\\)$" . enh-ruby-mode))
+  :config
+  (add-to-list 'ac-modes 'enh-ruby-mode) ;; Enable auto-complete-mode
   (setq enh-ruby-deep-arglist nil
         enh-ruby-deep-indent-paren nil
         enh-ruby-deep-indent-paren-style nil)
@@ -549,25 +548,25 @@
   (define-key enh-ruby-mode-map (kbd "C-c e")
     (lambda () (interactive)
       (unless (enh-ruby-show-errors-at (point) 'erm-syn-errline)
-        (enh-ruby-show-errors-at (point) 'erm-syn-warnline)))))
+        (enh-ruby-show-errors-at (point) 'erm-syn-warnline))))
 
-(add-hook 'enh-ruby-mode-hook
-          (lambda ()
-            (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
-            (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
-            ))
+  (add-hook 'enh-ruby-mode-hook
+            (lambda ()
+              (local-set-key (kbd "M-.") 'helm-etags-select) ;; etags
+              (local-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
+              ))
 
-(defun ruby-mode-set-frozen-string-literal-true ()
-  (when (eq major-mode 'enh-ruby-mode)
-    (save-excursion
-      (widen)
-      (goto-char (point-min))
-      (unless (looking-at "^# frozen_string_literal: true")
-        (insert "# frozen_string_literal: true\n")))))
+  (defun ruby-mode-set-frozen-string-literal-true ()
+    (when (eq major-mode 'enh-ruby-mode)
+      (save-excursion
+        (widen)
+        (goto-char (point-min))
+        (unless (looking-at "^# frozen_string_literal: true")
+          (insert "# frozen_string_literal: true\n")))))
 
-(add-hook 'enh-ruby-mode-hook
-          (lambda()
-            (add-hook 'before-save-hook 'ruby-mode-set-frozen-string-literal-true)))
+  (add-hook 'enh-ruby-mode-hook
+            (lambda()
+              (add-hook 'before-save-hook 'ruby-mode-set-frozen-string-literal-true))))
 
 ;; ruby align setup (see https://github.com/daveyeu/emacs-dot-d/blob/master/custom/ruby-align.el)
 (defconst align-ruby-modes '(enh-ruby-mode)
@@ -597,18 +596,16 @@ See the variable `align-rules-list' for more details.")
 (dolist (it ruby-align-rules-list)
   (add-to-list 'align-rules-list it))
 
-;;;; {ruby-block}
-(el-get-bundle ruby-block)
-(with-eval-after-load 'enh-ruby-mode
-  (require 'ruby-block)
-  (ruby-block-mode t)
-  (setq ruby-block-highlight-toggle t))
+(use-package ruby-block
+  :config
+  (with-eval-after-load 'enh-ruby-mode
+    (ruby-block-mode t)
+    (setq ruby-block-highlight-toggle t)))
 
-;;;; {ruby-end}
-(el-get-bundle ruby-end)
-(with-eval-after-load 'enh-ruby-mode
-  (require 'ruby-end)
-  (setq ruby-end-insert-newline nil))
+(use-package ruby-end
+  :config
+  (with-eval-after-load 'enh-ruby-mode
+    (setq ruby-end-insert-newline nil)))
 
 (use-package helm-bundle-show
   :bind (("C-x p" . helm-bundle-show)))
