@@ -619,20 +619,13 @@ See the variable `align-rules-list' for more details.")
 (el-get-bundle helm-bundle-show :type github :pkgname "masutaka/emacs-helm-bundle-show" :features helm-bundle-show)
 (global-set-key (kbd "C-x p") 'helm-bundle-show)
 
-;;;; {rinari}
-(el-get-bundle eschulte-jump :type github :pkgname "eschulte/jump.el" :depends (findr))
-(el-get-bundle rinari
-  :type github :pkgname "eschulte/rinari"
-  :load-path ("." "util" "util/jump")
-  :build (("bundle")) :submodule nil
-  :depends (inf-ruby eschulte-jump)
-  :features rinari)
-
-(global-rinari-mode)
-(define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
-(define-key rinari-minor-mode-map (kbd "C-c m") 'rinari-find-model)
-(define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
-(define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
+(use-package rinari
+  :init
+  (global-rinari-mode)
+  (define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
+  (define-key rinari-minor-mode-map (kbd "C-c m") 'rinari-find-model)
+  (define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
+  (define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view))
 
 ;;;; Configure flycheck ruby-reek
 ;;;; Taken by https://github.com/flycheck/flycheck/pull/886
