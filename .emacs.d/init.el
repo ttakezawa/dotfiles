@@ -338,7 +338,7 @@
   (setq git-gutter:diff-option "-w"))
 
 ;; gitattributes-mode, gitconfig-mode, gitignore-mode
-(use-package git-modes
+(use-package git-modes :defer t
   :mode (("/\\.gitignore_global\\'" . gitignore-mode))
   :init
   ;; TODO: これでもなぜかタブでインデントさせてくれない
@@ -577,21 +577,22 @@ See the variable `align-rules-list' for more details.")
 (dolist (it ruby-align-rules-list)
   (add-to-list 'align-rules-list it))
 
-(use-package ruby-block
-  :config
-  (with-eval-after-load 'enh-ruby-mode
-    (ruby-block-mode t)
-    (setq ruby-block-highlight-toggle t)))
+(use-package ruby-block :defer t
+  :init
+  (add-hook 'enh-ruby-mode-hook
+            (lambda ()
+              (setq ruby-block-highlight-toggle t)
+              (ruby-block-mode t))))
 
-(use-package ruby-end
-  :config
-  (with-eval-after-load 'enh-ruby-mode
-    (setq ruby-end-insert-newline nil)))
+(use-package ruby-end :defer t
+  :init
+  (setq ruby-end-insert-newline nil))
 
 (use-package helm-bundle-show
   :bind (("C-x p" . helm-bundle-show)))
 
 (use-package rinari
+  :disabled
   :config
   (global-rinari-mode)
   (define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
@@ -708,7 +709,7 @@ See URL `https://github.com/troessner/reek'."
   (setq highlight-indentation-offset 4)
   (set-face-background 'highlight-indentation-current-column-face "#5f0000"))
 
-(use-package dockerfile-mode
+(use-package dockerfile-mode :defer t
   :mode (("Dockerfile\\." . dockerfile-mode)))
 
 (use-package open-junk-file
@@ -716,7 +717,7 @@ See URL `https://github.com/troessner/reek'."
   :config
   (setq open-junk-file-format "~/Dropbox/journals/junk/%Y/%m/%Y_%m_%d.md"))
 
-(use-package terraform-mode
+(use-package terraform-mode :defer t
   :config
   (setq terraform-indent-level 4))
 
