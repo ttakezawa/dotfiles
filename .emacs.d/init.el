@@ -163,7 +163,35 @@
           ;; helm-source-bookmarks
           ;; helm-source-file-cache
           ;; helm-source-files-in-current-dir
-          helm-source-locate)))
+          helm-source-locate))
+
+  (defun takezawa/helm-for-files ()
+    "Preconfigured `helm' for opening files.
+  Run all sources defined in `takezawa/helm-for-files-preferred-list'."
+    (interactive)
+    (require 'helm-projectile)
+    (unless helm-source-buffers-list
+      (setq helm-source-buffers-list
+            (helm-make-source "Buffers" 'helm-source-buffers)))
+    (unless helm-source-ls-git
+      (setq helm-source-ls-git
+            (helm-make-source "Git files" 'helm-ls-git-source
+              :fuzzy-match helm-ls-git-fuzzy-match)))
+    (let ((helm-ff-transformer-show-only-basename nil))
+      (helm :buffer "*takezawa/helm-for-files*"
+            :sources '(helm-source-buffers-list
+                       helm-source-recentf
+                       ;; helm-source-bookmarks
+                       ;; helm-source-file-cache
+                       helm-source-files-in-current-dir
+                       ;; helm-source-locate
+                       ;; helm-source-ls-git
+                       helm-source-projectile-files-list
+                       takezawa/helm-source-home-filelist
+                       takezawa/helm-source-system-filelist))))
+  ;; 最近使っていないのでコメントアウト
+  ;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
+  )
 
 (use-package projectile :defer t
   :config
@@ -208,6 +236,7 @@
   (define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-rg))
 
 (use-package helm-swoop
+  :bind (("C-c C-s" . takezawa/helm-swoop))
   :config
   ;; デフォルトでhelm-swoopで周辺3行も表示する つまり M-3 M-x helm-swoop と同じ
   (defun takezawa/helm-swoop ()
@@ -215,10 +244,10 @@
     (if current-prefix-arg
         (helm-swoop)
       (let ((current-prefix-arg '(3)))
-        (helm-swoop))))
-  (global-set-key (kbd "C-c C-s") 'takezawa/helm-swoop))
+        (helm-swoop)))))
 
 (use-package helm-ag
+  :bind (("C-c g" . takezawa/helm-do-ag-dir))
   :config
   (setq helm-ag-insert-at-point 'symbol)
   ;; C-c C-e: Switch to edit mode
@@ -226,57 +255,25 @@
   (defun takezawa/helm-do-ag-dir ()
     (interactive)
     (let ((current-prefix-arg '(4)))
-      (helm-do-ag)))
-  (global-set-key (kbd "C-c g") 'takezawa/helm-do-ag-dir))
+      (helm-do-ag))))
 
 (use-package helm-rg
-  :config
-  (global-set-key (kbd "C-c g") 'helm-rg))
+  :bind (("C-c g" . helm-rg)))
 
 (use-package helm-ghq
-  :config
-  (global-set-key (kbd "C-x g") 'helm-ghq))
+  :bind (("C-x g" . helm-ghq)))
 
-;; define takezawa/helm-for-files with helm-ls-git
-(defvar takezawa/helm-source-home-filelist
-  `((name . "Home FileList")
-    (candidates-file ,(expand-file-name "home.filelist" user-emacs-directory) t)
-    (action . ,(helm-actions-from-type-file))))
+(with-eval-after-load 'helm
+  ;; define takezawa/helm-for-files with helm-ls-git
+  (defvar takezawa/helm-source-home-filelist
+    `((name . "Home FileList")
+      (candidates-file ,(expand-file-name "home.filelist" user-emacs-directory) t)
+      (action . ,(helm-actions-from-type-file))))
 
-(defvar takezawa/helm-source-system-filelist
-  `((name . "System FileList")
-    (candidates-file ,(expand-file-name "system.filelist" user-emacs-directory) t)
-    (action . ,(helm-actions-from-type-file))))
-
-(use-package helm-ls-git
-  :config
-  (defun takezawa/helm-for-files ()
-    "Preconfigured `helm' for opening files.
-  Run all sources defined in `takezawa/helm-for-files-preferred-list'."
-    (interactive)
-    (require 'helm-projectile)
-    (unless helm-source-buffers-list
-      (setq helm-source-buffers-list
-            (helm-make-source "Buffers" 'helm-source-buffers)))
-    (unless helm-source-ls-git
-      (setq helm-source-ls-git
-            (helm-make-source "Git files" 'helm-ls-git-source
-              :fuzzy-match helm-ls-git-fuzzy-match)))
-    (let ((helm-ff-transformer-show-only-basename nil))
-      (helm :buffer "*takezawa/helm-for-files*"
-            :sources '(helm-source-buffers-list
-                       helm-source-recentf
-                       ;; helm-source-bookmarks
-                       ;; helm-source-file-cache
-                       helm-source-files-in-current-dir
-                       ;; helm-source-locate
-                       ;; helm-source-ls-git
-                       helm-source-projectile-files-list
-                       takezawa/helm-source-home-filelist
-                       takezawa/helm-source-system-filelist))))
-  ;; 最近使っていないのでコメントアウト
-  ;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
-  )
+  (defvar takezawa/helm-source-system-filelist
+    `((name . "System FileList")
+      (candidates-file ,(expand-file-name "system.filelist" user-emacs-directory) t)
+      (action . ,(helm-actions-from-type-file)))))
 
 (use-package elscreen
   :config
@@ -419,7 +416,7 @@
 (use-package go-autocomplete)
 (use-package go-eldoc :defer t)
 (use-package gotest :defer t)
-(use-package gorepl-mode)
+(use-package gorepl-mode :defer t)
 (with-eval-after-load 'go-mode
   (require 'go-autocomplete)
   (add-hook 'before-save-hook 'gofmt-before-save)
@@ -456,63 +453,63 @@
 (setq flycheck-go-vet-shadow 'strict) ;; flycheck go-vet use "-shadowstrict" option
 
 (use-package flycheck-gometalinter
+  :disabled
   :config
-  (with-eval-after-load 'flycheck-gometalinter
-    ;; flycheckデフォルトのcheckerのうち最後の go-unconvert よりも後に gometalinter を実行させる
-    (flycheck-add-next-checker 'go-unconvert '(warning . gometalinter))
-    (add-hook 'go-mode-hook
-              '(lambda ()
-                 (flycheck-select-checker 'go-gofmt)))))
+  ;; flycheckデフォルトのcheckerのうち最後の go-unconvert よりも後に gometalinter を実行させる
+  (flycheck-add-next-checker 'go-unconvert '(warning . gometalinter))
+  (add-hook 'go-mode-hook
+            '(lambda ()
+               (flycheck-select-checker 'go-gofmt)))
+  (flycheck-define-checker go-flycheck-gometalinter
+    "A Golang checker using flycheck-gometalinter.sh"
+    :command ("flycheck-gometalinter.sh" source-original)
+    :error-patterns
+    ((error line-start (file-name) ":" line ":" (optional column) ":error: " (message) line-end)
+     (warning line-start (file-name) ":" line ":" (optional column) ":warning: " (message) line-end))
+    :modes go-mode
+    :next-checkers ((warning . go-golint)
+                    ;; Fall back, if go-golint doesn't exist
+                    (warning . go-vet)
+                    ;; Fall back, if go-vet doesn't exist
+                    (warning . go-build) (warning . go-test)
+                    (warning . go-errcheck)
+                    (warning . go-unconvert)
+                    (warning . go-megacheck)))
 
-;; たくさん実行すると重いのでできるだけ絞る。flycheckで用意されているものややたら遅いものはまず除外する
-(setq flycheck-gometalinter-disable-all t)
-(setq flycheck-gometalinter-deadline "10s")
-(setq flycheck-gometalinter-enable-linters
-      '(
-        ;; "aligncheck" ;; slow
-        ;; "deadcode"   ;; slow
-        "dupl"
-        ;; "errcheck" ;; flycheck slow
-        "gosec"
-        "goconst"
-        "gocyclo"
-        ;; "gofmt" ;; flycheck
-        ;; "goimports"
-        ;; "golint" ;; flycheck
-        "gosimple"
-        ;; "gotype" ;; vendorが考慮されずにimportエラーが起きてしまうので除外 E.g. could not import github.com/foo/bar/baz (can't find import: github.com/foo/bar/baz)
-        ;; "ineffassign"
-        "interfacer" ;; slow
-        ;; "lll"
-        "misspell"
-        "staticcheck"
-        ;; "structcheck" ;; slow
-        ;; "unconvert" ;; flycheck slow
-        ;; "unused"
-        ;; "varcheck" ;; slow
-        ;; "vet" ;; flycheck
-        ;; "vetshadow" ;; flycheck
-        ))
+  (flycheck-add-next-checker 'go-gofmt 'go-flycheck-gometalinter)
 
-(flycheck-define-checker go-flycheck-gometalinter
-  "A Golang checker using flycheck-gometalinter.sh"
-  :command ("flycheck-gometalinter.sh" source-original)
-  :error-patterns
-  ((error line-start (file-name) ":" line ":" (optional column) ":error: " (message) line-end)
-   (warning line-start (file-name) ":" line ":" (optional column) ":warning: " (message) line-end))
-  :modes go-mode
-  :next-checkers ((warning . go-golint)
-                  ;; Fall back, if go-golint doesn't exist
-                  (warning . go-vet)
-                  ;; Fall back, if go-vet doesn't exist
-                  (warning . go-build) (warning . go-test)
-                  (warning . go-errcheck)
-                  (warning . go-unconvert)
-                  (warning . go-megacheck)))
+  (add-to-list 'flycheck-checkers 'go-flycheck-gometalinter)
 
-(flycheck-add-next-checker 'go-gofmt 'go-flycheck-gometalinter)
+  ;; たくさん実行すると重いのでできるだけ絞る。flycheckで用意されているものややたら遅いものはまず除外する
+  (setq flycheck-gometalinter-disable-all t)
+  (setq flycheck-gometalinter-deadline "10s")
+  (setq flycheck-gometalinter-enable-linters
+        '(
+          ;; "aligncheck" ;; slow
+          ;; "deadcode"   ;; slow
+          "dupl"
+          ;; "errcheck" ;; flycheck slow
+          "gosec"
+          "goconst"
+          "gocyclo"
+          ;; "gofmt" ;; flycheck
+          ;; "goimports"
+          ;; "golint" ;; flycheck
+          "gosimple"
+          ;; "gotype" ;; vendorが考慮されずにimportエラーが起きてしまうので除外 E.g. could not import github.com/foo/bar/baz (can't find import: github.com/foo/bar/baz)
+          ;; "ineffassign"
+          "interfacer" ;; slow
+          ;; "lll"
+          "misspell"
+          "staticcheck"
+          ;; "structcheck" ;; slow
+          ;; "unconvert" ;; flycheck slow
+          ;; "unused"
+          ;; "varcheck" ;; slow
+          ;; "vet" ;; flycheck
+          ;; "vetshadow" ;; flycheck
+          )))
 
-(add-to-list 'flycheck-checkers 'go-flycheck-gometalinter)
 
 (use-package enh-ruby-mode
   :mode (("\\.\\(rb\\|ruby\\|ru\\|jbuilder\\|arb\\)$" . enh-ruby-mode)
@@ -620,10 +617,10 @@ See URL `https://github.com/troessner/reek'."
 (setq flycheck-checkers (append flycheck-checkers '(ruby-reek)))
 (flycheck-add-next-checker 'ruby-rubocop '(info . ruby-reek))
 
-(use-package json-mode
+(use-package json-mode :defer t
   :mode (("\\.babelrc$" . json-mode)))
 
-(use-package coffee-mode)
+(use-package coffee-mode :defer t)
 
 (use-package markdown-mode
   :mode (("\\.\\(md\\|markdown\\)$" . gfm-mode))
@@ -723,7 +720,7 @@ See URL `https://github.com/troessner/reek'."
   :config
   (setq terraform-indent-level 4))
 
-(use-package swift-mode
+(use-package swift-mode :defer t
   :config
   (add-to-list 'flycheck-checkers 'swift)
   (setq flycheck-swift-sdk-path
