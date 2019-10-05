@@ -3,12 +3,6 @@
 ;;;; Configure builtin features
 (load-file (locate-user-emacs-file "init-builtin.el"))
 
-;;;; package
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
-
 ;;;; straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -62,7 +56,6 @@
 (el-get-lock)
 
 (use-package exec-path-from-shell
-  :ensure t
   :config
   (setq exec-path-from-shell-check-startup-files nil)
   (let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
