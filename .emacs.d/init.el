@@ -98,7 +98,7 @@
 ;;;; {scratch-log}
 (el-get-bundle scratch-log)
 (setq takezawa/sl-dir (expand-file-name (locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time)))))
-(unless (file-exists-p takezawa/sl-dir) (make-directory takezawa/sl-dir))
+(unless (file-exists-p takezawa/sl-dir) (make-directory takezawa/sl-dir t))
 (setq sl-scratch-log-file         (concat takezawa/sl-dir "/scratch-log"))
 (setq sl-prev-scratch-string-file (concat takezawa/sl-dir "/scratch-log-prev"))
 (setq sl-timer-interval 3)
