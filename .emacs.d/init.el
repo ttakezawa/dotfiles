@@ -42,6 +42,7 @@
   (add-to-list 'default-frame-alist '(font . "fontset-rictydiminisheddiscord")))
 
 (use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
   :config
   (setq exec-path-from-shell-check-startup-files nil)
   (let ((envs '("PATH" "MANPATH" "GOROOT" "GOPATH")))
@@ -94,12 +95,12 @@
 ;; (setq auto-save-buffers-enhanced-interval 30.0)
 ;; (auto-save-buffers-enhanced t)
 
-(use-package backup-each-save
-  :config
+(use-package backup-each-save :defer t
+  :init
+  (add-hook 'after-save-hook 'backup-each-save)
   (setq backup-each-save-mirror-location
         (expand-file-name (format-time-string "backups/%Y_%m" (current-time)) user-emacs-directory))
-  (setq backup-each-save-time-format "%Y%m%d_%H%M%S")
-  (add-hook 'after-save-hook 'backup-each-save))
+  (setq backup-each-save-time-format "%Y%m%d_%H%M%S"))
 
 (use-package dumb-jump :defer t)
 
@@ -275,12 +276,12 @@
       (candidates-file ,(expand-file-name "system.filelist" user-emacs-directory) t)
       (action . ,(helm-actions-from-type-file)))))
 
-(use-package elscreen
-  :config
+(use-package elscreen :defer t
+  :bind (("C-q" . elscreen-start))
+  :init
   (setq elscreen-prefix-key (kbd "C-q"))
   (setq elscreen-display-screen-number nil)
-  (elscreen-start)
-
+  :config
   ;; for ediff-mode
   (defun elscreen-show-display-tab ()
     (interactive)
@@ -298,10 +299,9 @@
   (direnv-mode))
 
 (use-package visual-regexp-steroids
-  :config
-  (global-set-key (kbd "C-M-%") 'vr/query-replace)
-  (global-set-key (kbd "C-M-s") 'vr/isearch-forward)
-  (global-set-key (kbd "C-M-r") 'vr/isearch-backward))
+  :bind (("C-M-%" . vr/query-replace)
+         ("C-M-s" . vr/isearch-forward)
+         ("C-M-r" . vr/isearch-backward)))
 
 ;;;; {flycheck}
 ;; requires
@@ -413,7 +413,7 @@
 
 (use-package go-mode :defer t)
 (use-package go-guru :defer t)
-(use-package go-autocomplete)
+(use-package go-autocomplete :defer t)
 (use-package go-eldoc :defer t)
 (use-package gotest :defer t)
 (use-package gorepl-mode :defer t)
@@ -704,7 +704,7 @@ See URL `https://github.com/troessner/reek'."
                 (highlight-indentation-mode)
                 (highlight-indentation-current-column-mode)))))
 
-(use-package highlight-indentation
+(use-package highlight-indentation :defer t
   :config
   (setq highlight-indentation-offset 4)
   (set-face-background 'highlight-indentation-current-column-face "#5f0000"))
