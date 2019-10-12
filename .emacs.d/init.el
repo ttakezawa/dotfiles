@@ -19,6 +19,7 @@
 
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
+(setq use-package-always-defer t)
 
 ;;;; use-pacakge-report
 (setq use-package-compute-statistics t)
@@ -59,7 +60,7 @@
 ;; (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 ;; (load-theme 'tkzw t)
 
-(use-package moe-theme
+(use-package moe-theme :demand t
   :config
   (moe-dark)
   ;; Customize colors
@@ -75,7 +76,7 @@
   (add-to-list 'mode-line-cleaner-alist '(highlight-symbol-mode . "")) ;; Hide from mode-line
   (add-hook 'prog-mode-hook 'highlight-symbol-mode))
 
-(use-package which-key
+(use-package which-key :demand t
   :config
   (setq which-key-lighter "")
   (setq which-key-idle-delay 0.5)
@@ -95,16 +96,16 @@
 ;; (setq auto-save-buffers-enhanced-interval 30.0)
 ;; (auto-save-buffers-enhanced t)
 
-(use-package backup-each-save :defer t
+(use-package backup-each-save
   :init
   (add-hook 'after-save-hook 'backup-each-save)
   (setq backup-each-save-mirror-location
         (expand-file-name (format-time-string "backups/%Y_%m" (current-time)) user-emacs-directory))
   (setq backup-each-save-time-format "%Y%m%d_%H%M%S"))
 
-(use-package dumb-jump :defer t)
+(use-package dumb-jump)
 
-(use-package smart-jump :defer t
+(use-package smart-jump
   :bind (("M-." . smart-jump-go)
          ("M-*" . smart-jump-back))
   :init
@@ -116,8 +117,9 @@
   :config
   (setq etags-table-search-up-depth 10))
 
-(use-package helm :defer t
+(use-package helm
   :bind (("C-x C-f" . helm-find-files)
+         ("C-x f" . helm-for-files)
          ("M-x" . helm-M-x)
          ("M-y" . helm-show-kill-ring)
          ("C-x b" . helm-buffers-list)
@@ -149,13 +151,13 @@
   (define-key helm-map (kbd "C-M-i") 'helm-select-action)
   ;; find-fileのときC-iで選択
   (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
-  (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action))
+  (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 
-(use-package helm-ls-git :defer t
-  :bind (("C-x G" . helm-ls-git-ls)
-         ("C-x f" . helm-for-files))
-  :config
   ;; Configure helm-for-files
+  (require 'helm-ls-git)
+  (unless helm-source-ls-git-status
+    (setq helm-source-ls-git-status (helm-ls-git-build-git-status-source)))
+  (require 'helm-projectile)
   (setq helm-for-files-preferred-list
         '(;; helm-source-buffers-list
           helm-source-ls-git-status
@@ -164,37 +166,40 @@
           ;; helm-source-bookmarks
           ;; helm-source-file-cache
           ;; helm-source-files-in-current-dir
-          helm-source-locate))
+          helm-source-projectile-files-list
+          helm-source-locate)))
 
-  (defun takezawa/helm-for-files ()
-    "Preconfigured `helm' for opening files.
-  Run all sources defined in `takezawa/helm-for-files-preferred-list'."
-    (interactive)
-    (require 'helm-projectile)
-    (unless helm-source-buffers-list
-      (setq helm-source-buffers-list
-            (helm-make-source "Buffers" 'helm-source-buffers)))
-    (unless helm-source-ls-git
-      (setq helm-source-ls-git
-            (helm-make-source "Git files" 'helm-ls-git-source
-              :fuzzy-match helm-ls-git-fuzzy-match)))
-    (let ((helm-ff-transformer-show-only-basename nil))
-      (helm :buffer "*takezawa/helm-for-files*"
-            :sources '(helm-source-buffers-list
-                       helm-source-recentf
-                       ;; helm-source-bookmarks
-                       ;; helm-source-file-cache
-                       helm-source-files-in-current-dir
-                       ;; helm-source-locate
-                       ;; helm-source-ls-git
-                       helm-source-projectile-files-list
-                       takezawa/helm-source-home-filelist
-                       takezawa/helm-source-system-filelist))))
-  ;; 最近使っていないのでコメントアウト
-  ;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
-  )
+(use-package helm-ls-git
+  :bind (("C-x G" . helm-ls-git-ls)))
 
-(use-package projectile :defer t
+;; (defun takezawa/helm-for-files ()
+;;   "Preconfigured `helm' for opening files.
+;; Run all sources defined in `takezawa/helm-for-files-preferred-list'."
+;;   (interactive)
+;;   (require 'helm-projectile)
+;;   (unless helm-source-buffers-list
+;;     (setq helm-source-buffers-list
+;;           (helm-make-source "Buffers" 'helm-source-buffers)))
+;;   (unless helm-source-ls-git
+;;     (setq helm-source-ls-git
+;;           (helm-make-source "Git files" 'helm-ls-git-source
+;;             :fuzzy-match helm-ls-git-fuzzy-match)))
+;;   (let ((helm-ff-transformer-show-only-basename nil))
+;;     (helm :buffer "*takezawa/helm-for-files*"
+;;           :sources '(helm-source-buffers-list
+;;                      helm-source-recentf
+;;                      ;; helm-source-bookmarks
+;;                      ;; helm-source-file-cache
+;;                      helm-source-files-in-current-dir
+;;                      ;; helm-source-locate
+;;                      ;; helm-source-ls-git
+;;                      helm-source-projectile-files-list
+;;                      takezawa/helm-source-home-filelist
+;;                      takezawa/helm-source-system-filelist))))
+;; ;; 最近使っていないのでコメントアウト
+;; ;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
+
+(use-package projectile
   :config
   (setq projectile-keymap-prefix (kbd "C-c C-p"))
   (projectile-global-mode)
@@ -230,7 +235,7 @@
                       (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
                     ))))))
 
-(use-package helm-projectile :defer t
+(use-package helm-projectile
   :bind (("C-c C-p g" . helm-projectile-rg)
          ("C-x r"     . helm-projectile))
   :config
@@ -276,7 +281,7 @@
       (candidates-file ,(expand-file-name "system.filelist" user-emacs-directory) t)
       (action . ,(helm-actions-from-type-file)))))
 
-(use-package elscreen :defer t
+(use-package elscreen
   :bind (("C-q" . elscreen-start))
   :init
   (setq elscreen-prefix-key (kbd "C-q"))
@@ -326,19 +331,19 @@
   ;; * npm install -g eslint
   (flycheck-add-mode 'javascript-eslint 'web-mode))
 
-(use-package flycheck-tip :defer t
+(use-package flycheck-tip
   :config
   (global-set-key (kbd "M-g n") 'error-tip-cycle-dwim)
   (global-set-key (kbd "M-g p") 'error-tip-cycle-dwim-reverse))
 
-(use-package git-gutter
+(use-package git-gutter :demand t
   :config
   (global-git-gutter-mode 1)
   (add-to-list 'mode-line-cleaner-alist '(git-gutter-mode . "")) ;; Hide from mode-line
   (setq git-gutter:diff-option "-w"))
 
 ;; gitattributes-mode, gitconfig-mode, gitignore-mode
-(use-package git-modes :defer t
+(use-package git-modes
   :mode (("/\\.gitignore_global\\'" . gitignore-mode))
   :init
   ;; TODO: これでもなぜかタブでインデントさせてくれない
@@ -353,7 +358,7 @@
 ;; (emojify-set-emoji-styles '(unicode))
 ;; (add-hook 'after-init-hook #'global-emojify-mode)
 
-(use-package auto-complete
+(use-package auto-complete :demand t
   :config
   (ac-config-default)
   (add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
@@ -366,6 +371,7 @@
   (add-to-list 'ac-modes 'makefile-gmake-mode))
 
 (use-package ac-helm
+  :after (auto-complete)
   :bind (("M-/" . ac-complete-with-helm))
   :init
   (define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm))
@@ -380,7 +386,7 @@
             (rest-str   (substring string 1)))
         (concat (downcase first-char) rest-str)))))
 
-(use-package yasnippet-snippets :defer t)
+(use-package yasnippet-snippets)
 
 (use-package helm-c-yasnippet
   :bind (("C-c y" . helm-yas-complete)))
@@ -411,12 +417,12 @@
 ;; $ goimports-update-ignore -max-depth 20
 ;; crontab: 0 3 * * * bash -lc '(goimports-update-ignore -max-depth 20) 2>&1 | gawk "{ print strftime(\"\%Y/\%m/\%d \%H:\%M:\%S\"), \$0; fflush() }"' >>$HOME/.crontab.log 2>&1
 
-(use-package go-mode :defer t)
-(use-package go-guru :defer t)
-(use-package go-autocomplete :defer t)
-(use-package go-eldoc :defer t)
-(use-package gotest :defer t)
-(use-package gorepl-mode :defer t)
+(use-package go-mode)
+(use-package go-guru)
+(use-package go-autocomplete)
+(use-package go-eldoc)
+(use-package gotest)
+(use-package gorepl-mode)
 (with-eval-after-load 'go-mode
   (require 'go-autocomplete)
   (add-hook 'before-save-hook 'gofmt-before-save)
@@ -577,14 +583,14 @@ See the variable `align-rules-list' for more details.")
 (dolist (it ruby-align-rules-list)
   (add-to-list 'align-rules-list it))
 
-(use-package ruby-block :defer t
+(use-package ruby-block
   :init
   (add-hook 'enh-ruby-mode-hook
             (lambda ()
               (setq ruby-block-highlight-toggle t)
               (ruby-block-mode t))))
 
-(use-package ruby-end :defer t
+(use-package ruby-end
   :init
   (setq ruby-end-insert-newline nil))
 
@@ -618,10 +624,10 @@ See URL `https://github.com/troessner/reek'."
 (setq flycheck-checkers (append flycheck-checkers '(ruby-reek)))
 (flycheck-add-next-checker 'ruby-rubocop '(info . ruby-reek))
 
-(use-package json-mode :defer t
+(use-package json-mode
   :mode (("\\.babelrc$" . json-mode)))
 
-(use-package coffee-mode :defer t)
+(use-package coffee-mode)
 
 (use-package markdown-mode
   :mode (("\\.\\(md\\|markdown\\)$" . gfm-mode))
@@ -690,11 +696,11 @@ See URL `https://github.com/troessner/reek'."
           ("jsx" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
           )))
 
-(use-package scss-mode :defer t)
+(use-package scss-mode)
 
-(use-package sass-mode :defer t)
+(use-package sass-mode)
 
-(use-package slim-mode :defer t
+(use-package slim-mode
   :config
   (add-hook 'slim-mode-hook
             (lambda()
@@ -704,12 +710,12 @@ See URL `https://github.com/troessner/reek'."
                 (highlight-indentation-mode)
                 (highlight-indentation-current-column-mode)))))
 
-(use-package highlight-indentation :defer t
+(use-package highlight-indentation
   :config
   (setq highlight-indentation-offset 4)
   (set-face-background 'highlight-indentation-current-column-face "#5f0000"))
 
-(use-package dockerfile-mode :defer t
+(use-package dockerfile-mode
   :mode (("Dockerfile\\." . dockerfile-mode)))
 
 (use-package open-junk-file
@@ -717,11 +723,11 @@ See URL `https://github.com/troessner/reek'."
   :config
   (setq open-junk-file-format "~/Dropbox/journals/junk/%Y/%m/%Y_%m_%d.md"))
 
-(use-package terraform-mode :defer t
+(use-package terraform-mode
   :config
   (setq terraform-indent-level 4))
 
-(use-package swift-mode :defer t
+(use-package swift-mode
   :config
   (add-to-list 'flycheck-checkers 'swift)
   (setq flycheck-swift-sdk-path
@@ -729,7 +735,7 @@ See URL `https://github.com/troessner/reek'."
          "\n+$" "" (shell-command-to-string
                     "xcrun --show-sdk-path --sdk macosx"))))
 
-(use-package dashboard
+(use-package dashboard :demand t
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-items '((projects . 5) (recents  . 20)))
@@ -739,8 +745,8 @@ See URL `https://github.com/troessner/reek'."
                (local-set-key (kbd "C-n") 'widget-forward)
                (local-set-key (kbd "C-p") 'widget-backward))))
 
-(use-package smartparens
+(use-package smartparens :demand t
   :config
   (smartparens-global-mode))
 
-(use-package protobuf-mode :defer t)
+(use-package protobuf-mode)
