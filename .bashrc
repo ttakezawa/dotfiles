@@ -201,7 +201,8 @@ fi
 if [[ -d $HOME/.asdf/asdf.sh ]]; then
   . $HOME/.asdf/asdf.sh
   . $HOME/.asdf/completions/asdf.bash
-
+fi
+if type -t asdf >/dev/null; then
   asdf-install-fzf() {
     local lang=${1}
     if [[ ! $lang ]]; then
