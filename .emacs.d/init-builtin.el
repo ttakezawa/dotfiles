@@ -326,7 +326,6 @@ want to use in the modeline *in lieu of* the original.")
 ;; javascript-mode (builtin)
 (add-to-list 'auto-mode-alist '("\\.json5$" . js-mode))
 (with-eval-after-load 'js
-  (define-key js-mode-map (kbd "M-.") 'helm-etags-select) ;; etags
   (setq js-indent-level 2
         js-expr-indent-offset 2)
   (add-to-list 'align-rules-list
