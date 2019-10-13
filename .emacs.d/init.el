@@ -116,6 +116,48 @@
   :config
   (setq etags-table-search-up-depth 10))
 
+(use-package projectile
+  :init
+  (setq projectile-keymap-prefix (kbd "C-c C-p"))
+  :config
+  (projectile-global-mode)
+
+  (use-package helm-projectile :demand t
+    :bind (:map projectile-mode-map
+           ("C-c C-p g" . helm-projectile-rg)
+           ("C-x r"     . helm-projectile)))
+
+  ;; Taken from http://emacs.stackexchange.com/questions/2891/projectile-project-in-folder-without-write-access
+  (use-package dash) ;; --first is defined in dash.el
+  (defun projectile-root-child-of (dir &optional list)
+    (projectile-locate-dominating-file
+     dir
+     (lambda (dir)
+       (--first
+        (if (and
+             (string-equal (file-remote-p it) (file-remote-p dir))
+             (string-match-p (expand-file-name it) (expand-file-name dir)))
+            dir)
+        (or list project-root-regexps (list))))))
+  (defvar project-root-regexps ()
+    "List of regexps to match against when projectile is searching
+    for project root directories.")
+  ;; rbenv以下のgemがprojectルートになるように設定
+  (add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/lib/ruby/gems/[^/]+/gems/[^/]+/?$")
+  ;; rbenv以下のrubyがprojectルートになるように設定
+  (add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/?$")
+
+  (add-to-list 'projectile-project-root-files-functions 'projectile-root-child-of)
+
+  ;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
+  (add-hook 'flycheck-mode-hook
+            (lambda ()
+              (when (projectile-project-p)
+                (let ((path (concat (projectile-project-root) "node_modules/.bin")))
+                  (when (file-directory-p path)
+                    (let ((cmd (concat path "/eslint")))
+                      (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))))))))
+
 (use-package helm
   :bind (("C-x C-f" . helm-find-files)
          ("C-x f" . helm-for-files)
@@ -153,25 +195,24 @@
              :map helm-find-files-map
              ("TAB" . helm-execute-persistent-action))
 
-  (with-eval-after-load "helm-ls-git"
+  (use-package helm-ls-git :demand t
+    :bind (("C-x G" . helm-ls-git-ls))
+    :config
     (unless helm-source-ls-git-status
-      (setq helm-source-ls-git-status (helm-ls-git-build-git-status-source)))
-    (with-eval-after-load "helm-projectile"
-      ;; Configure helm-for-files
-      (custom-set-variables
-       '(helm-for-files-preferred-list
-         '(;; helm-source-buffers-list
-           helm-source-ls-git-status
-           ;; helm-source-projectile-files-list
-           helm-source-recentf
-           ;; helm-source-bookmarks
-           ;; helm-source-file-cache
-           ;; helm-source-files-in-current-dir
-           helm-source-projectile-files-list
-           helm-source-locate))))))
+      (setq helm-source-ls-git-status (helm-ls-git-build-git-status-source))))
 
-(use-package helm-ls-git :demand t
-  :bind (("C-x G" . helm-ls-git-ls)))
+  ;; Configure helm-for-files with helm-ls-git and helm-projectile
+  (custom-set-variables
+   '(helm-for-files-preferred-list
+     '(;; helm-source-buffers-list
+       helm-source-ls-git-status
+       ;; helm-source-projectile-files-list
+       helm-source-recentf
+       ;; helm-source-bookmarks
+       ;; helm-source-file-cache
+       ;; helm-source-files-in-current-dir
+       helm-source-projectile-files-list
+       helm-source-locate))))
 
 ;; (defun takezawa/helm-for-files ()
 ;;   "Preconfigured `helm' for opening files.
@@ -199,52 +240,6 @@
 ;;                      takezawa/helm-source-system-filelist))))
 ;; ;; 最近使っていないのでコメントアウト
 ;; ;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
-
-(use-package dash :demand t)
-
-(use-package projectile
-  :after (dash)
-  :config
-  (setq projectile-keymap-prefix (kbd "C-c C-p"))
-  (projectile-global-mode)
-
-  ;; Taken from http://emacs.stackexchange.com/questions/2891/projectile-project-in-folder-without-write-access
-  (require 'dash) ;; --first is defined in dash.el
-  (defun projectile-root-child-of (dir &optional list)
-    (projectile-locate-dominating-file
-     dir
-     (lambda (dir)
-       (--first
-        (if (and
-             (string-equal (file-remote-p it) (file-remote-p dir))
-             (string-match-p (expand-file-name it) (expand-file-name dir)))
-            dir)
-        (or list project-root-regexps (list))))))
-  (defvar project-root-regexps ()
-    "List of regexps to match against when projectile is searching
-    for project root directories.")
-  ;; rbenv以下のgemがprojectルートになるように設定
-  (add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/lib/ruby/gems/[^/]+/gems/[^/]+/?$")
-  ;; rbenv以下のrubyがprojectルートになるように設定
-  (add-to-list 'project-root-regexps "~/\.rbenv/versions/[^/]+/?$")
-
-  (add-to-list 'projectile-project-root-files-functions 'projectile-root-child-of)
-
-  ;; flycheckの各checkerでプロジェクトルート/node_modules/.binを参照させるようにする
-  (add-hook 'flycheck-mode-hook
-            (lambda ()
-              (when (projectile-project-p)
-                (let ((path (concat (projectile-project-root) "node_modules/.bin")))
-                  (when (file-directory-p path)
-                    (let ((cmd (concat path "/eslint")))
-                      (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
-                    ))))))
-
-(use-package helm-projectile :demand t
-  :bind (("C-c C-p g" . helm-projectile-rg)
-         ("C-x r"     . helm-projectile)
-         :map projectile-mode-map
-         ("C-c C-p g" . helm-projectile-rg)))
 
 (use-package helm-swoop
   :bind (("C-c C-s" . takezawa/helm-swoop))
