@@ -107,9 +107,8 @@
 
 (use-package smart-jump
   :bind (("M-." . smart-jump-go)
-         ("M-*" . smart-jump-back))
-  :init
-  (setq smart-jump-pop-key "M-*")
+         ("M-," . smart-jump-back)
+         ("M-?" . smart-jump-references))
   :config
   (smart-jump-setup-default-registers))
 
