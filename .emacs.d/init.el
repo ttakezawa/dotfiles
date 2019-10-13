@@ -143,14 +143,15 @@
   (helm-mode 1)
   ;; ファイルリスト(candidates-file)でskip matchできるようにする
   (require 'helm-multi-match)
-  (define-key helm-map (kbd "C-h") 'delete-backward-char)
-  (define-key helm-map (kbd "C-q") 'helm-execute-persistent-action) ;; C-qでチラ見
-
-  ;; C-M-iでアクション選択
-  (define-key helm-map (kbd "C-M-i") 'helm-select-action)
-  ;; find-fileのときC-iで選択
-  (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
-  (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+  (bind-keys :map helm-map
+             ("C-h" . delete-backward-char)
+             ("C-q" . helm-execute-persistent-action) ;; C-qでチラ見
+             ("C-M-i" . helm-select-action) ;; C-M-iでアクション選択
+             ;; find-fileのときC-iで選択
+             :map helm-read-file-map
+             ("TAB" . helm-execute-persistent-action)
+             :map helm-find-files-map
+             ("TAB" . helm-execute-persistent-action))
 
   (with-eval-after-load "helm-ls-git"
     (unless helm-source-ls-git-status
@@ -241,9 +242,9 @@
 
 (use-package helm-projectile :demand t
   :bind (("C-c C-p g" . helm-projectile-rg)
-         ("C-x r"     . helm-projectile))
-  :config
-  (define-key projectile-mode-map (kbd "C-c C-p g") 'helm-projectile-rg))
+         ("C-x r"     . helm-projectile)
+         :map projectile-mode-map
+         ("C-c C-p g" . helm-projectile-rg)))
 
 (use-package helm-swoop
   :bind (("C-c C-s" . takezawa/helm-swoop))
@@ -337,8 +338,8 @@
 
 (use-package flycheck-tip
   :config
-  (global-set-key (kbd "M-g n") 'error-tip-cycle-dwim)
-  (global-set-key (kbd "M-g p") 'error-tip-cycle-dwim-reverse))
+  (bind-keys (("M-g n" . error-tip-cycle-dwim)
+              ("M-g p" . error-tip-cycle-dwim-reverse))))
 
 (use-package git-gutter :demand t
   :config
@@ -376,9 +377,9 @@
 
 (use-package ac-helm
   :after (auto-complete)
-  :bind (("M-/" . ac-complete-with-helm))
-  :init
-  (define-key ac-complete-mode-map (kbd "M-/") 'ac-complete-with-helm))
+  :bind (("M-/" . ac-complete-with-helm)
+         :map ac-complete-mode-map
+         ("M-/" . ac-complete-with-helm)))
 
 (use-package yasnippet :defer 2
   :config
@@ -743,11 +744,10 @@ See URL `https://github.com/troessner/reek'."
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-items '((projects . 5) (recents  . 20)))
-  (add-hook 'dashboard-mode-hook
-            '(lambda ()
-               (local-set-key (kbd "n") 'widget-forward)
-               (local-set-key (kbd "C-n") 'widget-forward)
-               (local-set-key (kbd "C-p") 'widget-backward))))
+  (bind-keys :map dashboard-mode-map
+             ("n" . widget-forward)
+             ("C-n" . widget-forward)
+             ("C-p" . widget-backward)))
 
 (use-package smartparens :demand t
   :config
