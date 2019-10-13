@@ -153,23 +153,24 @@
   (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
   (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 
-  ;; Configure helm-for-files
-  (require 'helm-ls-git)
-  (unless helm-source-ls-git-status
-    (setq helm-source-ls-git-status (helm-ls-git-build-git-status-source)))
-  (require 'helm-projectile)
-  (setq helm-for-files-preferred-list
-        '(;; helm-source-buffers-list
-          helm-source-ls-git-status
-          ;; helm-source-projectile-files-list
-          helm-source-recentf
-          ;; helm-source-bookmarks
-          ;; helm-source-file-cache
-          ;; helm-source-files-in-current-dir
-          helm-source-projectile-files-list
-          helm-source-locate)))
+  (with-eval-after-load "helm-ls-git"
+    (unless helm-source-ls-git-status
+      (setq helm-source-ls-git-status (helm-ls-git-build-git-status-source)))
+    (with-eval-after-load "helm-projectile"
+      ;; Configure helm-for-files
+      (custom-set-variables
+       '(helm-for-files-preferred-list
+         '(;; helm-source-buffers-list
+           helm-source-ls-git-status
+           ;; helm-source-projectile-files-list
+           helm-source-recentf
+           ;; helm-source-bookmarks
+           ;; helm-source-file-cache
+           ;; helm-source-files-in-current-dir
+           helm-source-projectile-files-list
+           helm-source-locate))))))
 
-(use-package helm-ls-git
+(use-package helm-ls-git :demand t
   :bind (("C-x G" . helm-ls-git-ls)))
 
 ;; (defun takezawa/helm-for-files ()
@@ -199,12 +200,16 @@
 ;; ;; 最近使っていないのでコメントアウト
 ;; ;; (global-set-key (kbd "C-x f") 'takezawa/helm-for-files)
 
+(use-package dash :demand t)
+
 (use-package projectile
+  :after (dash)
   :config
   (setq projectile-keymap-prefix (kbd "C-c C-p"))
   (projectile-global-mode)
 
   ;; Taken from http://emacs.stackexchange.com/questions/2891/projectile-project-in-folder-without-write-access
+  (require 'dash) ;; --first is defined in dash.el
   (defun projectile-root-child-of (dir &optional list)
     (projectile-locate-dominating-file
      dir
@@ -235,7 +240,7 @@
                       (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))
                     ))))))
 
-(use-package helm-projectile
+(use-package helm-projectile :demand t
   :bind (("C-c C-p g" . helm-projectile-rg)
          ("C-x r"     . helm-projectile))
   :config
