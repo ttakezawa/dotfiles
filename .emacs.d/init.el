@@ -358,25 +358,7 @@
 ;; (emojify-set-emoji-styles '(unicode))
 ;; (add-hook 'after-init-hook #'global-emojify-mode)
 
-(use-package auto-complete :demand t
-  :config
-  (ac-config-default)
-  (add-to-list 'ac-dictionary-directories (expand-file-name "ac-dict" user-emacs-directory))
-  (setq ac-use-menu-map t)
-  (setq ac-ignore-case t)
-  (setq ac-auto-start t)
-
-  ;; Enable auto-complete-mode
-  (add-to-list 'ac-modes 'makefile-mode)
-  (add-to-list 'ac-modes 'makefile-gmake-mode))
-
-(use-package ac-helm
-  :after (auto-complete)
-  :bind (("M-/" . ac-complete-with-helm)
-         :map ac-complete-mode-map
-         ("M-/" . ac-complete-with-helm)))
-
-(use-package yasnippet :defer 2
+(use-package yasnippet :defer 5
   :config
   (yas-global-mode 1)
   (defun my/downcase-first-char (&optional string)
@@ -419,12 +401,10 @@
 
 (use-package go-mode)
 (use-package go-guru)
-(use-package go-autocomplete)
 (use-package go-eldoc)
 (use-package gotest)
 (use-package gorepl-mode)
 (with-eval-after-load 'go-mode
-  (require 'go-autocomplete)
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq gofmt-command "goimports")
   (setq go-packages-function 'go-packages-go-list)
@@ -438,7 +418,6 @@
   ;(add-hook 'go-mode-hook #'gorepl-mode)
   (add-hook 'go-mode-hook
             '(lambda ()
-               (setq ac-sources '(ac-source-go))
                (setq-local tab-width 4)
                (setq-local comment-auto-fill-only-comments t)
                (set-fill-column 140)
@@ -521,7 +500,6 @@
   :mode (("\\.\\(rb\\|ruby\\|ru\\|jbuilder\\|arb\\)$" . enh-ruby-mode)
          ("\\(Gemfile\\|Rakefile\\|\\.pryrc\\)$" . enh-ruby-mode))
   :config
-  (add-to-list 'ac-modes 'enh-ruby-mode) ;; Enable auto-complete-mode
   (setq enh-ruby-deep-arglist nil
         enh-ruby-deep-indent-paren nil
         enh-ruby-deep-indent-paren-style nil)
@@ -645,7 +623,6 @@ See URL `https://github.com/troessner/reek'."
          ("\\.plu$" . plantuml-mode)
          ("\\.plantuml$" . plantuml-mode))
   :config
-  (add-to-list 'ac-modes 'plantuml-mode) ;; Enable auto-complete-mode
   (setq plantuml-jar-path "/usr/local/Cellar/plantuml/8024/plantuml.8024.jar")
   (setq plantuml-run-command "java -Djava.awt.headless=true -jar %s")
   (add-hook 'plantuml-mode-hook
@@ -684,17 +661,7 @@ See URL `https://github.com/troessner/reek'."
         web-mode-enable-auto-opening t
         web-mode-enable-current-element-highlight t)
   (custom-set-faces
-   '(web-mode-current-element-highlight-face ((t (:background "#00005f")))))
-
-  ;; configure auto-complete for web-mode
-  (add-to-list 'ac-modes 'web-mode) ;; Enable auto-complete-mode
-  (setq web-mode-ac-sources-alist
-        '(("css" . (ac-source-css-property))
-          ("html" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-          ("erb" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-          ("javascript" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-          ("jsx" . (ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-          )))
+   '(web-mode-current-element-highlight-face ((t (:background "#00005f"))))))
 
 (use-package scss-mode)
 
