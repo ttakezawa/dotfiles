@@ -21,6 +21,9 @@
 (setq straight-use-package-by-default t)
 (setq use-package-always-defer t)
 
+(use-package diminish
+  :diminish global-whitespace-mode)
+
 ;;;; use-pacakge-report
 (setq use-package-compute-statistics t)
 (setq use-package-verbose t)
@@ -117,6 +120,7 @@
   (setq etags-table-search-up-depth 10))
 
 (use-package projectile
+  :diminish projectile-mode
   :init
   (setq projectile-keymap-prefix (kbd "C-c C-p"))
   :config
@@ -719,6 +723,7 @@ See URL `https://github.com/troessner/reek'."
              ("C-p" . widget-backward)))
 
 (use-package smartparens :demand t
+  :diminish smartparens-mode
   :config
   (smartparens-global-mode))
 
