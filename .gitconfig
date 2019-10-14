@@ -6,6 +6,7 @@
 	signingkey = ttakezawa@users.noreply.github.com
 [commit]
 	gpgsign = true
+	verbose = true
 [core]
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes_global
