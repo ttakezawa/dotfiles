@@ -400,6 +400,8 @@ fi
 #### hub
 if type -P hub >/dev/null; then
   alias git=hub
+  # work around of hub completion bug
+  alias __git=hub
 fi
 
 if type -P git-switch-trainer >/dev/null; then
