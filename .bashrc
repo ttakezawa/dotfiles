@@ -274,8 +274,8 @@ if type -P aws_completer >/dev/null; then
 fi
 
 #### Emacs
-export EDITOR="emacsclient -c -nw --alternate-editor=vim"
-alias e="emacsclient -c -nw --alternate-editor=vim"
+export EDITOR="emacsclient -c -nw --alternate-editor=''"
+alias e="$EDITOR"
 # evm
 if [[ -d "$HOME/.evm/bin" ]]; then
   export PATH="$HOME/.evm/bin:$PATH"
