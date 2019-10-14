@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# go get -v github.com/knqyf263/utern
+# brew install utern
 
 usage() {
   cat <<EOF;
@@ -28,7 +28,7 @@ main() {
   fi
   # cmd="cw tail -n -v 'Datadog Tracer' -f \"${name}\" $* | uniunescape"
   # cmd="awslogs get \"${name}\" -w -S --color=always $* | grep --line-buffered -v 'Datadog Tracer' | uniunescape"
-  cmd="utern --no-log-stream --no-log-group $* \"${name}\""
+  cmd="utern --no-log-stream --no-log-group $* \"${name}\" | dpretty"
   echo "$cmd"
   bash -c "exec $cmd"
 }
