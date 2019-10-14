@@ -58,7 +58,7 @@
   :config
   (add-to-list 'recentf-exclude "framegeometry"))
 
-(use-package recentf-ext)
+(use-package recentf-ext :demand t)
 
 ;;;; custom-theme
 ;; (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
