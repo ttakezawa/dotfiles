@@ -122,11 +122,6 @@
   :config
   (projectile-global-mode)
 
-  (use-package helm-projectile :demand t
-    :bind (:map projectile-mode-map
-           ("C-c C-p g" . helm-projectile-rg)
-           ("C-x r"     . helm-projectile)))
-
   ;; Taken from http://emacs.stackexchange.com/questions/2891/projectile-project-in-folder-without-write-access
   (use-package dash) ;; --first is defined in dash.el
   (defun projectile-root-child-of (dir &optional list)
@@ -200,6 +195,11 @@
     :config
     (unless helm-source-ls-git-status
       (setq helm-source-ls-git-status (helm-ls-git-build-git-status-source))))
+
+  (use-package helm-projectile :demand t
+    :bind (:map projectile-mode-map
+           ("C-c C-p g" . helm-projectile-rg)
+           ("C-x r"     . helm-projectile)))
 
   ;; Configure helm-for-files with helm-ls-git and helm-projectile
   (custom-set-variables
