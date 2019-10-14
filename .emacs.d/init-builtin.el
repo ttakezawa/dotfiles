@@ -150,29 +150,6 @@
 ;; 自動保存ファイル(#*#)の保存先を変更 (デフォルトだと/tmpでマシンが再起動したときに消えてしまう)
 (setq auto-save-file-name-transforms `((".*" ,(locate-user-emacs-file (format-time-string "backups/%Y_%m" (current-time))) t)))
 
-;; Compact mode-line
-;; Taken from https://www.masteringemacs.org/article/hiding-replacing-modeline-strings
-(require 'cl)
-(defvar mode-line-cleaner-alist
-  `((emacs-lisp-mode . "El"))
-  "Alist for `clean-mode-line'.
-
-When you add a new element to the alist, keep in mind that you
-must pass the correct minor/major mode symbol and a string you
-want to use in the modeline *in lieu of* the original.")
-(defun clean-mode-line ()
-  (interactive)
-  (loop for cleaner in mode-line-cleaner-alist
-        do (let* ((mode (car cleaner))
-                  (mode-str (cdr cleaner))
-                  (old-mode-str (cdr (assq mode minor-mode-alist))))
-             (when old-mode-str
-               (setcar old-mode-str mode-str))
-             ;; major mode
-             (when (eq mode major-mode)
-               (setq mode-name mode-str)))))
-(add-hook 'after-change-major-mode-hook 'clean-mode-line)
-
 ;; uniquify
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -321,7 +298,6 @@ want to use in the modeline *in lieu of* the original.")
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
-(add-to-list 'mode-line-cleaner-alist '(eldoc-mode . "")) ;; Hide from mode-line
 
 ;; javascript-mode (builtin)
 (add-to-list 'auto-mode-alist '("\\.json5$" . js-mode))

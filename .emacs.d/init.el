@@ -22,7 +22,8 @@
 (setq use-package-always-defer t)
 
 (use-package diminish
-  :diminish global-whitespace-mode)
+  :diminish global-whitespace-mode
+  :diminish eldoc-mode)
 
 ;;;; use-pacakge-report
 (setq use-package-compute-statistics t)
@@ -74,9 +75,9 @@
   (set-face-attribute font-lock-comment-delimiter-face nil :foreground comment :slant 'normal)))
 
 (use-package highlight-symbol
+  :diminish highlight-symbol-mode
   :config
   (setq highlight-symbol-idle-delay 0.1)
-  (add-to-list 'mode-line-cleaner-alist '(highlight-symbol-mode . "")) ;; Hide from mode-line
   (add-hook 'prog-mode-hook 'highlight-symbol-mode))
 
 (use-package which-key :demand t
@@ -158,6 +159,7 @@
                       (when (file-exists-p cmd) (setq flycheck-javascript-eslint-executable cmd)))))))))
 
 (use-package helm
+  :diminish helm-mode
   :bind (("C-x C-f" . helm-find-files)
          ("C-x f" . helm-for-files)
          ("M-x" . helm-M-x)
@@ -165,7 +167,6 @@
          ("C-x b" . helm-buffers-list)
          ("C-c i" . helm-semantic-or-imenu))
   :init
-  (add-to-list 'mode-line-cleaner-alist '(helm-mode . "")) ;; Hide from mode-line
   ;; (global-set-key (kbd "M-.") 'helm-etags-select) ;; etags
   ;; (global-set-key (kbd "M-*") 'pop-tag-mark) ;; jump back
 
@@ -348,9 +349,9 @@
               ("M-g p" . error-tip-cycle-dwim-reverse))))
 
 (use-package git-gutter :demand t
+  :diminish git-gutter-mode
   :config
   (global-git-gutter-mode 1)
-  (add-to-list 'mode-line-cleaner-alist '(git-gutter-mode . "")) ;; Hide from mode-line
   (setq git-gutter:diff-option "-w"))
 
 ;; gitattributes-mode, gitconfig-mode, gitignore-mode
