@@ -124,6 +124,7 @@
   :diminish projectile-mode
   :init
   (setq projectile-keymap-prefix (kbd "C-c C-p"))
+  (setq projectile-git-submodule-command nil) ;; workaround for https://github.com/bbatsov/projectile/issues/1323
   :config
   (projectile-global-mode)
 
