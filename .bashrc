@@ -30,11 +30,11 @@ if [[ $IS_INTERACTIVE_SH ]]; then
   stty start undef
 fi
 
-if type -P mount.vboxsf >/dev/null; then
+if type -P mount.vboxsf &>/dev/null; then
   IS_VBOX=1
 fi
 
-if [[ ( ! $IS_VBOX ) && $IS_LINUX && $IS_INTERACTIVE_SH ]] && type -P curl >/dev/null; then
+if [[ ( ! $IS_VBOX ) && $IS_LINUX && $IS_INTERACTIVE_SH ]] && type -P curl &>/dev/null; then
   if $(curl --connect-timeout 0.01 -s http://169.254.169.254/1.0); then
     IS_EC2=1
   fi
@@ -162,7 +162,7 @@ _PROMPT2="\\n$prompt_screen\$ "
 PS1=$_PROMPT1$_PROMPT2
 
 # git prompt
-if ! type -t __git_ps1 >/dev/null 2>&1; then
+if ! type -t __git_ps1 &>/dev/null; then
   source $SOURCE_DIR/.bash.d/git-prompt.sh
 fi
 if [[ "$(type -t __git_ps1)" ]]; then
@@ -180,7 +180,7 @@ fi
 shopt -s direxpand
 
 # git-completion
-if ! type -t __git >/dev/null 2>&1; then
+if ! type -t __git &>/dev/null; then
   source $SOURCE_DIR/.bash.d/git-completion.bash
 fi
 
@@ -188,7 +188,7 @@ fi
 source $SOURCE_DIR/.bash.d/gibo-completion.bash
 
 # exa completion
-if ! type -t _exa >/dev/null 2>&1; then
+if ! type -t _exa &>/dev/null; then
   source $SOURCE_DIR/.bash.d/exa-completions.bash
 fi
 
@@ -202,7 +202,7 @@ if [[ -d $HOME/.asdf/asdf.sh ]]; then
   . $HOME/.asdf/asdf.sh
   . $HOME/.asdf/completions/asdf.bash
 fi
-if type -t asdf >/dev/null; then
+if type -t asdf &>/dev/null; then
   asdfi() {
     local lang=${1}
     if [[ ! $lang ]]; then
@@ -220,7 +220,7 @@ if type -t asdf >/dev/null; then
 fi
 
 #### direnv
-if type -P direnv >/dev/null; then
+if type -P direnv &>/dev/null; then
   eval "$(direnv hook bash)"
 fi
 
@@ -242,7 +242,7 @@ cdgem () {
   else
     gem=$(gem list | fzf --reverse | cut -d \  -f 1)
     [[ -z "$gem" ]] && return 1
-    if ruby --version | grep 'ruby 2' >/dev/null; then
+    if ruby --version | grep 'ruby 2' &>/dev/null; then
       cd $(ruby -e 'puts Gem::Specification.find_by_name(ARGV[0]).full_gem_path' -- $gem)
     else
       cd $(ruby -e 'puts Gem.source_index.find_name(ARGV[0]).last.full_gem_path' -- $gem)
@@ -251,14 +251,14 @@ cdgem () {
 }
 
 #### npm
-if ! type -t _npm_completion >/dev/null 2>&1; then
-  if type -P npm >/dev/null; then
+if ! type -t _npm_completion &>/dev/null; then
+  if type -P npm &>/dev/null; then
     source <(npm completion)
   fi
 fi
 
 #### pip
-if type -P pip >/dev/null; then
+if type -P pip &>/dev/null; then
   eval "$(pip completion --bash 2>/dev/null)"
 fi
 
@@ -269,7 +269,7 @@ if [[ -d "$HOME/.plenv/bin" ]]; then
 fi
 
 #### awscli
-if type -P aws_completer >/dev/null; then
+if type -P aws_completer &>/dev/null; then
   complete -C aws_completer aws
 fi
 
@@ -279,7 +279,7 @@ alias e="$EDITOR"
 # evm
 if [[ -d "$HOME/.evm/bin" ]]; then
   export PATH="$HOME/.evm/bin:$PATH"
-  if ! type -P emacsclient >/dev/null; then
+  if ! type -P emacsclient &>/dev/null; then
     echo "emacsclient not found." >&2
     # You can shim emacsclient
     # cd $(dirname $(which emacs)); sed 's|bin/emacs|bin/emacsclient|g' emacs > emacsclient; chmod +x emacsclient
@@ -291,7 +291,7 @@ export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
 
 ## https://github.com/posener/complete
-if type -P gocomplete >/dev/null; then
+if type -P gocomplete &>/dev/null; then
   complete -C gocomplete go
 fi
 
@@ -307,7 +307,7 @@ if [[ -f ~/.fzf.bash ]]; then
   source ~/.fzf.bash
   export FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line'
 
-  if ! type -P ghq >/dev/null; then
+  if ! type -P ghq &>/dev/null; then
     echo "ghq not found." >&2
   fi
 
@@ -358,7 +358,7 @@ FZF-EOF"
   #   Taken from https://github.com/junegunn/fzf/issues/808 and key-bindings.bash
   # Requires nauniq
   #   mkdir -p ~/bin && curl https://raw.githubusercontent.com/perlancar/perl-App-nauniq/master/script/nauniq | sed 's?#!perl?#!/usr/bin/env perl?' > ~/bin/nauniq && chmod +x ~/bin/nauniq
-  if ! type -P nauniq >/dev/null; then
+  if ! type -P nauniq &>/dev/null; then
     echo "nauniq not found." >&2
   fi
   __fzf_history__() (
@@ -386,7 +386,7 @@ else
 fi
 
 #### fasd
-if type -P fasd >/dev/null; then
+if type -P fasd &>/dev/null; then
   eval "$(fasd --init bash-hook bash-ccomp bash-ccomp-install)"
 
   z() {
@@ -398,29 +398,34 @@ else
 fi
 
 #### hub
-if type -P hub >/dev/null; then
+if type -P hub &>/dev/null; then
   alias git=hub
   # work around of hub completion bug
   alias __git=hub
 fi
 
-if type -P git-switch-trainer >/dev/null; then
+if type -P git-switch-trainer &>/dev/null; then
   alias git=git-switch-trainer
 fi
 
 #### ag
-if ! type -t _ag >/dev/null 2>&1; then
+if ! type -t _ag &>/dev/null; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
 fi
 
 #### ripgrep
-if ! type -t _rg >/dev/null 2>&1; then
+if ! type -t _rg &>/dev/null; then
   source $SOURCE_DIR/.bash.d/rg.bash-completion
 fi
 
 #### mfacodegen
 if [[ -r $SOURCE_DIR/bin/_mfacodegen ]]; then
   source $SOURCE_DIR/bin/_mfacodegen
+fi
+
+#### gomi
+if type -P gomi &>/dev/null; then
+  alias rm=gomi
 fi
 
 #### net-tools deprecation (Taken from http://blog.livedoor.jp/sonots/archives/38589335.html )
@@ -485,7 +490,7 @@ if type exa &>/dev/null; then
   alias la="exa -aghl@ --git --time-style long-iso"
 fi
 
-if type -P sshrc >/dev/null; then
+if type -P sshrc &>/dev/null; then
   _completion_loader ssh 2>/dev/null # for bash-completion >= 1.90, bash >= 4.1
   eval $(complete -p ssh | sed 's/ ssh$/ sshrc/')
   export SSHHOME=$SOURCE_DIR
