@@ -299,6 +299,13 @@
   (add-hook 'ediff-before-setup-hook 'elscreen-show-display-tab)
   (add-hook 'ediff-quit-hook 'elscreen-hide-display-tab))
 
+(use-package company
+  :bind (:map company-active-map
+              ("C-n" . company-select-next)
+              ("C-p" . company-select-previous))
+  :diminish company-mode
+  :hook (after-init . global-company-mode))
+
 (use-package direnv
   :config
   (direnv-mode))
