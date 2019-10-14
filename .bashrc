@@ -203,12 +203,11 @@ if [[ -d $HOME/.asdf/asdf.sh ]]; then
   . $HOME/.asdf/completions/asdf.bash
 fi
 if type -t asdf >/dev/null; then
-  asdf-install-fzf() {
+  asdfi() {
     local lang=${1}
     if [[ ! $lang ]]; then
       lang=$(asdf plugin-list | fzf)
     fi
-
     if [[ $lang ]]; then
       local versions=$(asdf list-all $lang | fzf --tac -m)
       if [[ $versions ]]; then
@@ -218,8 +217,6 @@ if type -t asdf >/dev/null; then
       fi
     fi
   }
-
-  alias asdfi=asdf-install-fzf
 fi
 
 #### direnv
@@ -322,6 +319,26 @@ if [[ -f ~/.fzf.bash ]]; then
     local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C exa $HOME/{} --color=always --tree --git-ignore -I=_tools | sed 's/├──/|--/; s/│  /|  /g; s/└──/\`--/;'")
 
     [[ -n "$l" ]] && cd "$HOME/$l"
+  }
+
+  gg() {
+    local item="$(fd -H -E '\.git/' | fzf -q "${1:-}")"
+    if [[ -z "$item" ]]; then
+       return 0
+    fi
+    echo "selected: $item"
+    if [[ -f $item ]]; then
+      item="$(dirname $item)"
+    fi
+    cd "$item"
+    echo "goto: $item"
+    exa -al
+  }
+
+  ee() {
+    local file=$(fd -t f -H -E '\.git/' | fzf -q "${1:-}")
+    echo "selected: $file"
+    $EDITOR $file
   }
 
   # Taken from https://github.com/junegunn/fzf/wiki/Examples#git
