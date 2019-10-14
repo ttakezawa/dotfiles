@@ -445,7 +445,6 @@ route () {
 #### coreutils
 alias grep="grep --color=auto"
 alias ls="ls --color=tty"
-alias ll="exa --time-style long-iso"
 # +e は zless において末尾で自動終了させないための設定
 export LESS="-n -R +e"
 
@@ -475,7 +474,14 @@ function conv-time () {
 }
 
 alias stracev="strace -f -T -tt -v -x -y -yy"
-alias la="exa -aghl@ --git --time-style long-iso"
+
+if type exa &>/dev/null; then
+  alias ls=exa
+  complete -o filenames -o bashdefault -F _exa ls
+
+  alias ll="exa --time-style long-iso"
+  alias la="exa -aghl@ --git --time-style long-iso"
+fi
 
 if type -P sshrc >/dev/null; then
   _completion_loader ssh 2>/dev/null # for bash-completion >= 1.90, bash >= 4.1
