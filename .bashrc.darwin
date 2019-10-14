@@ -1,30 +1,38 @@
 #!/bin/bash
 # -*- coding:utf-8; mode:sh; sh-basic-offset:2; sh-indentation:2; -*-
 
-# Homebrew common
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
-export MANPATH="/usr/local/share/man:$MANPATH"
-
 # Avoid exec 'brew --prefix'
-brew_prefix=/usr/local
+HOMEBREW_PREFIX="/usr/local"
+
+# Homebrew common
+export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:$PATH"
+export MANPATH="${HOMEBREW_PREFIX}/share/man:$MANPATH"
 
 # use existing Homebrew v1 completions
-export BASH_COMPLETION_COMPAT_DIR="${brew_prefix}/etc/bash_completion.d"
+export BASH_COMPLETION_COMPAT_DIR="${HOMEBREW_PREFIX}/etc/bash_completion.d"
 
 # Homebrew bash-completion@2
-[[ -r "${brew_prefix}/etc/profile.d/bash_completion.sh" ]] && . "${brew_prefix}/etc/profile.d/bash_completion.sh"
+if type brew &>/dev/null; then
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+    done
+  fi
+fi
 
 # Homebrew coreutils
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
+export MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # Homebrew mysql-client
-export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/mysql-client/bin:$PATH"
 
 # Homebrew asdf
-if [[ -r /usr/local/opt/asdf ]]; then
-  . /usr/local/opt/asdf/asdf.sh
-  . /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash
+if [[ -r ${HOMEBREW_PREFIX}/opt/asdf ]]; then
+  . ${HOMEBREW_PREFIX}/opt/asdf/asdf.sh
+  . ${HOMEBREW_PREFIX}/opt/asdf/etc/bash_completion.d/asdf.bash
 fi
 
 # utlize ps
