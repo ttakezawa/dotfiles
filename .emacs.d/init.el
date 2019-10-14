@@ -361,6 +361,9 @@
   ;; TODO: これでもなぜかタブでインデントさせてくれない
   (add-hook 'gitconfig-mode-hook 'intent-tabs-mode))
 
+(use-package magit
+  :mode ("COMMIT_EDITMSG\\'" . magit-file-mode))
+
 ;;;; 絵文字
 ;; Test characters
 ;; 01234567890123456789
