@@ -323,12 +323,15 @@ if [[ -f ~/.fzf.bash ]]; then
   }
 
   gg() {
-    local item="$(fd -H -E '\.git/' | fzf -1 -q "${1:-}")"
-    if [[ -z "$item" ]]; then
-       return 0
+    local item="$*"
+    if [[ ! -e "$item" ]]; then
+      item="$(fd -H -E '\.git/' | fzf -1 -q "$item")"
+      if [[ -z "$item" ]]; then
+        return 0
+      fi
+      echo "selected: $item"
     fi
-    echo "selected: $item"
-    if [[ -f $item ]]; then
+    if [[ -f "$item" ]]; then
       item="$(dirname $item)"
     fi
     cd "$item"
@@ -338,11 +341,14 @@ if [[ -f ~/.fzf.bash ]]; then
   complete -F _fzf_path_completion -o default -o bashdefault gg
 
   e() {
-    local file=$(fd -t f -H -E '\.git/' | fzf -1 -q "${1:-}")
-    if [[ -z "$file" ]]; then
-      return 0
+    local file="$*"
+    if [[ ! -e "$file" ]]; then
+      file="$(fd -t f -H -E '\.git/' | fzf -1 -q "$file")"
+      if [[ -z "$file" ]]; then
+        return 0
+      fi
+      echo "selected: $file"
     fi
-    echo "selected: $file"
     $EDITOR $file
   }
   complete -F _fzf_path_completion -o default -o bashdefault e
