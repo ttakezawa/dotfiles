@@ -275,7 +275,8 @@ fi
 
 #### Emacs
 export EDITOR="emacsclient -c -nw --alternate-editor=''"
-alias e="$EDITOR"
+alias edit="$EDITOR"
+complete -F _fzf_file_completion -o default -o bashdefault edit
 # evm
 if [[ -d "$HOME/.evm/bin" ]]; then
   export PATH="$HOME/.evm/bin:$PATH"
@@ -322,7 +323,7 @@ if [[ -f ~/.fzf.bash ]]; then
   }
 
   gg() {
-    local item="$(fd -H -E '\.git/' | fzf -q "${1:-}")"
+    local item="$(fd -H -E '\.git/' | fzf -1 -q "${1:-}")"
     if [[ -z "$item" ]]; then
        return 0
     fi
@@ -334,12 +335,17 @@ if [[ -f ~/.fzf.bash ]]; then
     echo "goto: $item"
     exa -al
   }
+  complete -F _fzf_path_completion -o default -o bashdefault gg
 
-  ee() {
-    local file=$(fd -t f -H -E '\.git/' | fzf -q "${1:-}")
+  e() {
+    local file=$(fd -t f -H -E '\.git/' | fzf -1 -q "${1:-}")
+    if [[ -z "$file" ]]; then
+      return 0
+    fi
     echo "selected: $file"
     $EDITOR $file
   }
+  complete -F _fzf_path_completion -o default -o bashdefault e
 
   # Taken from https://github.com/junegunn/fzf/wiki/Examples#git
   unalias l 2>/dev/null
