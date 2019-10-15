@@ -363,7 +363,9 @@
   (add-hook 'gitconfig-mode-hook 'intent-tabs-mode))
 
 (use-package magit
-  :mode ("COMMIT_EDITMSG\\'" . magit-file-mode))
+  :mode ("COMMIT_EDITMSG\\'" . magit-file-mode)
+  :config
+  (unbind-key "C-x g" magit-file-mode-map))
 
 ;;;; 絵文字
 ;; Test characters
