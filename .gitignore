@@ -1,4 +1,10 @@
 *~
+/.emacs.d/straight/build
+/.emacs.d/straight/build-cache.el
+/.emacs.d/straight/repos
+/.emacs.d/.lsp-session-v1
+/.emacs.d/framegeometry
+/.emacs.d/transient/history.el
 /.emacs.d/.cask
 /.emacs.d/.emacs-places
 /.emacs.d/.emacs.desktop
