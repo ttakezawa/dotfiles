@@ -6,7 +6,7 @@ mkdir -p ~/go/src/github.com/ttakezawa
 git clone -p git@github.com:ttakezawa/dotfiles.git ~/go/src/github.com/ttakezawa/dotfiles
 ln -nfs ~/go/src/github.com/ttakezawa/dotfiles ~/.dotfiles
 
-~/.dotfiles/install.sh
+~/.dotfiles/deploy.sh
 
 # misc
 git config --global pr-release.template .pr-release.erb

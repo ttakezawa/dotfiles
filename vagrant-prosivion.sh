@@ -61,6 +61,6 @@ if ! type -P bsdtar >/dev/null; then
   sudo apt-get install bsdtar -y
 fi
 
-~/.dotfiles/install.sh
+~/.dotfiles/deploy.sh
 
 echo "Provisioning done"
