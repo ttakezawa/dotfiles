@@ -1,7 +1,19 @@
 color cursor  226  94
 
 set main-view = id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
-
 set mouse = true
+set diff-options = -m --first-parent
+set diff-highlight = true
 
-bind generic L !git log -p %(file)
+bind generic C  >git commit
+bind refs    C  >git commit
+bind main    C  >git commit
+bind status  C  >git commit
+bind generic L  >git log -p %(file)
+
+bind main  .       >sh -c "git diff %(commit) | tig"
+bind diff  .       >sh -c "git diff %(commit) | tig"
+bind refs  .       >sh -c "git diff %(branch) | tig"
+bind main  <Esc>.  ?sh -c "git diff %(commit)..%(prompt Enter commit ID: ) | tig"
+bind diff  <Esc>.  ?sh -c "git diff %(commit)..%(prompt Enter commit ID: ) | tig"
+bind refs  <Esc>.  ?sh -c "git diff %(branch)..%(prompt Enter branch name: ) | tig"
