@@ -41,6 +41,7 @@ ln -fs  ~/.dotfiles/.inputrc ~/
 ln -fs  ~/.dotfiles/.gitconfig ~/
 ln -fs  ~/.dotfiles/.gitignore_global ~/
 ln -fs  ~/.dotfiles/.gitattributes_global ~/
+ln -fs  ~/.dotfiles/.tigrc ~/
 ln -fs  ~/.dotfiles/.tmux.conf ~/
 ln -nfs ~/.dotfiles/.emacs.d ~/
 ln -fs  ~/.dotfiles/.vimrc ~/

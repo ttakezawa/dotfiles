@@ -1,0 +1,7 @@
+color cursor  226  94
+
+set main-view = id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
+
+set mouse = true
+
+bind generic L !git log -p %(file)
