@@ -55,6 +55,7 @@
 (setq desktop-restore-frames nil)   ;; フレームを復元させない
 (setq desktop-globals-to-save '(search-ring regexp-search-ring kill-ring))
 (desktop-save-mode 1)
+(setq desktop-save t)
 
 ;; Automatically overriding stale locks
 ;; Taken from https://www.emacswiki.org/emacs/Desktop#toc4 and https://github.com/hjz/emacs/blob/master/config/desktop.el
