@@ -11,9 +11,12 @@ bind main    C  >git commit
 bind status  C  >git commit
 bind generic L  >git log -p %(file)
 
-bind main  .       >sh -c "git diff %(commit) | tig"
-bind diff  .       >sh -c "git diff %(commit) | tig"
-bind refs  .       >sh -c "git diff %(branch) | tig"
-bind main  <Esc>.  ?sh -c "git diff %(commit)..%(prompt Enter commit ID: ) | tig"
-bind diff  <Esc>.  ?sh -c "git diff %(commit)..%(prompt Enter commit ID: ) | tig"
-bind refs  <Esc>.  ?sh -c "git diff %(branch)..%(prompt Enter branch name: ) | tig"
+bind generic F  >sh -c "git clean-branch-exec && git fetch --all --prune"
+bind main    F  >sh -c "git clean-branch-exec && git fetch --all --prune"
+
+bind main  .        >sh -c "git diff %(commit) | tig"
+bind diff  .        >sh -c "git diff %(commit) | tig"
+bind refs  .        >sh -c "git diff %(branch) | tig"
+bind main  <Esc>.  ?>sh -c "git diff %(commit)..%(prompt Enter commit ID: ) | tig"
+bind diff  <Esc>.  ?>sh -c "git diff %(commit)..%(prompt Enter commit ID: ) | tig"
+bind refs  <Esc>.  ?>sh -c "git diff %(branch)..%(prompt Enter branch name: ) | tig"
