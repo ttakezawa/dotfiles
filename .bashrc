@@ -274,9 +274,10 @@ if type -P aws_completer &>/dev/null; then
 fi
 
 #### Emacs
-export EDITOR="emacsclient -c -nw --alternate-editor=''"
+export EDITOR="emacsclient -c -nw --alternate-editor="
 alias edit="$EDITOR"
 complete -F _fzf_file_completion -o default -o bashdefault edit
+alias kill-emacs="emacsclient -e '(kill-emacs)'"
 # evm
 if [[ -d "$HOME/.evm/bin" ]]; then
   export PATH="$HOME/.evm/bin:$PATH"
