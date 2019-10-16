@@ -341,22 +341,34 @@ if [[ -f ~/.fzf.bash ]]; then
   }
   complete -F _fzf_path_completion -o default -o bashdefault gg
 
+  # Usage: e [-c] /path/to/file
   e() {
-    local skip_search
+    # option "-c" means skip file search
+    local skip_file_search
     if [[ "$1" = "-c" ]]; then
        # skip file search
-      skip_search=1
+      skip_file_search=1
       shift
     fi
-    local file="$*"
-    if [[ -z "$skip_search" && ! -e "$file" ]]; then
-      file="$(fd -t f -H -E '\.git/' | fzf -1 -q "$file")"
-      if [[ -z "$file" ]]; then
-        return 0
-      fi
-      echo "selected: $file"
+
+    local arg="$*"
+    if [[ -n "$skip_file_search" || -e "$arg" ]]; then
+      edit "$arg"
+      return
     fi
-    $EDITOR $file
+
+    local results selected
+    IFS=$'\n' results=($(fd -t f -H -E '\.git/' | fzf --print-query -q "$arg" --preview "preview {}"))
+    if [[ -n "${results[1]}" ]]; then
+      selected="${results[1]}"
+    elif [[ -n "${results[0]}" ]]; then
+      selected="${results[0]}"
+    fi
+    if [[ -z "$selected" ]]; then
+      return 0
+    fi
+    echo "selected: $selected"
+    edit "$selected"
   }
   complete -F _fzf_path_completion -o default -o bashdefault e
 
