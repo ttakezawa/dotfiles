@@ -342,8 +342,14 @@ if [[ -f ~/.fzf.bash ]]; then
   complete -F _fzf_path_completion -o default -o bashdefault gg
 
   e() {
+    local skip_search
+    if [[ "$1" = "-c" ]]; then
+       # skip file search
+      skip_search=1
+      shift
+    fi
     local file="$*"
-    if [[ ! -e "$file" ]]; then
+    if [[ -z "$skip_search" && ! -e "$file" ]]; then
       file="$(fd -t f -H -E '\.git/' | fzf -1 -q "$file")"
       if [[ -z "$file" ]]; then
         return 0
