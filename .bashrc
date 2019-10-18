@@ -318,7 +318,7 @@ if [[ -f ~/.fzf.bash ]]; then
     # local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C tree -C $HOME/{} -I _tools")
 
     # use exa command
-    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C exa $HOME/{} --color=always --tree --git-ignore -I=_tools | sed 's/├──/|--/; s/│  /|  /g; s/└──/\`--/;'")
+    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "preview {}")
 
     [[ -n "$l" ]] && cd "$HOME/$l"
   }
@@ -326,7 +326,7 @@ if [[ -f ~/.fzf.bash ]]; then
   gg() {
     local item="$*"
     if [[ ! -e "$item" ]]; then
-      item="$(fd -H -E '\.git/' | fzf -1 -q "$item")"
+      item="$(fd -H -E '\.git/' | fzf -1 -q "$item" --preview "preview {}")"
       if [[ -z "$item" ]]; then
         return 0
       fi
