@@ -88,7 +88,7 @@
 (setq css-indent-offset 2)
 
 ;; utf-8 coding
-(set-language-environment "Japanese")
+(set-language-environment "English")
 (prefer-coding-system 'utf-8-unix)
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 (setq locale-coding-system 'utf-8) ; for ansi term-mode
