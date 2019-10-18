@@ -341,9 +341,20 @@ if [[ -f ~/.fzf.bash ]]; then
   }
   complete -F _fzf_path_completion -o default -o bashdefault gg
 
-  # Usage: e [-c] /path/to/file
+  # Synopsis
+  #   e [-c] /path/to/file
+  #   e -
   e() {
-    # option "-c" means skip file search
+    # option "-" : The file to edit is read from stdin.
+    if [[ "$1" == "-" ]]; then
+      TMP="$(mktemp /tmp/stdin-XXX)"
+      cat >$TMP
+      edit $TMP
+      rm $TMP
+      return
+    fi
+
+    # option "-c" : File search is skipped.
     local skip_file_search
     if [[ "$1" = "-c" ]]; then
        # skip file search
