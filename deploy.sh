@@ -1,10 +1,21 @@
-#!/bin/bash
-
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
 SOURCE="${BASH_SOURCE[0]}"
 dir="$( builtin cd -P "$( dirname "$SOURCE" )" && builtin pwd )"
 cd $dir
+
+append_if_not_exists() {
+  if [[ $# -ne 2 ]]; then
+    echo "Usage: append_if_not_exists: <new_line> <file>"
+    return 1
+  fi
+  grep -qxF "$1" "$2" || echo "$1" >> "$2"
+}
+
+IS_64=
+IS_DAWRIN=
+IS_LINUX=
 
 if [[ "$(uname -m)" =~ 64 ]]; then
   IS_64=1
@@ -23,16 +34,12 @@ esac
 
 # Linux
 if [[ $IS_LINUX ]]; then
-  if ! grep -qs .dotfiles/.bashrc ~/.bashrc; then
-    echo 'source $HOME/.dotfiles/.bashrc' >> ~/.bashrc
-  fi
+  append_if_not_exists 'source ~/.dotfiles/.bashrc' ~/.bashrc
 fi
 
 # macOS
 if [[ $IS_DARWIN ]]; then
-  if ! grep -qs .dotfiles/.bashrc ~/.bash_profile; then
-    echo 'source $HOME/.dotfiles/.bashrc' >> ~/.bash_profile
-  fi
+  append_if_not_exists 'source ~/.dotfiles/.bashrc' ~/.bash_profile
 fi
 
 # Common
