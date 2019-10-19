@@ -74,3 +74,7 @@ if type -P sshrc >/dev/null; then
   cp -p ./bin/ec2-hosts.sh .sshrc.d/
   cp -p .inputrc .sshrc.d/
 fi
+
+if [[ $IS_DARWIN ]]; then
+  ./.macos
+fi
