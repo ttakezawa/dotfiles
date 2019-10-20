@@ -93,6 +93,12 @@
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 (setq locale-coding-system 'utf-8) ; for ansi term-mode
 
+(defun display-ansi-colors ()
+  (interactive)
+  (require 'ansi-color)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+(add-to-list 'auto-mode-alist '("stdin-" . display-ansi-colors))
+
 ;; cua (rectangle selection)
 ;; cua-rectangle-mark-mode is from Emacs 24.4
 (if (functionp 'cua-rectangle-mark-mode)
