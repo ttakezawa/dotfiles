@@ -1,14 +1,14 @@
-## Setup
+# dotfiles
+
+## Installation
 
 ```bash
-# installation
-mkdir -p ~/go/src/github.com/ttakezawa
-git clone -p git@github.com:ttakezawa/dotfiles.git ~/go/src/github.com/ttakezawa/dotfiles
-ln -nfs ~/go/src/github.com/ttakezawa/dotfiles ~/.dotfiles
+curl -L https://raw.githubusercontent.com/ttakezawa/dotfiles/master/install.sh | bash
+```
 
-~/.dotfiles/deploy.sh
+## misc
 
-# misc
+```bash
 git config --global pr-release.template .pr-release.erb
 git config --global pr-release.branch.staging development
 # ln -s ~/.dotfiles/.pr-release.erb ./
