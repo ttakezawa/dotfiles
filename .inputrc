@@ -1,5 +1,6 @@
 # -*- coding: utf-8; mode: conf -*-
 
+set bell-style none
 set completion-ignore-case on
 
 "\C-n":history-search-forward
