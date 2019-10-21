@@ -3,7 +3,7 @@ set -euo pipefail
 
 preview() {
   if [[ -f "$1" ]]; then
-    bat --color=always --style="changes,header,grid,snip" "$1"
+    bat --color=always --line-range :100 --style="changes,header,grid,snip" "$1"
   else
     LANG=C exa "$1/" --color=always --tree --git-ignore -I=_tools | sed 's/├──/|--/; s/│  /|  /g; s/└──/\`--/;'
   fi
