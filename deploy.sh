@@ -10,6 +10,9 @@ append_if_not_exists() {
     echo "Usage: append_if_not_exists: <new_line> <file>"
     return 1
   fi
+  if [[ ! -e "$2" ]]; then
+     touch "$2"
+  fi
   grep -qxF "$1" "$2" || echo "$1" >> "$2"
 }
 
