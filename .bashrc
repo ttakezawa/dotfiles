@@ -307,7 +307,9 @@ fi
 #### fzf
 if [[ -f ~/.fzf.bash ]]; then
   source ~/.fzf.bash
-  export FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line'
+  export FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line --height 70% --preview "preview {}"'
+  export FZF_CTRL_T_COMMAND='fd -L -H -E \.git/ -E go/pkg/ -E Library/Caches -E Library/Containers -E backups -E Quiver.qvlibrary/ -t d -t f -t l'
+  export FZF_ALT_C_COMMAND=' fd -L -H -E \.git/ -E go/pkg/ -E Library/Caches -E Library/Containers -E backups -E Quiver.qvlibrary/ -t d'
 
   if ! type -P ghq &>/dev/null; then
     echo "ghq not found." >&2
