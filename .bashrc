@@ -88,20 +88,23 @@ IGNOREEOF=3
 PROMPT_COMMAND=''
 
 #### [ history ]
-# share accross sessions
+## configure history
+HISTFILE=~/.bash_history_x
+HISTSIZE=100000
+HISTFILESIZE=$HISTSIZE
+# NOTE: HISTTIMEFORMATをセットしてタイムスタンプを記録すると、history -w の動作がおかしくなる
+HISTTIMEFORMAT='%Y-%m-%d %eT | '
+HISTIGNORE="fg*:bg*:history*:cd:ps:exit:ls:ls -al:git status:git log:git diff:git dfc:g"
+
+## share history accross sessions
+shopt -u histappend
 function share_history {
     history -a
     history -c
     history -r
 }
 PROMPT_COMMAND="share_history;$PROMPT_COMMAND"
-shopt -u histappend
-# customize history
-HISTFILE=~/.bash_history_x
-HISTSIZE=100000
-HISTFILESIZE=1000000
 HISTCONTROL=ignoredups
-HISTTIMEFORMAT='%Y-%m-%d %T '
 
 #### [ prompt ]
 PROMPT_DIRTRIM=6
