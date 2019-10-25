@@ -56,6 +56,3 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 # Show battery percentage
 defaults write com.apple.menuextra.battery ShowPercent -string "YES"
-
-# Show TimeMachine in the menu bar
-defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.TimeMachine" -bool true
