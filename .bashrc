@@ -94,7 +94,7 @@ HISTSIZE=100000
 HISTFILESIZE=$HISTSIZE
 # NOTE: HISTTIMEFORMATをセットしてタイムスタンプを記録すると、history -w の動作がおかしくなる
 HISTTIMEFORMAT='%Y-%m-%d %eT | '
-HISTIGNORE="fg*:bg*:history*:cd:ps:exit:ls:ls -al:git status:git log:git diff:git dfc:g"
+HISTIGNORE="fg*:bg*:history:cd:ps:exit:ls:ls -al:tig:git status:git log:git diff:git dfc:g"
 
 ## share history accross sessions
 shopt -u histappend
