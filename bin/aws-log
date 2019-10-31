@@ -26,9 +26,9 @@ main() {
     if [[ -z "$name" ]]; then exit 1; fi
     echo "aws-log $name"
   fi
-  # cmd="cw tail -n -v 'Datadog Tracer' -f \"${name}\" $* | uniunescape"
+  cmd="cw tail -v 'Datadog Tracer' -f \"${name}\" $* | dpretty"
   # cmd="awslogs get \"${name}\" -w -S --color=always $* | grep --line-buffered -v 'Datadog Tracer' | uniunescape"
-  cmd="utern --no-log-stream --no-log-group $* \"${name}\" | dpretty"
+  # cmd="utern --no-log-stream --no-log-group $* \"${name}\" | dpretty"
   echo "$cmd"
   bash -c "exec $cmd"
 }
