@@ -22,7 +22,7 @@ main() {
     name=$1
     shift
   else
-    name=$(aws logs describe-log-groups | jq -r '.logGroups[].logGroupName' | fzf)
+    name=$(aws logs describe-log-groups | jq -r '.logGroups[].logGroupName' | fzf --preview "cw tail -b '1h' {} | tail -n 100 | dpretty")
     if [[ -z "$name" ]]; then exit 1; fi
     echo "aws-log $name"
   fi
