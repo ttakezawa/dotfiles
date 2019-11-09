@@ -8,6 +8,12 @@ sudo nvram SystemAudioVolume=" "
 defaults write -g KeyRepeat -int 1
 defaults write -g InitialKeyRepeat -int 15
 
+# Disable smart quotes
+defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Disable smart dashes
+defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
+
 # Trackpad: Enable tap to click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
