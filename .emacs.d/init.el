@@ -515,8 +515,9 @@
 
 
 (use-package enh-ruby-mode
-  :mode (("\\.\\(rb\\|ruby\\|ru\\|jbuilder\\|arb\\)$" . enh-ruby-mode)
-         ("\\(Gemfile\\|Rakefile\\|\\.pryrc\\)$" . enh-ruby-mode))
+  :mode (("\\.\\(rb\\|ruby\\|ru\\|jbuilder\\|arb\\)\\'" . enh-ruby-mode)
+         ("\\(Gemfile\\|Rakefile\\|\\.pryrc\\)\\'" . enh-ruby-mode)
+         ("\\(IAMfile\\|\\.iam\\)\\'" . enh-ruby-mode))
   :config
   (setq enh-ruby-deep-arglist nil
         enh-ruby-deep-indent-paren nil
