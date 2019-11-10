@@ -531,6 +531,7 @@ alias stracev="strace -f -T -tt -v -x -y -yy"
 
 if type exa &>/dev/null; then
   alias ls=exa
+  source <(type _exa | sed -e '1d; s/$1/exa/')
   complete -o filenames -o bashdefault -F _exa ls
 
   alias ll="exa --time-style long-iso"
