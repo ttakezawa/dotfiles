@@ -61,9 +61,6 @@ fi
 # git-switch-trainer
 go get -v -u github.com/sonatard/git-switch-trainer/
 
-# nauniq
-mkdir -p ~/bin && curl https://raw.githubusercontent.com/perlancar/perl-App-nauniq/master/script/nauniq | sed 's?#!perl?#!/usr/bin/env perl?' > ~/bin/nauniq && chmod +x ~/bin/nauniq
-
 # configure fzf
 if [[ -x /usr/local/opt/fzf/install ]]; then
   /usr/local/opt/fzf/install --completion --key-bindings --no-update-rc
