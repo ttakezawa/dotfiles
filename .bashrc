@@ -401,33 +401,21 @@ if [[ -f ~/.fzf.bash ]]; then
 FZF-EOF"
   }
 
-  # Remove duplicates from history selection
-  #   Taken from https://github.com/junegunn/fzf/issues/808 and key-bindings.bash
-  # Requires nauniq
-  #   mkdir -p ~/bin && curl https://raw.githubusercontent.com/perlancar/perl-App-nauniq/master/script/nauniq | sed 's?#!perl?#!/usr/bin/env perl?' > ~/bin/nauniq && chmod +x ~/bin/nauniq
-  if ! type -P nauniq &>/dev/null; then
-    echo "nauniq not found." >&2
-  fi
-  __fzf_history__() (
-    local line
-    shopt -u nocaseglob nocasematch
-    countskip="$(echo $(($(wc -l $HISTFILE | grep -E '^[0-9]+' -o) / 2)) | wc -c)"
-    countskip="$(( countskip + 1 ))"
-    line=$(
-      HISTTIMEFORMAT= history |
-      grep '.\{1,79\}' |
-      sed 's/ *$//g' |
-      tac |
-      nauniq --skip-chars="$countskip" |
-      tac |
-      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tac --sync -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) |
-      command grep '^ *[0-9]') &&
-      if [[ $- =~ H ]]; then
-        sed 's/^ *\([0-9]*\)\** .*/!\1/' <<< "$line"
-      else
-        sed 's/^ *\([0-9]*\)\** *//' <<< "$line"
-      fi
-  )
+  # uniqにするために次のフィルタを追加: perl -ne 'print unless $seen{$_}++'
+  __fzf_history__() {
+    local output
+    output=$(
+      builtin fc -lnr -2147483648 | perl -ne 'print unless $seen{$_}++' |
+        last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -p -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; $_ = $HISTCMD - $. . "\t$_"' |
+        FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m --read0" $(__fzfcmd) --query "$READLINE_LINE"
+    ) || return
+    READLINE_LINE=${output#*$'\t'}
+    if [ -z "$READLINE_POINT" ]; then
+      echo "$READLINE_LINE"
+    else
+      READLINE_POINT=0x7fffffff
+    fi
+  }
 else
   warn "~/.fzf.bash not found."
 fi
