@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Fetch from other forks
+
+set -euo pipefail
+IFS=$'\n\t'
+
+function usage() {
+  echo "Usage: git fetch-fork USER" 2>&1
+  exit 1
+}
+
+function get_project_name() {
+  git remote -v | grep -E '^(origin|upstream)' | perl -pe 's!(.+)\s+(.+)\s+\((push|fetch)\)!$2!; s!.*/([a-z+-]+)(\.git)?!\1!' | head -n 1
+}
+
+if [[ $# -lt 1 ]] || [[ -z "$1" ]]; then
+  usage
+fi
+
+user=$1
+
+if git remote -v | grep -qE "^$user\s" ; then
+  echo "Already exists: $user" 2>&1
+  exit 1
+fi
+
+project_name="$(get_project_name)"
+
+git remote add $user "git@github.com:${user}/${project_name}.git"
+git fetch $user
