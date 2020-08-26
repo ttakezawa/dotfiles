@@ -39,7 +39,6 @@
 	insteadOf = https://github.com/
 [ghq]
 	root = ~/go/src
-	root = ~/ws
 [grep]
 	lineNumber = true
 	patternType = perl
