@@ -201,7 +201,7 @@ if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
 fi
 
 ## asdf
-if [[ -d $HOME/.asdf/asdf.sh ]]; then
+if [[ -r $HOME/.asdf/asdf.sh ]]; then
   . $HOME/.asdf/asdf.sh
   . $HOME/.asdf/completions/asdf.bash
 fi
@@ -519,8 +519,8 @@ alias stracev="strace -f -T -tt -v -x -y -yy"
 
 if type exa &>/dev/null; then
   alias ls=exa
-  source <(type _exa | sed -e '1d; s/$1/exa/')
-  complete -o filenames -o bashdefault -F _exa ls
+  source <(type _exa | sed -e '1d; s/_exa ()/_exa_alias ()/; s/$1/exa/')
+  complete -o filenames -o bashdefault -F _exa_alias ls
 
   alias ll="exa --time-style long-iso"
   alias la="exa -aghl@ --git --time-style long-iso"
