@@ -190,11 +190,6 @@ fi
 # gibo-completion
 source $SOURCE_DIR/.bash.d/gibo-completion.bash
 
-# exa completion
-if ! type -t _exa &>/dev/null; then
-  source $SOURCE_DIR/.bash.d/exa-completions.bash
-fi
-
 # completion-ruby-all
 if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
   source $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all
