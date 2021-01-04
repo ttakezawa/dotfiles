@@ -510,6 +510,15 @@ function conv-time () {
   done
 }
 
+function sleep-until {
+  local given="$(date -d "$*" +%s)"
+  while [[ "$(date +%s)" < "$given" ]]; do
+    local left=$(( $(date -d "$*" +%s) - $(date +%s) ))
+    echo -ne "\r$(date +"%Y-%m-%d %H:%M:%S %Z") ⏳$(date -d"0+$left sec" +%H:%M:%S)"
+    sleep 1
+  done
+}
+
 alias stracev="strace -f -T -tt -v -x -y -yy"
 
 if type exa &>/dev/null; then
