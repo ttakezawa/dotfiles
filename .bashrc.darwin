@@ -35,6 +35,9 @@ if [[ -r ${HOMEBREW_PREFIX}/opt/asdf ]]; then
   . ${HOMEBREW_PREFIX}/opt/asdf/etc/bash_completion.d/asdf.bash
 fi
 
+# platform-tools of Android Studio (adb)
+export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
+
 # utlize ps
 ps() {
   command ps -axwwo user,pid,ppid,pgid,command \
@@ -43,3 +46,13 @@ ps() {
     | pstree -f '-' \
     | gsed -r 's/^([ +=|\\-]*) ([^ ]*) ([^ ]*) (.*)$/\x1B[34m\1\x1B[0m \x1B[32m\2\x1b[0m \x1B[31m\3\x1b[0m \4/g'
 }
+
+# brew install imagemagick@6
+export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+
+if [[ "$GEM_HOME" == *tmuxinator* ]]; then
+   unset -v GEM_HOME
+fi
+
+
+export PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
