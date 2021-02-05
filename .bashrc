@@ -90,7 +90,7 @@ PROMPT_COMMAND=''
 #### [ history ]
 ## configure history
 HISTFILE=~/.bash_history_x
-HISTSIZE=100000
+HISTSIZE=10000
 HISTFILESIZE=$HISTSIZE
 # NOTE: HISTTIMEFORMATをセットしてタイムスタンプを記録すると、history -w の動作がおかしくなる
 HISTTIMEFORMAT='%Y-%m-%d %eT | '
