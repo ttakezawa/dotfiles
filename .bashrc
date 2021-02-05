@@ -183,7 +183,7 @@ fi
 shopt -s direxpand
 
 # git-completion
-if ! type -t __git &>/dev/null; then
+if [[ -r $SOURCE_DIR/.bash.d/git-completion.bash ]]; then
   source $SOURCE_DIR/.bash.d/git-completion.bash
 fi
 
