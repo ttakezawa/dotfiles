@@ -318,7 +318,7 @@ if [[ -f ~/.fzf.bash ]]; then
     # local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C tree -C $HOME/{} -I _tools")
 
     # use exa command
-    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "preview {}")
+    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "preview ~/{}")
 
     [[ -n "$l" ]] && cd "$HOME/$l"
   }
