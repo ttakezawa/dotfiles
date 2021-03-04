@@ -248,17 +248,17 @@ cdgem () {
   fi
 }
 
-#### npm
-if ! type -t _npm_completion &>/dev/null; then
-  if type -P npm &>/dev/null; then
-    source <(npm completion)
-  fi
-fi
+# #### npm
+# if ! type -t _npm_completion &>/dev/null; then
+#   if type -P npm &>/dev/null; then
+#     source <(npm completion)
+#   fi
+# fi
 
-#### pip
-if type -P pip &>/dev/null; then
-  eval "$(pip completion --bash 2>/dev/null)"
-fi
+# #### pip
+# if type -P pip &>/dev/null; then
+#   eval "$(pip completion --bash 2>/dev/null)"
+# fi
 
 #### perl
 if [[ -d "$HOME/.plenv/bin" ]]; then
@@ -415,17 +415,17 @@ else
   warn "~/.fzf.bash not found."
 fi
 
-#### fasd
-if type -P fasd &>/dev/null; then
-  eval "$(fasd --init bash-hook bash-ccomp bash-ccomp-install)"
-
-  z() {
-    local dir
-    dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-  }
-else
-  warn "fasd not found."
-fi
+# #### fasd
+# if type -P fasd &>/dev/null; then
+#   eval "$(fasd --init bash-hook bash-ccomp bash-ccomp-install)"
+#
+#   z() {
+#     local dir
+#     dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+#   }
+# else
+#   warn "fasd not found."
+# fi
 
 #### hub
 if type -P hub &>/dev/null; then
