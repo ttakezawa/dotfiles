@@ -59,8 +59,8 @@ fi
 go get -v -u github.com/sonatard/git-switch-trainer/
 
 # configure fzf
-if [[ -x /usr/local/opt/fzf/install ]]; then
-  /usr/local/opt/fzf/install --completion --key-bindings --no-update-rc
+if [[ -x "${HOMEBREW_PREFIX}/opt/fzf/install" ]]; then
+  "${HOMEBREW_PREFIX}/opt/fzf/install" --completion --key-bindings --no-update-rc
 fi
 
 echo completed.
