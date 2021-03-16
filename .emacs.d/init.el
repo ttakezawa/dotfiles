@@ -642,13 +642,28 @@ See URL `https://github.com/troessner/reek'."
          ("\\.plu$" . plantuml-mode)
          ("\\.plantuml$" . plantuml-mode))
   :config
-  (setq plantuml-jar-path "/usr/local/Cellar/plantuml/8024/plantuml.8024.jar")
   (setq plantuml-run-command "java -Djava.awt.headless=true -jar %s")
   (add-hook 'plantuml-mode-hook
             (lambda ()
               ;; configure comment-style
               (set (make-local-variable 'comment-start) "'")
               (set (make-local-variable 'comment-end)   "")
+
+              ;; set plantuml-jar-path originated by https://ivanmalison.github.io/dotfiles/#plantumlmode
+              (cond ((equal system-type 'darwin)
+                     (let* ((plantuml-dir
+                             (s-trim (shell-command-to-string "brew --prefix plantuml")))
+                            (filename
+                   (when (;FIXME: le-exists-p plantuml-dir)
+                          (--first (s-ends-with? ".jar" it) (directory-files plantuml-dir))))
+                   (filepath (when filename
+                               (imalison:join-paths plantuml-dir filename))))
+                            (setq plantuml-jar-path filepath
+                                  org-plantuml-jar-path filepath)))
+                     ((equal system-type 'gnu/linux)
+                      (let ((filepath "/opt/plantuml/plantuml.jar"))
+                        (setq plantuml-jar-path filepath
+                              org-plantuml-jar-path filepath))))
 
               ;; workaround of error: "Wrong type argument: keymapp, nil"
               (when (null plantuml-mode-map)
