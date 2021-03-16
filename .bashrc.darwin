@@ -49,11 +49,11 @@ ps() {
 }
 
 # brew install imagemagick@6
-export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/imagemagick@6/bin:$PATH"
 
 if [[ "$GEM_HOME" == *tmuxinator* ]]; then
    unset -v GEM_HOME
 fi
 
 
-export PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/gnu-time/libexec/gnubin:$PATH"
