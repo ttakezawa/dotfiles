@@ -58,3 +58,6 @@
 	whitespace = red reverse
 [pull]
 	ff = only
+
+[include]
+	path = ~/.gitconfig.local
