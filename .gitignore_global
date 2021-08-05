@@ -4,6 +4,12 @@ local.sh
 .idea/markdown-navigator.xml
 .idea/markdown-exported-files.xml
 
+# Obsidian
+.obsidian/workspace
+.obsidian/cache
+.obsidian-git-data
+.DS_Store
+
 # Ignore Carthage/Build
 Carthage/Build
 
