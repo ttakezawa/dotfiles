@@ -16,7 +16,7 @@ curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-
   cd .bash.d &&
   git submodule update --init completion-ruby &&
   cd completion-ruby &&
-  git checkout master &&
+  git checkout main &&
   git pull
 )
 
