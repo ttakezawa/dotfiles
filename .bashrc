@@ -255,10 +255,27 @@ cdgem () {
 #   fi
 # fi
 
-# #### pip
-# if type -P pip &>/dev/null; then
-#   eval "$(pip completion --bash 2>/dev/null)"
-# fi
+#### python
+# pyenv
+if type -P pyenv &>/dev/null; then
+  eval "$(pyenv init -)"
+fi
+# pipenv
+if type -P pipenv &>/dev/null; then
+  # cache it because it's slow.
+  if [[ ! -f "/tmp/.pipenv-completion" ]]; then
+    _PIPENV_COMPLETE=bash_source pipenv > "/tmp/.pipenv-completion"
+  fi
+  eval "$(cat "/tmp/.pipenv-completion")"
+fi
+# pip
+if type -P pip &>/dev/null; then
+  # cache it because it's slow.
+  if [[ ! -f "/tmp/.pip-completion" ]]; then
+    pip completion --bash 2>/dev/null > "/tmp/.pip-completion"
+  fi
+  eval "$(cat "/tmp/.pip-completion")"
+fi
 
 #### perl
 if [[ -d "$HOME/.plenv/bin" ]]; then
