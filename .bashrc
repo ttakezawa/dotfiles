@@ -260,13 +260,21 @@ cdgem () {
 if type -P pyenv &>/dev/null; then
   eval "$(pyenv init -)"
 fi
+# poetry
+if type -P poetry &>/dev/null; then
+  # cache it because it's slow.
+  if [[ ! -f "/tmp/.poetry-completion" ]]; then
+    poetry completions bash > "/tmp/.poetry-completion"
+  fi
+  source "/tmp/.poetry-completion"
+fi
 # pipenv
 if type -P pipenv &>/dev/null; then
   # cache it because it's slow.
   if [[ ! -f "/tmp/.pipenv-completion" ]]; then
     _PIPENV_COMPLETE=bash_source pipenv > "/tmp/.pipenv-completion"
   fi
-  eval "$(cat "/tmp/.pipenv-completion")"
+  source "/tmp/.pipenv-completion"
 fi
 # pip
 if type -P pip &>/dev/null; then
@@ -274,7 +282,7 @@ if type -P pip &>/dev/null; then
   if [[ ! -f "/tmp/.pip-completion" ]]; then
     pip completion --bash 2>/dev/null > "/tmp/.pip-completion"
   fi
-  eval "$(cat "/tmp/.pip-completion")"
+  source "/tmp/.pip-completion"
 fi
 
 #### perl
@@ -311,13 +319,6 @@ export PATH=$GOPATH/bin:$PATH
 if type -P gocomplete &>/dev/null; then
   complete -C gocomplete go
 fi
-
-## goenv
-#if [[ -d "$HOME/.goenv/bin" ]]; then
-#  export PATH="$HOME/.goenv/bin:$PATH"
-#  eval "$(goenv init -)"
-#  export GOROOT="$(goenv prefix)"
-#fi
 
 #### fzf
 if [[ -f ~/.fzf.bash ]]; then
