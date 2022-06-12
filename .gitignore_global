@@ -13,6 +13,9 @@ local.sh
 # Ignore Carthage/Build
 Carthage/Build
 
+# Python
+__pycache__/
+
 ##########################################################################################
 ### Linux - From https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
 ##########################################################################################
