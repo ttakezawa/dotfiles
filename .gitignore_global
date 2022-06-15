@@ -16,6 +16,8 @@ Carthage/Build
 # Python
 __pycache__/
 
+.testdata/
+
 ##########################################################################################
 ### Linux - From https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
 ##########################################################################################
