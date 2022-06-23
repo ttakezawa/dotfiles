@@ -22,6 +22,8 @@
 [log]
 	decorate = auto
 	date = iso8601-strict
+[init]
+	defaultBranch = main
 [alias]
 	# utility
 	co = !git checkout $(git branch --color | sed 's/.* //' | fzf-tmux --ansi --select-1 --query="$@")
