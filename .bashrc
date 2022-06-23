@@ -461,11 +461,6 @@ if ! type -t _ag &>/dev/null; then
   source $SOURCE_DIR/.bash.d/ag.bashcomp.sh
 fi
 
-#### ripgrep
-if ! type -t _rg &>/dev/null; then
-  source $SOURCE_DIR/.bash.d/rg.bash-completion
-fi
-
 #### mfacodegen
 if [[ -r $SOURCE_DIR/bin/_mfacodegen ]]; then
   source $SOURCE_DIR/bin/_mfacodegen
