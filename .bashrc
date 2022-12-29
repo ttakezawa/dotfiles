@@ -217,6 +217,15 @@ if type -t asdf &>/dev/null; then
   }
 fi
 
+#### devbox
+if type -P devbox &>dev/null; then
+  # cache it because it's slow.
+  if [[ ! -f "/tmp/.devbox-completion" ]]; then
+    devbox completion bash > "/tmp/.devbox-completion"
+  fi
+  source "/tmp/.devbox-completion"
+fi
+
 #### direnv
 if type -P direnv &>/dev/null; then
   eval "$(direnv hook bash)"
