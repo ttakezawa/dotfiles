@@ -27,18 +27,12 @@ fi
 export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
 
-# ripgrep completion
-if [[ -r ${HOMEBREW_PREFIX}/etc/bash_completion.d/rg.bash ]]; then
-  . ${HOMEBREW_PREFIX}/etc/bash_completion.d/rg.bash
-fi
-
 # Homebrew mysql-client
 export PATH="${HOMEBREW_PREFIX}/opt/mysql-client/bin:$PATH"
 
 # Homebrew asdf
 if [[ -r ${HOMEBREW_PREFIX}/opt/asdf ]]; then
-  . ${HOMEBREW_PREFIX}/opt/asdf/asdf.sh
-  . ${HOMEBREW_PREFIX}/opt/asdf/etc/bash_completion.d/asdf.bash
+  . ${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh
 fi
 
 # platform-tools of Android Studio (adb)
