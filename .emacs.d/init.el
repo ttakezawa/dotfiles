@@ -667,7 +667,7 @@ See URL `https://github.com/troessner/reek'."
 
               ;; workaround of error: "Wrong type argument: keymapp, nil"
               (when (null plantuml-mode-map)
-                (setq plantuml-mode-map (make-sparse-keymap))))))
+                (setq plantuml-mode-map (make-sparse-keymap)))))))
 
 ;; ;;;; {eimp}
 ;; ;; Emacs Image Manipulation
