@@ -217,6 +217,9 @@ if type -t asdf &>/dev/null; then
   }
 fi
 
+#### tabtab: https://github.com/mklabs/tabtab
+[[ -f ~/.config/tabtab/bash/__tabtab.bash ]] && source ~/.config/tabtab/bash/__tabtab.bash || true
+
 #### devbox
 if type -P devbox &>dev/null; then
   # cache it because it's slow.
