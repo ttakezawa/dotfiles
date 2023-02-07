@@ -3,6 +3,9 @@
 ;;;; Configure builtin features
 (load-file (locate-user-emacs-file "init-builtin.el"))
 
+;;;; avoid an error of use-package-core
+(setq user-emacs-directory (file-truename user-emacs-directory))
+
 ;;;; straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
