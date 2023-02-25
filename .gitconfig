@@ -7,8 +7,6 @@
 [commit]
 	gpgsign = true
 	verbose = true
-[gpg]
-	program = /opt/homebrew/bin/gpg
 [core]
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes_global
