@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-curl -L https://raw.githubusercontent.com/ttakezawa/dotfiles/master/install.sh | bash
+curl -L https://raw.githubusercontent.com/ttakezawa/dotfiles/master/install-remotely.sh | bash
 ```
 
 ## misc
