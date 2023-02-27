@@ -442,7 +442,9 @@ FZF-EOF"
     fi
   }
 else
-  warn "~/.fzf.bash not found."
+  if [[ "$REMOTE_CONTAINERS" != "true" ]]; then
+    warn "~/.fzf.bash not found."
+  fi
 fi
 
 # #### fasd
