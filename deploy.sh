@@ -35,6 +35,11 @@ case $OSTYPE in
   linux*)  IS_LINUX=1  ;;
 esac
 
+# Create ~/.dotfiles if not exists.
+if [[ ! -e ~/.dotfiles ]]; then
+  ln -nfs "$dir" ~/.dotfiles
+fi
+
 # Linux
 if [[ $IS_LINUX ]]; then
   append_if_not_exists 'source ~/.dotfiles/.bashrc' ~/.bashrc
