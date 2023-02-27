@@ -17,7 +17,7 @@ append_if_not_exists() {
 }
 
 IS_64=
-IS_DAWRIN=
+IS_DARWIN=
 IS_LINUX=
 
 if [[ "$(uname -m)" =~ 64 ]]; then
