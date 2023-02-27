@@ -221,7 +221,7 @@ fi
 [[ -f ~/.config/tabtab/bash/__tabtab.bash ]] && source ~/.config/tabtab/bash/__tabtab.bash || true
 
 #### devbox
-if type -P devbox &>dev/null; then
+if type -P devbox &>/dev/null; then
   # cache it because it's slow.
   if [[ ! -f "/tmp/.devbox-completion" ]]; then
     devbox completion bash > "/tmp/.devbox-completion"
