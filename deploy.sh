@@ -45,10 +45,15 @@ if [[ $IS_DARWIN ]]; then
   append_if_not_exists 'source ~/.dotfiles/.bashrc' ~/.bash_profile
 fi
 
+# gitconfig
+if [[ ! -e ~/.gitconfig ]]; then
+  # If it already exists, do not change it.
+  ln -fs ~/.dotfiles/.gitconfig ~/
+fi
+
 # Common
 ln -fs  ~/.dotfiles/.ssh_config ~/.ssh/config
 ln -fs  ~/.dotfiles/.inputrc ~/
-ln -fs  ~/.dotfiles/.gitconfig ~/
 ln -fs  ~/.dotfiles/.gitignore_global ~/
 ln -fs  ~/.dotfiles/.gitattributes_global ~/
 ln -fs  ~/.dotfiles/.tigrc ~/
