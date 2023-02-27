@@ -11,7 +11,7 @@ append_if_not_exists() {
     return 1
   fi
   if [[ ! -e "$2" ]]; then
-     touch "$2"
+    touch "$2"
   fi
   grep -qxF "$1" "$2" || echo "$1" >> "$2"
 }
