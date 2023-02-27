@@ -43,11 +43,13 @@ fi
 # Linux
 if [[ $IS_LINUX ]]; then
   append_if_not_exists 'source ~/.dotfiles/.bashrc' ~/.bashrc
+  ln -fs  ~/.dotfiles/.ssh_config.linux ~/.ssh/config
 fi
 
 # macOS
 if [[ $IS_DARWIN ]]; then
   append_if_not_exists 'source ~/.dotfiles/.bashrc' ~/.bash_profile
+  ln -fs  ~/.dotfiles/.ssh_config.darwin ~/.ssh/config
 fi
 
 # gitconfig
@@ -57,7 +59,6 @@ if [[ ! -e ~/.gitconfig ]]; then
 fi
 
 # Common
-ln -fs  ~/.dotfiles/.ssh_config ~/.ssh/config
 ln -fs  ~/.dotfiles/.inputrc ~/
 ln -fs  ~/.dotfiles/.gitignore_global ~/
 ln -fs  ~/.dotfiles/.gitattributes_global ~/
