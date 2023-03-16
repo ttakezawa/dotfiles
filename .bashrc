@@ -260,12 +260,14 @@ cdgem () {
   fi
 }
 
-# #### npm
-# if ! type -t _npm_completion &>/dev/null; then
-#   if type -P npm &>/dev/null; then
-#     source <(npm completion)
-#   fi
-# fi
+#### npm
+if type -P npm &>/dev/null; then
+  # cache it because it's slow.
+  if [[ ! -f "/tmp/.npm-completion" ]]; then
+    npm completion > "/tmp/.npm-completion"
+  fi
+  source "/tmp/.npm-completion"
+fi
 
 #### python
 # pyenv
