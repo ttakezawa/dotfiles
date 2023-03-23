@@ -514,7 +514,7 @@ fi
 alias grep="grep --color=auto"
 alias ls="ls --color=tty"
 # +e は zless において末尾で自動終了させないための設定
-export LESS="-n -R +e"
+export LESS="-n -R -M"
 export LESSCHARSET=utf-8
 
 #### misc tweaks
