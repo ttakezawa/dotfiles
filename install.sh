@@ -43,12 +43,14 @@ fi
 # Linux
 if [[ $IS_LINUX ]]; then
   append_if_not_exists 'source ~/.dotfiles/.bashrc' ~/.bashrc
+  mkdir -p ~/.ssh
   ln -fs  ~/.dotfiles/.ssh_config.linux ~/.ssh/config
 fi
 
 # macOS
 if [[ $IS_DARWIN ]]; then
   append_if_not_exists 'source ~/.dotfiles/.bashrc' ~/.bash_profile
+  mkdir -p ~/.ssh
   ln -fs  ~/.dotfiles/.ssh_config.darwin ~/.ssh/config
 fi
 
