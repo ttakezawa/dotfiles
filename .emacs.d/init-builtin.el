@@ -54,6 +54,9 @@
 (setq desktop-files-not-to-save "") ;; バッファを復元させない
 (setq desktop-restore-frames nil)   ;; フレームを復元させない
 (setq desktop-globals-to-save '(search-ring regexp-search-ring kill-ring))
+(setq desktop-path (list user-emacs-directory))
+(setq desktop-dirname user-emacs-directory)
+(setq desktop-base-file-name "emacs.desktop")
 (desktop-save-mode 1)
 (setq desktop-save t)
 
