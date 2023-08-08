@@ -24,8 +24,8 @@ if type brew &>/dev/null; then
 fi
 
 # Homebrew coreutils
-export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
-export MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
+# export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
+# export MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # Homebrew mysql-client
 export PATH="${HOMEBREW_PREFIX}/opt/mysql-client/bin:$PATH"
