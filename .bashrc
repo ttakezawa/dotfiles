@@ -69,10 +69,6 @@ warn() {
    echo 1>&2 $*
 }
 
-#### load environment resource
-[[ $IS_DARWIN ]] && source $SOURCE_DIR/.bashrc.darwin
-[[ -r $SOURCE_DIR/.env.sh ]] && source $SOURCE_DIR/.env.sh
-
 #### basic tweaks
 export TZ="Asia/Tokyo"
 export LANG=ja_JP.UTF-8
@@ -583,3 +579,7 @@ function timer_stop {
 }
 trap 'timer_start' DEBUG
 PROMPT_COMMAND=$(echo -n "timer_stop; $PROMPT_COMMAND; unset timer" | sed -e 's/;;/;/')
+
+#### load environment resource
+[[ $IS_DARWIN ]] && source $SOURCE_DIR/.bashrc.darwin
+[[ -r $SOURCE_DIR/.env.sh ]] && source $SOURCE_DIR/.env.sh
