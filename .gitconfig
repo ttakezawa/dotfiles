@@ -28,6 +28,10 @@
 	clean-branch      = !echo '[Dry-run]' && git branch --merged | grep -Ev '^\\*|^\\s*master'
 	clean-branch-exec = !                    git branch --merged | grep -Ev '^\\*|^\\s*master' | xargs git branch -d
 
+	# https://zenn.dev/hikarin/articles/f09f655c47053096f196
+	stash-find = !"git fsck --unreachable | awk '/commit/ {print $3}' | xargs git log --merges --no-walk --grep=WIP --all-match"
+	stash-pick = cherry-pick -n -m1
+
 	# for completion
 	cat-file = cat-file
 	ls-files = ls-files
