@@ -330,6 +330,11 @@ if type -P gocomplete &>/dev/null; then
   complete -C gocomplete go
 fi
 
+
+#### bat
+## bat --list-themes
+export BAT_THEME='Dracula'
+
 #### fzf
 if [[ -f ~/.fzf.bash ]]; then
   source ~/.fzf.bash
