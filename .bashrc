@@ -306,6 +306,11 @@ if type -P aws_completer &>/dev/null; then
   complete -C aws_completer aws
 fi
 
+aws-profile() {
+	profile="$(aws configure list-profiles | sed '/default/d' | sort | fzf --reverse)"
+	export AWS_PROFILE="$profile"
+}
+
 #### Emacs
 export EDITOR="emacsclient -c -nw --alternate-editor="
 alias edit="$EDITOR"
