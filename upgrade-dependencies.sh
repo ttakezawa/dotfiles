@@ -6,7 +6,7 @@ dir="$( builtin cd -P "$( dirname "$SOURCE" )" && builtin pwd )"
 cd $dir
 
 # .bash.d/git-completion.bash
-curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > .bash.d/git-completion.bash
+# curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > .bash.d/git-completion.bash
 
 # .bash.d/git-prompt.sh
 curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > .bash.d/git-prompt.sh
@@ -23,9 +23,6 @@ curl -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-
 # .bash.d/ag.bashcomp.sh
 curl -L https://raw.githubusercontent.com/ggreer/the_silver_searcher/master/ag.bashcomp.sh > .bash.d/ag.bashcomp.sh
 
-# .bash.d/gibo-completion.bash
-curl -L https://raw.githubusercontent.com/simonwhitaker/gibo/master/shell-completions/gibo-completion.bash -o .bash.d/gibo-completion.bash
-
 # .bash.d/android.sh
 curl -L https://raw.githubusercontent.com/mbrubeck/android-completion/master/android -o .bash.d/android.sh
 
@@ -41,22 +38,22 @@ curl -L https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_pa
 chmod +x bin/diff-so-fancy
 
 # update gocomplete
-go get -v -u github.com/posener/complete/gocomplete
+# go get -v -u github.com/posener/complete/gocomplete
 
 # update goimports
-go get -v -u golang.org/x/tools/cmd/goimports
+# go get -v -u golang.org/x/tools/cmd/goimports
 
 # update gotests
-go get -v -u github.com/cweill/gotests/gotests
+# go get -v -u github.com/cweill/gotests/gotests
 
 # update asdf
-if type asdf >/dev/null; then
-  asdf update || :
-  asdf plugin-update --all
-fi
+# if type asdf >/dev/null; then
+#   asdf update || :
+#   asdf plugin-update --all
+# fi
 
 # git-switch-trainer
-go get -v -u github.com/sonatard/git-switch-trainer/
+# go get -v -u github.com/sonatard/git-switch-trainer/
 
 # configure fzf
 if [[ -x "${HOMEBREW_PREFIX}/opt/fzf/install" ]]; then
