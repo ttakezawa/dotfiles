@@ -20,6 +20,10 @@ case $OSTYPE in
   linux*)  IS_LINUX=1  ;;
 esac
 
+# load environment resource
+[[ $IS_DARWIN ]] && source $SOURCE_DIR/.bashrc.darwin
+[[ -r $SOURCE_DIR/.env.sh ]] && source $SOURCE_DIR/.env.sh
+
 if [[ $IS_INTERACTIVE_SH ]]; then
   # disable stty bindings
   stty quit undef
@@ -182,9 +186,6 @@ shopt -s direxpand
 if [[ -r $SOURCE_DIR/.bash.d/git-completion.bash ]]; then
   source $SOURCE_DIR/.bash.d/git-completion.bash
 fi
-
-# gibo-completion
-source $SOURCE_DIR/.bash.d/gibo-completion.bash
 
 # completion-ruby-all
 if [[ -r $SOURCE_DIR/.bash.d/completion-ruby/completion-ruby-all ]]; then
@@ -589,7 +590,3 @@ function timer_stop {
 }
 trap 'timer_start' DEBUG
 PROMPT_COMMAND=$(echo -n "timer_stop; $PROMPT_COMMAND; unset timer" | sed -e 's/;;/;/')
-
-#### load environment resource
-[[ $IS_DARWIN ]] && source $SOURCE_DIR/.bashrc.darwin
-[[ -r $SOURCE_DIR/.env.sh ]] && source $SOURCE_DIR/.env.sh
