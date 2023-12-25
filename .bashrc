@@ -84,8 +84,6 @@ export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
 export PATH="$HOME/bin:$PATH"
 export MANPATH="$HOME/man:$MANPATH"
 IGNOREEOF=3
-# ディストリによっては設定されていることがあるので初期化する
-PROMPT_COMMAND=''
 
 #### [ history ]
 ## configure history
@@ -103,7 +101,7 @@ function share_history {
     history -c
     history -r
 }
-PROMPT_COMMAND="share_history;$PROMPT_COMMAND"
+PROMPT_COMMAND="share_history ${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 HISTCONTROL=ignoredups
 
 #### [ prompt ]
@@ -175,7 +173,7 @@ if [[ "$(type -t __git_ps1)" ]]; then
   GIT_PS1_SHOWUNTRACKEDFILES=true
   GIT_PS1_SHOWCOLORHINTS=true
   GIT_PS1_DESCRIBE_STYLE=describe
-  PROMPT_COMMAND="__git_ps1 '$_PROMPT1' '$_PROMPT2';$PROMPT_COMMAND"
+  PROMPT_COMMAND="__git_ps1 '$_PROMPT1' '$_PROMPT2' ${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 fi
 
 #### completions
@@ -589,4 +587,4 @@ function timer_stop {
   fi
 }
 trap 'timer_start' DEBUG
-PROMPT_COMMAND=$(echo -n "timer_stop; $PROMPT_COMMAND; unset timer" | sed -e 's/;;/;/')
+PROMPT_COMMAND="timer_stop ${PROMPT_COMMAND:+;$PROMPT_COMMAND}; unset timer"
