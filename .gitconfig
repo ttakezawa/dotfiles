@@ -11,6 +11,7 @@
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes_global
 	editor = code --wait
+	quotepath = false
 [color]
 	ui = auto
 [push]
