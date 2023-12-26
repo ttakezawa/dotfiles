@@ -35,11 +35,6 @@ if [[ -r ${HOMEBREW_PREFIX}/opt/asdf ]]; then
   . ${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh
 fi
 
-# rtx
-if type rtx &>/dev/null; then
-  eval "$(rtx activate bash)"
-fi
-
 # platform-tools of Android Studio (adb)
 export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
 

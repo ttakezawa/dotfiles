@@ -216,6 +216,12 @@ if type -t asdf &>/dev/null; then
   }
 fi
 
+#### rtx
+if type rtx &>/dev/null; then
+  export PATH="$HOME/.local/share/rtx/shims:$PATH"
+  eval "$(rtx activate bash)"
+fi
+
 #### tabtab: https://github.com/mklabs/tabtab
 [[ -f ~/.config/tabtab/bash/__tabtab.bash ]] && source ~/.config/tabtab/bash/__tabtab.bash || true
 
