@@ -218,7 +218,12 @@ fi
 
 #### rtx
 if type rtx &>/dev/null; then
+  # PATH for IDE
   export PATH="$HOME/.local/share/rtx/shims:$PATH"
+
+  # Workaround for https://github.com/jdx/rtx/pull/1267
+  export RTX_NOT_FOUND_AUTO_INSTALL=false
+
   eval "$(rtx activate bash)"
 fi
 
