@@ -502,9 +502,9 @@ if [[ -r $SOURCE_DIR/bin/_mfacodegen ]]; then
   source $SOURCE_DIR/bin/_mfacodegen
 fi
 
-#### gomi
-if type -P gomi &>/dev/null; then
-  alias rm=gomi
+# https://github.com/satosystems/macrm
+if type -P macrm &>/dev/null; then
+  alias rm=macrm
 fi
 
 #### net-tools deprecation (Taken from http://blog.livedoor.jp/sonots/archives/38589335.html )
