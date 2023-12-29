@@ -1,6 +1,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = "$time$all"
+format = "$time$status$all"
 add_newline = false
 
 # # Replace the '❯' symbol in the prompt with '➜'
@@ -17,6 +17,7 @@ format = '[$time]($style) '
 
 [status]
 disabled = false
+format = '[$common_meaning$signal_name$symbol$status]($style) '
 map_symbol = true
 
 [git_metrics]
