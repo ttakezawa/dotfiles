@@ -469,6 +469,10 @@ else
   fi
 fi
 
+if type -P zoxide &>/dev/null; then
+  eval "$(zoxide init bash)"
+fi
+
 # #### fasd
 # if type -P fasd &>/dev/null; then
 #   eval "$(fasd --init bash-hook bash-ccomp bash-ccomp-install)"
