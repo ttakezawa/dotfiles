@@ -3,11 +3,22 @@
 # -*- coding:utf-8; mode:sh; sh-basic-offset:2; sh-indentation:2; -*-
 
 #### basic
+function munge() {
+  declare -n thepath=$1
+	if [[ -d "${2:-}" && ! $thepath =~ (^|:)"${2}"($|:) ]]; then
+		if [[ "${3:-before}" == "after" ]]; then
+			export thepath="$thepath:${2}"
+		else
+			export thepath="${2}:$thepath"
+		fi
+	fi
+}
+
 # Find REALDIR of this script
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
 SOURCE_DIR="$(cd -P "$( dirname "$SOURCE" )" && pwd)"
-export PATH="$PATH:$SOURCE_DIR/bin"
+munge PATH "$SOURCE_DIR/bin" after
 
 # Inspect system environment
 [[ $- == *i* ]] && IS_INTERACTIVE_SH=1
@@ -77,12 +88,13 @@ warn() {
 export TZ="Asia/Tokyo"
 export LANG=ja_JP.UTF-8
 # use $HOME/local
-export PATH="$HOME/local/bin:$PATH:$HOME/.local/bin"
-export MANPATH="$HOME/local/share/man:$MANPATH"
-export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
+munge PATH "$HOME/local/bin"
+munge PATH "$HOME/.local/bin" after
+munge MANPATH "$HOME/local/share/man"
+munge LD_LIBRARY_PATH "$HOME/local/lib"
 # prefer $HOME/bin and $HOME/man
-export PATH="$HOME/bin:$PATH"
-export MANPATH="$HOME/man:$MANPATH"
+munge PATH "$HOME/bin"
+munge MANPATH "$HOME/man"
 IGNOREEOF=3
 
 #### [ history ]
@@ -219,7 +231,7 @@ fi
 #### rtx
 if type rtx &>/dev/null; then
   # PATH for IDE
-  export PATH="$HOME/.local/share/rtx/shims:$PATH"
+  munge PATH "$HOME/.local/share/rtx/shims"
 
   # Workaround for https://github.com/jdx/rtx/pull/1267
   export RTX_NOT_FOUND_AUTO_INSTALL=false
@@ -247,7 +259,7 @@ fi
 #### android
 # platform-tools (adb)
 if [[ -d "$HOME/Library/Android/sdk/platform-tools" ]]; then
-  export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
+  munge PATH "$HOME/Library/Android/sdk/platform-tools"
 fi
 source $SOURCE_DIR/.bash.d/android.sh
 
@@ -311,7 +323,7 @@ fi
 
 #### perl
 if [[ -d "$HOME/.plenv/bin" ]]; then
-  export PATH="$HOME/.plenv/bin:$PATH"
+  munge PATH "$HOME/.plenv/bin"
   eval "$(plenv init -)"
 fi
 
@@ -332,7 +344,7 @@ complete -F _fzf_file_completion -o default -o bashdefault edit
 alias kill-emacs="emacsclient -e '(kill-emacs)'"
 # evm
 if [[ -d "$HOME/.evm/bin" ]]; then
-  export PATH="$HOME/.evm/bin:$PATH"
+  munge PATH "$HOME/.evm/bin"
   if ! type -P emacsclient &>/dev/null; then
     echo "emacsclient not found." >&2
     # You can shim emacsclient
@@ -342,7 +354,7 @@ fi
 
 #### Golang
 export GOPATH=$HOME/dev
-export PATH=$GOPATH/bin:$PATH
+munge PATH "$GOPATH/bin"
 
 ## https://github.com/posener/complete
 if type -P gocomplete &>/dev/null; then
