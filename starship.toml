@@ -63,5 +63,8 @@ Windows = "󰍲 "
 [python]
 symbol = " "
 
+[ruby]
+symbol = " "
+
 [rust]
 symbol = " "
