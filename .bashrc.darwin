@@ -6,8 +6,9 @@ if [[ -z "$HOMEBREW_PREFIX" ]]; then
 fi
 
 # Homebrew common
-export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:$PATH"
-export MANPATH="${HOMEBREW_PREFIX}/share/man:$MANPATH"
+munge PATH "${HOMEBREW_PREFIX}/bin"
+munge PATH "${HOMEBREW_PREFIX}/sbin"
+munge MANPATH "${HOMEBREW_PREFIX}/share/man"
 
 # use existing Homebrew v1 completions
 export BASH_COMPLETION_COMPAT_DIR="${HOMEBREW_PREFIX}/etc/bash_completion.d"
@@ -28,7 +29,7 @@ fi
 # export MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # Homebrew mysql-client
-export PATH="${HOMEBREW_PREFIX}/opt/mysql-client/bin:$PATH"
+munge PATH "${HOMEBREW_PREFIX}/opt/mysql-client/bin"
 
 # Homebrew asdf
 if [[ -r ${HOMEBREW_PREFIX}/opt/asdf ]]; then
@@ -36,7 +37,7 @@ if [[ -r ${HOMEBREW_PREFIX}/opt/asdf ]]; then
 fi
 
 # platform-tools of Android Studio (adb)
-export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
+munge PATH "$HOME/Library/Android/sdk/platform-tools" after
 
 # utlize ps
 ps() {
@@ -48,11 +49,11 @@ ps() {
 }
 
 # brew install imagemagick@6
-export PATH="${HOMEBREW_PREFIX}/opt/imagemagick@6/bin:$PATH"
+munge PATH "${HOMEBREW_PREFIX}/opt/imagemagick@6/bin"
 
 if [[ "$GEM_HOME" == *tmuxinator* ]]; then
    unset -v GEM_HOME
 fi
 
 
-export PATH="${HOMEBREW_PREFIX}/opt/gnu-time/libexec/gnubin:$PATH"
+munge PATH "${HOMEBREW_PREFIX}/opt/gnu-time/libexec/gnubin"
