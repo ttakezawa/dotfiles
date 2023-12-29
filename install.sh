@@ -73,7 +73,7 @@ ln -fs  ~/.dotfiles/.agignore ~/
 ln -fs  ~/.dotfiles/.aspell.conf ~/.dotfiles/.aspell.en.pws ~/
 ln -fs  ~/.dotfiles/.gemrc ~/
 
-if [[ $REMOTE_CONTAINERS == "true" ]]; then
+if [[ "${REMOTE_CONTAINERS-}" == "true" ]]; then
   # When DevContainer
   mkdir -p ~/.emacs.d
   ln -fs ~/.dotfiles/.emacs.d/init-builtin.el ~/.emacs.d/init.el
