@@ -81,6 +81,9 @@ else
   ln -nfs ~/.dotfiles/.emacs.d ~/
 fi
 
+mkdir -p ~/.config
+ln -fs ~/.dotfiles/starship.toml ~/.config/
+
 ln -fs ~/.dotfiles/.byobu-tmux.conf ~/
 mkdir -p ~/.byobu
 if ! grep -qs byobu-tmux.conf ~/.byobu/.tmux.conf; then
