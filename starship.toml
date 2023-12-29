@@ -20,14 +20,19 @@ disabled = false
 format = '[$common_meaning$signal_name$symbol$status]($style) '
 map_symbol = true
 
-[aws]
-symbol = "  "
-
 [git_branch]
 symbol = " "
 
 [git_metrics]
 disabled = false
+
+[git_status]
+ahead = '⇡${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+behind = '⇣${count}'
+
+[aws]
+symbol = "  "
 
 [buf]
 disabled = true
