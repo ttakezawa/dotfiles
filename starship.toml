@@ -20,11 +20,48 @@ disabled = false
 format = '[$common_meaning$signal_name$symbol$status]($style) '
 map_symbol = true
 
+[aws]
+symbol = "  "
+
+[git_branch]
+symbol = " "
+
 [git_metrics]
 disabled = false
 
 [buf]
 disabled = true
+symbol = " "
+
+[directory]
+read_only = " 󰌾"
 
 [docker_context]
 disabled = true
+symbol = " "
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[java]
+symbol = " "
+
+[os.symbols]
+Alpine = " "
+Amazon = " "
+Debian = " "
+Fedora = " "
+Linux = " "
+Macos = " "
+RedHatEnterprise = " "
+Ubuntu = " "
+Windows = "󰍲 "
+
+[python]
+symbol = " "
+
+[rust]
+symbol = " "
