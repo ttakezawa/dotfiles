@@ -5,30 +5,30 @@
 #### basic
 function munge() {
   declare -n thepath=$1
-	if [[ -d "${2:-}" && ! $thepath =~ (^|:)"${2}"($|:) ]]; then
-		if [[ "${3:-before}" == "after" ]]; then
-			export thepath="$thepath:${2}"
-		else
-			export thepath="${2}:$thepath"
-		fi
-	fi
+  if [[ -d "${2:-}" && ! $thepath =~ (^|:)"${2}"($|:) ]]; then
+    if [[ "${3:-before}" == "after" ]]; then
+      export thepath="$thepath:${2}"
+    else
+      export thepath="${2}:$thepath"
+    fi
+  fi
 }
 
 # Find REALDIR of this script
 SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
-SOURCE_DIR="$(cd -P "$( dirname "$SOURCE" )" && pwd)"
+while [ -h "$SOURCE" ]; do SOURCE="$(readlink "$SOURCE")"; done
+SOURCE_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 munge PATH "$SOURCE_DIR/bin" after
 
 # Inspect system environment
 [[ $- == *i* ]] && IS_INTERACTIVE_SH=1
 if [[ $SHLVL -gt 1 ]]; then
-  [[ -n $STY  ]] && IS_SCREEN=1
+  [[ -n $STY ]] && IS_SCREEN=1
   [[ -n $TMUX ]] && IS_TMUX=1
 fi
 case $OSTYPE in
-  darwin*) IS_DARWIN=1 ;;
-  linux*)  IS_LINUX=1  ;;
+darwin*) IS_DARWIN=1 ;;
+linux*) IS_LINUX=1 ;;
 esac
 
 # load environment resource
@@ -49,7 +49,7 @@ if type -P mount.vboxsf &>/dev/null; then
   IS_VBOX=1
 fi
 
-if [[ ( ! $IS_VBOX ) && $IS_LINUX && $IS_INTERACTIVE_SH ]] && type -P curl &>/dev/null; then
+if [[ (! $IS_VBOX) && $IS_LINUX && $IS_INTERACTIVE_SH ]] && type -P curl &>/dev/null; then
   if $(curl --connect-timeout 0.01 -s http://169.254.169.254/1.0); then
     IS_EC2=1
   fi
@@ -68,7 +68,7 @@ else
   host_type="unknown-type"
 fi
 # save host_type for .byobu-tmux.conf
-echo $host_type > /tmp/${USER}-host_type
+echo $host_type >/tmp/${USER}-host_type
 export BYOBU_NO_TITLE=1
 
 if [[ $IS_INTERACTIVE_SH ]]; then
@@ -81,7 +81,7 @@ ignore_warn=''
 
 warn() {
   [[ $ignore_warn ]] && return 0
-   echo 1>&2 $*
+  echo 1>&2 $*
 }
 
 #### basic tweaks
@@ -109,9 +109,9 @@ HISTIGNORE="fg*:bg*:history:cd:ps:exit:ls:ls -al:tig:git status:git log:git diff
 ## share history accross sessions
 shopt -u histappend
 function share_history {
-    history -a
-    history -c
-    history -r
+  history -a
+  history -c
+  history -r
 }
 if ! [[ "$PROMPT_COMMAND" =~ "share_history" ]]; then
   PROMPT_COMMAND="share_history ${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
@@ -124,15 +124,15 @@ HISTCONTROL=ignoredups
 #   # screen
 #   prompt_screen='\[\033k\033\\\]'
 # fi
-# 
+#
 # function prettify_exit_code {
 #   # Taken from https://github.com/bric3/nice-exit-code/blob/master/nice-exit-code.plugin.zsh
 #   local exit_status="$?"
 #   # nothing to do here
 #   [[ -z $exit_status || $exit_status == 0 ]] && return;
-# 
+#
 #   local msg;
-# 
+#
 #   case $exit_status in
 #     # is this a signal name (error code = signal + 128) ?
 #     129)  msg=SIGHUP  ;;
@@ -145,14 +145,14 @@ HISTCONTROL=ignoredups
 #     139)  msg=SIGSEGV ;;
 #     141)  msg=SIGPIPE ;;
 #     143)  msg=SIGTERM ;;
-# 
+#
 #     # usual exit codes
 #     1)    msg=MISCERROR     ;; # Miscellaneous errors, such as "divide by zero"
 #     2)    msg=BUILTINMISUSE ;; # misuse of shell builtins (pretty rare)
 #     126)  msg=CCANNOTINVOKE ;; # cannot invoke requested command (ex : source script_with_syntax_error)
 #     127)  msg=CNOTFOUND     ;; # command not found (ex : source script_not_existing)
 #     255)  msg=FATAL         ;;
-# 
+#
 #     # assuming we are on an x86 system here
 #     # this MIGHT get annoying since those are in a range of exit codes
 #     # programs sometimes use.... we'll see.
@@ -161,21 +161,21 @@ HISTCONTROL=ignoredups
 #     21)  msg=SIGTTIN ;;
 #     22)  msg=SIGTTOU ;;
 #   esac
-# 
+#
 #   if [[ -n $msg ]]; then
 #     echo -n "${exit_status}(${msg}) "
 #   else
 #     echo -n "${exit_status} "
 #   fi
 # }
-# 
+#
 # # Set window title as a side effect of $prompt_screen
 # host_label="\[\e[32m\]${host_type}\[\e[0m\]:\[\e[34m\]$HOSTNAME"
-# 
+#
 # _PROMPT1='\[\e[0;36m\]\t \[\e[34m\]'${host_label}' \[\e[31m\]$(prettify_exit_code)\[\e[33m\]\w\[\e[0m\]'
 # _PROMPT2="\\n$prompt_screen\$ "
 # PS1=$_PROMPT1$_PROMPT2
-# 
+#
 # # git prompt
 # if ! type -t __git_ps1 &>/dev/null; then
 #   source $SOURCE_DIR/.bash.d/git-prompt.sh
@@ -246,7 +246,7 @@ fi
 if type -P devbox &>/dev/null; then
   # cache it because it's slow.
   if [[ ! -f "/tmp/.devbox-completion" ]]; then
-    devbox completion bash > "/tmp/.devbox-completion"
+    devbox completion bash >"/tmp/.devbox-completion"
   fi
   source "/tmp/.devbox-completion"
 fi
@@ -265,7 +265,7 @@ source $SOURCE_DIR/.bash.d/android.sh
 
 #### ruby
 # change the current directory to a rubygem directory
-cdgem () {
+cdgem() {
   local bundle_gems="$(bundle list | grep '\*' | sed -e 's/^ *\* *//g')"
   if [[ -n "$bundle_gems" ]]; then
     gem=$(echo "$bundle_gems" | fzf --reverse | cut -d \  -f 1)
@@ -286,7 +286,7 @@ cdgem () {
 if type -P npm &>/dev/null; then
   # cache it because it's slow.
   if [[ ! -f "/tmp/.npm-completion" ]]; then
-    npm completion > "/tmp/.npm-completion"
+    npm completion >"/tmp/.npm-completion"
   fi
   source "/tmp/.npm-completion"
 fi
@@ -300,7 +300,7 @@ fi
 if type -P poetry &>/dev/null; then
   # cache it because it's slow.
   if [[ ! -f "/tmp/.poetry-completion" ]]; then
-    poetry completions bash > "/tmp/.poetry-completion"
+    poetry completions bash >"/tmp/.poetry-completion"
   fi
   source "/tmp/.poetry-completion"
 fi
@@ -308,7 +308,7 @@ fi
 if type -P pipenv &>/dev/null; then
   # cache it because it's slow.
   if [[ ! -f "/tmp/.pipenv-completion" ]]; then
-    _PIPENV_COMPLETE=bash_source pipenv > "/tmp/.pipenv-completion"
+    _PIPENV_COMPLETE=bash_source pipenv >"/tmp/.pipenv-completion"
   fi
   source "/tmp/.pipenv-completion"
 fi
@@ -316,7 +316,7 @@ fi
 if type -P pip &>/dev/null; then
   # cache it because it's slow.
   if [[ ! -f "/tmp/.pip-completion" ]]; then
-    pip completion --bash 2>/dev/null > "/tmp/.pip-completion"
+    pip completion --bash 2>/dev/null >"/tmp/.pip-completion"
   fi
   source "/tmp/.pip-completion"
 fi
@@ -333,8 +333,8 @@ if type -P aws_completer &>/dev/null; then
 fi
 
 aws-profile() {
-	profile="$(aws configure list-profiles | sed '/default/d' | sort | fzf --reverse)"
-	export AWS_PROFILE="$profile"
+  profile="$(aws configure list-profiles | sed '/default/d' | sort | fzf --reverse)"
+  export AWS_PROFILE="$profile"
 }
 
 #### Emacs
@@ -360,7 +360,6 @@ munge PATH "$GOPATH/bin"
 if type -P gocomplete &>/dev/null; then
   complete -C gocomplete go
 fi
-
 
 #### bat
 ## bat --list-themes
@@ -421,7 +420,7 @@ if [[ -f ~/.fzf.bash ]]; then
     # option "-c" : File search is skipped.
     local skip_file_search
     if [[ "$1" = "-c" ]]; then
-       # skip file search
+      # skip file search
       skip_file_search=1
       shift
     fi
@@ -451,8 +450,8 @@ if [[ -f ~/.fzf.bash ]]; then
   unalias l 2>/dev/null
   function l() {
     git log --graph --color=always \
-        --format="%C(auto)%h%d %C(green)%an %C(reset)%s %C(black)%C(bold)%cr" "$@" |
-    fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --format="%C(auto)%h%d %C(green)%an %C(reset)%s %C(black)%C(bold)%cr" "$@" |
+      fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
         --bind "ctrl-m:execute:
                   (grep -o '[a-f0-9]\{7\}' | head -1 |
                   xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
@@ -521,22 +520,22 @@ fi
 
 #### net-tools deprecation (Taken from http://blog.livedoor.jp/sonots/archives/38589335.html )
 if [[ $IS_LINUX ]]; then
-  net_tools_deprecated_message () {
+  net_tools_deprecated_message() {
     echo -n 'net-tools is deprecated.'
   }
-  arp () {
+  arp() {
     net_tools_deprecated_message
     echo 'Use `ip n`'
   }
-  ifconfig () {
+  ifconfig() {
     net_tools_deprecated_message
     echo 'Use `ip a`, `ip link`, `ip -s link`'
   }
-  netstat () {
+  netstat() {
     net_tools_deprecated_message
     echo 'Use `ss`, `ip route` (for netstat -r), `ip -s link` (for netstat -i), `ip maddr` (for netstat -g)'
   }
-  route () {
+  route() {
     net_tools_deprecated_message
     echo 'Use `ip r`'
   }
@@ -550,23 +549,22 @@ export LESS="-n -R -M"
 export LESSCHARSET=utf-8
 
 #### misc tweaks
-_dotenv()
-{
+_dotenv() {
   local cur prev cword
   _get_comp_words_by_ref -n : cur prev cword
   if [ "${cword}" -eq 1 ]; then
-    COMPREPLY=( $(compgen -f -- "${cur}") )
+    COMPREPLY=($(compgen -f -- "${cur}"))
   elif [ "${cword}" -eq 2 ]; then
-    COMPREPLY=( $(compgen -c -- "${cur}") )
+    COMPREPLY=($(compgen -c -- "${cur}"))
   else
-    COMPREPLY=( $(compgen -f -- "${cur}") )
+    COMPREPLY=($(compgen -f -- "${cur}"))
   fi
 }
 complete -F _dotenv dotenv
 
-function conv-time () {
+function conv-time() {
   for arg in "$@"; do
-    if ( echo "$arg" | $(type -P ggrep grep | head -1) -qsP '^\d+$' ); then
+    if (echo "$arg" | $(type -P ggrep grep | head -1) -qsP '^\d+$'); then
       $(type -P gdate date | head -1) -d "1970-1-1 GMT +$arg secs"
     else
       $(type -P gdate date | head -1) +%s -d "$arg"
@@ -577,7 +575,7 @@ function conv-time () {
 function sleep-until {
   local given="$(date -d "$*" +%s)"
   while [[ "$(date +%s)" < "$given" ]]; do
-    local left=$(( $(date -d "$*" +%s) - $(date +%s) ))
+    local left=$(($(date -d "$*" +%s) - $(date +%s)))
     echo -ne "\rSleep-Until:$(date -d "$*" +%H:%M:%S) ⏳$(date -d"0+$left sec" +%H:%M:%S) NOW:$(date +"%Y-%m-%d %H:%M:%S %Z")"
     sleep 1
   done
@@ -609,7 +607,7 @@ function timer_start {
 function timer_stop {
   timer_show=$(($SECONDS - $timer))
   unset timer
-  if (( $timer_show > 3 )); then
+  if (($timer_show > 3)); then
     echo -e '\e[1;31m'"TOO SLOW: $timer_show secs."'\e[m'
   fi
 }
@@ -617,7 +615,6 @@ function timer_stop {
 # if ! [[ "$PROMPT_COMMAND" =~ "timer_stop" ]]; then
 #   PROMPT_COMMAND="timer_stop ${PROMPT_COMMAND:+;$PROMPT_COMMAND}; unset timer"
 # fi
-
 
 #### starship
 if type starship &>/dev/null; then
