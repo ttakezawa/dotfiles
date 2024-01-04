@@ -228,15 +228,12 @@ if type -t asdf &>/dev/null; then
   }
 fi
 
-#### rtx
-if type rtx &>/dev/null; then
+#### mise
+if type mise &>/dev/null; then
   # PATH for IDE
-  munge PATH "$HOME/.local/share/rtx/shims"
-
-  # Workaround for https://github.com/jdx/rtx/pull/1267
-  export RTX_NOT_FOUND_AUTO_INSTALL=false
-
-  eval "$(rtx activate bash)"
+  munge PATH "$HOME/.local/share/mise/shims"
+  
+  eval "$(mise activate bash)"
 fi
 
 #### tabtab: https://github.com/mklabs/tabtab
