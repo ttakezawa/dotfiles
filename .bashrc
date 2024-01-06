@@ -373,16 +373,6 @@ if [[ -f ~/.fzf.bash ]]; then
     echo "ghq not found." >&2
   fi
 
-  g() {
-    # # use tree command
-    # local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "LANG=C tree -C $HOME/{} -I _tools")
-
-    # use exa command
-    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "preview ~/{}")
-
-    [[ -n "$l" ]] && cd "$HOME/$l"
-  }
-
   gg() {
     local item="$*"
     if [[ ! -e "$item" ]]; then
