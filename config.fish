@@ -25,8 +25,8 @@ end
 abbr -a grep "ggrep --color=auto"
 abbr -a ls "ls --color=tty"
 
-# +e は zless において末尾で自動終了させないための設定
-export LESS="-n -R -M +e"
+# +e は zless において末尾で自動終了させないときに使う
+export LESS="-n -R -M"
 export LESSCHARSET=utf-8
 
 # Golang
