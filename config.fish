@@ -2,7 +2,6 @@ set fish_greeting
 
 export TZ='Asia/Tokyo'
 export LANG='ja_JP.UTF-8'
-export PAGER='bat'
 
 # paths
 fish_add_path $HOME/.dotfiles/bin $HOME/local/bin $HOME/.local/bin $HOME/bin
@@ -54,7 +53,11 @@ if type -q mise
 end
 
 # bat --list-themes
-export BAT_THEME='Dracula'
+if type -q bat
+    export BAT_THEME='Dracula'
+    export PAGER='bat'
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+end
 
 # adb
 fish_add_path "$HOME/Library/Android/sdk/platform-tools"

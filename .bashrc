@@ -360,7 +360,11 @@ fi
 
 #### bat
 ## bat --list-themes
-export BAT_THEME='Dracula'
+if type -P bat &>/dev/null; then
+  export BAT_THEME='Dracula'
+  export PAGER='bat'
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
 
 #### fzf
 if [[ -f ~/.fzf.bash ]]; then
