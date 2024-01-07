@@ -22,8 +22,9 @@ if test -x /opt/homebrew/bin/brew && test -z "$HOMEBREW_PREFIX"
 end
 
 # coreutils
-alias grep="grep --color=auto"
-alias ls="ls --color=tty"
+abbr -a grep "ggrep --color=auto"
+abbr -a ls "ls --color=tty"
+
 # +e は zless において末尾で自動終了させないための設定
 export LESS="-n -R -M +e"
 export LESSCHARSET=utf-8
@@ -34,7 +35,7 @@ fish_add_path "$GOPATH/bin"
 
 # macrm https://github.com/satosystems/macrm
 if type -q macrm
-    alias rm=macrm
+    abbr -a rm macrm
 else
     echo "macrm not found."
     echo "Please install. brew install satosystems/tap/macrm"
@@ -42,7 +43,7 @@ end
 
 # eza
 if type -q eza
-    alias ls=eza
+    abbr -a ls eza
 end
 
 # mise
