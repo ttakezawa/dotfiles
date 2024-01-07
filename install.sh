@@ -84,6 +84,9 @@ fi
 mkdir -p ~/.config
 ln -fs ~/.dotfiles/starship.toml ~/.config/
 
+mkdir -p ~/.config/fish/conf.d
+ln -fs ~/.dotfiles/config.fish ~/.config/fish/conf.d/config.fish
+
 ln -fs ~/.dotfiles/.byobu-tmux.conf ~/
 mkdir -p ~/.byobu
 if ! grep -qs byobu-tmux.conf ~/.byobu/.tmux.conf; then
