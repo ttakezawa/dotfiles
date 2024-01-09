@@ -33,6 +33,12 @@ export LESSCHARSET=utf-8
 export GOPATH="$HOME/dev"
 fish_add_path "$GOPATH/bin"
 
+# ghq
+function g
+    set l (ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "preview ~/{}")
+    test -n "$l"; and cd "$HOME/$l"
+end
+
 # macrm https://github.com/satosystems/macrm
 if type -q macrm
     abbr -a rm macrm

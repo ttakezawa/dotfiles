@@ -471,6 +471,11 @@ else
   fi
 fi
 
+g() {
+    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "preview ~/{}")
+    [[ -n "$l" ]] && cd "$HOME/$l"
+}
+
 if type -P zoxide &>/dev/null; then
   eval "$(zoxide init bash)"
 fi
