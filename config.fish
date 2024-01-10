@@ -69,6 +69,11 @@ end
 # adb
 fish_add_path "$HOME/Library/Android/sdk/platform-tools"
 
+# mysql-client
+if test -x /opt/homebrew/opt/mysql-client/bin/mysql
+    fish_add_path /opt/homebrew/opt/mysql-client/bin
+end
+
 # starship
 if type -q starship
     starship init fish | source
