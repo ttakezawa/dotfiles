@@ -15,7 +15,7 @@ function history-merge --on-event fish_preexec
 end
 
 # Homebrew
-if test -x /opt/homebrew/bin/brew && test -z "$HOMEBREW_PREFIX"
+if test -x /opt/homebrew/bin/brew
     /opt/homebrew/bin/brew shellenv fish | source
     # Homebrewをprependする
     ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
