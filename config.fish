@@ -35,9 +35,12 @@ fish_add_path "$GOPATH/bin"
 
 # ghq
 function g
-    set l (ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "preview ~/{}")
+    set l (ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --ansi --preview "preview ~/{}")
     test -n "$l"; and cd "$HOME/$l"
 end
+
+# configure `fisher install decors/fish-ghq`
+set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 
 # macrm https://github.com/satosystems/macrm
 if type -q macrm

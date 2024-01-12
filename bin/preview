@@ -5,7 +5,7 @@ preview() {
   if [[ -f "$1" ]]; then
     bat --color=always --line-range :100 --style="changes,header,grid,snip" "$1"
   else
-    LANG=C exa "$1/" --color=always --tree --git-ignore -L 4 -I="node_modules|_tools" | sed 's/├──/|--/; s/│  /|  /g; s/└──/\`--/;'
+    LANG=C eza "$1/" --color=always --tree --git-ignore -L 4 -I="node_modules|_tools"
   fi
 }
 

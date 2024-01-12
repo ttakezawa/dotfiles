@@ -472,7 +472,7 @@ else
 fi
 
 g() {
-    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --preview "preview ~/{}")
+    local l=$(ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --ansi --preview "preview ~/{}")
     [[ -n "$l" ]] && cd "$HOME/$l"
 }
 
