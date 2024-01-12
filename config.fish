@@ -74,6 +74,16 @@ if test -x /opt/homebrew/opt/mysql-client/bin/mysql
     fish_add_path /opt/homebrew/opt/mysql-client/bin
 end
 
+# ent
+if type -q ent
+    ent completion fish | source
+end
+
+# atlas
+if type -q atlas
+    atlas completion fish | source
+end
+
 # starship
 if type -q starship
     starship init fish | source
