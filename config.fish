@@ -75,16 +75,10 @@ if test -x /opt/homebrew/opt/mysql-client/bin/mysql
 end
 
 # ent
-if type -q ent
-    ent completion fish | source
-end
+type -q ent; and ent completion fish | source
 
 # atlas
-if type -q atlas
-    atlas completion fish | source
-end
+type -q atlas; and atlas completion fish | source
 
 # starship
-if type -q starship
-    starship init fish | source
-end
+type -q starship; and starship init fish | source
