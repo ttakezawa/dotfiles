@@ -36,7 +36,7 @@ fish_add_path "$GOPATH/bin"
 # ghq
 function g
     set l (ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --ansi --preview "preview ~/{}")
-    test -n "$l"; and cd "$HOME/$l"
+    test -n "$l" && cd "$HOME/$l"
 end
 
 # configure `fisher install decors/fish-ghq`
@@ -78,10 +78,10 @@ if test -x /opt/homebrew/opt/mysql-client/bin/mysql
 end
 
 # ent
-type -q ent; and ent completion fish | source
+type -q ent && ent completion fish | source
 
 # atlas
-type -q atlas; and atlas completion fish | source
+type -q atlas && atlas completion fish | source
 
 # starship
-type -q starship; and starship init fish | source
+type -q starship && starship init fish | source
