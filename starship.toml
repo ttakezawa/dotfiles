@@ -17,7 +17,6 @@ format = '[$time]($style) '
 
 [status]
 disabled = false
-format = '[$common_meaning$signal_name$symbol$status]($style) '
 symbol = '✘ '
 map_symbol = true
 pipestatus = true
