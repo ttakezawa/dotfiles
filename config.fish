@@ -63,7 +63,6 @@ end
 if status is-interactive
     # coreutils
     abbr -a grep "ggrep --color=auto"
-    abbr -a ls "ls --color=tty"
 
     # eza
     if type -q eza
