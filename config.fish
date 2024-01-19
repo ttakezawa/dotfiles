@@ -42,14 +42,6 @@ end
 # configure `fisher install decors/fish-ghq`
 set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 
-# macrm https://github.com/satosystems/macrm
-if type -q macrm
-    abbr -a rm macrm
-else
-    echo "macrm not found."
-    echo "Please install. brew install satosystems/tap/macrm"
-end
-
 # eza
 if type -q eza
     abbr -a ls eza
@@ -77,11 +69,21 @@ if test -x /opt/homebrew/opt/mysql-client/bin/mysql
     fish_add_path /opt/homebrew/opt/mysql-client/bin
 end
 
-# ent
-type -q ent && ent completion fish | source
+if status is-interactive
+    # macrm https://github.com/satosystems/macrm
+    if type -q macrm
+        abbr -a rm macrm
+    else
+        echo "macrm not found."
+        echo "Please install. brew install satosystems/tap/macrm"
+    end
 
-# atlas
-type -q atlas && atlas completion fish | source
+    # ent
+    type -q ent && ent completion fish | source
 
-# starship
-type -q starship && starship init fish | source
+    # atlas
+    type -q atlas && atlas completion fish | source
+
+    # starship
+    type -q starship && starship init fish | source
+end
