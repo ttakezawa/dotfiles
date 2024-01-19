@@ -21,10 +21,6 @@ if test -x /opt/homebrew/bin/brew
     ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
 end
 
-# coreutils
-abbr -a grep "ggrep --color=auto"
-abbr -a ls "ls --color=tty"
-
 # +e は zless において末尾で自動終了させないときに使う
 export LESS="-n -R -M"
 export LESSCHARSET=utf-8
@@ -41,11 +37,6 @@ end
 
 # configure `fisher install decors/fish-ghq`
 set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
-
-# eza
-if type -q eza
-    abbr -a ls eza
-end
 
 # mise
 if type -q mise
@@ -70,6 +61,15 @@ if test -x /opt/homebrew/opt/mysql-client/bin/mysql
 end
 
 if status is-interactive
+    # coreutils
+    abbr -a grep "ggrep --color=auto"
+    abbr -a ls "ls --color=tty"
+
+    # eza
+    if type -q eza
+        abbr -a ls eza
+    end
+
     # macrm https://github.com/satosystems/macrm
     if type -q macrm
         abbr -a rm macrm
