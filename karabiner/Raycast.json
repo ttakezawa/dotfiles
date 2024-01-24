@@ -17,12 +17,6 @@
               "key_code": "escape",
               "modifiers": ["left_command"]
             }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_if",
-              "bundle_identifiers": ["^com\\.raycast\\.macos$"]
-            }
           ]
         }
       ]
