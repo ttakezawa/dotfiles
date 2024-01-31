@@ -90,4 +90,7 @@ if status is-interactive
 
     # starship
     type -q starship && starship init fish | source
+
+    # awslocal
+    complete -c awslocal -w aws
 end
