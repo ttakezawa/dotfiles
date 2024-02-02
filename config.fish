@@ -3,6 +3,9 @@ set fish_greeting
 export TZ='Asia/Tokyo'
 export LANG='ja_JP.UTF-8'
 
+# cache dir
+mkdir -p "$HOME/.cache/fish"
+
 # paths
 fish_add_path $HOME/.dotfiles/bin $HOME/local/bin $HOME/.local/bin $HOME/bin
 ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "$HOME/local/share/man" "$HOME/man" $MANPATH;
@@ -16,7 +19,10 @@ end
 
 # Homebrew
 if test -x /opt/homebrew/bin/brew
-    /opt/homebrew/bin/brew shellenv fish | source
+    if not test -e "$HOME/.cache/fish/brew_shellenv" # brewの補完をキャッシュする
+        /opt/homebrew/bin/brew shellenv fish > "$HOME/.cache/fish/brew_shellenv"
+    end
+    source "$HOME/.cache/fish/brew_shellenv"
     # Homebrewをprependする
     ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
 end
@@ -40,8 +46,7 @@ set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 
 # mise
 if type -q mise
-    # PATH for IDE
-    fish_add_path "$HOME/.local/share/mise/shims"
+    fish_add_path "$HOME/.local/share/mise/shims" # PATH for IDE
     mise activate fish | source
 end
 
@@ -82,14 +87,19 @@ if status is-interactive
         echo "Please install. brew install satosystems/tap/macrm"
     end
 
+    # starship
+    type -q starship && starship init fish | source
+
     # ent
     type -q ent && ent completion fish | source
 
     # atlas
-    type -q atlas && atlas completion fish | source
-
-    # starship
-    type -q starship && starship init fish | source
+    if type -q atlas
+        if not test -e "$HOME/.cache/fish/atlas_completion" # atlasの補完をキャッシュする
+            atlas completion fish > "$HOME/.cache/fish/atlas_completion"
+        end
+        source "$HOME/.cache/fish/atlas_completion"
+    end
 
     # awslocal
     complete -c awslocal -w aws
