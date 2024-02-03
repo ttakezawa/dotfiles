@@ -18,7 +18,7 @@ function history-merge --on-event fish_preexec
 end
 
 # Homebrew
-if test -x /opt/homebrew/bin/brew
+if not type -q brew && test -x /opt/homebrew/bin/brew
     if not test -e "$HOME/.cache/fish/brew_shellenv" # brewの補完をキャッシュする
         /opt/homebrew/bin/brew shellenv fish > "$HOME/.cache/fish/brew_shellenv"
     end
@@ -85,6 +85,12 @@ if status is-interactive
     else
         echo "macrm not found."
         echo "Please install. brew install satosystems/tap/macrm"
+    end
+
+    function go-install
+        go install golang.org/dl/go$argv[1]@latest
+        and go$argv[1] download
+        and ln -fs $GOPATH/bin/go$argv[1] $GOPATH/bin/go
     end
 
     # starship
