@@ -4,7 +4,8 @@ export TZ='Asia/Tokyo'
 export LANG='ja_JP.UTF-8'
 
 # cache dir
-mkdir -p "$HOME/.cache/fish"
+set cachedir /private/tmp/fish-cache
+mkdir -p $cachedir
 
 # paths
 fish_add_path $HOME/.dotfiles/bin $HOME/local/bin $HOME/.local/bin $HOME/bin
@@ -19,10 +20,10 @@ end
 
 # Homebrew
 if not type -q brew && test -x /opt/homebrew/bin/brew
-    if not test -e "$HOME/.cache/fish/brew_shellenv" # brewの補完をキャッシュする
-        /opt/homebrew/bin/brew shellenv fish > "$HOME/.cache/fish/brew_shellenv"
+    if not test -e "$cachedir/brew_shellenv" # brewの補完をキャッシュする
+        /opt/homebrew/bin/brew shellenv fish > "$cachedir/brew_shellenv"
     end
-    source "$HOME/.cache/fish/brew_shellenv"
+    source "$cachedir/brew_shellenv"
     # Homebrewをprependする
     ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
 end
@@ -101,10 +102,10 @@ if status is-interactive
 
     # atlas
     if type -q atlas
-        if not test -e "$HOME/.cache/fish/atlas_completion" # atlasの補完をキャッシュする
-            atlas completion fish > "$HOME/.cache/fish/atlas_completion"
+        if not test -e "$cachedir/atlas_completion" # atlasの補完をキャッシュする
+            atlas completion fish > "$cachedir/atlas_completion"
         end
-        source "$HOME/.cache/fish/atlas_completion"
+        source "$cachedir/atlas_completion"
     end
 
     # awslocal
