@@ -110,4 +110,7 @@ if status is-interactive
 
     # awslocal
     complete -c awslocal -w aws
+
+    # shell_gpt
+    export DEFAULT_MODEL=gpt-4-turbo
 end
