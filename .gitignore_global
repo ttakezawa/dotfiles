@@ -195,3 +195,7 @@ xcuserdata/
 ## C
 *.o
 *.a
+
+## scripts
+start*.sh
+migrate*.sh
