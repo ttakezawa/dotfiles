@@ -1,0 +1,27 @@
+stylesheet: https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css
+body_class: markdown-body
+css: |-
+  .markdown-body { font-family: "ヒラギノ明朝 Pro", "Hiragino Mincho Pro", "MS P明朝", "MS PMincho", serif; }
+  .markdown-body { color: #000000; }
+  .markdown-body { font-size: 14px; }
+  .page-break { page-break-after: always; }
+  .markdown-body pre > code { white-space: pre-wrap; }
+pdf_options:
+  format: A4
+  margin: 15mm 10mm
+  printBackground: false
+  headerTemplate: |-
+    <style>
+      section {
+        margin: 0 auto;
+        font-family: system-ui;
+        font-size: 11px;
+      }
+    </style>
+  footerTemplate: |-
+    <section>
+      <div>
+        Page <span class="pageNumber"></span>
+        of <span class="totalPages"></span>
+      </div>
+    </section>
