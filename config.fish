@@ -20,7 +20,7 @@ end
 
 # Homebrew
 if not type -q brew && test -x /opt/homebrew/bin/brew
-    if not test -e "$cachedir/brew_shellenv" # brewの補完をキャッシュする
+    if not test -s "$cachedir/brew_shellenv" # brewの補完をキャッシュする
         /opt/homebrew/bin/brew shellenv fish > "$cachedir/brew_shellenv"
     end
     source "$cachedir/brew_shellenv"
