@@ -114,5 +114,5 @@ if status is-interactive
     complete -c awslocal -w aws
 
     # shell_gpt
-    export DEFAULT_MODEL=gpt-4o
+    export DEFAULT_MODEL=gpt-4o-mini
 end
