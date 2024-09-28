@@ -185,7 +185,7 @@
       ]
     },
     {
-      "description": "Map ctrl+j to return",
+      "description": "❌️ Map ctrl+j to return",
       "manipulators": [
         {
           "type": "basic",
