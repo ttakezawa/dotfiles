@@ -818,6 +818,7 @@
             {
               "type": "frontmost_application_if",
               "bundle_identifiers": [
+                "^company\\.thebrowser\\.Browser$",
                 "^com\\.oracle\\.workbench\\.MySQLWorkbench$",
                 "^com\\.microsoft\\.Excel$",
                 "^com\\.microsoft\\.Powerpoint$",
