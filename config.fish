@@ -20,7 +20,7 @@ end
 
 # Homebrew
 if not type -q brew && test -x /opt/homebrew/bin/brew
-    if not test -e "$cachedir/brew_shellenv" # brewの補完をキャッシュする
+    if not test -s "$cachedir/brew_shellenv" # brewの補完をキャッシュする
         /opt/homebrew/bin/brew shellenv fish > "$cachedir/brew_shellenv"
     end
     source "$cachedir/brew_shellenv"
@@ -70,9 +70,11 @@ if status is-interactive
     # coreutils
     abbr -a grep "ggrep --color=auto"
 
-    # /opt/homebrew/opt/coreutils/bin にあるファイルのうちgから始まるものをすべてgなしでfishのabbrに登録する
-    for f in (ls /opt/homebrew/opt/coreutils/bin/g*)
-        abbr -a (basename $f | sed 's/^g//') (basename $f)
+    if type -q brew
+        # /opt/homebrew/opt/coreutils/bin にあるファイルのうちgから始まるものをすべてgなしでfishのabbrに登録する
+        for f in (ls /opt/homebrew/opt/coreutils/bin/g*)
+            abbr -a (basename $f | sed 's/^g//') (basename $f)
+        end
     end
 
     # eza
@@ -112,5 +114,5 @@ if status is-interactive
     complete -c awslocal -w aws
 
     # shell_gpt
-    export DEFAULT_MODEL=gpt-4o
+    export DEFAULT_MODEL=gpt-4o-mini
 end
