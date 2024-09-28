@@ -818,11 +818,44 @@
             {
               "type": "frontmost_application_if",
               "bundle_identifiers": [
-                "^company\\.thebrowser\\.Browser$",
                 "^com\\.oracle\\.workbench\\.MySQLWorkbench$",
                 "^com\\.microsoft\\.Excel$",
                 "^com\\.microsoft\\.Powerpoint$",
                 "^com\\.microsoft\\.Word$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "k",
+            "modifiers": {
+              "mandatory": [
+                "control"
+              ],
+              "optional": [
+                "caps_lock",
+                "shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "end",
+              "modifiers": [
+                "left_shift"
+              ]
+            },
+            {
+              "key_code": "delete_or_backspace"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^company\\.thebrowser\\.Browser$"
               ]
             }
           ]
