@@ -823,6 +823,14 @@
                 "^com\\.microsoft\\.Powerpoint$",
                 "^com\\.microsoft\\.Word$"
               ]
+            },
+            {
+              "input_sources": [
+                {
+                    "language": "ja"
+                }
+              ],
+              "type": "input_source_unless"
             }
           ]
         },
@@ -857,6 +865,14 @@
               "bundle_identifiers": [
                 "^company\\.thebrowser\\.Browser$"
               ]
+            },
+            {
+              "input_sources": [
+                {
+                    "language": "ja"
+                }
+              ],
+              "type": "input_source_unless"
             }
           ]
         },
