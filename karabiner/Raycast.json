@@ -2,7 +2,7 @@
   "title": "Raycast mappings",
   "rules": [
     {
-      "description": "Map Ctrl-' to ⌘+esc for taking me back to the main search window",
+      "description": "❌️ Map Ctrl-' to ⌘+esc for taking me back to the main search window",
       "manipulators": [
         {
           "type": "basic",
