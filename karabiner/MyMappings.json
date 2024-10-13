@@ -850,9 +850,10 @@
           },
           "to": [
             {
-              "key_code": "end",
+              "key_code": "e",
               "modifiers": [
-                "left_shift"
+                "control",
+                "shift"
               ]
             },
             {
