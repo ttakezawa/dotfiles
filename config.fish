@@ -85,7 +85,7 @@ if status is-interactive
     # macrm https://github.com/satosystems/macrm
     if type -q macrm
         abbr -a rm macrm
-    else
+    else if test (uname -s) = "Darwin" # Macならエラーを出力
         echo "macrm not found."
         echo "Please install. brew install satosystems/tap/macrm"
     end
