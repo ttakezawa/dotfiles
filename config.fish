@@ -68,13 +68,18 @@ end
 
 if status is-interactive
     # coreutils
-    abbr -a grep "ggrep --color=auto"
-
     if type -q brew
         # /opt/homebrew/opt/coreutils/bin にあるファイルのうちgから始まるものをすべてgなしでfishのabbrに登録する
         for f in (ls /opt/homebrew/opt/coreutils/bin/g*)
             abbr -a (basename $f | sed 's/^g//') (basename $f)
         end
+    end
+
+    # grep options
+    if type -q ggrep
+        abbr -a grep "ggrep --color=auto"
+    else
+        abbr -a grep "grep --color=auto"
     end
 
     # eza
