@@ -96,6 +96,9 @@ fi
 mkdir -p ~/.atom
 ln -fs ~/.dotfiles/.atom/keymap.cson ~/.atom/
 
+# wezterm
+ln -fs ~/.dotfiles/.wezterm.lua ~/.wezterm.lua
+
 if type -P sshrc >/dev/null; then
   # setup sshrc
   mkdir -p .sshrc.d
