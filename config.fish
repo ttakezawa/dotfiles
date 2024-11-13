@@ -51,6 +51,11 @@ if type -q mise
     mise activate fish | source
 end
 
+# asdf
+if test -e /opt/homebrew/opt/asdf/libexec/asdf.fish
+    source /opt/homebrew/opt/asdf/libexec/asdf.fish
+end
+
 # bat --list-themes
 if type -q bat
     export BAT_THEME='Dracula'
