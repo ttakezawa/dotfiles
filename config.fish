@@ -28,6 +28,11 @@ if not type -q brew && test -x /opt/homebrew/bin/brew
     ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
 end
 
+if type -q brew
+  # prepend Homebrew PATH
+  fish_add_path /opt/homebrew/bin
+end
+
 # +e は zless において末尾で自動終了させないときに使う
 export LESS="-n -R -M"
 export LESSCHARSET=utf-8
