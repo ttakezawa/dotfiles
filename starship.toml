@@ -25,7 +25,8 @@ pipestatus = true
 symbol = " "
 
 [git_metrics]
-disabled = false
+# disabled = false
+disabled = true
 
 [git_status]
 ahead = '⇡${count}'
