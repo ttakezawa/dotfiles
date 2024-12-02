@@ -76,6 +76,11 @@ if test -x /opt/homebrew/opt/mysql-client/bin/mysql
     fish_add_path /opt/homebrew/opt/mysql-client/bin
 end
 
+# libpq
+if test -d /opt/homebrew/opt/libpq/bin
+    fish_add_path /opt/homebrew/opt/libpq/bin
+end
+
 if status is-interactive
     # coreutils
     if type -q brew
