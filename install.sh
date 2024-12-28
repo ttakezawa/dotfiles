@@ -96,6 +96,11 @@ fi
 mkdir -p ~/.atom
 ln -fs ~/.dotfiles/.atom/keymap.cson ~/.atom/
 
+# ghostty
+mkdir -p ~/.config/ghostty
+ln -fs ~/.dotfiles/.config/ghostty/config.toml ~/.config/ghostty/
+ln -fs ~/.dotfiles/.ghostty.config ~/.config/ghostty/config
+
 # wezterm
 ln -fs ~/.dotfiles/.wezterm.lua ~/.wezterm.lua
 
