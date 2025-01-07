@@ -75,6 +75,11 @@ end
 # adb
 fish_add_path "$HOME/Library/Android/sdk/platform-tools"
 
+# JetBrains
+if test -d "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+    fish_add_path "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+end
+
 # mysql-client
 if test -x /opt/homebrew/opt/mysql-client/bin/mysql
     fish_add_path /opt/homebrew/opt/mysql-client/bin
