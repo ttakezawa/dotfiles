@@ -47,6 +47,10 @@ function g
     test -n "$l" && cd "$HOME/$l"
 end
 
+function gg
+    cd "$(git rev-parse --show-cdup)"
+end
+
 # configure `fisher install decors/fish-ghq`
 set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 
