@@ -159,7 +159,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.todesktop\\.230313mzl4w4u92$",
-                "^com\\.microsoft\\.VSCode$"
+                "^com\\.microsoft\\.VSCode$",
+                "^com\\.microsoft\\.VSCodeInsiders$"
               ]
             }
           ]
@@ -302,7 +303,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.todesktop\\.230313mzl4w4u92$",
-                "^com\\.microsoft\\.VSCode$"
+                "^com\\.microsoft\\.VSCode$",
+                "^com\\.microsoft\\.VSCodeInsiders$"
               ]
             }
           ]
@@ -415,7 +417,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.todesktop\\.230313mzl4w4u92$",
-                "^com\\.microsoft\\.VSCode$"
+                "^com\\.microsoft\\.VSCode$",
+                "^com\\.microsoft\\.VSCodeInsiders$"
               ]
             }
           ]
@@ -486,7 +489,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.todesktop\\.230313mzl4w4u92$",
-                "^com\\.microsoft\\.VSCode$"
+                "^com\\.microsoft\\.VSCode$",
+                "^com\\.microsoft\\.VSCodeInsiders$"
               ]
             }
           ]
@@ -557,7 +561,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.todesktop\\.230313mzl4w4u92$",
-                "^com\\.microsoft\\.VSCode$"
+                "^com\\.microsoft\\.VSCode$",
+                "^com\\.microsoft\\.VSCodeInsiders$"
               ]
             }
           ]
@@ -646,7 +651,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.todesktop\\.230313mzl4w4u92$",
-                "^com\\.microsoft\\.VSCode$"
+                "^com\\.microsoft\\.VSCode$",
+                "^com\\.microsoft\\.VSCodeInsiders$"
               ]
             }
           ]
@@ -734,7 +740,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.todesktop\\.230313mzl4w4u92$",
-                "^com\\.microsoft\\.VSCode$"
+                "^com\\.microsoft\\.VSCode$",
+                "^com\\.microsoft\\.VSCodeInsiders$"
               ]
             }
           ]
