@@ -104,6 +104,9 @@ if test -d /opt/homebrew/opt/libpq/bin
     fish_add_path /opt/homebrew/opt/libpq/bin
 end
 
+# Browser Use: Disable telemetry
+export ANONYMIZED_TELEMETRY=false
+
 if status is-interactive
     # coreutils
     if type -q brew
