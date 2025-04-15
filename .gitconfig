@@ -26,8 +26,8 @@
 [alias]
 	# utility
 	co = !git checkout $(git branch --color | sed 's/.* //' | fzf-tmux --ansi --select-1 --query="$@")
-	clean-branch      = !echo '[Dry-run]' && git branch --merged | grep -Ev '^\\*|^\\s*(master|main)'
-	clean-branch-exec = !                    git branch --merged | grep -Ev '^\\*|^\\s*(master|main)' | xargs git branch -d
+	clean-branch      = !echo '[Dry-run]' && git branch --merged | grep -Ev '^\\*|^\\s*(master|main|stg|qa)'
+	clean-branch-exec = !                    git branch --merged | grep -Ev '^\\*|^\\s*(master|main|stg|qa)' | xargs git branch -d
 
 	# https://zenn.dev/hikarin/articles/f09f655c47053096f196
 	stash-find = !"git fsck --unreachable | awk '/commit/ {print $3}' | xargs git log --merges --no-walk --grep=WIP --all-match"
