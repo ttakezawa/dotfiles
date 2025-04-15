@@ -60,6 +60,10 @@ set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 #     mise activate fish | source
 # end
 
+function aic2
+    mise exec node@20 -- aic2 $argv
+end
+
 ### asdf
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
 
