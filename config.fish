@@ -54,11 +54,11 @@ end
 # configure `fisher install decors/fish-ghq`
 set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 
-# mise
-if type -q mise
-    fish_add_path "$HOME/.local/share/mise/shims" # PATH for IDE
-    mise activate fish | source
-end
+# # mise
+# if type -q mise
+#     fish_add_path "$HOME/.local/share/mise/shims" # PATH for IDE
+#     mise activate fish | source
+# end
 
 ### asdf
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
