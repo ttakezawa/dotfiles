@@ -59,6 +59,8 @@ set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 #     fish_add_path "$HOME/.local/share/mise/shims" # PATH for IDE
 #     mise activate fish | source
 # end
+# mise を自動で activate しない
+set -g MISE_FISH_AUTO_ACTIVATE 0
 
 function aic2
     mise exec node@20 -- aic2 $argv
