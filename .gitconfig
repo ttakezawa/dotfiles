@@ -10,7 +10,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes_global
-	editor = $(type -p code | head -1) --wait
+	editor = $(type -p cursor code | head -1) --wait
 	quotepath = false
 [color]
 	ui = auto
