@@ -62,9 +62,17 @@ set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 # mise を自動で activate しない
 set -g MISE_FISH_AUTO_ACTIVATE 0
 
-function aic2
-    mise exec node@20 -- aic2 $argv
-end
+# function aic2
+#     mise exec node@20 -- aic2 $argv
+# end
+# alias aic2="mise exec node@20 -- aic2"
+abbr -a aic2 "mise exec node@20 -- aic2"
+
+# function codex
+#     mise exec node@20 -- codex $argv
+# end
+# alias codex="mise exec node@20 -- codex"
+abbr -a codex "mise exec node@20 -- codex"
 
 ### asdf
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
