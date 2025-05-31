@@ -66,7 +66,7 @@ set -g MISE_FISH_AUTO_ACTIVATE 0
 #     mise exec node@20 -- aic2 $argv
 # end
 # alias aic2="mise exec node@20 -- aic2"
-abbr -a aic2 "mise exec node@20 -- aic2"
+abbr -a aic2 "mise exec node@20.19.0 -- aic2"
 
 # function codex
 #     mise exec node@20 -- codex $argv
