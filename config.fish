@@ -8,7 +8,7 @@ set cachedir /private/tmp/fish-cache
 mkdir -p $cachedir
 
 # paths
-fish_add_path $HOME/.dotfiles/bin $HOME/local/bin $HOME/.local/bin $HOME/bin
+fish_add_path --path $HOME/.dotfiles/bin $HOME/local/bin $HOME/.local/bin $HOME/bin
 ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "$HOME/local/share/man" "$HOME/man" $MANPATH;
 ! set -q LD_LIBRARY_PATH; and set -gx LD_LIBRARY_PATH ''; set -gx LD_LIBRARY_PATH "$HOME/local/lib" $LD_LIBRARY_PATH;
 
@@ -30,7 +30,7 @@ end
 
 if type -q brew
   # prepend Homebrew PATH
-  fish_add_path /opt/homebrew/bin
+  fish_add_path --path /opt/homebrew/bin
 end
 
 # +e は zless において末尾で自動終了させないときに使う
@@ -39,7 +39,7 @@ export LESSCHARSET=utf-8
 
 # Golang
 export GOPATH="$HOME/dev"
-fish_add_path "$GOPATH/bin"
+fish_add_path --path "$GOPATH/bin"
 
 # ghq
 function g
@@ -56,7 +56,7 @@ set -g GHQ_SELECTOR_OPTS --reverse --ansi --preview "preview {}"
 
 # # mise
 # if type -q mise
-#     fish_add_path "$HOME/.local/share/mise/shims" # PATH for IDE
+#     fish_add_path --path "$HOME/.local/share/mise/shims" # PATH for IDE
 #     mise activate fish | source
 # end
 # mise を自動で activate しない
@@ -101,21 +101,21 @@ if type -q bat
 end
 
 # adb
-fish_add_path "$HOME/Library/Android/sdk/platform-tools"
+fish_add_path --path "$HOME/Library/Android/sdk/platform-tools"
 
 # JetBrains
 if test -d "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
-    fish_add_path "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+    fish_add_path --path "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 end
 
 # mysql-client
 if test -x /opt/homebrew/opt/mysql-client/bin/mysql
-    fish_add_path /opt/homebrew/opt/mysql-client/bin
+    fish_add_path --path /opt/homebrew/opt/mysql-client/bin
 end
 
 # libpq
 if test -d /opt/homebrew/opt/libpq/bin
-    fish_add_path /opt/homebrew/opt/libpq/bin
+    fish_add_path --path /opt/homebrew/opt/libpq/bin
 end
 
 # Browser Use: Disable telemetry
