@@ -48,7 +48,8 @@ function g
 end
 
 function gg
-    cd "$(git rev-parse --show-cdup)"
+    set l "$(git rev-parse --show-cdup)"
+    test -n "$l" && cd "$l"
 end
 
 # configure `fisher install decors/fish-ghq`
