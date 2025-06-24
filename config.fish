@@ -47,6 +47,14 @@ function g
     test -n "$l" && cd "$HOME/$l"
 end
 
+# gwq
+if type -q gwq
+    function gw
+        set l (gwq get)
+        test -n "$l" && cd "$l"
+    end
+end
+
 function gg
     set l "$(git rev-parse --show-cdup)"
     test -n "$l" && cd "$l"
