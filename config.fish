@@ -98,7 +98,7 @@ export ASDF_GOLANG_MOD_VERSION_ENABLED=true
 # set --erase _asdf_shims
 
 # completions for asdf
-if not test -e "$HOME/.config/fish/completions/asdf.fish"
+if type -q asdf && not test -e "$HOME/.config/fish/completions/asdf.fish"
     asdf completion fish > "$HOME/.config/fish/completions/asdf.fish"
 end
 
