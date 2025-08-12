@@ -1,5 +1,8 @@
 .claude/settings.local.json
 .claude/commands/my-*.md
+.cursor/rules/
+.cursorrules
+.cursorignore
 
 .dir-locals.el
 local.sh
