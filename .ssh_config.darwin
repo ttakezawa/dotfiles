@@ -1,5 +1,17 @@
 Include config_*
 
+### GitHub
+Host github.com
+  ControlMaster auto
+  ControlPersist 10m
+  ControlPath ~/.ssh/cm-%C
+  PreferredAuthentications publickey
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa
+  ServerAliveInterval 30
+  ServerAliveCountMax 3
+  GSSAPIAuthentication no
+
 ### multiple hops
 # SEE: http://qiita.com/kawaz/items/a0151d3aa2b6f9c4b3b8
 Host *+*
