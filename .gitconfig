@@ -12,6 +12,8 @@
 	attributesfile = ~/.gitattributes_global
 	editor = $(type -p cursor code | head -1) --wait
 	quotepath = false
+	untrackedCache = true
+	fsmonitor = true
 [color]
 	ui = auto
 [push]
