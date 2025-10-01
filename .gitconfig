@@ -70,3 +70,5 @@
 	path = ~/.gitconfig.local
 [rerere]
 	enabled = true
+[column]
+	ui = auto
