@@ -4,6 +4,11 @@
 .cursorrules
 .cursorignore
 
+localutil/
+localtmp
+/.specify/
+/.claude/commands/speckit.*
+
 .dir-locals.el
 local.sh
 gpg-secret-key.asc
