@@ -1,8 +1,11 @@
+.kiro
 .claude/settings.local.json
 .claude/commands/my-*.md
 .cursor/rules/
 .cursorrules
 .cursorignore
+
+*.code-workspace
 
 localutil/
 localtmp
@@ -206,6 +209,10 @@ xcuserdata/
 ## C
 *.o
 *.a
+
+## Go
+go.work
+go.work.sum
 
 ## scripts
 start*.sh
