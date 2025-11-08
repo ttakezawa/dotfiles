@@ -1,0 +1,125 @@
+#!/bin/bash
+# codexpipe2 - make `codex exec` easy to use in pipelines on macOS.
+# Example:
+#   eza --help | codexpipe2 日本語にして
+#   cat README.md | codexpipe2 -m gpt-5-codex-mini 箇条書きで要約
+#   echo "test" | codexpipe2 -p myprofile -c key=value --search 解説して
+#
+# 仕様:
+# - 先頭のオプションはそのまま `codex exec` に転送
+#   (-m/--model, -c/--config, -p/--profile, --search)
+# - 最初の非オプション（または `--` の後ろ）以降は PROMPT として扱う
+# - stdin の内容とプロンプトを組み合わせて `codex exec` に渡す
+# - パイプが無い場合はプロンプトのみで実行
+
+set -eo pipefail
+
+if ! command -v codex >/dev/null 2>&1; then
+  echo "codexpipe2: 'codex' command not found. Please install/ensure it's on PATH." >&2
+  exit 127
+fi
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  cat <<'EOF'
+Usage:
+  <producer> | codexpipe2 [codex-options...] [--] [PROMPT...]
+
+Supported options:
+  -m, --model <MODEL>         Specify the model to use
+  -c, --config <key=value>    Set configuration key-value pair
+  -p, --profile <PROFILE>     Use specified configuration profile
+  --search                    Enable search functionality
+
+Examples:
+  eza --help | codexpipe2 日本語にして
+  cat file.txt | codexpipe2 -m gpt-5-codex-mini 要点を3つに要約
+  echo "test" | codexpipe2 -p myprofile -c key=value 解説して
+  codexpipe2 -m gpt-5-codex-mini Hello World
+
+Notes:
+  - オプション値が '-' で始まる場合は、`--` で明示的に区切ってください。
+EOF
+  exit 0
+fi
+
+# ---- stdin を読み取り（パイプ無しなら空） ----
+stdin_content=""
+if [[ ! -t 0 ]]; then
+  stdin_content="$(cat)"    # パイプ/リダイレクト -> 内容を変数に保存
+fi
+
+# ---- 先頭のオプションを収集（値つき対応） ----
+declare -a opts=()
+while (($#)); do
+  case "$1" in
+    --) shift; break ;;                               # オプション終端
+    --model=*|--config=*|--profile=*|-m=*|-c=*|-p=*) # --long=VAL / -m=VAL
+      opts+=("$1"); shift ;;
+    --search)                                         # boolean option
+      opts+=("$1"); shift ;;
+    --model|--config|--profile|-m|-c|-p)              # --long [VAL] / -m [VAL]
+      if (($#>=2)) && [[ "$2" != -* ]]; then
+        opts+=("$1" "$2"); shift 2
+      else
+        echo "codexpipe2: option '$1' requires an argument" >&2
+        exit 1
+      fi
+      ;;
+    -*)
+      echo "codexpipe2: unsupported option '$1'" >&2
+      exit 1
+      ;;
+    *)  break ;;
+  esac
+done
+
+# ---- プロンプトを構築 ----
+user_prompt="$*"  # 残りの引数を全てプロンプトとして結合
+
+# stdin の内容がある場合は、見やすい形式でプロンプトと組み合わせる
+if [[ -n "$stdin_content" ]]; then
+  combined_prompt="Follow the user's instructions and output only the result.
+
+User instruction: ${user_prompt}
+
+\`\`\`
+${stdin_content}
+\`\`\`"
+else
+  combined_prompt="Follow the user's instructions and output only the result.
+
+User instruction: ${user_prompt}"
+fi
+
+# ---- 実行 ----
+# --json オプションで JSONL 出力を取得し、最後のアシスタントメッセージのみを抽出
+declare -a cmd=(codex exec --json)
+((${#opts[@]})) && cmd+=("${opts[@]}")
+
+# プロンプトは stdin から渡す（引数ではなく）
+# 一時ファイルに出力を保存
+tmpout="$(mktemp -t codexpipe2_out.XXXXXX)"
+trap 'rm -f "$tmpout"' EXIT
+
+echo "$combined_prompt" | "${cmd[@]}" 2>/dev/null > "$tmpout"
+
+# 最後のアシスタントメッセージ（agent_message）を見つける
+last_message=""
+while IFS= read -r line; do
+  if echo "$line" | grep -q '"type":"item.completed"'; then
+    if echo "$line" | grep -q '"type":"agent_message"'; then
+      last_message="$line"
+    fi
+  fi
+done < "$tmpout"
+
+# 最後のアシスタントメッセージから text を抽出して表示
+if [[ -n "$last_message" ]]; then
+  # jq があれば使用、なければ手動パース
+  if command -v jq >/dev/null 2>&1; then
+    echo "$last_message" | jq -r '.item.text // empty'
+  else
+    # 簡易的な JSON パース（エスケープ処理含む）
+    echo "$last_message" | sed -n 's/.*"text":"\(.*\)"}}/\1/p' | sed 's/\\n/\n/g; s/\\t/\t/g; s/\\"/"/g; s/\\\\/\\/g'
+  fi
+fi
