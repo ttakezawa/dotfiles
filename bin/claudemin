@@ -1,0 +1,115 @@
+#!/bin/bash
+# claudemin - minimal Claude one-liner wrapper
+#  - 実行バイナリ: $HOME/.claude/local/claude を優先。なければ PATH の claude
+#  - --system-prompt だけ注入（ユーザーが指定済みなら注入しない）
+#  - それ以外の引数はすべてそのまま委譲
+#  - 空の一時ディレクトリで実行して CLAUDE.md の自動読取を避ける
+#  - 標準入力は内容を変更せずに中継
+
+set -euo pipefail
+
+# 実行バイナリ決定
+if [[ -x "$HOME/.claude/local/claude" ]]; then
+  CLAUDE_BIN="$HOME/.claude/local/claude"
+elif command -v claude >/dev/null 2>&1; then
+  CLAUDE_BIN="claude"
+else
+  echo "Error: Claude CLI が見つかりません。 \$HOME/.claude/local/claude または 'claude' を用意してください。" >&2
+  exit 127
+fi
+
+# デフォルト System Prompt（環境変数で上書き可）
+DEFAULT_SYSTEM_PROMPT='You are a minimal, fast, non-proactive assistant. Prefer concise answers. Do not read local files or repositories unless the user explicitly provides paths/flags or file contents. Avoid side effects.'
+SYSTEM_PROMPT="${CLAUDEMIN_SYSTEM_PROMPT:-$DEFAULT_SYSTEM_PROMPT}"
+
+# 引数を解析して -m/--model を抽出し、--system-prompt の上書きを検知
+ADD_SYSTEM_PROMPT=true
+END_OF_OPTIONS=false
+declare -a MODEL_ARGS=()
+declare -a FORWARDED_ARGS=()
+
+while (($#)); do
+  arg="$1"
+  if [[ "$END_OF_OPTIONS" == false ]]; then
+    case "$arg" in
+      --)
+        END_OF_OPTIONS=true
+        FORWARDED_ARGS+=("$arg")
+        shift
+        continue
+        ;;
+      -m|--model)
+        if (($# < 2)); then
+          echo "Error: option '$arg' requires an argument." >&2
+          exit 1
+        fi
+        if [[ "$arg" == "-m" ]]; then
+          MODEL_ARGS+=(--model "$2")
+        else
+          MODEL_ARGS+=("$arg" "$2")
+        fi
+        shift 2
+        continue
+        ;;
+      -m=*|--model=*)
+        if [[ "$arg" == -m=* ]]; then
+          MODEL_ARGS+=(--model="${arg#*=}")
+        else
+          MODEL_ARGS+=("$arg")
+        fi
+        shift
+        continue
+        ;;
+      --system-prompt)
+        ADD_SYSTEM_PROMPT=false
+        if (($# < 2)); then
+          echo "Error: option '$arg' requires an argument." >&2
+          exit 1
+        fi
+        FORWARDED_ARGS+=("$arg" "$2")
+        shift 2
+        continue
+        ;;
+      --system-prompt=*|-S=*)
+        ADD_SYSTEM_PROMPT=false
+        FORWARDED_ARGS+=("$arg")
+        shift
+        continue
+        ;;
+      -S)
+        ADD_SYSTEM_PROMPT=false
+        if (($# < 2)); then
+          echo "Error: option '$arg' requires an argument." >&2
+          exit 1
+        fi
+        FORWARDED_ARGS+=("$arg" "$2")
+        shift 2
+        continue
+        ;;
+    esac
+  fi
+
+  FORWARDED_ARGS+=("$arg")
+  shift
+done
+
+# 空の一時ディレクトリで実行（相対パスは /tmp 側になる点に注意）
+TMPDIR="$(mktemp -d)"
+cleanup() { rm -rf "$TMPDIR"; }
+trap cleanup EXIT
+cd "$TMPDIR"
+
+# 実行（標準入力はそのまま中継）
+CLAUDE_CMD=( "$CLAUDE_BIN" )
+if ((${#MODEL_ARGS[@]})); then
+  CLAUDE_CMD+=("${MODEL_ARGS[@]}")
+fi
+if "$ADD_SYSTEM_PROMPT"; then
+  CLAUDE_CMD+=(--system-prompt "$SYSTEM_PROMPT")
+fi
+if ((${#FORWARDED_ARGS[@]})); then
+  CLAUDE_CMD+=("${FORWARDED_ARGS[@]}")
+fi
+
+"${CLAUDE_CMD[@]}"
+exit $?
