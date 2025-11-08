@@ -18,6 +18,42 @@ function history-merge --on-event fish_preexec
     history --merge
 end
 
+# 1) 振る舞い本体（N回で終了）
+function __cd_n_times_exit --description 'Delete char or exit after N Ctrl-D presses'
+    set -l N 3  # 必要回数はここで調整
+
+    # 入力中は通常どおり1文字削除してカウンタをリセット
+    if test -n (commandline)
+        commandline -f delete-char
+        set -g __cd_press_count 0
+        return
+    end
+
+    # 空行：Ctrl-D 連打回数をカウント
+    if not set -q __cd_press_count
+        set -g __cd_press_count 0
+    end
+    set -g __cd_press_count (math $__cd_press_count + 1)
+
+    if test $__cd_press_count -ge $N
+        exit 0
+    else
+        set -l remain (math $N - $__cd_press_count)
+        printf 'Press Ctrl-D %d more time(s) to exit\n\n' $remain
+        commandline -f repaint
+    end
+end
+
+# 新しいプロンプトが出たらカウンタをクリア
+function __cd_reset_counter --on-event fish_prompt
+    set -e __cd_press_count
+end
+
+# 2) Ctrl-D のバインドを差し替え（ユーザー定義は既定より優先されます）
+bind \cd __cd_n_times_exit
+bind -M insert \cd __cd_n_times_exit
+bind -M default \cd __cd_n_times_exit
+
 # Homebrew
 if not type -q brew && test -x /opt/homebrew/bin/brew
     if not test -s "$cachedir/brew_shellenv" # brewの補完をキャッシュする
