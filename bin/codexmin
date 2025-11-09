@@ -1,9 +1,9 @@
 #!/bin/bash
-# codexpipe - make `codex exec` easy to use in pipelines on macOS.
+# codexmin - make `codex exec` easy to use in pipelines on macOS.
 # Example:
-#   eza --help | codexpipe 日本語にして
-#   cat README.md | codexpipe -m gpt-5-codex-mini 箇条書きで要約
-#   echo "test" | codexpipe -p myprofile -c key=value --search 解説して
+#   eza --help | codexmin 日本語にして
+#   cat README.md | codexmin -m gpt-5-codex-mini 箇条書きで要約
+#   echo "test" | codexmin -p myprofile -c key=value --search 解説して
 #
 # 仕様:
 # - 先頭のオプションはそのまま `codex exec` に転送
@@ -15,14 +15,14 @@
 set -eo pipefail
 
 if ! command -v codex >/dev/null 2>&1; then
-  echo "codexpipe: 'codex' command not found. Please install/ensure it's on PATH." >&2
+  echo "codexmin: 'codex' command not found. Please install/ensure it's on PATH." >&2
   exit 127
 fi
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   cat <<'EOF'
 Usage:
-  <producer> | codexpipe [codex-options...] [--] [PROMPT...]
+  <producer> | codexmin [codex-options...] [--] [PROMPT...]
 
 Supported options:
   -m, --model <MODEL>         Specify the model to use
@@ -31,10 +31,10 @@ Supported options:
   --search                    Enable search functionality
 
 Examples:
-  eza --help | codexpipe 日本語にして
-  cat file.txt | codexpipe -m gpt-5-codex-mini 要点を3つに要約
-  echo "test" | codexpipe -p myprofile -c key=value 解説して
-  codexpipe -m gpt-5-codex-mini Hello World
+  eza --help | codexmin 日本語にして
+  cat file.txt | codexmin -m gpt-5-codex-mini 要点を3つに要約
+  echo "test" | codexmin -p myprofile -c key=value 解説して
+  codexmin -m gpt-5-codex-mini Hello World
 
 Notes:
   - オプション値が '-' で始まる場合は、`--` で明示的に区切ってください。
@@ -61,12 +61,12 @@ while (($#)); do
       if (($#>=2)) && [[ "$2" != -* ]]; then
         opts+=("$1" "$2"); shift 2
       else
-        echo "codexpipe: option '$1' requires an argument" >&2
+        echo "codexmin: option '$1' requires an argument" >&2
         exit 1
       fi
       ;;
     -*)
-      echo "codexpipe: unsupported option '$1'" >&2
+      echo "codexmin: unsupported option '$1'" >&2
       exit 1
       ;;
     *)  break ;;
@@ -99,7 +99,7 @@ declare -a cmd=(codex exec --json --skip-git-repo-check)
 
 # プロンプトは stdin から渡す（引数ではなく）
 # 一時ファイルに出力を保存
-tmpout="$(mktemp -t codexpipe_out.XXXXXX)"
+tmpout="$(mktemp -t codexmin_out.XXXXXX)"
 trap 'rm -f "$tmpout"' EXIT
 
 echo "$combined_prompt" | "${cmd[@]}" > "$tmpout"
