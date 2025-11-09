@@ -93,7 +93,8 @@ fi
 
 # ---- 実行 ----
 # --json オプションで JSONL 出力を取得し、最後のアシスタントメッセージのみを抽出
-declare -a cmd=(codex exec --json)
+# --skip-git-repo-check を常に付与してリポジトリチェックを抑制
+declare -a cmd=(codex exec --json --skip-git-repo-check)
 ((${#opts[@]})) && cmd+=("${opts[@]}")
 
 # プロンプトは stdin から渡す（引数ではなく）
