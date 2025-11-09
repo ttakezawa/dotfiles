@@ -28,96 +28,99 @@ ALLOWED_TOOLS="${CLAUDEPRINT_ALLOWED_TOOLS:-$DEFAULT_ALLOWED_TOOLS}"
 ADD_SYSTEM_PROMPT=true
 ADD_PRINT=true
 ADD_ALLOWED_TOOLS=true
-END_OF_OPTIONS=false
 declare -a MODEL_ARGS=()
-declare -a FORWARDED_ARGS=()
+declare -a FORWARDED_OPTS=()
+declare -a PROMPT_ARGS=()
 
 while (($#)); do
   arg="$1"
-  if [[ "$END_OF_OPTIONS" == false ]]; then
-    case "$arg" in
-      --)
-        END_OF_OPTIONS=true
-        FORWARDED_ARGS+=("$arg")
-        shift
-        continue
-        ;;
-      -m|--model)
-        if (($# < 2)); then
-          echo "Error: option '$arg' requires an argument." >&2
-          exit 1
-        fi
-        if [[ "$arg" == "-m" ]]; then
-          MODEL_ARGS+=(--model "$2")
-        else
-          MODEL_ARGS+=("$arg" "$2")
-        fi
-        shift 2
-        continue
-        ;;
-      -m=*|--model=*)
-        if [[ "$arg" == -m=* ]]; then
-          MODEL_ARGS+=(--model="${arg#*=}")
-        else
-          MODEL_ARGS+=("$arg")
-        fi
-        shift
-        continue
-        ;;
-      --system-prompt)
-        ADD_SYSTEM_PROMPT=false
-        if (($# < 2)); then
-          echo "Error: option '$arg' requires an argument." >&2
-          exit 1
-        fi
-        FORWARDED_ARGS+=("$arg" "$2")
-        shift 2
-        continue
-        ;;
-      --system-prompt=*|-S=*)
-        ADD_SYSTEM_PROMPT=false
-        FORWARDED_ARGS+=("$arg")
-        shift
-        continue
-        ;;
-      -S)
-        ADD_SYSTEM_PROMPT=false
-        if (($# < 2)); then
-          echo "Error: option '$arg' requires an argument." >&2
-          exit 1
-        fi
-        FORWARDED_ARGS+=("$arg" "$2")
-        shift 2
-        continue
-        ;;
-      -p|--print)
-        ADD_PRINT=false
-        FORWARDED_ARGS+=("$arg")
-        shift
-        continue
-        ;;
-      --allowed-tools|--allowedTools)
-        ADD_ALLOWED_TOOLS=false
-        if (($# < 2)); then
-          echo "Error: option '$arg' requires an argument." >&2
-          exit 1
-        fi
-        FORWARDED_ARGS+=("$arg" "$2")
-        shift 2
-        continue
-        ;;
-      --allowed-tools=*|--allowedTools=*)
-        ADD_ALLOWED_TOOLS=false
-        FORWARDED_ARGS+=("$arg")
-        shift
-        continue
-        ;;
-    esac
-  fi
-
-  FORWARDED_ARGS+=("$arg")
-  shift
+  case "$arg" in
+    --)
+      shift
+      break
+      ;;
+    -m|--model)
+      if (($# < 2)); then
+        echo "Error: option '$arg' requires an argument." >&2
+        exit 1
+      fi
+      if [[ "$arg" == "-m" ]]; then
+        MODEL_ARGS+=(--model "$2")
+      else
+        MODEL_ARGS+=("$arg" "$2")
+      fi
+      shift 2
+      continue
+      ;;
+    -m=*|--model=*)
+      if [[ "$arg" == -m=* ]]; then
+        MODEL_ARGS+=(--model="${arg#*=}")
+      else
+        MODEL_ARGS+=("$arg")
+      fi
+      shift
+      continue
+      ;;
+    --system-prompt)
+      ADD_SYSTEM_PROMPT=false
+      if (($# < 2)); then
+        echo "Error: option '$arg' requires an argument." >&2
+        exit 1
+      fi
+      FORWARDED_OPTS+=("$arg" "$2")
+      shift 2
+      continue
+      ;;
+    --system-prompt=*|-S=*)
+      ADD_SYSTEM_PROMPT=false
+      FORWARDED_OPTS+=("$arg")
+      shift
+      continue
+      ;;
+    -S)
+      ADD_SYSTEM_PROMPT=false
+      if (($# < 2)); then
+        echo "Error: option '$arg' requires an argument." >&2
+        exit 1
+      fi
+      FORWARDED_OPTS+=("$arg" "$2")
+      shift 2
+      continue
+      ;;
+    -p|--print)
+      ADD_PRINT=false
+      FORWARDED_OPTS+=("$arg")
+      shift
+      continue
+      ;;
+    --allowed-tools|--allowedTools)
+      ADD_ALLOWED_TOOLS=false
+      if (($# < 2)); then
+        echo "Error: option '$arg' requires an argument." >&2
+        exit 1
+      fi
+      FORWARDED_OPTS+=("$arg" "$2")
+      shift 2
+      continue
+      ;;
+    --allowed-tools=*|--allowedTools=*)
+      ADD_ALLOWED_TOOLS=false
+      FORWARDED_OPTS+=("$arg")
+      shift
+      continue
+      ;;
+    -*)
+      FORWARDED_OPTS+=("$arg")
+      shift
+      continue
+      ;;
+    *)
+      break
+      ;;
+  esac
 done
+
+PROMPT_ARGS=("$@")
 
 # 実行（標準入力はそのまま中継）
 CLAUDE_CMD=( "$CLAUDE_BIN" )
@@ -133,8 +136,11 @@ fi
 if "$ADD_ALLOWED_TOOLS"; then
   CLAUDE_CMD+=(--allowed-tools "$ALLOWED_TOOLS")
 fi
-if ((${#FORWARDED_ARGS[@]})); then
-  CLAUDE_CMD+=("${FORWARDED_ARGS[@]}")
+if ((${#FORWARDED_OPTS[@]})); then
+  CLAUDE_CMD+=("${FORWARDED_OPTS[@]}")
+fi
+if ((${#PROMPT_ARGS[@]})); then
+  CLAUDE_CMD+=(-- "${PROMPT_ARGS[@]}")
 fi
 
 "${CLAUDE_CMD[@]}"
