@@ -1,0 +1,151 @@
+#!/bin/bash
+# ghmodelsprint - pipe-friendly wrapper around `gh models run`.
+# - Reads stdin (if available), merges it with the prompt, and sends everything to GitHub Models.
+# - Supports -m/--model to select the model (default configurable via GHMODELSPRINT_DEFAULT_MODEL).
+# - Supports -l/--list to show model catalog via `gh models list`.
+
+set -euo pipefail
+
+print_help() {
+  cat <<'EOF'
+Usage:
+  <producer> | ghmodelsprint [options] [--] [PROMPT...]
+
+Description:
+  Wraps `gh models run` so it can be used easily in pipelines. Any piped stdin is embedded into the
+  prompt before calling the GitHub Models API via the GitHub CLI.
+
+Options:
+  -h, --help                 Show this help and exit
+  -l, --list                 Show available models (`gh models list`) and exit
+  -m, --model <MODEL>        Model name (default: $GHMODELSPRINT_DEFAULT_MODEL or openai/gpt-4.1)
+      --system-prompt <TXT>  Forwarded to `gh models run`
+      --temperature <VAL>    Forwarded to `gh models run`
+      --top-p <VAL>          Forwarded to `gh models run`
+      --max-tokens <N>       Forwarded to `gh models run`
+      --org <SLUG>           Forwarded to `gh models run`
+      --file <PATH>          Forwarded to `gh models run`
+      --var key=value        Forwarded to `gh models run` (repeatable)
+
+Environment:
+  GHMODELSPRINT_DEFAULT_MODEL   Overrides the default model when -m/--model is not supplied.
+
+Examples:
+  eza --help | ghmodelsprint -m openai/gpt-5-nano "日本語にして"
+  ghmodelsprint --temperature 0.2 要約して
+  ghmodelsprint -l
+EOF
+}
+
+if ! command -v gh >/dev/null 2>&1; then
+  echo "ghmodelsprint: 'gh' CLI not found. Install GitHub CLI first." >&2
+  exit 127
+fi
+
+MODEL="${GHMODELSPRINT_DEFAULT_MODEL:-openai/gpt-4.1}"
+LIST_ONLY=false
+declare -a RUN_OPTS=()
+
+while (($#)); do
+  case "$1" in
+    -h|--help)
+      print_help
+      exit 0
+      ;;
+    -l|--list)
+      LIST_ONLY=true
+      shift
+      continue
+      ;;
+    -m|--model)
+      if (($# < 2)); then
+        echo "ghmodelsprint: option '$1' requires a value." >&2
+        exit 1
+      fi
+      MODEL="$2"
+      shift 2
+      continue
+      ;;
+    -m=*|--model=*)
+      MODEL="${1#*=}"
+      shift
+      continue
+      ;;
+    --system-prompt|--temperature|--top-p|--max-tokens|--org|--file)
+      if (($# < 2)); then
+        echo "ghmodelsprint: option '$1' requires a value." >&2
+        exit 1
+      fi
+      RUN_OPTS+=("$1" "$2")
+      shift 2
+      continue
+      ;;
+    --system-prompt=*|--temperature=*|--top-p=*|--max-tokens=*|--org=*|--file=*)
+      RUN_OPTS+=("$1")
+      shift
+      continue
+      ;;
+    --var)
+      if (($# < 2)); then
+        echo "ghmodelsprint: option '--var' requires a value." >&2
+        exit 1
+      fi
+      RUN_OPTS+=("$1" "$2")
+      shift 2
+      continue
+      ;;
+    --var=*)
+      RUN_OPTS+=("$1")
+      shift
+      continue
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      echo "ghmodelsprint: unsupported option '$1'. Use -- to separate prompt text if needed." >&2
+      exit 1
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+declare -a prompt_words=()
+if (($#)); then
+  prompt_words+=("$@")
+fi
+
+if "$LIST_ONLY"; then
+  gh models list
+  exit $?
+fi
+
+stdin_content=""
+if [[ ! -t 0 ]]; then
+  stdin_content="$(cat)"
+fi
+
+user_prompt="${prompt_words[*]}"
+if [[ -z "$user_prompt" ]]; then
+  if [[ -z "$stdin_content" ]]; then
+    echo "ghmodelsprint: provide prompt text or pipe input." >&2
+    exit 1
+  fi
+  user_prompt="Explain the provided input."
+fi
+
+combined_prompt="$user_prompt"
+if [[ -n "$stdin_content" ]]; then
+  combined_prompt=$'Follow the user instruction and output only the result.\n\nUser instruction: '"$user_prompt"$'\n\nInput:\n```\n'"$stdin_content"$'\n```'
+fi
+
+declare -a cmd=(gh models run)
+if ((${#RUN_OPTS[@]})); then
+  cmd+=("${RUN_OPTS[@]}")
+fi
+cmd+=("$MODEL" "$combined_prompt")
+
+"${cmd[@]}"
