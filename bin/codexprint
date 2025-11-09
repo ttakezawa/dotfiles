@@ -7,10 +7,11 @@
 #
 # 仕様:
 # - 先頭のオプションはそのまま `codex exec` に転送
-#   (-m/--model, -c/--config, -p/--profile, --search)
+#   (-m/--model, -c/--config, -p/--profile, --search, --enable/--disable)
 # - 最初の非オプション（または `--` の後ろ）以降は PROMPT として扱う
 # - stdin の内容とプロンプトを組み合わせて `codex exec` に渡す
 # - パイプが無い場合はプロンプトのみで実行
+# - ユーザー指定が無ければ `--enable web_search_request` を自動付与
 
 set -eo pipefail
 
@@ -50,12 +51,26 @@ fi
 
 # ---- 先頭のオプションを収集（値つき対応） ----
 declare -a opts=()
+add_web_search=true
 while (($#)); do
   case "$1" in
     --) shift; break ;;                               # オプション終端
     --model=*|--config=*|--profile=*|-m=*|-c=*|-p=*) # --long=VAL / -m=VAL
       opts+=("$1"); shift ;;
     --search)                                         # boolean option
+      add_web_search=false
+      opts+=("$1"); shift ;;
+    --enable|--disable)
+      if (($#>=2)) && [[ "$2" != -* ]]; then
+        add_web_search=false
+        opts+=("$1" "$2"); shift 2
+      else
+        echo "codexprint: option '$1' requires an argument" >&2
+        exit 1
+      fi
+      ;;
+    --enable=*|--disable=*)
+      add_web_search=false
       opts+=("$1"); shift ;;
     --model|--config|--profile|-m|-c|-p)              # --long [VAL] / -m [VAL]
       if (($#>=2)) && [[ "$2" != -* ]]; then
@@ -95,6 +110,9 @@ fi
 # --json オプションで JSONL 出力を取得し、最後のアシスタントメッセージのみを抽出
 # --skip-git-repo-check を常に付与してリポジトリチェックを抑制
 declare -a cmd=(codex exec --json --skip-git-repo-check)
+if "$add_web_search"; then
+  cmd+=(--enable web_search_request)
+fi
 ((${#opts[@]})) && cmd+=("${opts[@]}")
 
 # プロンプトは stdin から渡す（引数ではなく）
