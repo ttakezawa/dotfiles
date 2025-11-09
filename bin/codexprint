@@ -43,6 +43,70 @@ EOF
   exit 0
 fi
 
+extract_last_agent_message() {
+  local file="$1"
+  if command -v python3 >/dev/null 2>&1; then
+    python3 - "$file" <<'PY'
+import json, sys
+path = sys.argv[1]
+
+def to_text(item):
+    text = item.get("text")
+    if isinstance(text, str):
+        return text
+    if isinstance(text, list):
+        return "\n".join(str(t) for t in text if t is not None)
+    content = item.get("content") or []
+    parts = []
+    for block in content:
+        txt = block.get("text")
+        if isinstance(txt, str):
+            parts.append(txt)
+    return "\n".join(parts)
+
+last = ""
+with open(path) as fh:
+    for line in fh:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            data = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if data.get("type") != "item.completed":
+            continue
+        item = data.get("item") or {}
+        if item.get("type") != "agent_message":
+            continue
+        candidate = to_text(item)
+        if candidate:
+            last = candidate
+if last:
+    print(last)
+PY
+    return
+  fi
+
+  if command -v jq >/dev/null 2>&1; then
+    jq -sr '
+      map(select(.type=="item.completed" and .item.type=="agent_message") | .item.text // empty)
+      | if length>0 then last else "" end
+    ' "$file"
+    return
+  fi
+
+  local last=""
+  while IFS= read -r line; do
+    if echo "$line" | grep -q '"type":"item.completed"' && echo "$line" | grep -q '"type":"agent_message"'; then
+      last="$line"
+    fi
+  done < "$file"
+  if [[ -n "$last" ]]; then
+    echo "$last" | sed -n 's/.*"text":"\(.*\)"}}/\1/p' | sed 's/\\n/\n/g; s/\\t/\t/g; s/\\"/"/g; s/\\\\/\\/g'
+  fi
+}
+
 # ---- stdin を読み取り（パイプ無しなら空） ----
 stdin_content=""
 if [[ ! -t 0 ]]; then
@@ -129,23 +193,4 @@ if ! echo "$combined_prompt" | "${cmd[@]}" > "$tmpout"; then
   exit "$status"
 fi
 
-# 最後のアシスタントメッセージ（agent_message）を見つける
-last_message=""
-while IFS= read -r line; do
-  if echo "$line" | grep -q '"type":"item.completed"'; then
-    if echo "$line" | grep -q '"type":"agent_message"'; then
-      last_message="$line"
-    fi
-  fi
-done < "$tmpout"
-
-# 最後のアシスタントメッセージから text を抽出して表示
-if [[ -n "$last_message" ]]; then
-  # jq があれば使用、なければ手動パース
-  if command -v jq >/dev/null 2>&1; then
-    echo "$last_message" | jq -r '.item.text // empty'
-  else
-    # 簡易的な JSON パース（エスケープ処理含む）
-    echo "$last_message" | sed -n 's/.*"text":"\(.*\)"}}/\1/p' | sed 's/\\n/\n/g; s/\\t/\t/g; s/\\"/"/g; s/\\\\/\\/g'
-  fi
-fi
+extract_last_agent_message "$tmpout"

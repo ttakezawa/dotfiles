@@ -20,7 +20,7 @@ fi
 
 # デフォルト System Prompt（環境変数で上書き可）
 DEFAULT_SYSTEM_PROMPT='You are a minimal, fast, non-proactive assistant. Prefer concise answers. Do not read local files or repositories unless the user explicitly provides paths/flags or file contents. Avoid side effects.'
-SYSTEM_PROMPT="${CLAUDEPRINT_SYSTEM_PROMPT:-${CLAUDEMIN_SYSTEM_PROMPT:-$DEFAULT_SYSTEM_PROMPT}}"
+SYSTEM_PROMPT="${CLAUDEPRINT_SYSTEM_PROMPT:-$DEFAULT_SYSTEM_PROMPT}"
 DEFAULT_ALLOWED_TOOLS='WebSearch WebFetch Read Grep Glob LS Bash(ls:*) Bash(cat:*) Bash(grep:*) Bash(find:*)'
 ALLOWED_TOOLS="${CLAUDEPRINT_ALLOWED_TOOLS:-$DEFAULT_ALLOWED_TOOLS}"
 
@@ -130,10 +130,10 @@ fi
 if "$ADD_PRINT"; then
   CLAUDE_CMD+=(-p)
 fi
-if "$ADD_SYSTEM_PROMPT"; then
+if "$ADD_SYSTEM_PROMPT" && [[ -n "$SYSTEM_PROMPT" ]]; then
   CLAUDE_CMD+=(--system-prompt "$SYSTEM_PROMPT")
 fi
-if "$ADD_ALLOWED_TOOLS"; then
+if "$ADD_ALLOWED_TOOLS" && [[ -n "$ALLOWED_TOOLS" ]]; then
   CLAUDE_CMD+=(--allowed-tools "$ALLOWED_TOOLS")
 fi
 if ((${#FORWARDED_OPTS[@]})); then
