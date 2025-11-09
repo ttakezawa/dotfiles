@@ -2,7 +2,7 @@
 # claudeprint - minimal Claude one-liner wrapper
 #  - 実行バイナリ: $HOME/.claude/local/claude を優先。なければ PATH の claude
 #  - claude コマンドに -p（print モード）をデフォルト付与
-#  - --system-prompt だけ注入（ユーザーが指定済みなら注入しない）
+#  - --system-prompt / --allowed-tools を自動で注入（ユーザー指定があれば尊重）
 #  - それ以外の引数はすべてそのまま委譲
 #  - 標準入力は内容を変更せずに中継
 
@@ -21,10 +21,13 @@ fi
 # デフォルト System Prompt（環境変数で上書き可）
 DEFAULT_SYSTEM_PROMPT='You are a minimal, fast, non-proactive assistant. Prefer concise answers. Do not read local files or repositories unless the user explicitly provides paths/flags or file contents. Avoid side effects.'
 SYSTEM_PROMPT="${CLAUDEPRINT_SYSTEM_PROMPT:-${CLAUDEMIN_SYSTEM_PROMPT:-$DEFAULT_SYSTEM_PROMPT}}"
+DEFAULT_ALLOWED_TOOLS='WebSearch WebFetch Read Grep Glob LS Bash(ls:*) Bash(cat:*) Bash(grep:*) Bash(find:*)'
+ALLOWED_TOOLS="${CLAUDEPRINT_ALLOWED_TOOLS:-$DEFAULT_ALLOWED_TOOLS}"
 
-# 引数を解析して -m/--model を抽出し、--system-prompt の上書きや -p の指定を検知
+# 引数を解析して -m/--model を抽出し、--system-prompt / --allowed-tools の上書きや -p の指定を検知
 ADD_SYSTEM_PROMPT=true
 ADD_PRINT=true
+ADD_ALLOWED_TOOLS=true
 END_OF_OPTIONS=false
 declare -a MODEL_ARGS=()
 declare -a FORWARDED_ARGS=()
@@ -93,6 +96,22 @@ while (($#)); do
         shift
         continue
         ;;
+      --allowed-tools|--allowedTools)
+        ADD_ALLOWED_TOOLS=false
+        if (($# < 2)); then
+          echo "Error: option '$arg' requires an argument." >&2
+          exit 1
+        fi
+        FORWARDED_ARGS+=("$arg" "$2")
+        shift 2
+        continue
+        ;;
+      --allowed-tools=*|--allowedTools=*)
+        ADD_ALLOWED_TOOLS=false
+        FORWARDED_ARGS+=("$arg")
+        shift
+        continue
+        ;;
     esac
   fi
 
@@ -110,6 +129,9 @@ if "$ADD_PRINT"; then
 fi
 if "$ADD_SYSTEM_PROMPT"; then
   CLAUDE_CMD+=(--system-prompt "$SYSTEM_PROMPT")
+fi
+if "$ADD_ALLOWED_TOOLS"; then
+  CLAUDE_CMD+=(--allowed-tools "$ALLOWED_TOOLS")
 fi
 if ((${#FORWARDED_ARGS[@]})); then
   CLAUDE_CMD+=("${FORWARDED_ARGS[@]}")
