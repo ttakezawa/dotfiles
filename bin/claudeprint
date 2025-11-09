@@ -4,7 +4,6 @@
 #  - claude コマンドに -p（print モード）をデフォルト付与
 #  - --system-prompt だけ注入（ユーザーが指定済みなら注入しない）
 #  - それ以外の引数はすべてそのまま委譲
-#  - 空の一時ディレクトリで実行して CLAUDE.md の自動読取を避ける
 #  - 標準入力は内容を変更せずに中継
 
 set -euo pipefail
@@ -100,12 +99,6 @@ while (($#)); do
   FORWARDED_ARGS+=("$arg")
   shift
 done
-
-# 空の一時ディレクトリで実行（相対パスは /tmp 側になる点に注意）
-TMPDIR="$(mktemp -d)"
-cleanup() { rm -rf "$TMPDIR"; }
-trap cleanup EXIT
-cd "$TMPDIR"
 
 # 実行（標準入力はそのまま中継）
 CLAUDE_CMD=( "$CLAUDE_BIN" )
