@@ -1,6 +1,7 @@
 #!/bin/bash
 # claudeprint - minimal Claude one-liner wrapper
 #  - 実行バイナリ: $HOME/.claude/local/claude を優先。なければ PATH の claude
+#  - claude コマンドに -p（print モード）をデフォルト付与
 #  - --system-prompt だけ注入（ユーザーが指定済みなら注入しない）
 #  - それ以外の引数はすべてそのまま委譲
 #  - 空の一時ディレクトリで実行して CLAUDE.md の自動読取を避ける
@@ -22,8 +23,9 @@ fi
 DEFAULT_SYSTEM_PROMPT='You are a minimal, fast, non-proactive assistant. Prefer concise answers. Do not read local files or repositories unless the user explicitly provides paths/flags or file contents. Avoid side effects.'
 SYSTEM_PROMPT="${CLAUDEPRINT_SYSTEM_PROMPT:-${CLAUDEMIN_SYSTEM_PROMPT:-$DEFAULT_SYSTEM_PROMPT}}"
 
-# 引数を解析して -m/--model を抽出し、--system-prompt の上書きを検知
+# 引数を解析して -m/--model を抽出し、--system-prompt の上書きや -p の指定を検知
 ADD_SYSTEM_PROMPT=true
+ADD_PRINT=true
 END_OF_OPTIONS=false
 declare -a MODEL_ARGS=()
 declare -a FORWARDED_ARGS=()
@@ -86,6 +88,12 @@ while (($#)); do
         shift 2
         continue
         ;;
+      -p|--print)
+        ADD_PRINT=false
+        FORWARDED_ARGS+=("$arg")
+        shift
+        continue
+        ;;
     esac
   fi
 
@@ -103,6 +111,9 @@ cd "$TMPDIR"
 CLAUDE_CMD=( "$CLAUDE_BIN" )
 if ((${#MODEL_ARGS[@]})); then
   CLAUDE_CMD+=("${MODEL_ARGS[@]}")
+fi
+if "$ADD_PRINT"; then
+  CLAUDE_CMD+=(-p)
 fi
 if "$ADD_SYSTEM_PROMPT"; then
   CLAUDE_CMD+=(--system-prompt "$SYSTEM_PROMPT")
