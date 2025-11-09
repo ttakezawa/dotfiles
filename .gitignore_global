@@ -1,23 +1,27 @@
+*.code-workspace
 .kiro
 .claude/settings.local.json
 .claude/commands/my-*.md
 .cursor/rules/
 .cursorrules
 .cursorignore
-
-*.code-workspace
-
-localutil/
-localtmp
 /.specify/
 /.claude/commands/speckit.*
-
-.dir-locals.el
-local.sh
-gpg-secret-key.asc
 .idea/markdown-navigator
 .idea/markdown-navigator.xml
 .idea/markdown-exported-files.xml
+
+localutil/
+localtmp/
+archive/
+
+.cspell/
+.sqruff
+.sqlfluff
+
+local.sh
+.dir-locals.el
+gpg-secret-key.asc
 
 # Obsidian
 .obsidian/workspace
