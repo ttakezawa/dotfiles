@@ -101,7 +101,7 @@ declare -a cmd=(codex exec --json)
 tmpout="$(mktemp -t codexpipe_out.XXXXXX)"
 trap 'rm -f "$tmpout"' EXIT
 
-echo "$combined_prompt" | "${cmd[@]}" 2>/dev/null > "$tmpout"
+echo "$combined_prompt" | "${cmd[@]}" > "$tmpout"
 
 # 最後のアシスタントメッセージ（agent_message）を見つける
 last_message=""
