@@ -1,5 +1,5 @@
 #!/bin/bash
-# claudemin - minimal Claude one-liner wrapper
+# claudeprint - minimal Claude one-liner wrapper
 #  - 実行バイナリ: $HOME/.claude/local/claude を優先。なければ PATH の claude
 #  - --system-prompt だけ注入（ユーザーが指定済みなら注入しない）
 #  - それ以外の引数はすべてそのまま委譲
@@ -20,7 +20,7 @@ fi
 
 # デフォルト System Prompt（環境変数で上書き可）
 DEFAULT_SYSTEM_PROMPT='You are a minimal, fast, non-proactive assistant. Prefer concise answers. Do not read local files or repositories unless the user explicitly provides paths/flags or file contents. Avoid side effects.'
-SYSTEM_PROMPT="${CLAUDEMIN_SYSTEM_PROMPT:-$DEFAULT_SYSTEM_PROMPT}"
+SYSTEM_PROMPT="${CLAUDEPRINT_SYSTEM_PROMPT:-${CLAUDEMIN_SYSTEM_PROMPT:-$DEFAULT_SYSTEM_PROMPT}}"
 
 # 引数を解析して -m/--model を抽出し、--system-prompt の上書きを検知
 ADD_SYSTEM_PROMPT=true
