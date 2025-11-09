@@ -1,0 +1,144 @@
+#!/bin/bash
+# geminiprint - pipe-friendly wrapper around the Gemini CLI.
+# - Reads stdin (if any), combines it with the prompt, and runs `gemini` in non-interactive mode.
+# - Passes recognised Gemini CLI options straight through.
+# - Adds `--output-format text` unless the user already specified an explicit format.
+# - Constructs a single prompt (unless -p/--prompt/--prompt-interactive was already provided) so that workflows like
+#     `cat file | geminiprint -m gemini-1.5-pro 翻訳して`
+#   just work.
+
+set -euo pipefail
+
+if ! command -v gemini >/dev/null 2>&1; then
+  echo "geminiprint: 'gemini' command not found. Install the Gemini CLI first." >&2
+  exit 127
+fi
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  cat <<'EOF'
+Usage:
+  <producer> | geminiprint [gemini-options...] [--] [PROMPT...]
+
+Description:
+  A minimal wrapper that makes the Gemini CLI easy to use inside shell pipelines.
+  Any leading Gemini options are forwarded unchanged. Remaining arguments become
+  the prompt text that will be combined with piped stdin (if available) and sent
+  as a positional argument to `gemini`.
+
+Examples:
+  eza --help | geminiprint 日本語で要約
+  cat main.py | geminiprint -m gemini-1.5-pro コードをレビューして
+  geminiprint -m gemini-1.5-flash Markdown で箇条書きにして
+
+Notes:
+  - Use `--` to manually separate Gemini options from prompt text when in doubt.
+  - Pass -p/--prompt/--prompt-interactive if you need full control over the prompt;
+    geminiprint will then leave stdin untouched and skip its auto-formatting.
+EOF
+  exit 0
+fi
+
+stdin_content=""
+if [[ ! -t 0 ]]; then
+  stdin_content="$(cat)"
+fi
+
+declare -a gemini_opts=()
+ADD_PROMPT=true
+ADD_OUTPUT_FORMAT=true
+
+while (($#)); do
+  case "$1" in
+    --)
+      shift
+      break
+      ;;
+    -m|--model|-p|--prompt|-i|--prompt-interactive|--approval-mode|--allowed-mcp-server-names|--allowed-tools|-e|--extensions|--include-directories|-o|--output-format)
+      if (($# < 2)); then
+        echo "geminiprint: option '$1' requires a value." >&2
+        exit 1
+      fi
+      value="$2"
+      gemini_opts+=("$1" "$value")
+      case "$1" in
+        -p|--prompt|-i|--prompt-interactive)
+          ADD_PROMPT=false
+          ;;
+        -o|--output-format)
+          ADD_OUTPUT_FORMAT=false
+          ;;
+      esac
+      shift 2
+      continue
+      ;;
+    -m=*|--model=*|-p=*|--prompt=*|--prompt-interactive=*|--approval-mode=*|--allowed-mcp-server-names=*|--allowed-tools=*|-e=*|--extensions=*|--include-directories=*|-o=*)
+      gemini_opts+=("$1")
+      case "$1" in
+        --prompt=*|-p=*|--prompt-interactive=*)
+          ADD_PROMPT=false
+          ;;
+        --output-format=*|-o=*)
+          ADD_OUTPUT_FORMAT=false
+          ;;
+      esac
+      shift
+      continue
+      ;;
+    -d|--debug|-s|--sandbox|-y|--yolo|--experimental-acp|-l|--list-extensions|--screen-reader|-v|--version)
+      gemini_opts+=("$1")
+      case "$1" in
+        -l|--list-extensions|-v|--version)
+          ADD_PROMPT=false
+          ;;
+      esac
+      shift
+      continue
+      ;;
+    -*)
+      echo "geminiprint: unsupported option '$1'. Use -- to separate prompt text if needed." >&2
+      exit 1
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+declare -a prompt_words=("$@")
+
+if "$ADD_OUTPUT_FORMAT"; then
+  gemini_opts+=(--output-format text)
+fi
+
+declare -a cmd=(gemini)
+cmd+=("${gemini_opts[@]}")
+
+if "$ADD_PROMPT"; then
+  if [[ -z "$stdin_content" && ${#prompt_words[@]} -eq 0 ]]; then
+    echo "geminiprint: provide prompt text or pipe input." >&2
+    exit 1
+  fi
+
+  user_prompt="${prompt_words[*]}"
+  if [[ -z "$user_prompt" ]]; then
+    user_prompt="Explain the provided input."
+  fi
+
+  combined_prompt="$user_prompt"
+  if [[ -n "$stdin_content" ]]; then
+    combined_prompt=$'Follow the user instruction and respond with plain text only.\n\nUser instruction: '"$user_prompt"$'\n\nInput:\n```\n'"$stdin_content"$'\n```'
+  fi
+
+  cmd+=("$combined_prompt")
+  "${cmd[@]}"
+else
+  if ((${#prompt_words[@]})); then
+    cmd+=("${prompt_words[@]}")
+  fi
+
+  if [[ -n "$stdin_content" ]]; then
+    printf '%s' "$stdin_content" | "${cmd[@]}"
+  else
+    "${cmd[@]}"
+  fi
+fi
