@@ -1,5 +1,5 @@
 CLAUDE.local.md
-AGENTS.overview.md
+AGENTS.override.md
 *.code-workspace
 .kiro
 .claude/settings.local.json
