@@ -18,18 +18,24 @@ function history-merge --on-event fish_preexec
     history --merge
 end
 
-# 1) 振る舞い本体（N回で終了）
-function __cd_n_times_exit --description 'Delete char or exit after N Ctrl-D presses'
-    set -l N 3  # 必要回数はここで調整
+# Ctrl-D での誤終了防止:
+# - 入力中は 1 文字削除
+# - 何も入力していない状態で N 回押すとシェルを終了
+# - 新しいプロンプトごとにカウンタをリセット
+set -g __cd_exit_required_presses 3  # Ctrl-D 何回で終了するか
 
-    # 入力中は通常どおり1文字削除してカウンタをリセット
+# Ctrl-D 押下時の処理関数（N 回で終了）
+function __cd_n_times_exit --description 'Delete char or exit after N Ctrl-D presses'
+    set -l N $__cd_exit_required_presses
+
+    # 入力中: 通常どおり 1 文字削除してカウンタをリセット
     if commandline | string collect > /dev/null
         commandline -f delete-char
         set -g __cd_press_count 0
         return
     end
 
-    # 空行：Ctrl-D 連打回数をカウント
+    # 空行: Ctrl-D 連打回数をカウント
     if not set -q __cd_press_count
         set -g __cd_press_count 0
     end
@@ -49,7 +55,7 @@ function __cd_reset_counter --on-event fish_prompt
     set -e __cd_press_count
 end
 
-# 2) Ctrl-D のバインドを差し替え（ユーザー定義は既定より優先されます）
+# Ctrl-D のバインドを差し替え（ユーザー定義は既定より優先される）
 bind \cd __cd_n_times_exit
 bind -M insert \cd __cd_n_times_exit
 bind -M default \cd __cd_n_times_exit
