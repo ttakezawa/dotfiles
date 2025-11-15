@@ -23,7 +23,7 @@ function __cd_n_times_exit --description 'Delete char or exit after N Ctrl-D pre
     set -l N 3  # 必要回数はここで調整
 
     # 入力中は通常どおり1文字削除してカウンタをリセット
-    if test -n (commandline)
+    if commandline | string collect > /dev/null
         commandline -f delete-char
         set -g __cd_press_count 0
         return
