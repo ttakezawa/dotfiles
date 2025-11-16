@@ -7,6 +7,8 @@
 [commit]
 	gpgsign = true
 	verbose = true
+[tag]
+	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes_global
