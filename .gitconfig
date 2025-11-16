@@ -3,7 +3,7 @@
 [user]
 	name = Tomohiro Takezawa
 	email = ttakezawa@users.noreply.github.com
-	signingkey = ttakezawa@users.noreply.github.com
+	signingkey = C92270AD2BBB9A4C04F2130FF0DD5416AF2663E4
 [commit]
 	gpgsign = true
 	verbose = true
