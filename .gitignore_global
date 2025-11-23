@@ -13,8 +13,8 @@ AGENTS.override.md
 .idea/markdown-navigator.xml
 .idea/markdown-exported-files.xml
 
-localutil/
-localtmp/
+localutil
+localtmp
 archive/
 
 .cspell/
