@@ -75,24 +75,35 @@ cmd_add() {
         exit 1
     fi
 
-    # .gitignore に追加
+    # 暗号化ファイル名の決定
+    local enc_file=$(get_enc_filename "$file")
+
+    # 既に暗号化ファイルがある場合は警告のみで終了しない（再add許容）
+    if [ -f "$enc_file" ]; then
+        echo "Encrypted file '$enc_file' already exists."
+    else
+        echo "Creating initial encrypted file..."
+        
+        # ★修正箇所: sopsの実行結果を評価する
+        # リダイレクト(>)は失敗しても空ファイルを作るため、失敗時は削除が必要
+        if sops --encrypt "$file" > "$enc_file"; then
+            # 成功時
+            echo -e "${GREEN}Created: $enc_file${NC}"
+            echo -e "${YELLOW}➜ IMPORTANT: Don't forget to run: git add $enc_file${NC}"
+        else
+            # 失敗時
+            echo -e "${RED}Error: Failed to encrypt '$file'. Check your .sops.yaml configuration.${NC}"
+            rm -f "$enc_file" # ゴミファイルを削除
+            exit 1
+        fi
+    fi
+
+    # 暗号化成功後に .gitignore に追加 (失敗した場合はここに来ない)
     if ! grep -Fxq "$file" .gitignore 2>/dev/null; then
         echo "$file" >> .gitignore
         echo -e "Added '$file' to .gitignore."
     else
         echo "File '$file' is already ignored."
-    fi
-
-    # 初回の暗号化ファイル(空)を作成
-    local enc_file=$(get_enc_filename "$file")
-    if [ ! -f "$enc_file" ]; then
-        echo "Creating initial encrypted file..."
-        sops --encrypt "$file" > "$enc_file"
-        
-        echo -e "${GREEN}Created: $enc_file${NC}"
-        echo -e "${YELLOW}➜ IMPORTANT: Don't forget to run: git add $enc_file${NC}"
-    else
-        echo "Encrypted file '$enc_file' already exists."
     fi
 }
 
@@ -102,11 +113,15 @@ cmd_hide() {
         plain_file=$(get_plain_filename "$enc_file")
         
         if [ -f "$plain_file" ]; then
-            sops --encrypt "$plain_file" > "$enc_file"
-            if [ $? -eq 0 ]; then
+            # 一時ファイルに出力して成功したら上書きする（安全性向上）
+            if sops --encrypt "$plain_file" > "${enc_file}.tmp"; then
+                mv "${enc_file}.tmp" "$enc_file"
                 echo -e "  $plain_file -> ${GREEN}$enc_file${NC}"
             else
-                echo -e "  ${RED}Failed to encrypt $plain_file${NC}"
+                rm -f "${enc_file}.tmp"
+                echo -e "  ${RED}Failed to encrypt $plain_file (Skipped)${NC}"
+                # hideの場合は1つの失敗で止まるべきか議論があるが、
+                # 通常はエラーを見せる形にする
             fi
         else
             echo -e "  ${YELLOW}Skipping $enc_file (Source '$plain_file' not found)${NC}"
@@ -119,10 +134,11 @@ cmd_reveal() {
     find . -type f -name "*.enc.*" -not -path '*/.*' | while read -r enc_file; do
         plain_file=$(get_plain_filename "$enc_file")
         
-        sops --decrypt "$enc_file" > "$plain_file"
-        if [ $? -eq 0 ]; then
+        if sops --decrypt "$enc_file" > "${plain_file}.tmp"; then
+            mv "${plain_file}.tmp" "$plain_file"
             echo -e "  $enc_file -> ${GREEN}$plain_file${NC}"
         else
+            rm -f "${plain_file}.tmp"
             echo -e "  ${RED}Failed to decrypt $enc_file${NC}"
         fi
     done
