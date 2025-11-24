@@ -74,3 +74,5 @@
 	enabled = true
 [column]
 	ui = auto
+[diff "sopsdiffer"]
+	textconv = sops decrypt
