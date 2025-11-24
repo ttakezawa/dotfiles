@@ -8,9 +8,15 @@ BLUE='\033[0;34m'
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
-# sopsチェック
+# 依存コマンドチェック
 if ! command -v sops &> /dev/null; then
     echo -e "${RED}Error: sops command not found.${NC}"
+    exit 1
+fi
+
+# Gitリポジトリ内かチェック
+if ! git rev-parse --is-inside-work-tree &> /dev/null; then
+    echo -e "${RED}Error: Not a git repository.${NC}"
     exit 1
 fi
 
@@ -25,6 +31,12 @@ get_enc_filename() {
     local extension="${filename##*.}"
     local basename="${filename%.*}"
     echo "${basename}.enc.${extension}"
+}
+
+# ヘルパー: 対象の暗号化ファイル(*.enc.*)をリストアップ
+# Trackedファイル(cached) と UntrackedだがIgnoredではないファイル(others) の両方を取得
+list_enc_files() {
+    { git ls-files '*.enc.*'; git ls-files -o --exclude-standard '*.enc.*'; } | sort -u
 }
 
 # --- ヘルプ表示 ---
@@ -75,30 +87,23 @@ cmd_add() {
         exit 1
     fi
 
-    # 暗号化ファイル名の決定
     local enc_file=$(get_enc_filename "$file")
 
-    # 既に暗号化ファイルがある場合は警告のみで終了しない（再add許容）
     if [ -f "$enc_file" ]; then
         echo "Encrypted file '$enc_file' already exists."
     else
         echo "Creating initial encrypted file..."
         
-        # ★修正箇所: sopsの実行結果を評価する
-        # リダイレクト(>)は失敗しても空ファイルを作るため、失敗時は削除が必要
         if sops --encrypt "$file" > "$enc_file"; then
-            # 成功時
             echo -e "${GREEN}Created: $enc_file${NC}"
             echo -e "${YELLOW}➜ IMPORTANT: Don't forget to run: git add $enc_file${NC}"
         else
-            # 失敗時
             echo -e "${RED}Error: Failed to encrypt '$file'. Check your .sops.yaml configuration.${NC}"
-            rm -f "$enc_file" # ゴミファイルを削除
+            rm -f "$enc_file"
             exit 1
         fi
     fi
 
-    # 暗号化成功後に .gitignore に追加 (失敗した場合はここに来ない)
     if ! grep -Fxq "$file" .gitignore 2>/dev/null; then
         echo "$file" >> .gitignore
         echo -e "Added '$file' to .gitignore."
@@ -108,20 +113,19 @@ cmd_add() {
 }
 
 cmd_hide() {
-    echo "Encrypting files based on naming convention (*.enc.*)..."
-    find . -type f -name "*.enc.*" -not -path '*/.*' | while read -r enc_file; do
+    echo "Encrypting files (targets found via git ls-files)..."
+    
+    # git ls-files で取得したリストをループ
+    list_enc_files | while read -r enc_file; do
         plain_file=$(get_plain_filename "$enc_file")
         
         if [ -f "$plain_file" ]; then
-            # 一時ファイルに出力して成功したら上書きする（安全性向上）
             if sops --encrypt "$plain_file" > "${enc_file}.tmp"; then
                 mv "${enc_file}.tmp" "$enc_file"
                 echo -e "  $plain_file -> ${GREEN}$enc_file${NC}"
             else
                 rm -f "${enc_file}.tmp"
                 echo -e "  ${RED}Failed to encrypt $plain_file (Skipped)${NC}"
-                # hideの場合は1つの失敗で止まるべきか議論があるが、
-                # 通常はエラーを見せる形にする
             fi
         else
             echo -e "  ${YELLOW}Skipping $enc_file (Source '$plain_file' not found)${NC}"
@@ -130,8 +134,10 @@ cmd_hide() {
 }
 
 cmd_reveal() {
-    echo "Decrypting files based on naming convention (*.enc.*)..."
-    find . -type f -name "*.enc.*" -not -path '*/.*' | while read -r enc_file; do
+    echo "Decrypting files (targets found via git ls-files)..."
+    
+    # git ls-files で取得したリストをループ
+    list_enc_files | while read -r enc_file; do
         plain_file=$(get_plain_filename "$enc_file")
         
         if sops --decrypt "$enc_file" > "${plain_file}.tmp"; then
@@ -147,20 +153,9 @@ cmd_reveal() {
 # --- メイン処理 ---
 
 case "$1" in
-    add)
-        cmd_add "$2"
-        ;;
-    hide)
-        cmd_hide
-        ;;
-    reveal)
-        cmd_reveal
-        ;;
-    -h|--help|help)
-        show_help
-        ;;
-    *)
-        show_help
-        exit 1
-        ;;
+    add) cmd_add "$2" ;;
+    hide) cmd_hide ;;
+    reveal) cmd_reveal ;;
+    -h|--help|help) show_help ;;
+    *) show_help; exit 1 ;;
 esac
