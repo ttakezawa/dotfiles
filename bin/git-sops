@@ -1,0 +1,150 @@
+#!/bin/bash
+
+# 色定義
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
+# sopsチェック
+if ! command -v sops &> /dev/null; then
+    echo -e "${RED}Error: sops command not found.${NC}"
+    exit 1
+fi
+
+# ヘルパー: 暗号化ファイル名から平文ファイル名を取得
+get_plain_filename() {
+    echo "$1" | sed 's/\.enc\././'
+}
+
+# ヘルパー: 平文ファイル名から暗号化ファイル名を取得
+get_enc_filename() {
+    local filename=$1
+    local extension="${filename##*.}"
+    local basename="${filename%.*}"
+    echo "${basename}.enc.${extension}"
+}
+
+# --- ヘルプ表示 ---
+show_help() {
+    echo -e "${BOLD}Git Sops Wrapper${NC} - Manage secrets with sops in a git-secret style"
+    echo ""
+    echo -e "${YELLOW}USAGE:${NC}"
+    echo -e "  git-sops <command> [arguments]"
+    echo ""
+    echo -e "${YELLOW}COMMANDS:${NC}"
+    echo -e "  ${GREEN}add <file>${NC}   管理対象に追加します"
+    echo -e "               - 指定したファイルを .gitignore に追加"
+    echo -e "               - 初回の暗号化ファイル(*.enc.*)を生成"
+    echo ""
+    echo -e "  ${GREEN}hide${NC}         暗号化を実行します (編集作業の後に実行)"
+    echo -e "               - 全ての平文ファイルの内容で、暗号化ファイルを上書き更新"
+    echo ""
+    echo -e "  ${GREEN}reveal${NC}       復号を実行します (git pull の後に実行)"
+    echo -e "               - 全ての暗号化ファイルを復号し、平文ファイルを復元"
+    echo ""
+    echo -e "${YELLOW}WORKFLOW EXAMPLE:${NC}"
+    echo -e "  1. secrets.json を作成して追加する"
+    echo -e "     $ ${BOLD}git-sops add secrets.json${NC}"
+    echo ""
+    echo -e "  2. 変更をコミットする前 (暗号化データを更新)"
+    echo -e "     $ ${BOLD}git-sops hide${NC}"
+    echo -e "     $ git add secrets.enc.json"
+    echo -e "     $ git commit -m \"Update secrets\""
+    echo ""
+    echo -e "  3. リポジトリを取得した後 (平文を復元)"
+    echo -e "     $ git pull"
+    echo -e "     $ ${BOLD}git-sops reveal${NC}"
+    echo ""
+}
+
+# --- コマンド実装 ---
+
+cmd_add() {
+    local file=$1
+    if [ -z "$file" ]; then
+        echo -e "${RED}Error: Filename required.${NC}"
+        echo "Try 'git-sops --help' for more information."
+        exit 1
+    fi
+    
+    if [ ! -f "$file" ]; then
+        echo -e "${RED}Error: File '$file' not found.${NC}"
+        exit 1
+    fi
+
+    # .gitignore に追加
+    if ! grep -Fxq "$file" .gitignore 2>/dev/null; then
+        echo "$file" >> .gitignore
+        echo -e "Added '$file' to .gitignore."
+    else
+        echo "File '$file' is already ignored."
+    fi
+
+    # 初回の暗号化ファイル(空)を作成
+    local enc_file=$(get_enc_filename "$file")
+    if [ ! -f "$enc_file" ]; then
+        echo "Creating initial encrypted file..."
+        sops --encrypt "$file" > "$enc_file"
+        
+        echo -e "${GREEN}Created: $enc_file${NC}"
+        echo -e "${YELLOW}➜ IMPORTANT: Don't forget to run: git add $enc_file${NC}"
+    else
+        echo "Encrypted file '$enc_file' already exists."
+    fi
+}
+
+cmd_hide() {
+    echo "Encrypting files based on naming convention (*.enc.*)..."
+    find . -type f -name "*.enc.*" -not -path '*/.*' | while read -r enc_file; do
+        plain_file=$(get_plain_filename "$enc_file")
+        
+        if [ -f "$plain_file" ]; then
+            sops --encrypt "$plain_file" > "$enc_file"
+            if [ $? -eq 0 ]; then
+                echo -e "  $plain_file -> ${GREEN}$enc_file${NC}"
+            else
+                echo -e "  ${RED}Failed to encrypt $plain_file${NC}"
+            fi
+        else
+            echo -e "  ${YELLOW}Skipping $enc_file (Source '$plain_file' not found)${NC}"
+        fi
+    done
+}
+
+cmd_reveal() {
+    echo "Decrypting files based on naming convention (*.enc.*)..."
+    find . -type f -name "*.enc.*" -not -path '*/.*' | while read -r enc_file; do
+        plain_file=$(get_plain_filename "$enc_file")
+        
+        sops --decrypt "$enc_file" > "$plain_file"
+        if [ $? -eq 0 ]; then
+            echo -e "  $enc_file -> ${GREEN}$plain_file${NC}"
+        else
+            echo -e "  ${RED}Failed to decrypt $enc_file${NC}"
+        fi
+    done
+}
+
+# --- メイン処理 ---
+
+case "$1" in
+    add)
+        cmd_add "$2"
+        ;;
+    hide)
+        cmd_hide
+        ;;
+    reveal)
+        cmd_reveal
+        ;;
+    -h|--help|help)
+        show_help
+        ;;
+    *)
+        show_help
+        exit 1
+        ;;
+esac
