@@ -15,6 +15,7 @@ AGENTS.override.md
 
 /localutil
 /localtmp
+/localnotes
 archive/
 
 .cspell/
