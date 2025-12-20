@@ -3,20 +3,10 @@ AGENTS.override.md
 *.code-workspace
 .kiro
 .claude/settings.local.json
-.claude/commands/my-*.md
-.cursor/rules/
-.cursorrules
 .cursorignore
-/.specify/
-/.claude/commands/speckit.*
 .idea/markdown-navigator
 .idea/markdown-navigator.xml
 .idea/markdown-exported-files.xml
-
-/localutil
-/localtmp
-/localnotes
-archive/
 
 .cspell/
 .sqruff
