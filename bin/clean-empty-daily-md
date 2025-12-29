@@ -1,0 +1,81 @@
+#!/bin/bash
+set -euo pipefail
+
+MAX_EMPTY_BYTES=55
+# `find -size -Nc` は N バイト未満のため、MAX_EMPTY_BYTES を含めるために +1 する。
+SIZE_LIMIT=$((MAX_EMPTY_BYTES + 1))
+# Bash 3.2 では \U エスケープが使えないため UTF-8 バイト列で絵文字を生成する。
+CALENDAR_EMOJI=$(printf '\xF0\x9F\x93\x85')
+
+usage() {
+  printf '%s\n' \
+    "Usage: clean-empty-daily-md [ROOT]" \
+    "" \
+    "Finds .md files of ${MAX_EMPTY_BYTES} bytes or less under:" \
+    "  - ROOT/daily" \
+    "  - ROOT/${CALENDAR_EMOJI}Periodic/Daily" \
+    "Then prompts for confirmation before deleting them." \
+    "" \
+    "ROOT defaults to the current directory."
+}
+
+if [[ ${1:-} == "-h" || ${1:-} == "--help" ]]; then
+  usage
+  exit 0
+fi
+
+root="${1:-.}"
+# 末尾のスラッシュを除去してパス結合と表示を安定させる。
+root="${root%/}"
+
+daily_dir="${root}/daily"
+# Bash 3.2 互換のため、UTF-8 バイト列から生成した絵文字を使う。
+periodic_dir="${root}/${CALENDAR_EMOJI}Periodic/Daily"
+
+dirs=()
+# root 配下に存在するディレクトリだけを対象にする。
+if [[ -d "$daily_dir" ]]; then
+  dirs+=("$daily_dir")
+fi
+if [[ -d "$periodic_dir" ]]; then
+  dirs+=("$periodic_dir")
+fi
+
+if [[ ${#dirs[@]} -eq 0 ]]; then
+  echo "No target directories found under: $root"
+  exit 0
+fi
+
+targets=()
+# -print0 と read -d '' で空白や改行を含むファイル名も安全に扱う。
+for dir in "${dirs[@]}"; do
+  while IFS= read -r -d '' file; do
+    targets+=("$file")
+  done < <(find "$dir" -type f -name '*.md' -size -"${SIZE_LIMIT}"c -print0)
+done
+
+if [[ ${#targets[@]} -eq 0 ]]; then
+  echo "No .md files of ${MAX_EMPTY_BYTES} bytes or less found."
+  exit 0
+fi
+
+echo "Candidates (${MAX_EMPTY_BYTES} bytes or less):"
+# サイズを表示して削除前に確認しやすくする。
+for file in "${targets[@]}"; do
+  size=$(wc -c < "$file" | tr -d ' ')
+  printf '  %s (%s bytes)\n' "$file" "$size"
+done
+
+echo
+# 削除前に一度だけ確認する。
+read -r -p "Delete these files? [y/N] " answer
+case "$answer" in
+  [yY]|[yY][eE][sS])
+    for file in "${targets[@]}"; do
+      rm -v -- "$file"
+    done
+    ;;
+  *)
+    echo "Canceled."
+    ;;
+esac
