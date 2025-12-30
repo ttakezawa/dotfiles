@@ -64,4 +64,4 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 defaults write com.apple.menuextra.battery ShowPercent -string "YES"
 
 # Dockでポインタを画面端に置いてから表示されるまでに遅延を設定(秒)
-defaults write com.apple.dock autohide-delay -float 5
+defaults write com.apple.dock autohide-delay -float 1.5
