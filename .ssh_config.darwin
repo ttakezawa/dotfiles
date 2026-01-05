@@ -23,6 +23,8 @@ ForwardAgent yes
 StrictHostKeyChecking no
 ServerAliveInterval 60
 ServerAliveCountMax 10
-# For macOS
+
+# パスフレーズを macOS のキーチェーンに保存する。再起動しても保存されたままなので、再起動後の最初の接続時でも、キーチェーンからパスフレーズを取り出して鍵を解除してくれる。
 UseKeychain yes
+# SSH 接続時に使用した秘密鍵を自動的に ssh-agent のメモリ上に追加する。ssh-agent に登録されているとパスフレーズの入力を省略できる。
 AddKeysToAgent yes
