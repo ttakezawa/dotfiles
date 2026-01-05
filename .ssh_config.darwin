@@ -8,6 +8,7 @@ Host github.com
   ServerAliveInterval 30
   ServerAliveCountMax 3
   GSSAPIAuthentication no
+  ForwardAgent no
 
 ### multiple hops
 # SEE: http://qiita.com/kawaz/items/a0151d3aa2b6f9c4b3b8
