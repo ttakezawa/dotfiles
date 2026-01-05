@@ -22,9 +22,8 @@ Host *
   ServerAliveInterval 60
   ServerAliveCountMax 10
 
+  UpdateHostKeys yes
   ForwardAgent yes
-  # PreferredAuthentications publickey
-  StrictHostKeyChecking no
 
   # パスフレーズを macOS のキーチェーンに保存する。再起動しても保存されたままなので、再起動後の最初の接続時でも、キーチェーンからパスフレーズを取り出して鍵を解除してくれる。
   UseKeychain yes

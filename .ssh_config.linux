@@ -10,6 +10,5 @@ Host *
   ServerAliveInterval 60
   ServerAliveCountMax 10
 
+  UpdateHostKeys yes
   ForwardAgent yes
-  # PreferredAuthentications publickey
-  StrictHostKeyChecking no
