@@ -2,9 +2,6 @@ Include config_*
 
 ### GitHub
 Host github.com
-  ControlMaster auto
-  ControlPersist 10m
-  ControlPath ~/.ssh/cm-%C
   PreferredAuthentications publickey
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_rsa
@@ -19,11 +16,15 @@ Host *+*
 
 ### default config
 Host *
+  ControlMaster auto
+  ControlPersist 10m
+  ControlPath ~/.ssh/cm-%C
+  ServerAliveInterval 60
+  ServerAliveCountMax 10
+
   ForwardAgent yes
   # PreferredAuthentications publickey
   StrictHostKeyChecking no
-  ServerAliveInterval 60
-  ServerAliveCountMax 10
 
   # パスフレーズを macOS のキーチェーンに保存する。再起動しても保存されたままなので、再起動後の最初の接続時でも、キーチェーンからパスフレーズを取り出して鍵を解除してくれる。
   UseKeychain yes
