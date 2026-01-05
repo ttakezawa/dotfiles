@@ -22,7 +22,11 @@ Host *
   ServerAliveInterval 60
   ServerAliveCountMax 10
 
+  # 新規ホスト鍵は自動追加するが、変更された鍵のホストへの接続は許可しない。
+  StrictHostKeyChecking accept-new
+  # 認証後にサーバが送る追加ホスト鍵の通知を受け入れて UserKnownHostsFile に追加する。
   UpdateHostKeys yes
+
   ForwardAgent yes
 
   # パスフレーズを macOS のキーチェーンに保存する。再起動しても保存されたままなので、再起動後の最初の接続時でも、キーチェーンからパスフレーズを取り出して鍵を解除してくれる。

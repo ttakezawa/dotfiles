@@ -10,5 +10,9 @@ Host *
   ServerAliveInterval 60
   ServerAliveCountMax 10
 
+  # 新規ホスト鍵は自動追加するが、変更された鍵のホストへの接続は許可しない。
+  StrictHostKeyChecking accept-new
+  # 認証後にサーバが送る追加ホスト鍵の通知を受け入れて UserKnownHostsFile に追加する。
   UpdateHostKeys yes
+
   ForwardAgent yes
