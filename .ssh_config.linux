@@ -6,8 +6,9 @@ Host *+*
   ProxyCommand ssh -W "$(sed -E 's/.*\+//'<<<"%h")":%p "$(sed -E 's/\+[^\+]*//'<<<"%h")"
 
 ### default config
-ForwardAgent yes
-# PreferredAuthentications publickey
-StrictHostKeyChecking no
-ServerAliveInterval 60
-ServerAliveCountMax 10
+Host *
+  ForwardAgent yes
+  # PreferredAuthentications publickey
+  StrictHostKeyChecking no
+  ServerAliveInterval 60
+  ServerAliveCountMax 10
