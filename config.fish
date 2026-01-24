@@ -203,6 +203,16 @@ if status is-interactive
         source "$cachedir/atlas_completion"
     end
 
+    # git wt
+    if type -q git-wt
+        git wt --init fish | source
+    end
+
+    # git wt shortcut
+    function wt
+        git wt (git wt | tail -n +2 | fzf --height 40% --reverse | awk '{print $(NF-1)}')
+    end
+
     # aws
     # Enable AWS CLI autocompletion: github.com/aws/aws-cli/issues/1079
     complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
