@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+#
+# git wt-pr - Create worktree from a PR's HEAD commit
+#
+# 背景: `git wt <branch> <start-point>` の start-point として PR を指定したいが、
+# PR 番号や URL から SHA を取得する手順が煩雑なため、このラッパーを作成。
+#
+# 依存: gh, jq, git-wt
+
+set -euo pipefail
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+usage() {
+    echo "Usage: git wt-pr <BRANCH> <PR_NUMBER|PR_URL> [git-wt options...]"
+    echo ""
+    echo "Create a worktree from the HEAD commit of the specified PR."
+    echo ""
+    echo "Arguments:"
+    echo "  BRANCH           Name of the branch/worktree to create"
+    echo "  PR_NUMBER|URL    PR number or GitHub PR URL"
+    echo ""
+    echo "Examples:"
+    echo "  git wt-pr feature-branch 123"
+    echo "  git wt-pr feature-branch https://github.com/org/repo/pull/123"
+    echo "  git wt-pr feature-branch https://github.com/org/repo/pull/123/files"
+    echo "  git wt-pr feature-branch 123 --copyignored"
+    exit 1
+}
+
+# PR URL を正規化する（/files, /changes 等の suffix を除去）
+# URL でない場合はそのまま返す
+normalize_pr_ref() {
+    local ref=$1
+    if [[ "$ref" =~ ^https?:// ]]; then
+        # URL から PR 部分のみ抽出 (例: https://github.com/org/repo/pull/123)
+        echo "$ref" | grep -oE 'https?://[^/]+/[^/]+/[^/]+/pull/[0-9]+' || echo "$ref"
+    else
+        echo "$ref"
+    fi
+}
+
+# 依存コマンドチェック
+if ! command -v gh &> /dev/null; then
+    echo -e "${RED}Error: gh command not found.${NC}" >&2
+    exit 1
+fi
+
+if ! command -v jq &> /dev/null; then
+    echo -e "${RED}Error: jq command not found.${NC}" >&2
+    exit 1
+fi
+
+if ! command -v git-wt &> /dev/null; then
+    echo -e "${RED}Error: git-wt command not found.${NC}" >&2
+    exit 1
+fi
+
+if ! git rev-parse --is-inside-work-tree &> /dev/null; then
+    echo -e "${RED}Error: Not a git repository.${NC}" >&2
+    exit 1
+fi
+
+# 引数チェック
+if [[ $# -lt 2 ]]; then
+    usage
+fi
+
+# -h, --help チェック
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    usage
+fi
+
+branch=$1
+pr_ref=$2
+shift 2
+
+# 残りの引数は git wt に渡すオプション
+wt_options=("$@")
+
+# URL の場合は正規化
+pr_ref=$(normalize_pr_ref "$pr_ref")
+
+# PR情報を取得
+pr_info=$(gh pr view "$pr_ref" --json number,title,headRefName,headRefOid 2>&1) || {
+    echo -e "${RED}Error: Failed to fetch PR: ${pr_ref}${NC}" >&2
+    echo "$pr_info" >&2
+    exit 1
+}
+
+pr_number=$(echo "$pr_info" | jq -r '.number')
+pr_title=$(echo "$pr_info" | jq -r '.title')
+pr_branch=$(echo "$pr_info" | jq -r '.headRefName')
+pr_sha=$(echo "$pr_info" | jq -r '.headRefOid')
+pr_sha_short=${pr_sha:0:7}
+
+# PR情報を表示
+echo -e "${BOLD}PR #${pr_number}:${NC} ${pr_title}"
+echo -e "  Branch: ${YELLOW}${pr_branch}${NC}"
+echo -e "  Commit: ${YELLOW}${pr_sha_short}${NC}"
+echo ""
+echo -e "Creating worktree: ${BOLD}${branch}${NC} from ${YELLOW}${pr_sha_short}${NC}"
+echo ""
+
+# git wt を実行
+git wt "$branch" "$pr_sha" "${wt_options[@]}"

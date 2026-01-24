@@ -17,7 +17,7 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 usage() {
-    echo "Usage: git reset-pr [-f|--force] <PR_NUMBER>"
+    echo "Usage: git reset-pr [-f|--force] <PR_NUMBER|PR_URL>"
     echo ""
     echo "Reset current branch to the HEAD commit of the specified PR."
     echo ""
@@ -27,8 +27,22 @@ usage() {
     echo ""
     echo "Examples:"
     echo "  git reset-pr 123"
+    echo "  git reset-pr https://github.com/org/repo/pull/123"
+    echo "  git reset-pr https://github.com/org/repo/pull/123/files"
     echo "  git reset-pr -f 123"
     exit 1
+}
+
+# PR URL を正規化する（/files, /changes 等の suffix を除去）
+# URL でない場合はそのまま返す
+normalize_pr_ref() {
+    local ref=$1
+    if [[ "$ref" =~ ^https?:// ]]; then
+        # URL から PR 部分のみ抽出 (例: https://github.com/org/repo/pull/123)
+        echo "$ref" | grep -oE 'https?://[^/]+/[^/]+/[^/]+/pull/[0-9]+' || echo "$ref"
+    else
+        echo "$ref"
+    fi
 }
 
 # 依存コマンドチェック
@@ -49,7 +63,7 @@ fi
 
 # 引数解析
 force=false
-pr_number=""
+pr_ref=""
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -61,8 +75,8 @@ while [[ $# -gt 0 ]]; do
             usage
             ;;
         *)
-            if [[ -z "$pr_number" ]]; then
-                pr_number=$1
+            if [[ -z "$pr_ref" ]]; then
+                pr_ref=$1
             else
                 echo -e "${RED}Error: Too many arguments.${NC}" >&2
                 usage
@@ -72,24 +86,23 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# PR番号が指定されているかチェック
-if [[ -z "$pr_number" ]]; then
-    echo -e "${RED}Error: PR number is required.${NC}" >&2
+# PR番号/URLが指定されているかチェック
+if [[ -z "$pr_ref" ]]; then
+    echo -e "${RED}Error: PR number or URL is required.${NC}" >&2
     usage
 fi
 
-# PR番号が数字かチェック
-if ! [[ "$pr_number" =~ ^[0-9]+$ ]]; then
-    echo -e "${RED}Error: PR number must be a number.${NC}" >&2
-    exit 1
-fi
+# URL の場合は正規化
+pr_ref=$(normalize_pr_ref "$pr_ref")
 
 # PR情報を取得
-pr_info=$(gh pr view "$pr_number" --json title,headRefName,headRefOid 2>&1) || {
-    echo -e "${RED}Error: Failed to fetch PR #${pr_number}.${NC}" >&2
+pr_info=$(gh pr view "$pr_ref" --json number,title,headRefName,headRefOid 2>&1) || {
+    echo -e "${RED}Error: Failed to fetch PR: ${pr_ref}${NC}" >&2
     echo "$pr_info" >&2
     exit 1
 }
+
+pr_number=$(echo "$pr_info" | jq -r '.number')
 
 pr_title=$(echo "$pr_info" | jq -r '.title')
 pr_branch=$(echo "$pr_info" | jq -r '.headRefName')
