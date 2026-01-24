@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+#
+# git reset-pr - Reset current branch to a PR's HEAD commit
+#
+# 背景: `gh pr checkout` は常に新しいブランチを作成するが、
+# 既存のブランチをPRのコミット位置に移動したいケースがある。
+# このスクリプトは現在のブランチを維持したまま、PRのHEADに reset する。
+#
+# 依存: gh, jq
+
+set -euo pipefail
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+usage() {
+    echo "Usage: git reset-pr [-f|--force] <PR_NUMBER>"
+    echo ""
+    echo "Reset current branch to the HEAD commit of the specified PR."
+    echo ""
+    echo "Options:"
+    echo "  -f, --force    Skip confirmation prompt"
+    echo "  -h, --help     Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  git reset-pr 123"
+    echo "  git reset-pr -f 123"
+    exit 1
+}
+
+# 依存コマンドチェック
+if ! command -v gh &> /dev/null; then
+    echo -e "${RED}Error: gh command not found.${NC}" >&2
+    exit 1
+fi
+
+if ! command -v jq &> /dev/null; then
+    echo -e "${RED}Error: jq command not found.${NC}" >&2
+    exit 1
+fi
+
+if ! git rev-parse --is-inside-work-tree &> /dev/null; then
+    echo -e "${RED}Error: Not a git repository.${NC}" >&2
+    exit 1
+fi
+
+# 引数解析
+force=false
+pr_number=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -f|--force)
+            force=true
+            shift
+            ;;
+        -h|--help)
+            usage
+            ;;
+        *)
+            if [[ -z "$pr_number" ]]; then
+                pr_number=$1
+            else
+                echo -e "${RED}Error: Too many arguments.${NC}" >&2
+                usage
+            fi
+            shift
+            ;;
+    esac
+done
+
+# PR番号が指定されているかチェック
+if [[ -z "$pr_number" ]]; then
+    echo -e "${RED}Error: PR number is required.${NC}" >&2
+    usage
+fi
+
+# PR番号が数字かチェック
+if ! [[ "$pr_number" =~ ^[0-9]+$ ]]; then
+    echo -e "${RED}Error: PR number must be a number.${NC}" >&2
+    exit 1
+fi
+
+# PR情報を取得
+pr_info=$(gh pr view "$pr_number" --json title,headRefName,headRefOid 2>&1) || {
+    echo -e "${RED}Error: Failed to fetch PR #${pr_number}.${NC}" >&2
+    echo "$pr_info" >&2
+    exit 1
+}
+
+pr_title=$(echo "$pr_info" | jq -r '.title')
+pr_branch=$(echo "$pr_info" | jq -r '.headRefName')
+pr_sha=$(echo "$pr_info" | jq -r '.headRefOid')
+pr_sha_short=${pr_sha:0:7}
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# PR情報を表示
+echo -e "${BOLD}PR #${pr_number}:${NC} ${pr_title}"
+echo -e "  Branch: ${YELLOW}${pr_branch}${NC}"
+echo -e "  Commit: ${YELLOW}${pr_sha_short}${NC}"
+echo ""
+echo -e "Current branch: ${BOLD}${current_branch}${NC}"
+echo -e "Will run: ${RED}git reset --hard ${pr_sha_short}${NC}"
+echo ""
+
+# reset --hard は未コミットの変更を破棄するため、誤操作を防ぐ確認を行う
+if [[ "$force" != true ]]; then
+    read -p "Proceed? [y/N] " -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborted."
+        exit 0
+    fi
+fi
+
+git reset --hard "$pr_sha"
+
+echo ""
+echo -e "${GREEN}Successfully reset ${current_branch} to PR #${pr_number} (${pr_sha_short})${NC}"
