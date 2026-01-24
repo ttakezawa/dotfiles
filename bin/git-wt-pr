@@ -86,7 +86,7 @@ wt_options=("$@")
 pr_ref=$(normalize_pr_ref "$pr_ref")
 
 # PR情報を取得
-pr_info=$(gh pr view "$pr_ref" --json number,title,headRefName,headRefOid 2>&1) || {
+pr_info=$(gh pr view "$pr_ref" --json number,title,headRefName,headRefOid,url,author 2>&1) || {
     echo -e "${RED}Error: Failed to fetch PR: ${pr_ref}${NC}" >&2
     echo "$pr_info" >&2
     exit 1
@@ -97,11 +97,15 @@ pr_title=$(echo "$pr_info" | jq -r '.title')
 pr_branch=$(echo "$pr_info" | jq -r '.headRefName')
 pr_sha=$(echo "$pr_info" | jq -r '.headRefOid')
 pr_sha_short=${pr_sha:0:7}
+pr_url=$(echo "$pr_info" | jq -r '.url')
+pr_author=$(echo "$pr_info" | jq -r '.author.login')
 
 # PR情報を表示
 echo -e "${BOLD}PR #${pr_number}:${NC} ${pr_title}"
+echo -e "  Author: ${YELLOW}${pr_author}${NC}"
 echo -e "  Branch: ${YELLOW}${pr_branch}${NC}"
 echo -e "  Commit: ${YELLOW}${pr_sha_short}${NC}"
+echo -e "  URL:    ${pr_url}"
 echo ""
 echo -e "Creating worktree: ${BOLD}${branch}${NC} from ${YELLOW}${pr_sha_short}${NC}"
 echo ""

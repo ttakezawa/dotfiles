@@ -96,25 +96,28 @@ fi
 pr_ref=$(normalize_pr_ref "$pr_ref")
 
 # PR情報を取得
-pr_info=$(gh pr view "$pr_ref" --json number,title,headRefName,headRefOid 2>&1) || {
+pr_info=$(gh pr view "$pr_ref" --json number,title,headRefName,headRefOid,url,author 2>&1) || {
     echo -e "${RED}Error: Failed to fetch PR: ${pr_ref}${NC}" >&2
     echo "$pr_info" >&2
     exit 1
 }
 
 pr_number=$(echo "$pr_info" | jq -r '.number')
-
 pr_title=$(echo "$pr_info" | jq -r '.title')
 pr_branch=$(echo "$pr_info" | jq -r '.headRefName')
 pr_sha=$(echo "$pr_info" | jq -r '.headRefOid')
 pr_sha_short=${pr_sha:0:7}
+pr_url=$(echo "$pr_info" | jq -r '.url')
+pr_author=$(echo "$pr_info" | jq -r '.author.login')
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # PR情報を表示
 echo -e "${BOLD}PR #${pr_number}:${NC} ${pr_title}"
+echo -e "  Author: ${YELLOW}${pr_author}${NC}"
 echo -e "  Branch: ${YELLOW}${pr_branch}${NC}"
 echo -e "  Commit: ${YELLOW}${pr_sha_short}${NC}"
+echo -e "  URL:    ${pr_url}"
 echo ""
 echo -e "Current branch: ${BOLD}${current_branch}${NC}"
 echo -e "Will run: ${RED}git reset --hard ${pr_sha_short}${NC}"
