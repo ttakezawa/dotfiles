@@ -16,19 +16,19 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 usage() {
-    echo "Usage: wt-pr <BRANCH> <PR_NUMBER|PR_URL> [git-wt options...]"
+    echo "Usage: wt-pr <PR_NUMBER|PR_URL> [BRANCH] [git-wt options...]"
     echo ""
     echo "Create a worktree from the HEAD commit of the specified PR."
     echo ""
     echo "Arguments:"
-    echo "  BRANCH           Name of the branch/worktree to create"
     echo "  PR_NUMBER|URL    PR number or GitHub PR URL"
+    echo "  BRANCH           Name of the branch/worktree to create (default: #<PR_NUMBER>)"
     echo ""
     echo "Examples:"
-    echo "  wt-pr feature-branch 123"
-    echo "  wt-pr feature-branch https://github.com/org/repo/pull/123"
-    echo "  wt-pr feature-branch https://github.com/org/repo/pull/123/files"
-    echo "  wt-pr feature-branch 123 --copyignored"
+    echo "  wt-pr 123"
+    echo "  wt-pr https://github.com/org/repo/pull/123"
+    echo "  wt-pr 123 my-branch"
+    echo "  wt-pr 123 my-branch --copyignored"
     exit 1
 }
 
@@ -66,7 +66,7 @@ if ! git rev-parse --is-inside-work-tree &> /dev/null; then
 fi
 
 # 引数チェック
-if [[ $# -lt 2 ]]; then
+if [[ $# -lt 1 ]]; then
     usage
 fi
 
@@ -75,9 +75,15 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     usage
 fi
 
-branch=$1
-pr_ref=$2
-shift 2
+pr_ref=$1
+shift
+
+# 第2引数がオプション（--で始まる）でなければブランチ名として扱う
+branch=""
+if [[ $# -gt 0 && ! "$1" =~ ^-- ]]; then
+    branch=$1
+    shift
+fi
 
 # 残りの引数は git wt に渡すオプション
 wt_options=("$@")
@@ -94,16 +100,21 @@ pr_info=$(gh pr view "$pr_ref" --json number,title,headRefName,headRefOid,url,au
 
 pr_number=$(echo "$pr_info" | jq -r '.number')
 pr_title=$(echo "$pr_info" | jq -r '.title')
-pr_branch=$(echo "$pr_info" | jq -r '.headRefName')
+pr_head_branch=$(echo "$pr_info" | jq -r '.headRefName')
 pr_sha=$(echo "$pr_info" | jq -r '.headRefOid')
 pr_sha_short=${pr_sha:0:7}
 pr_url=$(echo "$pr_info" | jq -r '.url')
 pr_author=$(echo "$pr_info" | jq -r '.author.login')
 
+# ブランチ名が指定されていない場合は #PR番号 を使用
+if [[ -z "$branch" ]]; then
+    branch="#${pr_number}"
+fi
+
 # PR情報を表示
 echo -e "${BOLD}PR #${pr_number}:${NC} ${pr_title}"
 echo -e "  Author: ${YELLOW}${pr_author}${NC}"
-echo -e "  Branch: ${YELLOW}${pr_branch}${NC}"
+echo -e "  Branch: ${YELLOW}${pr_head_branch}${NC}"
 echo -e "  Commit: ${YELLOW}${pr_sha_short}${NC}"
 echo -e "  URL:    ${pr_url}"
 echo ""
@@ -112,3 +123,9 @@ echo ""
 
 # git wt を実行
 git wt "$branch" "$pr_sha" "${wt_options[@]}"
+
+# upstream を設定して git pull できるようにする
+# wt-pr で作成したブランチは PR の HEAD コミットから開始するが、
+# tracking branch が未設定のため git pull が失敗する
+git branch --set-upstream-to="origin/${pr_head_branch}" "$branch"
+echo -e "Set upstream to: ${YELLOW}origin/${pr_head_branch}${NC}"
