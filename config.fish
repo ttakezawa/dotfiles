@@ -83,6 +83,9 @@ export LESSCHARSET=utf-8
 export GOPATH="$HOME/dev"
 fish_add_path --move --path "$GOPATH/bin"
 
+# git
+export GIT_OPTIONAL_LOCKS=0
+
 # ghq
 function g
     set l (ghq list --full-path | sed "s|$HOME/||" | fzf --reverse --ansi --preview "preview ~/{}")
@@ -211,6 +214,12 @@ if status is-interactive
     # git wt shortcut
     function wt
         git wt (git wt | tail -n +2 | fzf --height 40% --reverse | awk '{print $(NF-1)}')
+    end
+
+    # wt-pr: worktree 作成後に自動で cd
+    function wt-pr
+        set -l path (command wt-pr -q $argv)
+        and cd $path
     end
 
     # aws

@@ -16,9 +16,13 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 usage() {
-    echo "Usage: wt-pr <PR_NUMBER|PR_URL> [BRANCH] [git-wt options...]"
+    echo "Usage: wt-pr [-q] <PR_NUMBER|PR_URL> [BRANCH] [git-wt options...]"
     echo ""
     echo "Create a worktree from the HEAD commit of the specified PR."
+    echo ""
+    echo "Options:"
+    echo "  -q, --quiet      Output only the worktree path (for scripting/cd)"
+    echo "  -h, --help       Show this help message"
     echo ""
     echo "Arguments:"
     echo "  PR_NUMBER|URL    PR number or GitHub PR URL"
@@ -28,7 +32,7 @@ usage() {
     echo "  wt-pr 123"
     echo "  wt-pr https://github.com/org/repo/pull/123"
     echo "  wt-pr 123 my-branch"
-    echo "  wt-pr 123 my-branch --copyignored"
+    echo "  wt-pr -q 123                # Output only path (for cd)"
     exit 1
 }
 
@@ -70,8 +74,24 @@ if [[ $# -lt 1 ]]; then
     usage
 fi
 
-# -h, --help チェック
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+# オプション解析
+quiet=false
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -q|--quiet)
+            quiet=true
+            shift
+            ;;
+        -h|--help)
+            usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+if [[ $# -lt 1 ]]; then
     usage
 fi
 
@@ -114,18 +134,21 @@ if [[ -z "$branch" ]]; then
     branch="${pr_author}-#${pr_number}-${pr_created_mmdd}"
 fi
 
-# PR情報を表示
-echo -e "${BOLD}PR #${pr_number}:${NC} ${pr_title}"
-echo -e "  Author: ${YELLOW}${pr_author}${NC}"
-echo -e "  Branch: ${YELLOW}${pr_head_branch}${NC}"
-echo -e "  Commit: ${YELLOW}${pr_sha_short}${NC}"
-echo -e "  URL:    ${pr_url}"
-echo ""
-echo -e "Creating worktree: ${BOLD}${branch}${NC} from ${YELLOW}${pr_sha_short}${NC}"
-echo ""
+# PR情報を表示（quiet モードでない場合）
+if [[ "$quiet" != true ]]; then
+    echo -e "${BOLD}PR #${pr_number}:${NC} ${pr_title}"
+    echo -e "  Author: ${YELLOW}${pr_author}${NC}"
+    echo -e "  Branch: ${YELLOW}${pr_head_branch}${NC}"
+    echo -e "  Commit: ${YELLOW}${pr_sha_short}${NC}"
+    echo -e "  URL:    ${pr_url}"
+    echo ""
+    echo -e "Creating worktree: ${BOLD}${branch}${NC} from ${YELLOW}${pr_sha_short}${NC}"
+    echo ""
+fi
 
-# git wt を実行
-git wt "$branch" "$pr_sha" "${wt_options[@]}"
+# git wt を実行し、出力から worktree パスを取得
+# git wt は最後に worktree のパスを出力する
+worktree_path=$(git wt "$branch" "$pr_sha" "${wt_options[@]}" | tee /dev/stderr | tail -n 1)
 
 # upstream を設定して git pull できるようにする
 # wt-pr で作成したブランチは PR の HEAD コミットから開始するが、
@@ -133,7 +156,16 @@ git wt "$branch" "$pr_sha" "${wt_options[@]}"
 # PR がマージ済みでリモートブランチが削除されている場合は fetch が失敗するためスキップ
 if git fetch origin "${pr_head_branch}" 2>/dev/null; then
     git branch --set-upstream-to="origin/${pr_head_branch}" "$branch"
-    echo -e "Set upstream to: ${YELLOW}origin/${pr_head_branch}${NC}"
+    if [[ "$quiet" != true ]]; then
+        echo -e "Set upstream to: ${YELLOW}origin/${pr_head_branch}${NC}"
+    fi
 else
-    echo -e "${YELLOW}Note: Remote branch '${pr_head_branch}' not found (PR may be merged). Skipping upstream setting.${NC}"
+    if [[ "$quiet" != true ]]; then
+        echo -e "${YELLOW}Note: Remote branch '${pr_head_branch}' not found (PR may be merged). Skipping upstream setting.${NC}"
+    fi
+fi
+
+# quiet モードの場合は worktree パスのみを stdout に出力
+if [[ "$quiet" == true ]]; then
+    echo "$worktree_path"
 fi
