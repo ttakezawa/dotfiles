@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# git wt-pr - Create worktree from a PR's HEAD commit
+# wt-pr - Create worktree from a PR's HEAD commit
 #
 # 背景: `git wt <branch> <start-point>` の start-point として PR を指定したいが、
 # PR 番号や URL から SHA を取得する手順が煩雑なため、このラッパーを作成。
@@ -16,7 +16,7 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 usage() {
-    echo "Usage: git wt-pr <BRANCH> <PR_NUMBER|PR_URL> [git-wt options...]"
+    echo "Usage: wt-pr <BRANCH> <PR_NUMBER|PR_URL> [git-wt options...]"
     echo ""
     echo "Create a worktree from the HEAD commit of the specified PR."
     echo ""
@@ -25,10 +25,10 @@ usage() {
     echo "  PR_NUMBER|URL    PR number or GitHub PR URL"
     echo ""
     echo "Examples:"
-    echo "  git wt-pr feature-branch 123"
-    echo "  git wt-pr feature-branch https://github.com/org/repo/pull/123"
-    echo "  git wt-pr feature-branch https://github.com/org/repo/pull/123/files"
-    echo "  git wt-pr feature-branch 123 --copyignored"
+    echo "  wt-pr feature-branch 123"
+    echo "  wt-pr feature-branch https://github.com/org/repo/pull/123"
+    echo "  wt-pr feature-branch https://github.com/org/repo/pull/123/files"
+    echo "  wt-pr feature-branch 123 --copyignored"
     exit 1
 }
 
