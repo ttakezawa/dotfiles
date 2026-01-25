@@ -128,7 +128,7 @@ git wt "$branch" "$pr_sha" "${wt_options[@]}"
 # wt-pr で作成したブランチは PR の HEAD コミットから開始するが、
 # tracking branch が未設定のため git pull が失敗する
 # PR がマージ済みでリモートブランチが削除されている場合は fetch が失敗するためスキップ
-if git fetch origin "${pr_head_branch}:refs/remotes/origin/${pr_head_branch}" 2>/dev/null; then
+if git fetch origin "${pr_head_branch}" 2>/dev/null; then
     git branch --set-upstream-to="origin/${pr_head_branch}" "$branch"
     echo -e "Set upstream to: ${YELLOW}origin/${pr_head_branch}${NC}"
 else
