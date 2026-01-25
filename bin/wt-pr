@@ -148,7 +148,13 @@ fi
 
 # git wt を実行し、出力から worktree パスを取得
 # git wt は最後に worktree のパスを出力する
-worktree_path=$(git wt "$branch" "$pr_sha" "${wt_options[@]}" | tee /dev/stderr | tail -n 1)
+if [[ "$quiet" == true ]]; then
+    # quiet モードでは git wt の出力を完全に抑制し、パスのみをキャプチャ
+    worktree_path=$(git wt "$branch" "$pr_sha" "${wt_options[@]}" 2>&1 | tail -n 1)
+else
+    # 通常モードでは git wt の出力を表示しながらパスをキャプチャ
+    worktree_path=$(git wt "$branch" "$pr_sha" "${wt_options[@]}" | tee /dev/stderr | tail -n 1)
+fi
 
 # upstream を設定して git pull できるようにする
 # wt-pr で作成したブランチは PR の HEAD コミットから開始するが、
