@@ -161,8 +161,11 @@ fi
 # tracking branch が未設定のため git pull が失敗する
 # PR がマージ済みでリモートブランチが削除されている場合は fetch が失敗するためスキップ
 if git fetch origin "${pr_head_branch}" 2>/dev/null; then
-    git branch --set-upstream-to="origin/${pr_head_branch}" "$branch"
-    if [[ "$quiet" != true ]]; then
+    if [[ "$quiet" == true ]]; then
+        # quiet モードでは git branch の出力も抑制
+        git branch --set-upstream-to="origin/${pr_head_branch}" "$branch" >/dev/null 2>&1
+    else
+        git branch --set-upstream-to="origin/${pr_head_branch}" "$branch"
         echo -e "Set upstream to: ${YELLOW}origin/${pr_head_branch}${NC}"
     fi
 else
