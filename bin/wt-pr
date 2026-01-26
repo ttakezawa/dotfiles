@@ -158,20 +158,17 @@ if [[ "$quiet" != true ]]; then
     echo ""
 fi
 
-# PR の HEAD コミットがローカルに存在しない場合があるため、先に fetch する
-# これにより git wt で "invalid reference" エラーを防ぐ
-debug "Fetching PR branch: origin/${pr_head_branch}"
-if ! git rev-parse --verify "$pr_sha" &>/dev/null; then
-    debug "Commit $pr_sha_short not found locally, fetching..."
-    if [[ "$quiet" != true ]]; then
-        echo -e "Fetching ${YELLOW}${pr_head_branch}${NC} from origin..."
-    fi
-    if ! git fetch origin "${pr_head_branch}" 2>/dev/null; then
-        echo -e "${RED}Error: Failed to fetch branch '${pr_head_branch}' from origin.${NC}" >&2
-        exit 1
-    fi
+# PR の HEAD コミットを確実に取得するため、常に fetch する
+# git rev-parse --verify では部分的にfetchされたコミットを検出できないため
+debug "Fetching PR branch to ensure commit is available..."
+if [[ "$quiet" != true ]]; then
+    echo -e "Fetching ${YELLOW}${pr_head_branch}${NC} from origin..."
 fi
-debug "Commit $pr_sha_short is available locally"
+if ! git fetch origin "${pr_head_branch}" 2>/dev/null; then
+    echo -e "${RED}Error: Failed to fetch branch '${pr_head_branch}' from origin.${NC}" >&2
+    exit 1
+fi
+debug "Fetch completed"
 
 # git wt を実行し、出力から worktree パスを取得
 # git wt は最後に worktree のパスを出力する
