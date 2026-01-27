@@ -27,7 +27,7 @@ usage() {
     echo ""
     echo "Arguments:"
     echo "  PR_NUMBER|URL    PR number or GitHub PR URL"
-    echo "  BRANCH           Name of the branch/worktree to create (default: {Author}-PR#{PR}-{MMDD})"
+    echo "  BRANCH           Name of the branch/worktree to create (default: {Author}-PR{PR}-{MMDD})"
     echo ""
     echo "Examples:"
     echo "  wt-pr 123"
@@ -141,9 +141,9 @@ pr_created_at=$(echo "$pr_info" | jq -r '.createdAt')
 # createdAt は ISO8601 形式 (例: 2025-01-25T10:30:00Z) なので MMDD を抽出
 pr_created_mmdd=$(echo "$pr_created_at" | sed -E 's/^[0-9]{4}-([0-9]{2})-([0-9]{2}).*/\1\2/')
 
-# ブランチ名が指定されていない場合は {Author}-PR#{PR}-{MMDD} を使用
+# ブランチ名が指定されていない場合は {Author}-PR{PR}-{MMDD} を使用
 if [[ -z "$branch" ]]; then
-    branch="${pr_author}-PR#${pr_number}-${pr_created_mmdd}"
+    branch="${pr_author}-PR${pr_number}-${pr_created_mmdd}"
 fi
 
 # PR情報を表示（quiet モードでない場合）
