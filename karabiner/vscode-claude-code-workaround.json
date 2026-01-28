@@ -1,0 +1,90 @@
+{
+    "title": "Workaround for Claude Code execution in VSCode",
+    "rules": [
+        {
+            "description": "VSCode: Ctrl+P/N/F/B to arrow keys",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "bundle_identifiers": [
+                                "^com\\.todesktop\\.230313mzl4w4u92$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.microsoft\\.VSCodeInsiders$",
+                                "^dev\\.kiro\\.desktop$",
+                                "^com\\.google\\.antigravity$"
+                            ],
+                            "type": "frontmost_application_if"
+                        }
+                    ],
+                    "from": {
+                        "key_code": "p",
+                        "modifiers": { "mandatory": ["control"] }
+                    },
+                    "to": [{ "key_code": "up_arrow" }],
+                    "type": "basic"
+                },
+                {
+                    "conditions": [
+                        {
+                            "bundle_identifiers": [
+                                "^com\\.todesktop\\.230313mzl4w4u92$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.microsoft\\.VSCodeInsiders$",
+                                "^dev\\.kiro\\.desktop$",
+                                "^com\\.google\\.antigravity$"
+                            ],
+                            "type": "frontmost_application_if"
+                        }
+                    ],
+                    "from": {
+                        "key_code": "n",
+                        "modifiers": { "mandatory": ["control"] }
+                    },
+                    "to": [{ "key_code": "down_arrow" }],
+                    "type": "basic"
+                },
+                {
+                    "conditions": [
+                        {
+                            "bundle_identifiers": [
+                                "^com\\.todesktop\\.230313mzl4w4u92$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.microsoft\\.VSCodeInsiders$",
+                                "^dev\\.kiro\\.desktop$",
+                                "^com\\.google\\.antigravity$"
+                            ],
+                            "type": "frontmost_application_if"
+                        }
+                    ],
+                    "from": {
+                        "key_code": "f",
+                        "modifiers": { "mandatory": ["control"] }
+                    },
+                    "to": [{ "key_code": "right_arrow" }],
+                    "type": "basic"
+                },
+                {
+                    "conditions": [
+                        {
+                            "bundle_identifiers": [
+                                "^com\\.todesktop\\.230313mzl4w4u92$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.microsoft\\.VSCodeInsiders$",
+                                "^dev\\.kiro\\.desktop$",
+                                "^com\\.google\\.antigravity$"
+                            ],
+                            "type": "frontmost_application_if"
+                        }
+                    ],
+                    "from": {
+                        "key_code": "b",
+                        "modifiers": { "mandatory": ["control"] }
+                    },
+                    "to": [{ "key_code": "left_arrow" }],
+                    "type": "basic"
+                }
+            ]
+        }
+    ]
+}
