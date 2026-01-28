@@ -217,9 +217,24 @@ if status is-interactive
     end
 
     # wt-pr: worktree 作成後に自動で cd
+    # GitHub PR URL が指定された場合は ghq でリポジトリディレクトリを特定して実行
     function wt-pr
-        set -l path (command wt-pr -q $argv)
-        and cd $path
+        set -l repo_dir ""
+        for arg in $argv
+            if string match -rq '^https?://github\.com/[^/]+/[^/]+/pull/[0-9]+' -- $arg
+                set -l repo_path (string replace -r '^https?://' '' -- $arg | string replace -r '/pull/[0-9]+.*' '')
+                set repo_dir (ghq list --full-path --exact $repo_path 2>/dev/null)
+                break
+            end
+        end
+
+        if test -n "$repo_dir" -a -d "$repo_dir"
+            set -l path (cd $repo_dir && command wt-pr -q $argv)
+            and cd $path
+        else
+            set -l path (command wt-pr -q $argv)
+            and cd $path
+        end
     end
 
     # aws
