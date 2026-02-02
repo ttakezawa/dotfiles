@@ -19,7 +19,7 @@
 [color]
 	ui = auto
 [push]
-	default = simple
+	default = upstream # default is simple
 [log]
 	decorate = auto
 	date = iso8601-strict
