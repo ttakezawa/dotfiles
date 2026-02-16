@@ -90,8 +90,8 @@ make_bar() {
   local pct=$1
   local full=$((pct / 10))
   local empty=$((10 - full))
-  printf "%0.s■" $(seq 1 $full)
-  printf "%0.s□" $(seq 1 $empty)
+  [ "$full" -gt 0 ] && printf "%0.s■" $(seq 1 $full)
+  [ "$empty" -gt 0 ] && printf "%0.s□" $(seq 1 $empty)
 }
 
 bar5=$(make_bar $five)
