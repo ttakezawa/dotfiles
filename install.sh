@@ -104,6 +104,10 @@ ln -fs ~/.dotfiles/.ghostty.config ~/.config/ghostty/config
 # wezterm
 ln -fs ~/.dotfiles/.wezterm.lua ~/.wezterm.lua
 
+# ccstatusline
+mkdir -p ~/.config/ccstatusline
+ln -fs ~/.dotfiles/.ccstatusline/settings.json ~/.config/ccstatusline/settings.json
+
 if type -P sshrc >/dev/null; then
   # setup sshrc
   mkdir -p .sshrc.d
