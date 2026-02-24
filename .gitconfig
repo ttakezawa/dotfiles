@@ -45,6 +45,8 @@
 	# shortcuts
 	df  = diff -w
 	dfc = diff -w --cached
+	town-sync-stack-safe-exec = "!f(){ git town sync --stack --no-push && git town sync --stack --detached --push; }; f"
+	town-sync-stack-safe-dry-run = "!f(){ git town sync --stack --no-push --dry-run && git town sync --stack --detached --push --dry-run; }; f"
 
 [url "git@github.com:"]
 	insteadOf = https://github.com/
@@ -76,3 +78,6 @@
 	ui = auto
 [diff "sopsdiffer"]
 	textconv = sops decrypt
+[git-town]
+	sync-tags = false
+	feature-sync-strategy = rebase
