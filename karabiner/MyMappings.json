@@ -351,6 +351,32 @@
       ]
     },
     {
+      "description": "Map ~ and 1 simultaneous press to escape",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "modifiers": {
+              "optional": ["any"]
+            },
+            "simultaneous": [
+              {
+                "key_code": "grave_accent_and_tilde"
+              },
+              {
+                "key_code": "1"
+              }
+            ]
+          },
+          "to": [
+            {
+              "key_code": "escape"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "JKL: Press any 2 or 3 keys simultaneously -> Japanese Kana",
       "manipulators": [
         {
