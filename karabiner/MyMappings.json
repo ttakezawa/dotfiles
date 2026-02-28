@@ -350,8 +350,93 @@
         }
       ]
     },
-
-
+    {
+      "title": "JKL Kana / SDF Eisu by simultaneous press (2 or 3 keys)",
+      "rules": [
+        {
+          "description": "JKL: Press any 2 or 3 keys simultaneously -> Japanese Kana",
+          "manipulators": [
+            {
+              "type": "basic",
+              "from": {
+                "modifiers": { "optional": ["any"] },
+                "simultaneous": [
+                  { "key_code": "j" },
+                  { "key_code": "k" },
+                  { "key_code": "l" }
+                ]
+              },
+              "to": [{ "key_code": "japanese_kana" }]
+            },
+            {
+              "type": "basic",
+              "from": {
+                "modifiers": { "optional": ["any"] },
+                "simultaneous": [{ "key_code": "j" }, { "key_code": "k" }]
+              },
+              "to": [{ "key_code": "japanese_kana" }]
+            },
+            {
+              "type": "basic",
+              "from": {
+                "modifiers": { "optional": ["any"] },
+                "simultaneous": [{ "key_code": "j" }, { "key_code": "l" }]
+              },
+              "to": [{ "key_code": "japanese_kana" }]
+            },
+            {
+              "type": "basic",
+              "from": {
+                "modifiers": { "optional": ["any"] },
+                "simultaneous": [{ "key_code": "k" }, { "key_code": "l" }]
+              },
+              "to": [{ "key_code": "japanese_kana" }]
+            }
+          ]
+        },
+        {
+          "description": "SDF: Press any 2 or 3 keys simultaneously -> Japanese Eisu",
+          "manipulators": [
+            {
+              "type": "basic",
+              "from": {
+                "modifiers": { "optional": ["any"] },
+                "simultaneous": [
+                  { "key_code": "s" },
+                  { "key_code": "d" },
+                  { "key_code": "f" }
+                ]
+              },
+              "to": [{ "key_code": "japanese_eisuu" }]
+            },
+            {
+              "type": "basic",
+              "from": {
+                "modifiers": { "optional": ["any"] },
+                "simultaneous": [{ "key_code": "s" }, { "key_code": "d" }]
+              },
+              "to": [{ "key_code": "japanese_eisuu" }]
+            },
+            {
+              "type": "basic",
+              "from": {
+                "modifiers": { "optional": ["any"] },
+                "simultaneous": [{ "key_code": "s" }, { "key_code": "f" }]
+              },
+              "to": [{ "key_code": "japanese_eisuu" }]
+            },
+            {
+              "type": "basic",
+              "from": {
+                "modifiers": { "optional": ["any"] },
+                "simultaneous": [{ "key_code": "d" }, { "key_code": "f" }]
+              },
+              "to": [{ "key_code": "japanese_eisuu" }]
+            }
+          ]
+        }
+      ]
+    },
     {
       "description": "Map ctrl+bfnpvaek",
       "manipulators": [
