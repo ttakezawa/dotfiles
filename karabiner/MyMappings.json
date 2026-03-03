@@ -459,6 +459,34 @@
       ]
     },
     {
+      "description": "Ghostty: Map ctrl+b to left_arrow",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "b",
+            "modifiers": {
+              "mandatory": ["control"],
+              "optional": ["caps_lock", "shift", "option"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_arrow"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "com\\.mitchellh\\.ghostty$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "Map ctrl+bfnpvaek",
       "manipulators": [
         {
