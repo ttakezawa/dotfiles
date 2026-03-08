@@ -80,4 +80,4 @@
 	textconv = sops decrypt
 [git-town]
 	sync-tags = false
-	feature-sync-strategy = rebase
+	feature-sync-strategy = merge
