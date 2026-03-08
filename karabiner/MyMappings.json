@@ -1184,6 +1184,30 @@
       ]
     },
     {
+      "description": "Space as Mod-Tap: alone=space, with other key=right_command",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "optional": ["shift", "control", "option", "caps_lock"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "right_command"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "spacebar"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "Mac OSX: disable cmd + option + h + m to prevent minimising all windows",
       "manipulators": [
         {
