@@ -1168,7 +1168,7 @@
       ]
     },
     {
-      "description": "Disable Cmd+H (hide app) and Cmd+M (minimize window)",
+      "description": "Disable Cmd(+Opt)+H (hide app) and Cmd(+Opt)+M (minimize window)",
       "manipulators": [
         {
           "type": "basic",
