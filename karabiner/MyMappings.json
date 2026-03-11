@@ -1193,7 +1193,7 @@
       ]
     },
     {
-      "description": "Space as Mod-Tap: alone=space, with other key=right_command",
+      "description": "❌️ Space as Mod-Tap: alone=space, with other key=right_command",
       "manipulators": [
         {
           "type": "basic",
