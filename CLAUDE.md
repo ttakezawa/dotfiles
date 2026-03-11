@@ -1,0 +1,1 @@
+- Always check AGENTS.md files at the start of a task for domain-specific instructions (e.g., required documentation references).
