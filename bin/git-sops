@@ -20,6 +20,16 @@ if ! git rev-parse --is-inside-work-tree &> /dev/null; then
     exit 1
 fi
 
+# ヘルパー: SOPS がネイティブに認識する拡張子を判定し、
+# 未対応の場合は binary モードのフラグを返す
+get_sops_type_flags() {
+    local ext="${1##*.}"
+    case "$ext" in
+        json|yaml|yml|env|ini) echo "" ;;
+        *) echo "--input-type binary --output-type binary" ;;
+    esac
+}
+
 # ヘルパー: 暗号化ファイル名から平文ファイル名を取得
 get_plain_filename() {
     echo "$1" | sed 's/\.enc\././'
@@ -94,7 +104,8 @@ cmd_add() {
     else
         echo "Creating initial encrypted file..."
         
-        if sops --encrypt "$file" > "$enc_file"; then
+        local flags=$(get_sops_type_flags "$file")
+        if sops --encrypt $flags "$file" > "$enc_file"; then
             echo -e "${GREEN}Created: $enc_file${NC}"
             echo -e "${YELLOW}➜ IMPORTANT: Don't forget to run: git add $enc_file${NC}"
         else
@@ -120,7 +131,8 @@ cmd_hide() {
         plain_file=$(get_plain_filename "$enc_file")
         
         if [ -f "$plain_file" ]; then
-            if sops --encrypt "$plain_file" > "${enc_file}.tmp"; then
+            local flags=$(get_sops_type_flags "$plain_file")
+            if sops --encrypt $flags "$plain_file" > "${enc_file}.tmp"; then
                 mv "${enc_file}.tmp" "$enc_file"
                 echo -e "  $plain_file -> ${GREEN}$enc_file${NC}"
             else
@@ -140,7 +152,8 @@ cmd_reveal() {
     list_enc_files | while read -r enc_file; do
         plain_file=$(get_plain_filename "$enc_file")
         
-        if sops --decrypt "$enc_file" > "${plain_file}.tmp"; then
+        local flags=$(get_sops_type_flags "$plain_file")
+        if sops --decrypt $flags "$enc_file" > "${plain_file}.tmp"; then
             mv "${plain_file}.tmp" "$plain_file"
             echo -e "  $enc_file -> ${GREEN}$plain_file${NC}"
         else
