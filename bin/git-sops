@@ -49,6 +49,16 @@ list_enc_files() {
     { git ls-files '*.enc.*'; git ls-files -o --exclude-standard '*.enc.*'; } | sort -u
 }
 
+# ヘルパー: 暗号化ファイルのハッシュを .sops-revealed に記録
+# reveal/hide 後に呼び出し、check コマンドでの比較基準にする
+record_enc_hashes() {
+    local hash_file
+    hash_file="$(git rev-parse --show-toplevel)/.sops-revealed"
+    list_enc_files | while read -r f; do
+        [ -f "$f" ] && shasum -a 256 "$f"
+    done > "$hash_file"
+}
+
 # --- ヘルプ表示 ---
 show_help() {
     echo -e "${BOLD}Git Sops Wrapper${NC} - Manage secrets with sops in a git-secret style"
@@ -66,6 +76,9 @@ show_help() {
     echo ""
     echo -e "  ${GREEN}reveal${NC}       復号を実行します (git pull の後に実行)"
     echo -e "               - 全ての暗号化ファイルを復号し、平文ファイルを復元"
+    echo ""
+    echo -e "  ${GREEN}check${NC}        reveal が必要か確認します (.envrc から自動呼び出し用)"
+    echo -e "               - 暗号化ファイルのハッシュが最後の reveal/hide と一致するか検証"
     echo ""
     echo -e "${YELLOW}WORKFLOW EXAMPLE:${NC}"
     echo -e "  1. secrets.json を作成して追加する"
@@ -143,15 +156,17 @@ cmd_hide() {
             echo -e "  ${YELLOW}Skipping $enc_file (Source '$plain_file' not found)${NC}"
         fi
     done
+
+    record_enc_hashes
 }
 
 cmd_reveal() {
     echo "Decrypting files (targets found via git ls-files)..."
-    
+
     # git ls-files で取得したリストをループ
     list_enc_files | while read -r enc_file; do
         plain_file=$(get_plain_filename "$enc_file")
-        
+
         local flags=$(get_sops_type_flags "$plain_file")
         if sops --decrypt $flags "$enc_file" > "${plain_file}.tmp"; then
             mv "${plain_file}.tmp" "$plain_file"
@@ -161,6 +176,26 @@ cmd_reveal() {
             echo -e "  ${RED}Failed to decrypt $enc_file${NC}"
         fi
     done
+
+    record_enc_hashes
+}
+
+cmd_check() {
+    local hash_file
+    hash_file="$(git rev-parse --show-toplevel)/.sops-revealed"
+
+    if [ ! -f "$hash_file" ]; then
+        if list_enc_files | grep -q .; then
+            echo -e "${RED}sops: .sops-revealed not found -- run 'git-sops reveal'${NC}" >&2
+            return 1
+        fi
+        return 0
+    fi
+
+    if ! shasum -a 256 --check "$hash_file" --status 2>/dev/null; then
+        echo -e "${RED}sops: encrypted files changed since last reveal -- run 'git-sops reveal'${NC}" >&2
+        return 1
+    fi
 }
 
 # --- メイン処理 ---
@@ -169,6 +204,7 @@ case "$1" in
     add) cmd_add "$2" ;;
     hide) cmd_hide ;;
     reveal) cmd_reveal ;;
+    check) cmd_check ;;
     -h|--help|help) show_help ;;
     *) show_help; exit 1 ;;
 esac
