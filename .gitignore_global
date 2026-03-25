@@ -16,6 +16,8 @@ local.sh
 .dir-locals.el
 gpg-secret-key.asc
 
+tmp
+
 # Obsidian
 .obsidian/workspace
 .obsidian/cache
