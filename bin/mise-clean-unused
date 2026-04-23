@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+
+# リポジトリ内の mise 設定（mise.toml / .mise.toml / .tool-versions）で
+# 宣言されていない、インストール済みの mise tool バージョンを uninstall する。
+#
+# 設計方針:
+#   - Taskfile.setup.yml の base タスクと同じく
+#     `git ls-files -- '*mise.toml' | grep -v z-playground` を権威ソースとする。
+#     これにより「setup で入れたものは保護される」対称性が保たれる。
+#   - 各設定ディレクトリで `mise ls --current --cd <dir>` を走らせ、mise 自身に
+#     版数・alias・親ディレクトリ継承・idiomatic version files を解決させて
+#     その和集合を used とする。
+#   - `$HOME` 視点の結果も used に含め、ユーザーのグローバル設定を保護する。
+
+set -eu -o pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: mise-clean-unused [options]
+
+このリポジトリの mise 設定で使われていない mise installed tools を uninstall する。
+
+Options:
+  -n, --dry-run   実際には消さずに候補のみ表示する
+  -y, --yes       確認プロンプトをスキップする
+  -h, --help      このヘルプを表示する
+
+判定ルール:
+  - "used" = リポジトリ内 git-tracked な *mise.toml / *.tool-versions（z-playground 除く）
+    を各ディレクトリで `mise ls --current` した結果の和集合。
+    加えて $HOME での結果（= グローバル設定のツール）も used に含めて保護する。
+  - "unused" = `mise ls --installed` の集合から used を差し引いたもの。
+
+注意:
+  - root の mise.toml で `disable_tools` 指定されたツール（例: aws）は、
+    `mise.local.toml` で有効化していない限り used に含まれず候補に入りうる。
+  - `mise trust` していない設定ファイルは読み取れないため、その宣言分は
+    used に含まれない（警告を表示する）。
+EOF
+}
+
+die() {
+  echo "Error: $*" >&2
+  exit 1
+}
+
+# `mise ls --json` 出力から "<tool>@<version>" 行を取り出す共通フィルタ。
+# --current / --installed どちらの結果も .version を必ず持つので select 条件は共通。
+# shellcheck disable=SC2016 # $tool は jq の変数で、bash 展開は意図的に抑止する
+readonly JQ_TOOL_VERSIONS='
+  to_entries[]
+  | .key as $tool
+  | .value[]
+  | select(.version)
+  | "\($tool)@\(.version)"
+'
+
+list_active_tools() {
+  mise ls --current --json --cd "$1" 2>/dev/null | jq -r "$JQ_TOOL_VERSIONS"
+}
+
+list_installed_tools() {
+  mise ls --installed --json | jq -r "$JQ_TOOL_VERSIONS"
+}
+
+# repo 内 mise 設定ディレクトリ + $HOME の active tools を stdout に列挙する。
+# ソートは呼び出し側で行う想定。
+collect_used_tools() {
+  local repo_root="$1"
+  local rel dir
+
+  while IFS= read -r rel; do
+    dir="$repo_root/$(dirname "$rel")"
+    if ! list_active_tools "$dir"; then
+      echo "Warning: failed to read mise configs under $dir (not trusted?)" >&2
+    fi
+  done < <(
+    cd "$repo_root" &&
+      git ls-files -- '*mise.toml' '*.mise.toml' '*.tool-versions' |
+      grep -v '^z-playground/' || true
+  )
+
+  # グローバル設定のツール（例: usage）を誤消去しないよう保護
+  list_active_tools "$HOME" || true
+}
+
+# --- main ---
+
+dry_run=false
+auto_yes=false
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  -n | --dry-run) dry_run=true ;;
+  -y | --yes) auto_yes=true ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  *) die "unknown argument: $1 (try --help)" ;;
+  esac
+  shift
+done
+
+for cmd in mise git jq; do
+  command -v "$cmd" >/dev/null || die "'$cmd' is required but not found in PATH"
+done
+
+# stdout が TTY のときだけカラー出力（パイプ/リダイレクト時は素のテキスト）
+if [[ -t 1 ]]; then
+  c_warn=$'\033[1;33m'
+  c_ok=$'\033[1;32m'
+  c_reset=$'\033[0m'
+else
+  c_warn=""
+  c_ok=""
+  c_reset=""
+fi
+
+repo_root="$(git rev-parse --show-toplevel)"
+
+used_file="$(mktemp)"
+installed_file="$(mktemp)"
+trap 'rm -f "$used_file" "$installed_file"' EXIT
+
+collect_used_tools "$repo_root" | sort -u >"$used_file"
+list_installed_tools | sort -u >"$installed_file"
+
+unused=()
+while IFS= read -r line; do
+  unused+=("$line")
+done < <(comm -23 "$installed_file" "$used_file")
+
+if [[ ${#unused[@]} -eq 0 ]]; then
+  echo "${c_ok}No unused tool versions installed.${c_reset}"
+  exit 0
+fi
+
+echo "${c_warn}${#unused[@]} unused tool version(s) installed:${c_reset}"
+printf '  %s\n' "${unused[@]}"
+echo
+
+if $dry_run; then
+  echo "(dry-run: no changes made)"
+  exit 0
+fi
+
+if ! $auto_yes; then
+  read -rp "Uninstall above ${#unused[@]} version(s)? [y/N] " confirm
+  if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+    echo "Aborted."
+    exit 0
+  fi
+fi
+
+# まとめて uninstall して mise の並列性を活かす
+mise uninstall -y "${unused[@]}"
+echo "${c_ok}Done.${c_reset}"
