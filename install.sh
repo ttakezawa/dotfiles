@@ -100,6 +100,10 @@ ln -fs ~/.dotfiles/.atom/keymap.cson ~/.atom/
 mkdir -p ~/.config/ghostty
 ln -fs ~/.dotfiles/.config/ghostty/config.ghostty ~/.config/ghostty/config.ghostty
 
+# cmux
+mkdir -p ~/.config/cmux
+ln -fs ~/.dotfiles/cmux.json ~/.config/cmux/cmux.json
+
 # wezterm
 ln -fs ~/.dotfiles/.wezterm.lua ~/.wezterm.lua
 
