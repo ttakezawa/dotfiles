@@ -104,6 +104,10 @@ ln -fs ~/.dotfiles/.config/ghostty/config.ghostty ~/.config/ghostty/config.ghost
 mkdir -p ~/.config/cmux
 ln -fs ~/.dotfiles/cmux.json ~/.config/cmux/cmux.json
 
+# cmux ghostty config
+mkdir -p ~/Library/Application\ Support/com.cmuxterm.app
+ln -fs ~/.dotfiles/cmux-config.ghostty ~/Library/Application\ Support/com.cmuxterm.app/config.ghostty
+
 # wezterm
 ln -fs ~/.dotfiles/.wezterm.lua ~/.wezterm.lua
 
