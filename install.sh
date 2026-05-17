@@ -98,8 +98,7 @@ ln -fs ~/.dotfiles/.atom/keymap.cson ~/.atom/
 
 # ghostty
 mkdir -p ~/.config/ghostty
-ln -fs ~/.dotfiles/.config/ghostty/config.toml ~/.config/ghostty/
-ln -fs ~/.dotfiles/.ghostty.config ~/.config/ghostty/config
+ln -fs ~/.dotfiles/.config/ghostty/config.ghostty ~/.config/ghostty/config.ghostty
 
 # wezterm
 ln -fs ~/.dotfiles/.wezterm.lua ~/.wezterm.lua
