@@ -23,6 +23,8 @@ Usage: mise-clean-unused [options]
 Options:
   -n, --dry-run   実際には消さずに候補のみ表示する
   -y, --yes       確認プロンプトをスキップする
+  -k, --keep N    各 tool について used 版の直前のバージョンを N 個まで保護する
+                  (default: 1。0 で従来通り全 unused を削除)
   -h, --help      このヘルプを表示する
 
 判定ルール:
@@ -30,6 +32,8 @@ Options:
     を各ディレクトリで `mise ls --current` した結果の和集合。
     加えて $HOME での結果（= グローバル設定のツール）も used に含めて保護する。
   - "unused" = `mise ls --installed` の集合から used を差し引いたもの。
+  - "keep N" = 各 tool について used バージョンの最小値より小さい unused 版を
+    SemVer 降順で N 個保護する。used に存在しない tool は保護しない。
 
 注意:
   - root の mise.toml で `disable_tools` 指定されたツール（例: aws）は、
@@ -88,10 +92,17 @@ collect_used_tools() {
 
 dry_run=false
 auto_yes=false
+keep_count=1
 while [[ $# -gt 0 ]]; do
   case "$1" in
   -n | --dry-run) dry_run=true ;;
   -y | --yes) auto_yes=true ;;
+  -k | --keep)
+    [[ $# -ge 2 ]] || die "missing argument for $1"
+    keep_count="$2"
+    [[ "$keep_count" =~ ^[0-9]+$ ]] || die "--keep must be a non-negative integer (got: $keep_count)"
+    shift
+    ;;
   -h | --help)
     usage
     exit 0
@@ -129,6 +140,51 @@ unused=()
 while IFS= read -r line; do
   unused+=("$line")
 done < <(comm -23 "$installed_file" "$used_file")
+
+# --keep N: 各 tool について「used 版の直前のバージョン」を N 個まで unused から除外する。
+# 最新版に問題が起きたときに即時ロールバックできる版を残しておくための保険。
+# used に同 tool が無いケース（= 完全に不要なツール）は保護対象にしない。
+protected=()
+if (( keep_count > 0 && ${#unused[@]} > 0 )); then
+  declare -A unused_by_tool=()
+  for line in "${unused[@]}"; do
+    unused_by_tool["${line%@*}"]+="${line#*@}"$'\n'
+  done
+
+  declare -A protected_set=()
+  for tool in "${!unused_by_tool[@]}"; do
+    used_min=$(grep "^${tool}@" "$used_file" | sed "s/^${tool}@//" | sort -V | head -n 1 || true)
+    [[ -n "$used_min" ]] || continue
+
+    # unused 版のうち used_min より厳密に小さいものを SemVer 降順で並べ、上位 N 個を保護
+    candidates=$(
+      printf '%s' "${unused_by_tool[$tool]}" | grep -v '^$' | \
+        while IFS= read -r v; do
+          smaller=$(printf '%s\n%s\n' "$v" "$used_min" | sort -V | head -n 1)
+          if [[ "$smaller" == "$v" && "$v" != "$used_min" ]]; then
+            echo "$v"
+          fi
+        done | sort -Vr | head -n "$keep_count"
+    )
+    while IFS= read -r v; do
+      [[ -n "$v" ]] || continue
+      protected_set["${tool}@${v}"]=1
+      protected+=("${tool}@${v}")
+    done <<<"$candidates"
+  done
+
+  if (( ${#protected[@]} > 0 )); then
+    remaining=()
+    for line in "${unused[@]}"; do
+      [[ -n "${protected_set[$line]:-}" ]] || remaining+=("$line")
+    done
+    unused=("${remaining[@]}")
+
+    echo "${c_ok}Keeping ${#protected[@]} previous version(s) as safety net:${c_reset}"
+    printf '  %s\n' "${protected[@]}" | sort
+    echo
+  fi
+fi
 
 if [[ ${#unused[@]} -eq 0 ]]; then
   echo "${c_ok}No unused tool versions installed.${c_reset}"
