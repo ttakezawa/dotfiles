@@ -137,6 +137,7 @@
                 "^com\\.googlecode\\.iterm2$",
                 "com\\.github\\.wez\\.wezterm$",
                 "com\\.mitchellh\\.ghostty$",
+                "^com\\.cmuxterm\\.app$",
                 "^co\\.zeit\\.hyperterm$",
                 "^co\\.zeit\\.hyper$",
                 "^io\\.alacritty$",
@@ -479,7 +480,8 @@
             {
               "type": "frontmost_application_if",
               "bundle_identifiers": [
-                "com\\.mitchellh\\.ghostty$"
+                "com\\.mitchellh\\.ghostty$",
+                "^com\\.cmuxterm\\.app$"
               ]
             }
           ]
@@ -532,6 +534,7 @@
                 "^com\\.googlecode\\.iterm2$",
                 "com\\.github\\.wez\\.wezterm$",
                 "com\\.mitchellh\\.ghostty$",
+                "^com\\.cmuxterm\\.app$",
                 "^com\\.apple\\.Terminal$",
                 "^co\\.zeit\\.hyperterm$",
                 "^co\\.zeit\\.hyper$",
@@ -607,6 +610,7 @@
                 "^com\\.googlecode\\.iterm2$",
                 "com\\.github\\.wez\\.wezterm$",
                 "com\\.mitchellh\\.ghostty$",
+                "^com\\.cmuxterm\\.app$",
                 "^co\\.zeit\\.hyperterm$",
                 "^co\\.zeit\\.hyper$",
                 "^io\\.alacritty$",
@@ -680,6 +684,7 @@
                 "^com\\.googlecode\\.iterm2$",
                 "com\\.github\\.wez\\.wezterm$",
                 "com\\.mitchellh\\.ghostty$",
+                "^com\\.cmuxterm\\.app$",
                 "^co\\.zeit\\.hyperterm$",
                 "^co\\.zeit\\.hyper$",
                 "^io\\.alacritty$",
@@ -771,6 +776,7 @@
                 "^com\\.googlecode\\.iterm2$",
                 "com\\.github\\.wez\\.wezterm$",
                 "com\\.mitchellh\\.ghostty$",
+                "^com\\.cmuxterm\\.app$",
                 "^co\\.zeit\\.hyperterm$",
                 "^co\\.zeit\\.hyper$",
                 "^io\\.alacritty$",
@@ -862,6 +868,7 @@
                 "^com\\.googlecode\\.iterm2$",
                 "com\\.github\\.wez\\.wezterm$",
                 "com\\.mitchellh\\.ghostty$",
+                "^com\\.cmuxterm\\.app$",
                 "^co\\.zeit\\.hyperterm$",
                 "^co\\.zeit\\.hyper$",
                 "^io\\.alacritty$",
