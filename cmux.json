@@ -5,7 +5,8 @@
   "shortcuts" : {
     "bindings" : {
       "splitRight" : ["ctrl+z", "shift+\\"],
-      "splitDown" : ["ctrl+z", "-"]
+      "splitDown" : ["ctrl+z", "-"],
+      "renameWorkspace" : ["ctrl+z", ","]
     }
   },
 
