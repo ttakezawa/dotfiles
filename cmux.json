@@ -6,7 +6,11 @@
     "bindings" : {
       "splitRight" : ["ctrl+z", "shift+\\"],
       "splitDown" : ["ctrl+z", "-"],
-      "renameWorkspace" : ["ctrl+z", ","]
+      "renameWorkspace" : ["ctrl+z", ","],
+      "focusLeft" : ["ctrl+z", "h"],
+      "focusDown" : ["ctrl+z", "j"],
+      "focusUp" : ["ctrl+z", "k"],
+      "focusRight" : ["ctrl+z", "l"]
     }
   },
 
