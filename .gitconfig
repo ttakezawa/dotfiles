@@ -73,7 +73,7 @@
 [include]
 	path = ~/.gitconfig.local
 [rerere]
-	enabled = true
+	enabled = false
 [column]
 	ui = auto
 [diff "sopsdiffer"]
