@@ -15,7 +15,9 @@
 	editor = $(type -p code cursor | head -1) --wait
 	quotepath = false
 	untrackedCache = true
-	fsmonitor = true
+[status]
+	# scalar は status.aheadBehind=false を入れるが、設定済みのキーは上書きしない。ahead/behind 表示を残すため global で決めておく
+	aheadBehind = true
 [color]
 	ui = auto
 [push]
