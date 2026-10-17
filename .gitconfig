@@ -53,6 +53,8 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [ghq]
+	# ghq は最後の root を優先する (ghq get の clone 先)。scalar で clone するリポジトリ用のルートを先に書く
+	root = ~/dev/scalar
 	root = ~/dev/src
 [grep]
 	lineNumber = true
