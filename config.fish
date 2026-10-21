@@ -152,6 +152,11 @@ if test -d /opt/homebrew/opt/libpq/bin
     fish_add_path --move --path /opt/homebrew/opt/libpq/bin
 end
 
+# bun (bun add -g で入れたコマンドの置き場)
+if test -d "$HOME/.bun/bin"
+    fish_add_path --move --path "$HOME/.bun/bin"
+end
+
 # Browser Use: Disable telemetry
 export ANONYMIZED_TELEMETRY=false
 
