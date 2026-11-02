@@ -86,6 +86,8 @@ ln -fs ~/.dotfiles/starship.toml ~/.config/
 
 mkdir -p ~/.config/fish/conf.d
 ln -fs ~/.dotfiles/config.fish ~/.config/fish/conf.d/config.fish
+# Homebrew の vendor_conf.d/direnv.fish (Cellar のバージョン入りパスを呼ぶ) を同名ファイルで上書きする
+ln -fs ~/.dotfiles/fish/conf.d/direnv.fish ~/.config/fish/conf.d/direnv.fish
 
 ln -fs ~/.dotfiles/.byobu-tmux.conf ~/
 mkdir -p ~/.byobu
