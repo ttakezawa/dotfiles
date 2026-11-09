@@ -9,6 +9,14 @@ mkdir -p $cachedir
 
 # paths
 fish_add_path --move --path $HOME/.dotfiles/bin $HOME/local/bin $HOME/.local/bin $HOME/bin
+
+# pnpm: グローバル install の bin は $PNPM_HOME/bin に置かれる (pnpm 12 以降)
+set -gx PNPM_HOME "$HOME/Library/pnpm"
+for dir in $PNPM_HOME $PNPM_HOME/bin
+    if not contains -- $dir $PATH
+        set -gx PATH $dir $PATH
+    end
+end
 ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "$HOME/local/share/man" "$HOME/man" $MANPATH;
 ! set -q LD_LIBRARY_PATH; and set -gx LD_LIBRARY_PATH ''; set -gx LD_LIBRARY_PATH "$HOME/local/lib" $LD_LIBRARY_PATH;
 
